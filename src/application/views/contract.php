@@ -345,7 +345,7 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="sec-title text-center">
-                                                        <h2>Assista o video explicativo</h2>
+                                                        <h2>Veja mais no video</h2>
                                                         <span class="border"></span>
                                                     </div>
                                                 </div>
@@ -419,12 +419,9 @@
                                                         <div class="container">
                                                             <div class="row">
                                                                 <div class="col-md-4 col-sm-6 col-xs-12">
-                                                                    <div class="table-block text-center">
-                                                                        <div class="icon-box">
-                                                                            <i class="flaticon-folder"></i>
-                                                                        </div>
+                                                                    <div class="table-block text-center" >                                                                        
                                                                         <div class="table-det">
-                                                                            <h2 style="font-size:2.5em"><span>$</span>20.45</h2>
+                                                                            <h2 ><span>$</span>20.45</h2>
                                                                             <h3>Médio</h3>
                                                                             <ul>
                                                                                 <li>Normal Server Power</li>
@@ -437,12 +434,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-6 col-xs-12">
-                                                                    <div class="table-block text-center active">
-                                                                        <div class="icon-box">
-                                                                            <i class="flaticon-folder"></i>
-                                                                        </div>
+                                                                    <div class="table-block text-center active">                                                                        
                                                                         <div class="table-det">
-                                                                            <h2 style="font-size:2.5em"><span>$</span>38.12</h2>
+                                                                            <h2 ><span>$</span>38.12</h2>
                                                                             <h3>Rápido</h3>
                                                                             <ul>
                                                                                 <li>Normal Server Power</li>
@@ -455,12 +449,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-4 col-sm-6 col-xs-12">
-                                                                    <div class="table-block text-center">
-                                                                        <div class="icon-box">
-                                                                            <i class="flaticon-folder"></i>
-                                                                        </div>
+                                                                    <div class="table-block text-center">                                                                        
                                                                         <div class="table-det">
-                                                                            <h2 style="font-size:2.5em"><span>$</span>55.00</h2>
+                                                                            <h2 ><span>$</span>55.00</h2>
                                                                             <h3>Ultra rápido</h3>
                                                                             <ul>
                                                                                 <li>Normal Server Power</li>
@@ -479,47 +470,84 @@
                                                     <h6>Configuração inicial</h6>
                                                     <section>
                                                         <div class="row">
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="int1">Interview For :</label>
-                                                                    <input type="text" class="form-control" id="int1"> </div>
-                                                                <div class="form-group">
-                                                                    <label for="intType1">Interview Type :</label>
-                                                                    <select class="custom-select form-control" id="intType1" data-placeholder="Type to search cities" name="intType1">
-                                                                        <option value="Banquet">Normal</option>
-                                                                        <option value="Fund Raiser">Difficult</option>
-                                                                        <option value="Dinner Party">Hard</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label for="Location1">Location :</label>
-                                                                    <select class="custom-select form-control" id="Location1" name="location">
-                                                                        <option value="">Select City</option>
-                                                                        <option value="India">India</option>
-                                                                        <option value="USA">USA</option>
-                                                                        <option value="Dubai">Dubai</option>
-                                                                    </select>
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-8">
+                                                                <label for="int1">Insira pelo menos um Perfil de Referência:</label>
+                                                                <div class="input-group">
+                                                                    <input id="cep" type="text" class="form-control" placeholder="Perfil de referência *" required="required" data-validation-required-message="CEP inválido.">
+<!--                                                                    <div class="input-group-append">
+                                                                        <button id="verify_cep" style="height: 38px" title="Adicionar" class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
+                                                                    </div>-->
+                                                                    <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group">
-                                                                    <label for="jobTitle2">Interview Date :</label>
-                                                                    <input type="date" class="form-control" id="jobTitle2">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Requirements :</label>
-                                                                    <div class="m-b-10">
-                                                                        <label class="custom-control custom-radio">
-                                                                            <input id="radio1" name="radio" type="radio" class="custom-control-input">
-                                                                            <span class="custom-control-label">Employee</span>
-                                                                        </label>
-                                                                        <label class="custom-control custom-radio">
-                                                                            <input id="radio2" name="radio" type="radio" class="custom-control-input">
-                                                                            <span class="custom-control-label">Contract</span>
-                                                                        </label>
+                                                            <div class="col-md-2"></div>
+                                                        </div>
+                                                         <div class="row">
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-10">
+                                                                <div id="mandatary_reference_profile_container" class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">@leticiajural</h5>
+                                                                                    <div class="d-flex no-block">
+                                                                                        <div class="align-self-center no-shrink">
+                                                                                            <h2 class="m-b-0">$4316</h2>
+                                                                                            <h6 class="text-muted">(150-165 Sales)</h6>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">@leticiajural</h5>
+                                                                                    <div class="d-flex no-block">
+                                                                                        <div class="align-self-center no-shrink">
+                                                                                            <h2 class="m-b-0">$4316</h2>
+                                                                                            <h6 class="text-muted">(150-165 Sales)</h6>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">@leticiajural</h5>
+                                                                                    <div class="d-flex no-block">
+                                                                                        <div class="align-self-center no-shrink">
+                                                                                            <h2 class="m-b-0">$4316</h2>
+                                                                                            <h6 class="text-muted">(150-165 Sales)</h6>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                                                            <div class="card">
+                                                                                <div class="card-body">
+                                                                                    <h5 class="card-title">@leticiajural</h5>
+                                                                                    <div class="d-flex no-block">
+                                                                                        <div class="align-self-center no-shrink">
+                                                                                            <h2 class="m-b-0">$4316</h2>
+                                                                                            <h6 class="text-muted">(150-165 Sales)</h6>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-md-1"></div>
                                                         </div>
                                                     </section>
                                                 <!-- Step 4 -->
@@ -594,7 +622,7 @@
                                                             <i class="flaticon-folder"></i>
                                                         </div>
                                                         <div class="table-det">
-                                                            <h2 style="font-size:2.5em"><span>$</span>20.45</h2>
+                                                            <h2 ><span>$</span>20.45</h2>
                                                             <h3>Personal Plan</h3>
                                                             <ul>
                                                                 <li>Normal Server Power</li>
@@ -614,7 +642,7 @@
                                                             <i class="flaticon-folder"></i>
                                                         </div>
                                                         <div class="table-det">
-                                                            <h2 style="font-size:2.5em"><span>$</span>38.12</h2>
+                                                            <h2 ><span>$</span>38.12</h2>
                                                             <h3>Business Plan</h3>
                                                             <ul>
                                                                 <li>Normal Server Power</li>
@@ -634,7 +662,7 @@
                                                             <i class="flaticon-folder"></i>
                                                         </div>
                                                         <div class="table-det">
-                                                            <h2 style="font-size:2.5em"><span>$</span>55.00</h2>
+                                                            <h2 ><span>$</span>55.00</h2>
                                                             <h3>Super Service Plan</h3>
                                                             <ul>
                                                                 <li>Normal Server Power</li>
