@@ -4061,7 +4061,7 @@ File: scss
 .social-widget .soc-header {
   padding: 15px;
   text-align: center;
-  font-size: 36px;
+  font-size: 18px;
   color: #fff; }
   .social-widget .soc-header.box-facebook {
     background: #3b5998; }
@@ -4078,7 +4078,7 @@ File: scss
   display: flex;
   text-align: center; }
   .social-widget .soc-content div {
-    padding: 10px; }
+    padding: 5px; }
     .social-widget .soc-content div h3 {
       margin-bottom: 0px; }
 
