@@ -101,20 +101,20 @@ class Library_test extends CI_Controller {
     $this->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'GeoProfile_lib');
     echo "(<b>ok</b>)<br>";
     
-    echo "[exec] process_insta_prof_data() ==> ";
-    $this->GeoProfile_lib->process_insta_prof_data(new \stdClass());
+    echo "[exec] process_top_search_profile() ==> ";
+    $this->GeoProfile_lib->process_top_search_profile(new \stdClass());
     echo "(<b>ok</b>)<br>";
    
-    echo "[exec] get_insta_followers() ==> ";
-    //$this->GeoProfile_lib->get_insta_followers();
+    echo "[exec] get_followers() ==> ";
+    //$this->GeoProfile_lib->get_followers();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_insta_media() ==> ";
-    //$this->GeoProfile_lib->get_insta_media();
+    echo "[exec] get_post() ==> ";
+    //$this->GeoProfile_lib->get_post();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_post_user_info() ==> ";
-    //$this->GeoProfile_lib->get_post_user_info();
+    echo "[exec] get_owner_post_data() ==> ";
+    //$this->GeoProfile_lib->get_owner_post_data();
     //echo "(<b>ok</b>)<br>";
     
     //======= HASH_PROFILE-LIB =======//
@@ -123,20 +123,20 @@ class Library_test extends CI_Controller {
     $this->load->library("InstaApiWeb/InstaHashProfile_lib", null, 'HashProfile_lib');
     echo "(<b>ok</b>)<br>";
     
-    echo "[exec] process_insta_prof_data() ==> ";
-    //$this->HashProfile_lib->process_insta_prof_data();
+    echo "[exec] process_top_search_profile() ==> ";
+    //$this->HashProfile_lib->process_top_search_profile();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_insta_followers() ==> ";
-    //$this->HashProfile_lib->get_insta_followers();
+    echo "[exec] get_followers() ==> ";
+    //$this->HashProfile_lib->get_followers();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_insta_media() ==> ";
-    //$this->HashProfile_lib->get_insta_media();
+    echo "[exec] get_post() ==> ";
+    //$this->HashProfile_lib->get_post();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_post_user_info() ==> ";
-    //$this->HashProfile_lib->get_post_user_info();
+    echo "[exec] get_owner_post_data() ==> ";
+    //$this->HashProfile_lib->get_owner_post_data();
     //echo "(<b>ok</b>)<br>";
     
     //======= PERSON_PROFILE-LIB =======//
@@ -145,20 +145,20 @@ class Library_test extends CI_Controller {
     $this->load->library("InstaApiWeb/InstaPersonProfile_lib", null, 'PersonProfile_lib');
     echo "(<b>ok</b>)<br>";
         
-    echo "[exec] get_insta_followers() ==> ";
-    //$this->PersonProfile_lib->get_insta_followers();
+    echo "[exec] get_followers() ==> ";
+    //$this->PersonProfile_lib->get_followers();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_insta_followers_list() ==> ";
-    //$this->PersonProfile_lib->get_insta_followers_list();
+    echo "[exec] get_followers_list() ==> ";
+    //$this->PersonProfile_lib->get_followers_list();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_insta_media() ==> ";
-    //$this->PersonProfile_lib->get_insta_media();
+    echo "[exec] get_post() ==> ";
+    //$this->PersonProfile_lib->get_post();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] get_post_user_info() ==> ";
-    //$this->PersonProfile_lib->get_post_user_info();
+    echo "[exec] get_owner_post_data() ==> ";
+    //$this->PersonProfile_lib->get_owner_post_data();
     //echo "(<b>ok</b>)<br>";
     
     echo "[exec] get_insta_following_count() ==> ";
@@ -169,8 +169,8 @@ class Library_test extends CI_Controller {
     //$this->PersonProfile_lib->get_reference_data();
     //echo "(<b>ok</b>)<br>";
     
-    echo "[exec] process_insta_prof_data() ==> ";
-    //$this->PersonProfile_lib->process_insta_prof_data();
+    echo "[exec] process_top_search_profile() ==> ";
+    //$this->PersonProfile_lib->process_top_search_profile();
     //echo "(<b>ok</b>)<br>";
     
     echo "[exec] make_curl_following_str() ==> ";
@@ -323,14 +323,14 @@ class Library_test extends CI_Controller {
     echo "[load] GeoProfile_lib ==> ";
     $this->load->library("InstaApiWeb/GeoProfile_lib", null, 'GeoProfile_lib');
     $cookies = json_decode('{"json_response":{"authenticated":true,"user":true,"status":"ok"},"csrftoken":"kToHKxaPB4iPuVY7t2XzQdi3GeyxrI7D","sessionid":"5453435354%3AVg6DjXraZlISez%3A15","ds_user_id":"5453435354","mid":"W-SbgAAEAAGuwWxQcdNcdZ0xa8Mi"}');
-    $this->GeoProfile_lib->get_insta_media(15,NULL,$cookies);
+    $this->GeoProfile_lib->get_post(15,NULL,$cookies);
     echo "(<b>ok</b>)<br>";
     
     echo "<pre>";
     echo "<h2>Test HashProfile Library</h2>";
     echo "[load] HashProfile_lib ==> ";
     $this->load->library("InstaApiWeb/HashProfile_lib", null, 'HashProfile_lib');
-    $this->HashProfile_lib->get_insta_media(15,NULL,$cookies);
+    $this->HashProfile_lib->get_post(15,NULL,$cookies);
     echo "(<b>ok</b>)<br>";
     
   }

@@ -372,7 +372,7 @@ namespace business\worker {
             $proxy = $this->get_proxy_str($Client);
             if ($daily_work->rp_type == 0) {
                 echo "<br>\nRef Profil: $daily_work->insta_name<br>\n";
-                $json_response = $this->get_insta_followers(
+                $json_response = $this->get_followers(
                         $login_data, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor, $proxy
                 );
                 //var_dump($json_response);
@@ -560,7 +560,7 @@ namespace business\worker {
             $result = $this->RecognizeClientStatus($client);
             if (isset($result->json_response->authenticated) && $result->json_response->authenticated) {
                 //retry of graph request
-                $json_response = $this->get_insta_followers($result, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor, $proxy);
+                $json_response = $this->get_followers($result, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor, $proxy);
                 if ($json_response === NULL) {
                     $ci->db_model->update_reference_cursor($daily_work->reference_id, NULL);
                     $ci->db_model->delete_daily_work($daily_work->reference_id);

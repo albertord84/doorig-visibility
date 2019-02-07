@@ -23,21 +23,21 @@ class InstaHashProfile_lib extends ReferenceProfile_lib{
      $this->HashProfile = new HashProfile();
   }
    
-  public function process_insta_prof_data(\stdClass $content) {
-    $this->HashProfile->process_insta_prof_data($content);
+  public function process_top_search_profile(\stdClass $content) {
+    $this->HashProfile->process_top_search_profile($content);
   }
 
-  public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, \business\cls\Proxy $proxy = NULL) {
-    $this->HashProfile->get_insta_followers($cookies, $N, $cursor, $proxy);
+  public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, \business\cls\Proxy $proxy = NULL) {
+    $this->HashProfile->get_followers($cookies, $N, $cursor, $proxy);
   }
 
-  public function get_insta_media(int $N, string $cursor = NULL, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+  public function get_post(int $N, string $cursor = NULL, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
     $cookies = new CookiesRequest($cookies);
-    $this->HashProfile->get_insta_media($N, $cursor, $cookies, $proxy);
+    $this->HashProfile->get_post($N, $cursor, $cookies, $proxy);
   }
 
-  public function get_post_user_info($post_reference, \stdClass $cookies = NULL, \business\cls\Proxy $proxy = NULL) {
-    $this->HashProfile->get_post_user_info($post_reference, $cookies, $proxy);
+  public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, \business\cls\Proxy $proxy = NULL) {
+    $this->HashProfile->get_owner_post_data($post_reference, $cookies, $proxy);
   }
 
   // Funcion temporal para comprobar que se cargo la lib.

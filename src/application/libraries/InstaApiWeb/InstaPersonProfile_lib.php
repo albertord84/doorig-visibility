@@ -23,27 +23,27 @@ class InstaPersonProfile_lib {
     $this->PersonProfile = new PersonProfile();
   }
 
-  public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+  public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
     
-    $this->PersonProfile->get_insta_followers($cookies, $N, $cursor, $proxy);
+    $this->PersonProfile->get_followers($cookies, $N, $cursor, $proxy);
 
   }
 
-  public function get_insta_followers_list(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+  public function get_followers_list(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
     
-    $this->PersonProfile->get_insta_followers_list($cookies, $N,  $cursor, $proxy);
+    $this->PersonProfile->get_followers_list($cookies, $N,  $cursor, $proxy);
 
   }
 
-  public function get_insta_media(int $N, string $cursor = NULL, \stdClass $cookies = NULL, Proxy $proxy = NULL){
+  public function get_post(int $N, string $cursor = NULL, \stdClass $cookies = NULL, Proxy $proxy = NULL){
     
-    $this->PersonProfile->get_insta_media($N, $cursor, $cookies, $proxy);
+    $this->PersonProfile->get_post($N, $cursor, $cookies, $proxy);
     
   }
 
-  public function get_post_user_info($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+  public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
     
-    $this->PersonProfile->get_post_user_info($post_reference, $cookies, $proxy);
+    $this->PersonProfile->get_owner_post_data($post_reference, $cookies, $proxy);
     
   }
 
@@ -59,9 +59,9 @@ class InstaPersonProfile_lib {
     
   }
 
-  public function process_insta_prof_data(\stdClass $content) {
+  public function process_top_search_profile(\stdClass $content) {
     
-    $this->PersonProfile->process_insta_prof_data($content); 
+    $this->PersonProfile->process_top_search_profile($content); 
  
   }
   

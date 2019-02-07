@@ -29,9 +29,9 @@ class CurlMgr_test extends CI_Controller {
   public function index() {
     echo "Controller: <b>" . __CLASS__ . "</b> cargado.";
 
-    $str = "<br><br>mi nombre es: <b>%s</b>. Esta es una cadena formateada de forma avanzada";
-    $str = sprintf($str, "Carlos");
-    echo $str;
+    //$str = "<br><br>mi nombre es: <b>%s</b>. Esta es una cadena formateada de forma avanzada";
+    //$str = sprintf($str, "Carlos");
+    //echo $str;
 
     $id = 123;
     $N = 1;

@@ -122,9 +122,11 @@ namespace InstaApiWeb {
     const GET_POST = 256;
     const GET_FIRST_POST = 512;
     const GET_FOLLOWERS = 1024;
-    const GET_USER_INFO_POST = 2048;
-    const GET_PROFILE_INFO = 4096;
-    const GET_CHALLENGE_CODE = 9182;
+    const GET_FOLLOWED = 2048;
+    const GET_USER_INFO_POST = 4096;
+    const GET_PROFILE_INFO = 9182;
+    const GET_CHALLENGE_CODE = 18364;
+    const GET_TOP_SEARCH = 36728;
  
     /**
      * 
@@ -135,8 +137,9 @@ namespace InstaApiWeb {
       if ($value != EnumAction::CMD_LIKE && $value != EnumAction::CMD_FOLLOW &&
           $value != EnumAction::CMD_UNFOLLOW && $value != EnumAction::CMD_CHECKPOINT &&
           $value != EnumAction::GET_POST && $value != EnumAction::GET_FIRST_POST &&
-          $value != EnumAction::GET_FOLLOWERS && $value != EnumAction::GET_USER_INFO_POST &&
-          $value != EnumAction::GET_PROFILE_INFO && $value != EnumAction::GET_CHALLENGE_CODE)
+          $value != EnumAction::GET_FOLLOWERS && $value != EnumAction::GET_FOLLOWED && 
+          $value != EnumAction::GET_USER_INFO_POST && $value != EnumAction::GET_PROFILE_INFO &&
+          $value != EnumAction::GET_CHALLENGE_CODE && $value != EnumAction::GET_TOP_SEARCH)
         throw new InstaCurlArgumentException("The EnumAction value ($value) provided is ilegal!!!.");
       
       parent::__construct($value);     
@@ -194,9 +197,11 @@ namespace InstaApiWeb {
         case EnumAction::GET_POST          : $str = "GET_POST"; break;
         case EnumAction::GET_FIRST_POST    : $str = "GET_FIRST_POST"; break;
         case EnumAction::GET_FOLLOWERS     : $str = "GET_FOLLOWERS"; break;
+        case EnumAction::GET_FOLLOWED      : $str = "GET_FOLLOWED"; break;
         case EnumAction::GET_USER_INFO_POST: $str = "GET_USER_INFO_POST"; break;
         case EnumAction::GET_PROFILE_INFO  : $str = "GET_PROFILE_INFO"; break;
         case EnumAction::GET_CHALLENGE_CODE: $str = "GET_CHALLENGE_CODE"; break;
+        case EnumAction::GET_TOP_SEARCH    : $str = "GET_TOP_SEARCH"; break;
       }
       
       return $str;
@@ -300,7 +305,7 @@ namespace InstaApiWeb {
      */
     public function setMediaData (string $id, int $first, string $cursor = null) {
       // GEO-PROFILE
-      $variables = "{\"id\":\"$this->insta_id\",\"first\":$N\"";
+      /*$variables = "{\"id\":\"$this->insta_id\",\"first\":$N\"";
         if ($cursor != NULL && $cursor != "NULL") {
           $variables .= ",\"after\":\"$cursor\"";
         }
@@ -318,7 +323,7 @@ namespace InstaApiWeb {
       if ($cursor != NULL && $cursor != "NULL") {
         $variables .= ",\"after\":\"$cursor\"";
       }
-      $variables .= "}";
+      $variables .= "}";*/
       
       $tag = ($this->ProfileType->getEnumValue() == EnumEntity::HASHTAG) ? "tag_name" : "id";
       $str_cur = ($cursor != null) ? sprintf(",\"after\":\"%s\"", $cursor) : "";
@@ -449,7 +454,7 @@ namespace InstaApiWeb {
       
       return $curl_str;
       
-      // TOMADO DE: get_insta_media() | HashProfile.php => line:69 | GeoProfile
+      // TOMADO DE: get_post() | HashProfile.php => line:69 | GeoProfile
       //- EJEMPLO PARA PASO 2-----
       /*$variables = urlencode($variables);
       $graphquery_url = InstaURLs::GraphqlQuery;
@@ -674,6 +679,51 @@ namespace InstaApiWeb {
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
       
       return $ch;
+    }
+    
+    // se convierte en curl
+    protected static function get_insta_data_from_client($ref_prof, \stdClass $cookies, $proxy = NULL) {
+      if ($ref_prof == "" || $ref_prof == NULL) {
+        throw new \Exception("This was and empty or null referece profile (ref_prof)");
+      }
+      $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
+      $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
+      $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
+      $mid = isset($cookies->mid) ? $cookies->mid : 0;
+      $headers = array();
+      $headers[] = "Host: www.instagram.com";
+      $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+      $headers[] = "Accept: */*";
+      $headers[] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
+      $headers[] = "Accept-Encoding: deflate, sdch";
+      $headers[] = "Referer: https://www.instagram.com/";
+      $headers[] = "Content-Type: application/x-www-form-urlencoded";
+      $headers[] = "X-Requested-With: XMLHttpRequest";
+      $headers[] = "Authority: www.instagram.com";
+      if ($cookies != NULL) {
+        $headers[] = "X-CSRFToken: $csrftoken";
+        $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
+      }
+      $url = InstaURLs::TopSearch;
+      $url .= "?context=blended&query=$ref_prof";
+      $ch = curl_init(InstaURLs::Instagram);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+
+      if ($proxy != NULL) {
+        curl_setopt($ch, CURLOPT_PROXY, $proxy->ip);
+        curl_setopt($ch, CURLOPT_PROXYPORT, $proxy->port);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$proxy->user:$proxy->password");
+      }
+      $output = curl_exec($ch);
+      //$string = curl_error($ch);
+      curl_close($ch);
+      return json_decode($output);
     }
     
   }
