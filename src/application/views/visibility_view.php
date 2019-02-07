@@ -2,31 +2,24 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">        
         <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
-        <meta name="author" content="">
-        
+        <meta name="author" content="">        
         <!-- Favicon icon -->
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url()?>assets/images/favicon.png">
-        <title>Maior visibilidade no Instagram</title>
-        
+        <title>Maior visibilidade no Instagram</title>        
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo base_url()?>assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?php echo base_url()?>assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
-        
+        <link href="<?php echo base_url()?>assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">        
         <!-- This page CSS -->
         <!-- chartist CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/morrisjs/morris.css" rel="stylesheet">
-        
+        <link href="<?php echo base_url()?>assets/node_modules/morrisjs/morris.css" rel="stylesheet"> 
         <!--c3 CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/c3-master/c3.min.css" rel="stylesheet">
-        
+        <link href="<?php echo base_url()?>assets/node_modules/c3-master/c3.min.css" rel="stylesheet">        
         <!--Toaster Popup message CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
-        
+        <link href="<?php echo base_url()?>assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">        
         <!-- Custom CSS -->
         <link href="<?php echo base_url()?>assets/css/style.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/style-doorig.css" rel="stylesheet">
@@ -34,210 +27,28 @@
         <link href="<?php echo base_url()?>assets/css/timeline.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/wizard/steps.css" rel="stylesheet">
         <!--alerts CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
-        
+        <link href="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">        
         <!-- Dashboard 1 Page CSS -->
-        <link href="<?php echo base_url()?>assets/css/pages/dashboard1.css" rel="stylesheet">
-        
+        <link href="<?php echo base_url()?>assets/css/pages/dashboard1.css" rel="stylesheet">        
         <!-- You can change the theme colors from here -->
         <link href="<?php echo base_url()?>assets/css/colors/default.css" id="theme" rel="stylesheet">
         
-        
+        <script type="text/javascript">
+            var base_url = "<?php echo base_url()?>";
+            var module = "visibility";
+        </script>
     </head>
 
     <body class="fix-header fix-sidebar card-no-border">
         <div class="preloader">
             <div class="loader">
                 <div class="loader__figure"></div>
-                <p class="loader__label">Admin Wrap</p>
+                <p class="loader__label">DOORIG</p>
             </div>
         </div>
-        <!-- Main wrapper - style you can find in pages.scss -->
+        <!-- Main wrapper -->
         <div id="main-wrapper">
-            <!-- Topbar header - style you can find in pages.scss -->
-            <header class="topbar">
-                <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                    <!-- Logo -->
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="index.html">
-                            <!-- Logo icon --><b>
-                                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
-                                <!-- Dark Logo icon -->
-                                <img src="<?php echo base_url()?>assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
-                                <!-- Light Logo icon -->
-                                <img src="<?php echo base_url()?>assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
-                            </b>
-                            <!--End Logo icon -->
-                            <!-- Logo text --><span>
-                             <!-- dark Logo text -->
-                             <img src="<?php echo base_url()?>assets/images/logo-text.png" alt="homepage" class="dark-logo" />
-                             <!-- Light Logo text -->    
-                             <img src="<?php echo base_url()?>assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
-                    </div>
-                    <!-- End Logo -->
-                    <div class="navbar-collapse">
-                        <!-- toggle and nav items -->
-                        <ul class="navbar-nav mr-auto">
-                            <!-- This is  -->
-                            <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="sl-icon-menu"></i></a> </li>
-                            <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="sl-icon-menu"></i></a> </li>
-                        </ul>
-                        <!-- User profile and search -->
-                        <ul class="navbar-nav my-lg-0">
-                            <!-- Comment -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-Bell"></i>
-                                    <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown">
-                                    <ul>
-                                        <li>
-                                            <div class="drop-title">Notifications</div>
-                                        </li>
-                                        <li>
-                                            <div class="message-center">
-                                                <a href="#">
-                                                    <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>
-                                                    <div class="mail-contnet">
-                                                        <h5>Luanch Admin</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span> </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="btn btn-success btn-circle"><i class="ti-calendar"></i></div>
-                                                    <div class="mail-contnet">
-                                                        <h5>Event today</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span> </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="btn btn-info btn-circle"><i class="ti-settings"></i></div>
-                                                    <div class="mail-contnet">
-                                                        <h5>Settings</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span> </div>
-                                                </a>
-                                                <a href="#">
-                                                    <div class="btn btn-primary btn-circle"><i class="ti-user"></i></div>
-                                                    <div class="mail-contnet">
-                                                        <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
-                                                </a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <!-- End Comment -->
-                            
-                                                        
-                            <!-- Language -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-                                    <i class="flag-icon flag-icon-us"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right animated bounceInDown"> 
-                                    <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-pr"></i> Portugês</a> 
-                                    <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-in"></i> English</a>
-                                    <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-es"></i> Español</a>
-                                </div>
-                            </li>
-                            
-                            <!-- Profile -->
-                            <li class="nav-item dropdown u-pro">
-                                <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?php echo base_url()?>assets/images/users/1.jpg" alt="user" class="" /> <span class="hidden-md-down">Mark Sanders &nbsp;<i class="fa fa-angle-down"></i></span> </a>
-                                <div class="dropdown-menu dropdown-menu-right animated flipInY">
-                                    <ul class="dropdown-user">
-                                        <li>
-                                            <div class="dw-user-box">
-                                                <div class="u-img">
-                                                    <img src="<?php echo base_url()?>assets/images/users/1.jpg" alt="user">
-                                                </div>
-                                                <div class="u-text">
-                                                    <h4>Steave Jobs</h4>
-                                                    <p class="text-muted">varun@gmail.com</p>
-                                                    <!--<a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>-->
-                                                </div> 
-                                            </div>
-                                        </li>
-                                        <li role="separator" class="divider"></li>
-                                        <!--<li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                                        <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                                        <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                                        <li role="separator" class="divider"></li>-->
-                                        <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
-                                        <li role="separator" class="divider"></li>
-                                        <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            </header>
-            <!-- End Topbar header -->
-            
-            <!-- Left Sidebar - style you can find in sidebar.scss  -->
-            <aside class="left-sidebar">
-                <div class="scroll-sidebar">
-                    <nav class="sidebar-nav">
-                        <ul id="sidebarnav">
-                            <li class="nav-small-cap text-center">MÓDULOS</li>
-                            <li id="lnk-dashboard"> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Car-Wheel"></i>
-                                    <span class="hide-menu">Dashboard</span>
-                                </a>
-                            </li>
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Globe"></i>
-                                    <span class="hide-menu">Mais visibilidade </span>
-                                </a>
-                            </li>
-<!--                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Business-Mens"></i>
-                                    <span class="hide-menu">Captação de Leads</span>
-                                </a>
-                            </li>-->
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Landscape-2"></i>
-                                    <span class="hide-menu">Post-Stories</span>
-                                </a>
-                            </li>
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Mail-Send"></i>
-                                    <span class="hide-menu">Envio de Directs</span>
-                                </a>
-                            </li>
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Brain-2"></i>
-                                    <span class="hide-menu">Deep-Analisys</span>
-                                </a>
-                            </li>                            
-                            <li class="nav-small-cap text-center">OUTROS</li>
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Money-2"></i>
-                                    <span class="hide-menu">Pagamento</span>
-                                </a>
-                            </li>                            
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class=" icon-Bar-Chart"></i>
-                                    <span class="hide-menu">Resumo Conta</span>
-                                </a>
-                            </li>                            
-                            <li> 
-                                <a class="has-arrow waves-effect waves-dark" href="#" aria-expanded="false">
-                                    <i class="icon-Headset"></i>
-                                    <span class="hide-menu">Contate-nos</span>
-                                </a>
-                            </li>                            
-                        </ul>
-                    </nav>
-                </div>
-            </aside>
+            <?php echo $lateral_menu;?>
         </div>    
             
         <div class="page-wrapper">
@@ -795,16 +606,12 @@
         <!-- Chart JS -->
         <script src="<?php echo base_url()?>assets/js/dashboard1.js"></script>
         <!-- Style switcher -->
-        <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>
-        
+        <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>        
         <!--Custom JavaScript -->
         <script src="<?php echo base_url()?>assets/js/custom.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
-        <script type="text/javascript">
-            $('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();
-        </script>
-        
+        <script type="text/javascript">$('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();</script>        
         <!--Wizard JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/moment/min/moment.min.html"></script>
         <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.steps.min.js"></script>
@@ -813,7 +620,13 @@
         <script src="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/wizard/steps.js"></script>
         
-        <script src="<?php echo base_url()?>assets/js/home.js"></script>
+        <!-- system scripts -->
+        <script src="<?php echo base_url()?>assets/js/dashboard/talkme_painel_dashboard.js"></script>
+        <script src="<?php echo base_url()?>assets/js/dashboard/basics.js"></script>
+        <script src="<?php echo base_url()?>assets/js/dashboard/dasboard.js"></script>
+        
+        <script src="<?php echo base_url()?>assets/js/visibility.js"></script>
+        
         
         
     </body>
