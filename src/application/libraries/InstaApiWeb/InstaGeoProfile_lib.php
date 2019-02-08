@@ -24,7 +24,7 @@ class InstaGeoProfile_lib extends InstaReferenceProfile_lib{
     parent::__construct();
     require_once config_item('thirdparty-insta_geo_profile-resource');    
 
-    $this->GeoProfile = new GeoProfile();
+    $this->ReferenceProfile = new GeoProfile();
   }
   
 }

@@ -20,7 +20,7 @@ class InstaHashProfile_lib extends InstaReferenceProfile_lib{
      parent::__construct();
      require_once config_item('thirdparty-insta_hash_profile-resource');
 
-     $this->HashProfile = new HashProfile();
+     $this->ReferenceProfile = new HashProfile();
   }
   
   

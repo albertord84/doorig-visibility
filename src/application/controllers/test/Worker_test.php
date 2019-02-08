@@ -43,5 +43,11 @@ class Worker_test extends CI_Controller {
     echo "[new] Worker_business ==> (<b>ok</b>)<br>";
     echo "</pre>";
   }
+  
+  public function runWorkerTest()
+  {
+    $worker = new business\worker\Worker();
+    $worker->do_work();
+  }
 
 }

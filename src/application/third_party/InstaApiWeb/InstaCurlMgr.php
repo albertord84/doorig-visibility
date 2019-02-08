@@ -353,7 +353,7 @@ namespace InstaApiWeb {
           if($this->ResourceId == null){
             throw new InstaCurlArgumentException("The parameter (resource_id) was not given!!!. Use: setResourceId(string).");
           }
-          $str_cur = $this->cmd_friendships($proxy, $cookies, $this->ResourceId);
+          $str_cur = $this->cmd_friendships($cookies, $this->ResourceId, $proxy);
         break;
                     
         case EnumEntity::HASHTAG + EnumAction::GET_USER_INFO_POST:
@@ -485,7 +485,7 @@ namespace InstaApiWeb {
      * Funcion de Utileria.
      * Construye cUrl tipo CMD para las acciones de los friendship ==> [Follow, Unfollow, Like].
      */
-    private function cmd_friendships (Proxy $proxy, CookiesRequest $cookies, string $resource_id) {     
+    private function cmd_friendships (CookiesRequest $cookies, string $resource_id, Proxy $proxy= null) {     
       // Paso 1. configuracion inicial de la curl
       $curl_str = sprintf("curl %s %s/%s/%s/%s/", 
         ($proxy != null) ? $proxy->ToString() : "", 
