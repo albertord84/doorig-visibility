@@ -34,7 +34,7 @@ namespace InstaApiWeb {
     
     abstract public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL);
     
-    public function get_top_search_profile(\stdClass $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_topsearch_profile(\stdClass $cookies = NULL, Proxy $proxy = NULL) {
       try {
         $Profile = NULL;
         $content = ReferenceProfile::get_insta_data_from_client($this->insta_name, $cookies, $proxy);

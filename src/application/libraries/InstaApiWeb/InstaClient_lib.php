@@ -4,12 +4,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
   
 use InstaApiWeb\Proxy;
+use InstaApiWeb\Cookies;
 use InstaApiWeb\InstaURLs;
 use InstaApiWeb\InstaClient;
 use InstaApiWeb\VerificationChoice;
 use InstaApiWeb\Responses\LoginResponse;
 use InstaApiWeb\Exceptions\InstaException;
-use InstaApiWeb\Responses\CookiesResponse;
 use InstaApiWeb\Exceptions\InstaCurlNetworkException;
 use InstaApiWeb\Exceptions\InstaPasswordException;
 use InstaApiWeb\Exceptions\InstaCheckpointException;
@@ -26,11 +26,11 @@ use business\CookiesRequest;
 class InstaClient_lib {
 
   public function __construct() {
+    require_once config_item('thirdparty-cookies-class');
     require_once config_item('thirdparty-proxy-resource');
     require_once config_item('thirdparty-insta_url-resource');
     require_once config_item('thirdparty-login_response-class');
     require_once config_item('thirdparty-insta_client-resource');
-    require_once config_item('thirdparty-cookies_response-class');
     require_once config_item('thirdparty-verification_choice-resource');
     require_once config_item('insta-checkpoint-exception-class');
     require_once config_item('business-cookies_request-class');

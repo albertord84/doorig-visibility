@@ -61,6 +61,9 @@ namespace business\worker {
 
       $ci->load->model('db_model');
       //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
+      $ci->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'InstaGeoProfile_lib');
+      
+      echo "cargue el worker";
 
     }
 

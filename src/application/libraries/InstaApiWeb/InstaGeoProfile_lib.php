@@ -4,8 +4,8 @@
 require_once config_item('reference-profile_libraries');  
 
 use InstaApiWeb\Proxy;
-use InstaApiWeb\GeoProfile;
-use InstaApiWeb\CookiesRequest;
+//use InstaApiWeb\GeoProfile;
+//use InstaApiWeb\CookiesRequest;
 //use \ReferenceProfile_lib;
 
 
@@ -24,7 +24,7 @@ class InstaGeoProfile_lib extends ReferenceProfile_lib{
     parent::__construct();
     require_once config_item('thirdparty-insta_geo_profile-resource');    
 
-    $this->GeoProfile = new GeoProfile();
+    //$this->GeoProfile = new GeoProfile();
   }
 
   public function process_top_search_profile(\stdClass $content) {

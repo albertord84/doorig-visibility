@@ -51,8 +51,6 @@
   $config['thirdparty-insta_geo_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaGeoProfile.php';
   $config['thirdparty-insta_hash_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaHashProfile.php';
   $config['thirdparty-insta_person_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaPersonProfile.php';  
-  $config['thirdparty-media-resource'] = getcwd().'/application/third_party/InstaApiWeb/Media (deprecated).php';
-  $config['thirdparty-proxy-resource'] = getcwd().'/application/third_party/InstaApiWeb/Proxy.php';
   $config['thirdparty-insta_api-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaApi (deprecated).php';
   $config['thirdparty-insta_curl_mgr-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaCurlMgr.php';
   $config['thirdparty-insta_client-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaClient.php';
@@ -65,7 +63,9 @@
   $config['thirdparty-verification_choice-resource'] = getcwd().'/application/third_party/InstaApiWeb/VerificationChoice.php'; 
 
   //Otros recursos dentro de InstaApiWeb
-   $config['thirdparty-cookies'] = getcwd().'/application/third_party/InstaApiWeb/CookiesRequest.php';
+  $config['thirdparty-media-resource'] = getcwd().'/application/third_party/InstaApiWeb/Media (deprecated).php';
+  $config['thirdparty-proxy-resource'] = getcwd().'/application/third_party/InstaApiWeb/Proxy.php';
+  $config['thirdparty-cookies-resource'] = getcwd().'/application/third_party/InstaApiWeb/Cookies.php';
    
 /*
 |--------------------------------------------------------------------------
@@ -88,12 +88,12 @@
   
   $config['insta-curl-exception-class'] = getcwd().'/application/third_party/InstaApiWeb/Exception/InstaCurlException.php';
   
-  /*
+/*
 |--------------------------------------------------------------------------
 | Paths de las Clases Response de la InstaApiWeb
 */
+  
   $config['thirdparty-client_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/ClientResponse.php'; 
-  $config['thirdparty-cookies_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/CookiesResponse.php';
   $config['thirdparty-insta_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/InstaResponse.php';
   $config['thirdparty-login_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/LoginResponse.php';
   $config['thirdparty-end_cursor_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/EndCursorResponse.php';

@@ -3,11 +3,9 @@
 namespace InstaApiWeb {
   
   require_once config_item('business-cookies_request-class');
-  
-  use business\CookiesRequest;
-  
+    
+  use InstaApiWeb\Cookies;
   use InstaApiWeb\Responses\LoginResponse;
-  use InstaApiWeb\Responses\CookiesResponse;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaCurlException;
   use InstaApiWeb\Exceptions\InstaPasswordException;
@@ -28,15 +26,15 @@ namespace InstaApiWeb {
     public $proxy;
     private $has_logs;
 
-    public function __construct(string $insta_id, CookiesRequest $cookies, Proxy $proxy) {
+    public function __construct(string $insta_id, Cookies $cookies, Proxy $proxy) {
       require_once config_item('composer_autoload');
       require_once config_item('insta-exception-class');
-      require_once config_item('insta-cookies-exception-class');      
+      require_once config_item('thirdparty-cookies-class');
       require_once config_item('insta-curl-exception-class');
+      require_once config_item('insta-cookies-exception-class');      
       require_once config_item('insta-password-exception-class');
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
-      require_once config_item('thirdparty-cookies_response-class');
       
       /*if (!InstaClient::verify_cookies($cookies)) {
         throw new Exceptions\InstaCookiesException('the cookies you are passing are incompleate or wrong');
@@ -156,7 +154,7 @@ namespace InstaApiWeb {
       return $csrftoken;*/
     }
 
-    public static function verify_cookies(CookiesRequest $cookies) {
+    public static function verify_cookies(Cookies $cookies) {
       /*if ($cookies != NULL) {
         return (isset($cookies->csrftoken) && $cookies->csrftoken !== NULL && $cookies->csrftoken !== '' &&
                 isset($cookies->mid) && $cookies->mid !== NULL && $cookies->mid !== '' &&
@@ -200,7 +198,7 @@ namespace InstaApiWeb {
         $ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
         $mid = $ig->client->getCookie('mid')->getValue();
         
-        $Cookies = new CookiesResponse($sessionid, $csrftoken, $ds_user_id, $mid);  
+        $Cookies = new Cookies($sessionid, $csrftoken, $ds_user_id, $mid);  
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
         
         return $loginResponse;

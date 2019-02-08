@@ -44,4 +44,8 @@ class Worker_test extends CI_Controller {
     echo "</pre>";
   }
 
+  public function test () {
+    echo "hola mundo";
+    $obj = new Worker();
+  }
 }
