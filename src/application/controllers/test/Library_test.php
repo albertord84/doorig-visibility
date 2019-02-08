@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 use business\Client;
-use business\CookiesRequest;
+use business\Cookies;
 
 class Library_test extends CI_Controller {
 
@@ -10,7 +10,7 @@ class Library_test extends CI_Controller {
 
     require_once config_item('db-exception-class');
     require_once config_item('business-client-class');
-    require_once config_item('business-cookies_request-class');
+    require_once config_item('business-cookies-class');
   }
 
   public function index() {

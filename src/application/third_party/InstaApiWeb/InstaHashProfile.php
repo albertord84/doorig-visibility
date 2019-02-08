@@ -67,7 +67,7 @@ namespace InstaApiWeb {
       return new \InstaException("unknown exception");
     }
 
-    public function get_post(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::HASHTAG), new EnumAction(EnumAction::GET_POST));
         $mngr->setMediaData(/*$this->insta_name*/'cuba', $N, $cursor);

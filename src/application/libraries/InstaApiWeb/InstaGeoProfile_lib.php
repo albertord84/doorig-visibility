@@ -5,7 +5,7 @@ require_once config_item('reference-profile_libraries');
 
 use InstaApiWeb\Proxy;
 //use InstaApiWeb\GeoProfile;
-//use InstaApiWeb\CookiesRequest;
+//use InstaApiWeb\Cookies;
 //use ReferenceProfile_lib;
 
 
@@ -36,7 +36,7 @@ class InstaGeoProfile_lib extends ReferenceProfile_lib{
   }
 
   public function get_post(int $N, string $cursor = NULL, \stdClass  $cookies = NULL, Proxy $proxy = NULL) {
-   $cookies = new CookiesRequest($cookies);
+   $cookies = new Cookies($cookies);
     $this->GeoProfile->get_post($N, $cursor, $cookies, $proxy);
   }
 

@@ -13,7 +13,7 @@ use InstaApiWeb\Exceptions\InstaException;
 use InstaApiWeb\Exceptions\InstaCurlNetworkException;
 use InstaApiWeb\Exceptions\InstaPasswordException;
 use InstaApiWeb\Exceptions\InstaCheckpointException;
-use business\CookiesRequest;
+use business\Cookies;
 
 /**
  * @category CodeIgniter-Library: InstaApiLib
@@ -33,12 +33,12 @@ class InstaClient_lib {
     require_once config_item('thirdparty-insta_client-resource');
     require_once config_item('thirdparty-verification_choice-resource');
     require_once config_item('insta-checkpoint-exception-class');
-    require_once config_item('business-cookies_request-class');
+    require_once config_item('business-cookies-class');
 
     $this->CI = &get_instance();
     $this->CI->load->model("db_model");
 
-    $this->InstaClient = new InstaClient("", new CookiesRequest("", "", "", ""), new Proxy("", "", "", ""));
+    $this->InstaClient = new InstaClient("", new Cookies("", "", "", ""), new Proxy("", "", "", ""));
   }
 
   public function make_login(string $login, string $pass) {

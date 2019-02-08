@@ -10,7 +10,7 @@ namespace InstaApiWeb {
    * @todo Define an Client business class.
    * 
    */
-  class CookiesRequest {
+  class Cookies {
 
     /**
      * 

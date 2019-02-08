@@ -2,7 +2,7 @@
 
 namespace InstaApiWeb {
   
-  require_once config_item('business-cookies_request-class');
+  require_once config_item('business-cookies-class');
     
   use InstaApiWeb\Cookies;
   use InstaApiWeb\Responses\LoginResponse;

@@ -12,21 +12,21 @@
 | Paths de las clases del Negocio.
 */
   
-  $config['business-admin-class'] = getcwd().'/application/business/Admin.php';
-  $config['business-attendent-class'] = getcwd().'/application/business/Attendent.php';
-  $config['business-geo_profile-class'] = getcwd().'/application/business/BusinessGeoProfile.php';
-  $config['business-hash_profile-class'] = getcwd().'/application/business/BusinessHashProfile.php';
-  $config['business-person_profile-class'] = getcwd().'/application/business/BusinessPersonProfile.php';
-  $config['business-ref_profile-class'] = getcwd().'/application/business/BusinessRefProfile.php';
+  //$config['business-admin-class'] = getcwd().'/application/business/Admin.php';
+  //$config['business-attendent-class'] = getcwd().'/application/business/Attendent.php';
+  //$config['business-geo_profile-class'] = getcwd().'/application/business/BusinessGeoProfile.php';
+  //$config['business-hash_profile-class'] = getcwd().'/application/business/BusinessHashProfile.php';
+  //$config['business-person_profile-class'] = getcwd().'/application/business/BusinessPersonProfile.php';
+  //$config['business-ref_profile-class'] = getcwd().'/application/business/BusinessRefProfile.php';
   $config['business-class'] = getcwd().'/application/business/Business.php';
   $config['business-client-class'] = getcwd().'/application/business/Client.php';  
-  $config['business-cookies_request-class'] = getcwd().'/application/business/CookiesRequest.php';
+  $config['business-cookies-class'] = getcwd().'/application/business/Cookies.php';
   $config['business-own_exception-class'] = getcwd().'/application/business/OwnException.php';
   $config['business-proxy-class'] = getcwd().'/application/business/Proxy.php';
-  $config['business-proxy_manager-class'] = getcwd().'/application/business/ProxyManager.php';
+  //$config['business-proxy_manager-class'] = getcwd().'/application/business/ProxyManager.php';
   $config['business-status_profiles-class'] = getcwd().'/application/business/StatusProfiles.php';
   $config['business-user-class'] = getcwd().'/application/business/User.php';
-  $config['business-system_config-class'] = getcwd().'/application/business/SystemConfig.php';
+  //$config['business-system_config-class'] = getcwd().'/application/business/SystemConfig.php';
   $config['business-user_role-class'] = getcwd().'/application/business/UserRole.php';
   $config['business-user_status-class'] = getcwd().'/application/business/UserStatus.php';
   $config['business-washdog_type-class'] = getcwd().'/application/business/WashdogType.php';

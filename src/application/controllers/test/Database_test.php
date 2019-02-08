@@ -13,6 +13,8 @@ class Database_test extends CI_Controller {
 
   public function index() {
     echo "Controller: <b>" . __CLASS__ . "</b> cargado.";
+    
+    echo intval(null);
   }
 
   public function db_exception() {
@@ -124,8 +126,8 @@ class Database_test extends CI_Controller {
     if ($func == 16) var_dump($obj);
     
     //FUNC 17
-    //$obj = $this->db_model->get_follow_work_by_client_id(1);
-    //echo "FUNC 17-[get] get_follow_work_by_client_id  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
+    $obj = $this->db_model->get_follow_work_by_client_id(1);
+    echo "FUNC 17-[get] get_follow_work_by_client_id  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
     if ($func == 17) var_dump($obj);
     
     //FUNC 18
@@ -221,7 +223,7 @@ class Database_test extends CI_Controller {
     if ($func == 35) var_dump($obj);
     
     //FUNC 36
-    //$obj = $this->db_model-> set_client_cookies(1, '{"json_response":{"status":"ok","authenticated":true,"user":"test"}');
+    $obj = $this->db_model-> set_client_cookies(1, '{"json_response":{"status":"ok","authenticated":true,"user":"test"}');
     echo "FUNC 36 -[set] set_client_cookies => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
     if ($func == 36) var_dump($obj);
     

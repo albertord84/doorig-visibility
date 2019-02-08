@@ -28,7 +28,7 @@ namespace InstaApiWeb {
 
     abstract protected function process_top_search_profile(\stdClass $content);
     
-    abstract public function get_post(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL);
+    abstract public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL);
 
     abstract public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL);
     

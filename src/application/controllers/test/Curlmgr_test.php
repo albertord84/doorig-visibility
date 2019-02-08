@@ -21,7 +21,7 @@ class CurlMgr_test extends CI_Controller {
     parent::__construct();
 
     require_once config_item('business-proxy-class');
-    require_once config_item('business-cookies_request-class');
+    require_once config_item('business-cookies-class');
     require_once config_item('thirdparty-insta_curl_mgr-resource');
     require_once config_item('insta-curl-exception-class');
   }
@@ -33,6 +33,10 @@ class CurlMgr_test extends CI_Controller {
     //$str = sprintf($str, "Carlos");
     //echo $str;
 
+    $str = "'{\"status\":\"ok\",\"authenticated\":true,\"user\":\"josergm86\"},\"csrftoken\":\"tf1VJ4xXfPMBRMNozuLHGOa4hEr20XZO\",\"sessionid\":\"IGSC1b336ba7700e62c3e1cb90c90655488463d069b26d7cd823091f92c24821006d%3AvIoWSs5N8oW03XThBLfJ4gjsX78zEspz%3A%7B%22_token_ver%22%3A2%2C%22_auth_user_id%22%3A3858629065%2C%22_token%22%3A%223858629065%3AoAHvXyzvZHBjRxPmgaYfZcoEjJ3USXzD%3A267dac87c2a808a9b49cada179ac36f3b766f6a18abc6aa1f007bd2a4f2b3974%22%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22last_refreshed%22%3A1482254863.410775%2C%22_platform%22%3A4%2C%22_auth_user_hash%22%3A%22%22%7D\",\"ds_user_id\":\"3858629065\",\"mid\":\"WFlqDwAEAAHTSpuRe2vTEm6KEruS\"}'"; 
+    $c = json_decode($str);
+    var_dump($c);
+    
     $id = 123;
     $N = 1;
     $cursor = "00-cursor-00";

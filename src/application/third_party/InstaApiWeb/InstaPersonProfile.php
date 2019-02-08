@@ -115,7 +115,7 @@ namespace InstaApiWeb {
       }
     }
 
-    public function get_post(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       
     }
 

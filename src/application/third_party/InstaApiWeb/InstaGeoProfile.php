@@ -6,7 +6,7 @@ use stdClass;
 //use InstaApiWeb\InstaApi;
 use InstaApiWeb\InstaCurlMgr;
 use InstaApiWeb\ReferenceProfile;
-use InstaApiWeb\CookiesRequest;
+use InstaApiWeb\Cookies;
 
 require_once 'InstaReferenceProfile.php';
 
@@ -82,7 +82,7 @@ require_once 'InstaReferenceProfile.php';
      * @param \stdClass $cookies
      * @param \InstaApiWeb\Proxy $proxy
      */
-    public function get_post(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::GEO), new EnumAction(EnumAction::GET_POST));
         $mngr->setMediaData($this->insta_id, $N, $cursor);

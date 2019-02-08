@@ -4,7 +4,7 @@ require_once config_item('reference-profile_libraries');
 
 use InstaApiWeb\HashProfile;
 use InstaApiWeb\Proxy;
-use InstaApiWeb\CookiesRequest;
+use InstaApiWeb\Cookies;
 /**
  * @category CodeIgniter-Library: InstaApiLib
  * 
@@ -32,7 +32,7 @@ class InstaHashProfile_lib extends ReferenceProfile_lib{
   }
 
   public function get_post(int $N, string $cursor = NULL, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
-    $cookies = new CookiesRequest($cookies);
+    $cookies = new Cookies($cookies);
     $this->HashProfile->get_post($N, $cursor, $cookies, $proxy);
   }
 
