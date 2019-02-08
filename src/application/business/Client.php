@@ -651,7 +651,7 @@ namespace business {
         $login_data = $ci->InstaApiLib->login($this->login, $this->pass, $this->Proxy);
       } catch (Exception $exc) {
         //CONCERTAR myDB
-        $myDB->insert_event_to_washdog($Client->id, $exc->getMessage(), $source);
+        $ci->db_model->insert_event_to_washdog($Client->id, $exc->getMessage(), $source);
         echo $exc->getTraceAsString();
       }
 
