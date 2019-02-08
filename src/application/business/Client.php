@@ -579,7 +579,7 @@ namespace business {
      */
     public function create_daily_work($client_id) {
       $ci = &get_instance();
-      $Client = $this->get_client($client_id);
+      $Client = $ci->db_model->get_client_data($client_id);
       if (count($Client->reference_profiles) > 0) {
         $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
@@ -657,7 +657,7 @@ namespace business {
 
 
       if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
-        $this->set_client_cookies($Client->id, json_encode($login_data));
+        $ci->db_model->set_client_cookies($Client->id, json_encode($login_data));
         echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login ($Client->id) <br>\n\n\n<br>\n";
         return $login_data;
       } else {
@@ -668,12 +668,12 @@ namespace business {
         if (isset($login_data->json_response) && $login_data->json_response->status == 'ok') {
           if ($login_data->json_response->message == 'checkpoint_required') {
             if ($Client->status_id != user_status::VERIFY_ACCOUNT) {
-              $this->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+              $ci->db_model->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
             }
           } else
           if ($login_data->json_response->message == 'incorrect_password') {
             if ($Client->status_id != user_status::BLOCKED_BY_INSTA) {
-              $this->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+              $ci->db_model->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
             }
           } else
           if ($login_data->json_response->message == 'problem_with_your_request') {
@@ -682,7 +682,7 @@ namespace business {
             $ci->db_model->insert_event_to_washdog($Client->id, washdog_type::PROBLEM_WITH_YOUR_REQUEST, 1, 0, $login_data->json_response->message);
           }
         }
-        $this->set_client_cookies($Client->id, NULL);
+        $ci->db_model->set_client_cookies($Client->id, NULL);
         return NULL;
       }
     }
@@ -694,9 +694,9 @@ namespace business {
      * @return
      * 
      */
-    public function check_insta_user() {
+    /*public function check_insta_user() {
       
-    }
+    }*/
 
     /**
      * 
