@@ -1220,8 +1220,8 @@ class Db_model extends CI_Model {
               . "DELETE FROM daily_work "
               . "WHERE reference_id = $ref_prof_id; ";
       $result = $this->db->query($sql);
-
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -1241,8 +1241,8 @@ class Db_model extends CI_Model {
               . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
               . "WHERE clients.user_id = $client_id); ";
       $result = $this->db->query($sql);
-
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
