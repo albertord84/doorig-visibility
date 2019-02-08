@@ -6,7 +6,7 @@ require_once config_item('reference-profile_libraries');
 use InstaApiWeb\Proxy;
 //use InstaApiWeb\GeoProfile;
 //use InstaApiWeb\CookiesRequest;
-//use \ReferenceProfile_lib;
+//use ReferenceProfile_lib;
 
 
 /**
