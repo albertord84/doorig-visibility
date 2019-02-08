@@ -112,7 +112,7 @@
   $config['payment-vindi-libraries'] = getcwd().'/application/libraries/Payment/Vindi.php'; 
   
   //Librerias Api Web
-   $config['reference-profile_libraries'] = getcwd(). '/application/libraries/InstaApiWeb/ReferenceProfile_lib.php';
+   $config['reference-profile_libraries'] = getcwd(). '/application/libraries/InstaApiWeb/InstaReferenceProfile_lib.php';
   
 ?>
 
