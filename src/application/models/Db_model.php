@@ -844,22 +844,17 @@ class Db_model extends CI_Model {
   //======================>SET<=======================//
   
   //FUNC 34 OK
-  public function set_client_status($client_id, $status_id) {
+  public function update_client_status($client_id, $status_id) {
     try {
 
       $status_date = time();
-      $sql = "UPDATE users "
-              . "SET "
-              . "      users.status_id   = $status_id, "
-              . "      users.status_date = '$status_date' "
+      $sql = "UPDATE users SET users.status_id   = $status_id, "
+              . "users.status_date = '$status_date' "
               . "WHERE users.id = $client_id; ";
 
       $result = $this->db->query($sql);
- //               if ($result)
- //                   print "<br>Update client_status! status_date: $status_date <br>";
- //               else
- //                   print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);

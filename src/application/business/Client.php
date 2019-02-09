@@ -400,7 +400,7 @@ namespace business {
      */
     public function update_client_cookies($cookies) {
       $ci = &get_instance();
-      $ci->db_model->set_client_cookies($this->Id, $cookies);
+      $ci->db_model->update_client_cookies($this->Id, $cookies);
     }
 
     /**
@@ -410,15 +410,11 @@ namespace business {
      * @return
      * 
      */
-    public function set_client_status($status_id) {
+    public function update_client_status($status_id) {
       $ci = &get_instance();
-      $ci->db_model->set_client_status($this->Id, $status_id);
+      $ci->db_model->update_client_status($this->Id, $status_id);
     }
     
-
-    
-
-
     /**
      *
      * @param type $offset

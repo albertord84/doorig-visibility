@@ -56,8 +56,8 @@ class Database_test extends CI_Controller {
     if ($func == 2) var_dump($obj);
     
     //FUNC 3
-    $array = $this->db_model->get_reference_profiles_data(1);
-    echo "FUNC 3-[get] get_reference_profiles_data  => result: " . count($array) . " ==> (<b>ok</b>)<br><br>";
+    $array = $this->db_model->get_reference_profiles(1);
+    echo "FUNC 3-[get] get_reference_profiles  => result: " . count($array) . " ==> (<b>ok</b>)<br><br>";
     if ($func == 3) var_dump($array);
     
     //FUNC 4
@@ -213,17 +213,17 @@ class Database_test extends CI_Controller {
     echo "//===========================>SET<============================//<br><br>";
     
     //FUNC 34
-    //$obj = $this->db_model->set_client_status(1, 3);
+    //$obj = $this->db_model->update_client_status(1, 3);
     echo "FUNC 34-[set] set_client_status  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
     if ($func == 34) var_dump($obj);
         
     //FUNC 35
-    $obj = $this->db_model->set_client_status_by_login('alberto_dreyes', 1);
+    $obj = $this->db_model->update_client_status_by_login('alberto_dreyes', 1);
     echo "FUNC 35-[set] set_client_status_by_login  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
     if ($func == 35) var_dump($obj);
     
     //FUNC 36
-    $obj = $this->db_model-> set_client_cookies(1, '{"json_response":{"status":"ok","authenticated":true,"user":"test"}');
+    $obj = $this->db_model-> update_client_cookies(1, '{"json_response":{"status":"ok","authenticated":true,"user":"test"}');
     echo "FUNC 36 -[set] set_client_cookies => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
     if ($func == 36) var_dump($obj);
     

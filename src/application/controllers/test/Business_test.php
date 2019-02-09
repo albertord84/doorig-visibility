@@ -35,11 +35,13 @@ class Business_test extends CI_Controller {
     echo "[get] load_data() => result: " . count($array) . " ==> (<b>ok</b>)<br>";
      
     $array = $obj->get_reference_profiles(); //var_dump($array);
-    echo "[get] get_reference_profiles() => result: ".count($array)."<br>";
+    echo "[get] get_reference_profiles() => result: ".count($array) . " ==> (<b>ok</b>)<br>";
 
-    $obj->update_client_cookies($cookies);
+    $obj->update_client_cookies('{"json_response":{"status":"ok","authenticated":true,"user":"ohhhYESSSS"}'); 
+    echo "[update] update_client_cookies() ==> (<b>ok</b>)<br>";
     
-    $obj->set_client_status($status_id);
+    $obj->update_client_status(1); 
+    echo "[update] update_client_status() ==> (<b>ok</b>)<br>";
    
     //======= PROXY =======//
     echo "<h2>Test Proxy Business</h2>";
