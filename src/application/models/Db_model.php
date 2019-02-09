@@ -368,7 +368,6 @@ class Db_model extends CI_Model {
 
   //FUNC 15 OK
   public function get_follow_work() {
-    //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
       
       $sql = ""
@@ -457,9 +456,8 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 17 TO CHECK
+  //FUNC 17 
   public function get_follow_work_by_client_id($client_id, $rp = NULL) {
-    //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
       // Get daily work
       $sql = ""
@@ -523,19 +521,19 @@ class Db_model extends CI_Model {
   //FUNC 18 TO CHECK
   public function get_unfollow_work($client_id) {
     try {
-      // Get profiles to unfollow today for this Client... 
-      // (i.e the last followed)
+      // Get profiles to unfollow today for this Client...(i.e the last followed)
       $Limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
       $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
-      $result = mysqli_query($this->fConnection, ""
-              . "SELECT * FROM `doorig_visibility_db.followed`.`$client_id` "
+      
+      $sql = "SELECT * FROM `doorig_visibility_db.followed`.`$client_id` "
               . "WHERE unfollowed = false "
               . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
               . "ORDER BY date ASC "
-              . "LIMIT $Limit;"
-      );
+              . "LIMIT $Limit";
+      
       $query = $this->db->query($sql);
-        return $query->result();
+      return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -671,27 +669,16 @@ class Db_model extends CI_Model {
   //FUNC 25 OK
   public function get_number_followed_today($client_id) {
     try {
-
-
       if ($client_id != '0' && $client_id != 0) {
         $limit = strtotime('today 02:00:00');
 
         if (time() > strtotime('today') && time() < strtotime('today 03:00:00'))
           $limit = strtotime('yesterday 02:00:00');
         $id = intval($client_id);
-        $sql = ""
-                . "SELECT COUNT(*) FROM `doorig_visibility_db.followed`.`$id` "
-                . "WHERE unfollowed = 0 AND date > " . $limit . ";";
+        $sql = "SELECT * FROM `doorig_visibility_db.followed`.`$id` "
+               . "WHERE unfollowed = 0 AND date > " . $limit . ";";
         $query = $this->db->query($sql);
-        return $query->result();
-       /* if ($result) {
-          $data = $result->fetch_row();
-          return $data[0];
-        } else {
-          return "???";
-        }
-      } else
-        return 0;*/
+        return count($query->result());
       }
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {

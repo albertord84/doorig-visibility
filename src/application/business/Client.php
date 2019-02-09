@@ -389,8 +389,7 @@ namespace business {
       $ci = &get_instance();
       return $ci->db_model->get_clients_data();
     }
-    
-      
+          
     /**
      * 
      * @todo
@@ -414,21 +413,7 @@ namespace business {
       $ci = &get_instance();
       $ci->db_model->update_client_status($this->Id, $status_id);
     }
-    
-    /**
-     *
-     * @param type $offset
-     * @param type $rows
-     * @return type
-     */
-    //DELETE FUNTION
-    /* public function get_begginer_client($offset = 0, $rows = 0) {
-      $client_data = $ci->db_model->get_biginner_data($offset, $rows);
-      return $client_data;
-      //$Client = $this->fill_client_data($client_data);
-      //return $Client;
-      } */
-    
+     
     /**
      * 
      * @todo
@@ -440,7 +425,6 @@ namespace business {
       $ci = &get_instance();
       try {
         $Clients = array();
-        //$DB = new \follows\cls\DB();
         $clients_data = $ci->db_model->get_clients_data_for_report();
         while ($client_data = $clients_data->fetch_object()) {
           $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login, $client_data->id);
@@ -567,7 +551,6 @@ namespace business {
       $Robot = new Robot();
       $proxy = $Robot->get_proxy_str($this);
       $status = new reference_profiles_status();
-      //$DB = new DB();
       if ($this->reference_profiles) {
         foreach ($this->reference_profiles as $ref_prof) {
           if ($ref_prof->deleted && $ref_prof->status != $status->DELETED) {
@@ -608,11 +591,9 @@ namespace business {
       try {
         $login_data = $ci->InstaApiLib->login($this->login, $this->pass, $this->Proxy);
       } catch (Exception $exc) {
-        //CONCERTAR myDB
         $ci->db_model->insert_event_to_washdog($Client->id, $exc->getMessage(), $source);
         echo $exc->getTraceAsString();
       }
-
 
       if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
         $ci->db_model->set_client_cookies($Client->id, json_encode($login_data));
@@ -644,17 +625,6 @@ namespace business {
         return NULL;
       }
     }
-
-    /**
-     * 
-     * @todo
-     * @param type
-     * @return
-     * 
-     */
-    /*public function check_insta_user() {
-      
-    }*/
 
     /**
      * 
