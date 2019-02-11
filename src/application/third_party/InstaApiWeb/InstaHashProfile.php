@@ -20,7 +20,7 @@ namespace InstaApiWeb {
       $this->tag_query = "ded47faa9a1aaded10161a2ff32abb6b";
     }
 
-    public function process_insta_prof_data(\stdClass $content) {
+    public function process_top_search_profile(\stdClass $content) {
       $Profile = NULL;
       if (is_object($content) && $content->status === 'ok') {
         $tags = $content->hashtags;
@@ -43,10 +43,10 @@ namespace InstaApiWeb {
       return $Profile;
     }
 
-    public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+    public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
       $profiles = new InstaProfileList();
 
-      $json_response = $this->get_insta_media($cookies, $N, $cursor, $proxy);
+      $json_response = $this->get_post($cookies, $N, $cursor, $proxy);
       if (is_object($json_response)) {
         if (isset($json_response->data->hashtag->edge_hashtag_to_media)) {
           if ($this->has_logs) {
@@ -55,7 +55,7 @@ namespace InstaApiWeb {
           $page_info = $json_response->data->hashtag->edge_hashtag_to_media->page_info;
           foreach ($json_response->data->hashtag->edge_hashtag_to_media->edges as $Edge) {
             $profile = new \stdClass();
-            $profile->node = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
+            $profile->node = $this->get_owner_post_data($Edge->node->shortcode, $cookies, $proxy);
             array_push($profiles->profile_list, $profile);
           }
           $error = FALSE;
@@ -67,7 +67,7 @@ namespace InstaApiWeb {
       return new \InstaException("unknown exception");
     }
 
-    public function get_insta_media(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::HASHTAG), new EnumAction(EnumAction::GET_POST));
         $mngr->setMediaData(/*$this->insta_name*/'cuba', $N, $cursor);
@@ -120,7 +120,7 @@ namespace InstaApiWeb {
       }*/
     }
 
-    public function get_post_user_info($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
 
       if ($cookies != NULL) {
         $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;

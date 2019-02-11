@@ -6,7 +6,7 @@ use stdClass;
 //use InstaApiWeb\InstaApi;
 use InstaApiWeb\InstaCurlMgr;
 use InstaApiWeb\ReferenceProfile;
-use InstaApiWeb\CookiesRequest;
+use InstaApiWeb\Cookies;
 
 require_once 'InstaReferenceProfile.php';
 
@@ -31,7 +31,7 @@ require_once 'InstaReferenceProfile.php';
       //$this->tag_query = "ac38b90f0f3981c42092016a37c59bf7";
     }
 
-    public function process_insta_prof_data(stdClass $content) {
+    public function process_top_search_profile(stdClass $content) {
       $Profile = NULL;
       if (is_object($content) && $content->status === 'ok') {
         $places = $content->places;
@@ -52,9 +52,9 @@ require_once 'InstaReferenceProfile.php';
       return $Profile;
     }
 
-    public function get_insta_followers(stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+    public function get_followers(stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
 
-      $json_response = $this->get_insta_media($cookies, $N, $cursor, $proxy);
+      $json_response = $this->get_post($cookies, $N, $cursor, $proxy);
       $profiles = new InstaProfileList();
       if (is_object($json_response) && $json_response->status == 'ok') {
         if (isset($json_response->data->location->edge_location_to_media)) { // if response is ok
@@ -64,7 +64,7 @@ require_once 'InstaReferenceProfile.php';
           $page_info = $json_response->data->location->edge_location_to_media->page_info;
           foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
             $profile = new \stdClass();
-            $profile->node = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
+            $profile->node = $this->get_owner_post_data($Edge->node->shortcode, $cookies, $proxy);
             array_push($profiles->profile_list, $profile);
           }
         } else {
@@ -82,7 +82,7 @@ require_once 'InstaReferenceProfile.php';
      * @param \stdClass $cookies
      * @param \InstaApiWeb\Proxy $proxy
      */
-    public function get_insta_media(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::GEO), new EnumAction(EnumAction::GET_POST));
         $mngr->setMediaData($this->insta_id, $N, $cursor);
@@ -139,7 +139,7 @@ require_once 'InstaReferenceProfile.php';
         } */
     }
 
-    public function get_post_user_info($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
       //echo " -------Obtindo dados de perfil que postou na geolocalizacao------------<br>\n<br>\n";
       if ($cookies != NULL) {
         $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;

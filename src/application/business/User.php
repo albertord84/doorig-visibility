@@ -138,13 +138,14 @@ namespace business {
     function __construct() {
       parent::__construct();
       
+      //$this->Id = $id;
       $ci = &get_instance();
       $ci->load->model('users_model'); 
     }
 
-    public function load_data(int $id) {
+    public function load_data() {
       $ci = &get_instance();
-      $data = $ci->users_model->get_by_id($id);
+      $data = $ci->users_model->get_by_id($this->Id);
       
       $this->fill_data($data);
     }

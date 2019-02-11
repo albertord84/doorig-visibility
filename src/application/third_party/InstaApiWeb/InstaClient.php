@@ -1,12 +1,18 @@
 <?php
 
 namespace InstaApiWeb {
+<<<<<<< HEAD
 
   require_once config_item('business-cookies_request-class');
 
   use InstaApiWeb\CookiesRequest;
+=======
+  
+  require_once config_item('business-cookies-class');
+    
+  use InstaApiWeb\Cookies;
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
   use InstaApiWeb\Responses\LoginResponse;
-  use InstaApiWeb\Responses\CookiesResponse;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaCurlException;
   use InstaApiWeb\Exceptions\InstaPasswordException;
@@ -28,19 +34,32 @@ namespace InstaApiWeb {
     public $proxy;
     private $has_logs;
 
+<<<<<<< HEAD
     public function __construct(string $insta_id, CookiesRequest $cookies, Proxy $proxy = NULL) {
       require_once config_item('composer_autoload');
       require_once config_item('insta-exception-class');
       require_once config_item('insta-cookies-exception-class');
+=======
+    public function __construct(string $insta_id, Cookies $cookies, Proxy $proxy) {
+      require_once config_item('composer_autoload');
+      require_once config_item('insta-exception-class');
+      require_once config_item('thirdparty-cookies-class');
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
       require_once config_item('insta-curl-exception-class');
+      require_once config_item('insta-cookies-exception-class');      
       require_once config_item('insta-password-exception-class');
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
+<<<<<<< HEAD
       require_once config_item('thirdparty-cookies_response-class');
       require_once config_item('thirdparty-insta_curl_mgr-resource');
 
 
       if (!InstaClient::verify_cookies($cookies)) {
+=======
+      
+      /*if (!InstaClient::verify_cookies($cookies)) {
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
         throw new Exceptions\InstaCookiesException('the cookies you are passing are incompleate or wrong');
       }
       $this->insta_id = $insta_id;
@@ -198,12 +217,21 @@ namespace InstaApiWeb {
         return $csrftoken; */
     }
 
+<<<<<<< HEAD
     public static function verify_cookies(CookiesRequest $cookies) {
       if ($cookies != NULL) {
         return (isset($cookies->CsrfToken) && $cookies->CsrfToken !== NULL && $cookies->CsrfToken !== '' &&
                 isset($cookies->Mid) && $cookies->Mid !== NULL && $cookies->Mid !== '' &&
                 isset($cookies->SessionId) && $cookies->SessionId !== NULL && $cookies->SessionId !== '' &&
                 isset($cookies->DsUserId) && $cookies->DsUserId !== NULL && $cookies->DsUserId !== '');
+=======
+    public static function verify_cookies(Cookies $cookies) {
+      /*if ($cookies != NULL) {
+        return (isset($cookies->csrftoken) && $cookies->csrftoken !== NULL && $cookies->csrftoken !== '' &&
+                isset($cookies->mid) && $cookies->mid !== NULL && $cookies->mid !== '' &&
+                isset($cookies->sessionid) && $cookies->sessionid !== NULL && $cookies->sessionid !== '' &&
+                isset($cookies->ds_user_id) && $cookies->ds_user_id !== NULL && $cookies->ds_user_id !== '');
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
       }
 
       return false;
@@ -239,8 +267,13 @@ namespace InstaApiWeb {
         $csrftoken = $ig->client->getCookie('csrftoken')->getValue();
         $ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
         $mid = $ig->client->getCookie('mid')->getValue();
+<<<<<<< HEAD
 
         $Cookies = new CookiesResponse($sessionid, $csrftoken, $ds_user_id, $mid);
+=======
+        
+        $Cookies = new Cookies($sessionid, $csrftoken, $ds_user_id, $mid);  
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
 
         return $loginResponse;

@@ -12,21 +12,21 @@
 | Paths de las clases del Negocio.
 */
   
-  $config['business-admin-class'] = getcwd().'/application/business/Admin.php';
-  $config['business-attendent-class'] = getcwd().'/application/business/Attendent.php';
-  $config['business-geo_profile-class'] = getcwd().'/application/business/BusinessGeoProfile.php';
-  $config['business-hash_profile-class'] = getcwd().'/application/business/BusinessHashProfile.php';
-  $config['business-person_profile-class'] = getcwd().'/application/business/BusinessPersonProfile.php';
-  $config['business-ref_profile-class'] = getcwd().'/application/business/BusinessRefProfile.php';
+  //$config['business-admin-class'] = getcwd().'/application/business/Admin.php';
+  //$config['business-attendent-class'] = getcwd().'/application/business/Attendent.php';
+  //$config['business-geo_profile-class'] = getcwd().'/application/business/BusinessGeoProfile.php';
+  //$config['business-hash_profile-class'] = getcwd().'/application/business/BusinessHashProfile.php';
+  //$config['business-person_profile-class'] = getcwd().'/application/business/BusinessPersonProfile.php';
+  //$config['business-ref_profile-class'] = getcwd().'/application/business/BusinessRefProfile.php';
   $config['business-class'] = getcwd().'/application/business/Business.php';
   $config['business-client-class'] = getcwd().'/application/business/Client.php';  
-  $config['business-cookies_request-class'] = getcwd().'/application/business/CookiesRequest.php';
+  $config['business-cookies-class'] = getcwd().'/application/business/Cookies.php';
   $config['business-own_exception-class'] = getcwd().'/application/business/OwnException.php';
   $config['business-proxy-class'] = getcwd().'/application/business/Proxy.php';
-  $config['business-proxy_manager-class'] = getcwd().'/application/business/ProxyManager.php';
+  //$config['business-proxy_manager-class'] = getcwd().'/application/business/ProxyManager.php';
   $config['business-status_profiles-class'] = getcwd().'/application/business/StatusProfiles.php';
   $config['business-user-class'] = getcwd().'/application/business/User.php';
-  $config['business-system_config-class'] = getcwd().'/application/business/SystemConfig.php';
+  //$config['business-system_config-class'] = getcwd().'/application/business/SystemConfig.php';
   $config['business-user_role-class'] = getcwd().'/application/business/UserRole.php';
   $config['business-user_status-class'] = getcwd().'/application/business/UserStatus.php';
   $config['business-washdog_type-class'] = getcwd().'/application/business/WashdogType.php';
@@ -51,8 +51,6 @@
   $config['thirdparty-insta_geo_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaGeoProfile.php';
   $config['thirdparty-insta_hash_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaHashProfile.php';
   $config['thirdparty-insta_person_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaPersonProfile.php';  
-  $config['thirdparty-media-resource'] = getcwd().'/application/third_party/InstaApiWeb/Media (deprecated).php';
-  $config['thirdparty-proxy-resource'] = getcwd().'/application/third_party/InstaApiWeb/Proxy.php';
   $config['thirdparty-insta_api-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaApi (deprecated).php';
   $config['thirdparty-insta_curl_mgr-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaCurlMgr.php';
   $config['thirdparty-insta_client-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaClient.php';
@@ -65,7 +63,9 @@
   $config['thirdparty-verification_choice-resource'] = getcwd().'/application/third_party/InstaApiWeb/VerificationChoice.php'; 
 
   //Otros recursos dentro de InstaApiWeb
-   $config['thirdparty-cookies'] = getcwd().'/application/third_party/InstaApiWeb/CookiesRequest.php';
+  $config['thirdparty-media-resource'] = getcwd().'/application/third_party/InstaApiWeb/Media (deprecated).php';
+  $config['thirdparty-proxy-resource'] = getcwd().'/application/third_party/InstaApiWeb/Proxy.php';
+  $config['thirdparty-cookies-resource'] = getcwd().'/application/third_party/InstaApiWeb/Cookies.php';
    
 /*
 |--------------------------------------------------------------------------
@@ -88,12 +88,12 @@
   
   $config['insta-curl-exception-class'] = getcwd().'/application/third_party/InstaApiWeb/Exception/InstaCurlException.php';
   
-  /*
+/*
 |--------------------------------------------------------------------------
 | Paths de las Clases Response de la InstaApiWeb
 */
+  
   $config['thirdparty-client_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/ClientResponse.php'; 
-  $config['thirdparty-cookies_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/CookiesResponse.php';
   $config['thirdparty-insta_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/InstaResponse.php';
   $config['thirdparty-login_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/LoginResponse.php';
   $config['thirdparty-end_cursor_response-class'] = getcwd().'/application/third_party/InstaApiWeb/Response/EndCursorResponse.php';

@@ -22,7 +22,7 @@ namespace InstaApiWeb {
       
     }
 
-    public function process_insta_prof_data(\stdClass $content) {
+    public function process_top_search_profile(\stdClass $content) {
       $Profile = NULL;
       if (is_object($content) && $content->status === 'ok') {
         $users = $content->users;
@@ -48,9 +48,9 @@ namespace InstaApiWeb {
       return $Profile;
     }
 
-    public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+    public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
 
-      $follower_list = $this->get_insta_followers_list($cookies, $N, $cursor, $proxy);
+      $follower_list = $this->get_followers_list($cookies, $N, $cursor, $proxy);
       if ($follower_list != NULL) {
         if (is_object($json_response) && $json_response->status == 'ok') {
           if (isset($json_response->data->user->edge_followed_by)) { // if response is ok
@@ -71,7 +71,7 @@ namespace InstaApiWeb {
       return $follower_list;
     }
 
-    public function get_insta_followers_list(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+    public function get_followers_list(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
 
       try {
         $variables = "{\"id\":\"$this->insta_id\",\"first\":$N";
@@ -115,18 +115,20 @@ namespace InstaApiWeb {
       }
     }
 
-    public function get_insta_media(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       
     }
 
-    public function get_post_user_info($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
       
     }
-
+    
+    // eliminar - FOLLOWED
     public function make_curl_following_str(\stdClass $cookies, int $N, string $cursor = NULL, Proxy $proxy = NULL) {
       
     }
 
+    //
     public function parse_follow_count($follow_count_str) {
       
     }

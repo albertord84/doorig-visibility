@@ -26,9 +26,10 @@ class Db_model extends CI_Model {
                       INNER JOIN plane ON plane.id = clients.plane_id 
                       WHERE users.status_id = '%d'
                       LIMIT %d, %d", $user_status, $offset, $rows);
+      
       $query = $this->db->query($sql);
-
       return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -84,9 +85,10 @@ class Db_model extends CI_Model {
               . "     INNER JOIN clients ON clients.user_id = users.id "
               . "     INNER JOIN plane ON plane.id = clients.plane_id "
               . "WHERE users.id = $client_id; ";
+      
       $query = $this->db->query($sql);
-
       return $query->row();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -97,17 +99,15 @@ class Db_model extends CI_Model {
   }
 
   //FUNC 3 OK
-  public function get_reference_profiles_data($client_id) {
+  public function get_reference_profiles($client_id) {
     try {
 
-      $sql = ""
-              . "SELECT * FROM reference_profile "
-              . "WHERE client_id = " . $client_id . ";";
+      $sql = "SELECT * FROM reference_profile WHERE client_id = " . $client_id . ";";
 //            . "  AND (reference_profile.deleted <> TRUE)"               
 //            . "  (reference_profile.client_id = $client_id) AND "
-
       $query = $this->db->query($sql);
       return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -123,8 +123,8 @@ class Db_model extends CI_Model {
 
       $BEGINNER = UserStatus::BEGINNER;
       $CLIENT = UserRole::CLIENT;
-      $sql = ""
-              . "SELECT * FROM users "
+      
+      $sql = "SELECT * FROM users "
               . "     INNER JOIN clients ON clients.user_id = users.id "
               . "     INNER JOIN plane ON plane.id = clients.plane_id "
               . "WHERE users.role_id = $CLIENT "
@@ -135,8 +135,8 @@ class Db_model extends CI_Model {
 
       $this->db->limit($offset, $rows);
       $query = $this->db->query($sql);
-      //  var_dump($query);
       return $query->result();
+      
     } catch (Error $e) {
       var_dump($e);
       if ($this->db->error()['code'] != 0) {
@@ -156,9 +156,7 @@ class Db_model extends CI_Model {
       $BEGINNER = UserStatus::BEGINNER;
       $DONT_DISTURB = UserStatus::DONT_DISTURB;
 
-      //$UNFOLLOW = UserStatus::UNFOLLOW;
-      $sql = ""
-              . "SELECT users.id, users.login FROM users "
+      $sql = "SELECT users.id, users.login FROM users "
               . "     INNER JOIN clients ON clients.user_id = users.id "
               . "     INNER JOIN plane ON plane.id = clients.plane_id "
               . "WHERE users.role_id = $CLIENT "
@@ -166,8 +164,8 @@ class Db_model extends CI_Model {
               . "ORDER BY users.id; ";
 
       $query = $this->db->query($sql);
-
       return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -185,9 +183,8 @@ class Db_model extends CI_Model {
       $ACTIVE = UserStatus::ACTIVE;
       $PENDING = UserStatus::PENDING;
       $UNFOLLOWS = UserStatus::UNFOLLOW;
-      //$UNFOLLOW = UserStatus::UNFOLLOW;
-      $sql = ""
-              . "SELECT * FROM users "
+      
+      $sql = "SELECT * FROM users "
               . "     INNER JOIN clients ON clients.user_id = users.id "
               . "     INNER JOIN plane ON plane.id = clients.plane_id "
               . "WHERE users.role_id = $CLIENT "
@@ -198,8 +195,8 @@ class Db_model extends CI_Model {
               . "          );";
 
       $query = $this->db->query($sql);
-
       return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -213,15 +210,12 @@ class Db_model extends CI_Model {
   public function get_gateway_plane_id($dumbu_plane_id) {
     try {
 
-      $query = $this->db->query(""
-              . "SELECT gateway_plane_id FROM plane "
-              . "WHERE plane.id = $dumbu_plane_id; "
-      );
-
+      $sql = "SELECT gateway_plane_id FROM plane "
+            ."WHERE plane.id = $dumbu_plane_id; ";
+      
+      $query = $this->db->query($sql);
       return $query->row();
-
-      //$object = $result ? $result->result_object() : NULL;
-      //return isset($object->gateway_plane_id) ? $object->gateway_plane_id : 0;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -242,7 +236,8 @@ class Db_model extends CI_Model {
             . "WHERE users.id = $client_id; ";
       
       $query = $this->db->query($sql);
-      return $query->row();
+      return $query->row(); 
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -256,12 +251,13 @@ class Db_model extends CI_Model {
   public function get_client_login_data($client_id) {
     try {
 
-      $result = $this->db->query(""
-              . "SELECT id, login, pass, insta_id FROM users "
-              . "     INNER JOIN clients ON clients.user_id = users.id "
-              . "WHERE users.id = $client_id; ");
+      $sql =  "SELECT id, login, pass, insta_id FROM users "
+              ."INNER JOIN clients ON clients.user_id = users.id "
+              ."WHERE users.id = $client_id; ";
       
-      return $result->row();
+      $query = $this->db->query($sql);
+      return $query->row();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -275,14 +271,15 @@ class Db_model extends CI_Model {
   public function get_client_data_bylogin($login) {
     try {
 
-      $sql = ""
-              . "SELECT * FROM clients "
+      $sql = "SELECT * FROM clients "
               . "     INNER JOIN users ON clients.user_id = users.id "
               . "WHERE users.login LIKE '$login' "
               . "ORDER BY user_id DESC "
               . "LIMIT 1; ";
+      
       $result = $this->db->query($sql);
       return $result->row();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -296,12 +293,13 @@ class Db_model extends CI_Model {
   public function get_client_proxy($client_id) {
     try {
 
-      $sql = ""
-              . "SELECT * FROM clients "
+      $sql = "SELECT * FROM clients "
               . "     INNER JOIN Proxy ON clients.proxy = Proxy.idProxy "
               . "WHERE user_id LIKE '$client_id';";
-      $result = $this->db->query($sql);
+      
+      $result = $this->db->query($sql);      
       return $result->row();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -315,11 +313,12 @@ class Db_model extends CI_Model {
   public function get_client_instaid_data($client_id) {
     try {
 
-      $result = $this->db->query(""
-              . "SELECT insta_id FROM clients "
-              . "WHERE user_id = $client_id; "
-      );
-      return $result->row();
+      $sql = "SELECT insta_id FROM clients "
+            ."WHERE user_id = $client_id;";
+      
+      $query = $this->db->query($sql);      
+      return $query->row();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -332,16 +331,9 @@ class Db_model extends CI_Model {
   //FUNC 13 OK
   public function get_client_id_from_reference_profile_id($ref_prof_id) {
     try {
-
-    /*  $query = "SELECT client_id FROM dumbudb.reference_profile WHERE  id =" . $ref_prof_id . ";";
-      $result = $this->db->query($query);
-      $data = $result->result_object();
-      if (isset($data->client_id))
-        return $data->client_id;
-      else
-        return 0;*/
+  
+      $sql = "SELECT client_id FROM `doorig_visibility_db`.reference_profile WHERE  id =" . $ref_prof_id . ";";
       
-      $sql = "SELECT client_id FROM dumbudb.reference_profile WHERE  id =" . $ref_prof_id . ";";
       $query = $this->db->query($sql);
       return $query->row();
       
@@ -355,28 +347,16 @@ class Db_model extends CI_Model {
   }
 
   //FUNC 14 OK
-  public function get_reference_profiles_follows($ref_prof_id) {
+  public function get_reference_profiles_follows(int $ref_prof_id) {
     try {
 
-      //$client_id = $_SESSION['id'];
       $client_id = $this->get_client_id_from_reference_profile_id($ref_prof_id);
       $id = intval($client_id);
-      //echo '<br>---->>>Perfil id = '.$ref_prof_id.' Client id = '.$client_id.'<br>';
-
-      if ($id != '0' && $id != 0 && $ref_prof_id) {
-        /*$result = mysqli_query($this->fConnection, ""
-                . "SELECT COUNT(*) FROM `dumbudb.followed`.`$id` "
-                . "WHERE  reference_id = $ref_prof_id; "
-        );
-        $data = $result->fetch_row();
-        return $data[0];*/
-        
-      $sql = "SELECT COUNT(*) FROM `dumbudb.followed`.`$id` WHERE  reference_id =" . $ref_prof_id. ";";
+            
+      $sql = "SELECT * FROM `doorig_visibility_db.followed`.`$id` WHERE  reference_id =" . $ref_prof_id. ";";
       $query = $this->db->query($sql);
-      return $query->row(); 
-      
-      } else
-        return 0;
+      return count($query->result()); 
+
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -388,9 +368,8 @@ class Db_model extends CI_Model {
 
   //FUNC 15 OK
   public function get_follow_work() {
-    //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
-      // Get daily work
+      
       $sql = ""
               . "SELECT *, "
               . "   daily_work.cookies as cookies, "
@@ -406,7 +385,6 @@ class Db_model extends CI_Model {
               . "WHERE ((daily_work.to_follow  > 0) "
               . "   OR  (daily_work.to_unfollow  > 0)) "
               . "   AND (reference_profile.deleted <> TRUE || daily_work.to_unfollow  > 0) "
-              //. "WHERE (now - daily_work.last_access) >= $Elapsed_time_limit "
               . "ORDER BY clients.last_access ASC, reference_profile.last_access ASC "
               . "LIMIT 1;";
 
@@ -415,23 +393,16 @@ class Db_model extends CI_Model {
 
       // Update daily work time
       if ($object && (!isset($object->last_access) || intval($object->last_access) < time())) {
-        //$ref_prof_id = $object->rp_insta_id;
         $time = time();
-        $sql2 = ""
-                . "UPDATE clients "
+        $sql = "UPDATE clients "
                 . "SET clients.last_access = '$time' "
                 . "WHERE clients.user_id = $object->users_id; ";
-        $result2 = $this->db->query($sql2);
+        $result = $this->db->query($sql);
 
-        if (!$result2) {
-          //var_dump($sql2);
-        }
-
-        $sql2 = ""
-                . "UPDATE reference_profile "
+        $sql = "UPDATE reference_profile "
                 . "SET reference_profile.last_access = '$time' "
                 . "WHERE reference_profile.id = $object->rp_id; ";
-        $result2 = $this->db->query($sql2);
+        $result = $this->db->query($sql);
       }
       return $object;
     } catch (Error $e) {
@@ -445,9 +416,8 @@ class Db_model extends CI_Model {
 
   //FUNC 16 OK
   public function get_follow_work_by_id($reference_id) {
-    //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
-      // Get daily work
+      
       $sql = ""
               . "SELECT *, "
               . "   daily_work.cookies as cookies, "
@@ -468,16 +438,13 @@ class Db_model extends CI_Model {
 
       // Update daily work time
       if ($object && (!isset($object->last_access) || intval($object->last_access) < time())) {
-        //$ref_prof_id = $object->rp_insta_id;
         $time = time();
-        $sql2 = ""
+        $sql = ""
                 . "UPDATE clients "
                 . "SET clients.last_access = '$time' "
                 . "WHERE clients.user_id = $object->users_id; ";
-        $result2 = $this->db->query($sql2);
-        if (!$result2) {
-          //var_dump($sql2);
-        }
+        $result = $this->db->query($sql);
+    
       }
       return $object;
     } catch (Error $e) {
@@ -489,9 +456,8 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 17 TO CHECK
+  //FUNC 17 
   public function get_follow_work_by_client_id($client_id, $rp = NULL) {
-    //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
       // Get daily work
       $sql = ""
@@ -555,19 +521,19 @@ class Db_model extends CI_Model {
   //FUNC 18 TO CHECK
   public function get_unfollow_work($client_id) {
     try {
-      // Get profiles to unfollow today for this Client... 
-      // (i.e the last followed)
+      // Get profiles to unfollow today for this Client...(i.e the last followed)
       $Limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
       $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
-      $result = mysqli_query($this->fConnection, ""
-              . "SELECT * FROM `dumbudb.followed`.`$client_id` "
+      
+      $sql = "SELECT * FROM `doorig_visibility_db.followed`.`$client_id` "
               . "WHERE unfollowed = false "
               . "     AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit "
               . "ORDER BY date ASC "
-              . "LIMIT $Limit;"
-      );
+              . "LIMIT $Limit";
+      
       $query = $this->db->query($sql);
-        return $query->result();
+      return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -584,6 +550,7 @@ class Db_model extends CI_Model {
       $sql = "SELECT * FROM dumbu_system_config;";
       $query = $this->db->query($sql);
       return $query->result();
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -596,19 +563,14 @@ class Db_model extends CI_Model {
   //FUNC 20 OK
   public function get_white_list($id_user) {
     try {
-      $sql = ""
-              . "SELECT insta_id "
+      $sql = "SELECT insta_id "
               . "FROM black_and_white_list "
               . "WHERE black_and_white_list.client_id = $id_user AND black_and_white_list.black_or_white = 1 AND black_and_white_list.deleted = 0 "
               . "ORDER BY black_and_white_list.insta_id;";
+      
       $query = $this->db->query($sql);
       return $query->result();
-      
-      /*$new_array = NULL;
-      while ($obj = $result->result_object()) {
-        $new_array[] = $obj->insta_id; // Inside while loop
-      }
-      return $new_array;*/
+
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -670,7 +632,7 @@ class Db_model extends CI_Model {
   //FUNC 23 OK
   public function get_client_with_white_list() {
     try {
-      $sql = "SELECT DISTINCT client_id FROM dumbudb.black_and_white_list WHERE  black_or_white = 1;";
+      $sql = "SELECT DISTINCT client_id FROM `doorig_visibility_db`.black_and_white_list WHERE  black_or_white = 1;";
       $query = $this->db->query($sql);
       return $query->result();
       /*$new_array = NULL;
@@ -707,27 +669,16 @@ class Db_model extends CI_Model {
   //FUNC 25 OK
   public function get_number_followed_today($client_id) {
     try {
-
-
       if ($client_id != '0' && $client_id != 0) {
         $limit = strtotime('today 02:00:00');
 
         if (time() > strtotime('today') && time() < strtotime('today 03:00:00'))
           $limit = strtotime('yesterday 02:00:00');
         $id = intval($client_id);
-        $sql = ""
-                . "SELECT COUNT(*) FROM `dumbudb.followed`.`$id` "
-                . "WHERE unfollowed = 0 AND date > " . $limit . ";";
+        $sql = "SELECT * FROM `doorig_visibility_db.followed`.`$id` "
+               . "WHERE unfollowed = 0 AND date > " . $limit . ";";
         $query = $this->db->query($sql);
-        return $query->result();
-       /* if ($result) {
-          $data = $result->fetch_row();
-          return $data[0];
-        } else {
-          return "???";
-        }
-      } else
-        return 0;*/
+        return count($query->result());
       }
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
@@ -795,10 +746,10 @@ class Db_model extends CI_Model {
     try {
       $BEGINNER = UserStatus::BEGINNER;
       $DELETED = UserStatus::DELETED;
-      $sql = "SELECT COUNT(clients.user_id) as cnt FROM dumbudb.clients "
+      $sql = "SELECT COUNT(clients.user_id) as cnt FROM `doorig_visibility_db`.clients "
               . "INNER JOIN Proxy ON clients.proxy = Proxy.idProxy "
               . "INNER JOIN users ON user_id = users.id "
-              . "WHERE dumbudb.Proxy.proxy = '$proxy' AND users.status_id NOT IN ($BEGINNER, $DELETED);";
+              . "WHERE `doorig_visibility_db`.Proxy.proxy = '$proxy' AND users.status_id NOT IN ($BEGINNER, $DELETED);";
       $query = $this->db->query($sql);
       return $query->row();
     } catch (Error $e) {
@@ -833,7 +784,7 @@ class Db_model extends CI_Model {
   public function get_dumbu_statistics() {
     try {
       //clientes por status
-      $sql = "SELECT status_id,count(*) as cnt FROM dumbudb.users GROUP BY status_id;";
+      $sql = "SELECT status_id,count(*) as cnt FROM `doorig_visibility_db`.users GROUP BY status_id;";
       $query = $this->db->query($sql);
       return $query->result();
     } catch (Error $e) {
@@ -849,7 +800,7 @@ class Db_model extends CI_Model {
   public function get_dumbu_paying_customers() {
     try {
       //clientes pagantes
-      $sql = "SELECT count(*) as cnt FROM dumbudb.users JOIN dumbudb.clients ON users.id=clients.user_id WHERE users.status_id in (1,3,5,6,7,9,10) AND credit_card_number<>'' AND credit_card_number<>'PAYMENT_BY_TICKET_BANK' AND credit_card_number is not NULL;";
+      $sql = "SELECT count(*) as cnt FROM `doorig_visibility_db`.users JOIN `doorig_visibility_db`.clients ON users.id=clients.user_id WHERE users.status_id in (1,3,5,6,7,9,10) AND credit_card_number<>'' AND credit_card_number<>'PAYMENT_BY_TICKET_BANK' AND credit_card_number is not NULL;";
       $query = $this->db->query($sql);
       return $query->row();
     } catch (Error $e) {
@@ -879,23 +830,18 @@ class Db_model extends CI_Model {
   
   //======================>SET<=======================//
   
-  //FUNC 34
-  public function set_client_status($client_id, $status_id) {
+  //FUNC 34 OK
+  public function update_client_status($client_id, $status_id) {
     try {
 
       $status_date = time();
-      $sql = "UPDATE users "
-              . "SET "
-              . "      users.status_id   = $status_id, "
-              . "      users.status_date = '$status_date' "
+      $sql = "UPDATE users SET users.status_id   = $status_id, "
+              . "users.status_date = '$status_date' "
               . "WHERE users.id = $client_id; ";
 
       $result = $this->db->query($sql);
-//                if ($result)
-//                    print "<br>Update client_status! status_date: $status_date <br>";
-//                else
-//                    print "<br>NOT UPDATED client_status!!!<br> $sql <br>";
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -905,7 +851,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 35
+  //FUNC 35 OK
   public function set_client_status_by_login($login, $status_id) {
     try {
 
@@ -933,21 +879,15 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 36
-  public function set_client_cookies($client_id, $cookies = NULL) {
+  //FUNC 36 OK
+  public function update_client_cookies($client_id, $cookies) {
     try {
 
-      $sql = "UPDATE clients "
-              . "SET ";
-      $sql .= $cookies ? " clients.cookies   = '$cookies' " : " clients.cookies   = NULL ";
-      $sql .= "WHERE clients.user_id = '$client_id'; ";
-
+      $sql = "UPDATE clients SET clients.cookies = '$cookies' WHERE clients.user_id = '$client_id'";
       $result = $this->db->query($sql);
-      //if ($result)
-      // print "<br>Update client_cookies! <br>";
-      //else
-      // print "<br>NOT UPDATED client_cookies!!!<br> $sql <br>";
+       
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -957,10 +897,10 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 37
+  //FUNC 37 OK
   public function set_pasword($client_id, $password) {
     try {
-      $sql = "UPDATE dumbudb.users SET pass='$password' WHERE id=$client_id";
+      $sql = "UPDATE `doorig_visibility_db`.users SET pass='$password' WHERE id=$client_id";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -972,10 +912,10 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 38
+  //FUNC 38 OK
   public function set_cookies_to_null($client_id) {
     try {
-      $sql = "UPDATE dumbudb.clients SET cookies=NULL WHERE user_id=$client_id";
+      $sql = "UPDATE `doorig_visibility_db`.clients SET cookies=NULL WHERE user_id=$client_id";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -987,10 +927,10 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 39
+  //FUNC 39 OK
   public function set_client_last_access($client_id, $timestamp) {
     try {
-      $sql = "UPDATE dumbudb.clients SET last_access='$timestamp' WHERE user_id=$client_id";
+      $sql = "UPDATE `doorig_visibility_db`.clients SET last_access='$timestamp' WHERE user_id=$client_id";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -1002,10 +942,10 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 40
+  //FUNC 40 OK
   public function set_client_order_key($client_id, $order_key, $pay_day) {
     try {
-      $sql = "UPDATE `dumbudb`.`clients` SET `pay_day`='$pay_day', `order_key`='$order_key' WHERE `user_id`=$client_id;";
+      $sql = "UPDATE `doorig_visibility_db`.clients SET pay_day='$pay_day', order_key='$order_key' WHERE user_id='$client_id';";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -1017,7 +957,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 41
+  //FUNC 41 OK
   public function set_proxy_to_client($client_id, $proxy_id) {
     try {
       $sql = "UPDATE clients SET clients.proxy = $proxy_id WHERE clients.user_id = $client_id;";
@@ -1081,23 +1021,23 @@ class Db_model extends CI_Model {
     try {
       //mysqli_real_escape_string($escapestr)
       $action = mysqli_real_escape_string($this->connection, $action);
-      $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
+      $sql = "SELECT * FROM `doorig_visibility_db`.washdog_type WHERE action = '$action' AND source = '$source';";
       $time = time();
       $result = $this->db->query($sql);
       if ($result->num_rows == 0) {
-        $sql = "INSERT INTO dumbudb.washdog_type (action, source) VALUE ('$action', '$source');";
+        $sql = "INSERT INTO `doorig_visibility_db`.washdog_type (action, source) VALUE ('$action', '$source');";
         $result = $this->db->query($sql);
         //var_dump($result);
-        $sql = "SELECT * FROM dumbudb.washdog_type WHERE action = '$action' AND source = '$source';";
+        $sql = "SELECT * FROM `doorig_visibility_db`.washdog_type WHERE action = '$action' AND source = '$source';";
         $time = time();
         $result = $this->db->query($sql);
       }
 
       $obj = $result->result_object();
       if (isset($robot_id) == true) {
-        $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metadata');";
+        $sql = "INSERT INTO `doorig_visibility_db`.washdog1 (user_id, type, date, robot, metadata) VALUE ('$user_id','$obj->id', '$time', $robot_id, '$metadata');";
       } else {
-        $sql = "INSERT INTO dumbudb.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metadata');";
+        $sql = "INSERT INTO `doorig_visibility_db`.washdog1 (user_id, type, date, robot, metatdata) VALUE ('$user_id','$obj->id', '$time', NULL, '$metadata');";
       }
       $result = $this->db->query($sql);
       return $result;
@@ -1113,7 +1053,7 @@ class Db_model extends CI_Model {
   //FUNC 45
   public function insert_dumbu_statistics($cols, $arr) {
     try {
-      $sql = "INSERT INTO dumbudb.dumbu_statistic " . $cols . " VALUE " . $arr . ";";
+      $sql = "INSERT INTO `doorig_visibility_db`.dumbu_statistic " . $cols . " VALUE " . $arr . ";";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -1224,8 +1164,8 @@ class Db_model extends CI_Model {
               . "DELETE FROM daily_work "
               . "WHERE reference_id = $ref_prof_id; ";
       $result = $this->db->query($sql);
-
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -1238,15 +1178,14 @@ class Db_model extends CI_Model {
   //FUNC 51
   public function delete_daily_work_client($client_id) {
     try {
-      $sql = ""
-              . "DELETE FROM daily_work WHERE daily_work.reference_id IN "
-              . "(SELECT reference_profile.id "
-              . "FROM reference_profile "
-              . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
-              . "WHERE clients.user_id = $client_id); ";
+      $sql = "DELETE FROM daily_work WHERE daily_work.reference_id IN "
+            . "(SELECT reference_profile.id "
+            . "FROM reference_profile "
+            . "INNER JOIN clients ON clients.user_id = reference_profile.client_id "
+            . "WHERE clients.user_id = $client_id); ";
       $result = $this->db->query($sql);
-
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -1259,66 +1198,6 @@ class Db_model extends CI_Model {
   //========================>SAVE<=========================//
   
   //FUNC 52
-  public function save_unfollow_work($Followeds_to_unfollow) {
-    try {
-      foreach ($Followeds_to_unfollow as $unfollowed) {
-        if ($unfollowed->unfollowed) {
-
-          $result = $this->db->query(""
-                  . "UPDATE followed "
-                  . "SET followed.unfollowed = TRUE "
-                  . "WHERE followed.id = $unfollowed->id; "
-          );
-        }
-      }
-
-      // TODO: UNCOMMENT
-//                $sql = ""
-//                        . "DELETE FROM followed "
-//                        . "WHERE id = $unfollowed->id; ";
-//                $result = $this->db->query($sql);
-
-      return TRUE;
-    } catch (Error $e) {
-      if ($this->db->error()['code'] != 0) {
-        throw new Db_Exception($this->db->error(), $e);
-      } else {
-        throw $e;
-      }
-    }
-  }
-
-  //FUNC 53
-  public function save_unfollow_work_db2($Followeds_to_unfollow, $client_id) {
-    try {
-      foreach ($Followeds_to_unfollow as $unfollowed) {
-        if ($unfollowed->unfollowed) {
-
-          $result = mysqli_query($this->fConnection, ""
-                  . "UPDATE `dumbudb.followed`.`$client_id` "
-                  . "SET unfollowed = TRUE "
-                  . "WHERE followed_id = $unfollowed->followed_id; "
-          );
-        }
-      }
-
-      // TODO: UNCOMMENT
-//                $sql = ""
-//                        . "DELETE FROM followed "
-//                        . "WHERE id = $unfollowed->id; ";
-//                $result = $this->db->query($sql);
-
-      return TRUE;
-    } catch (Error $e) {
-      if ($this->db->error()['code'] != 0) {
-        throw new Db_Exception($this->db->error(), $e);
-      } else {
-        throw $e;
-      }
-    }
-  }
-
-  //FUNC 54
   public function save_follow_work($Ref_profile_follows, $daily_work) {
     try {
       //daily work: reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
@@ -1333,7 +1212,7 @@ class Db_model extends CI_Model {
           . "($follow->id, $daily_work->client_id, $daily_work->reference_id, $requested, $time, FALSE);"; */
 
         $sql2 = ""
-                . "INSERT INTO `dumbudb.followed`.`$daily_work->client_id`"
+                . "INSERT INTO `doorig_visibility_db.followed`.`$daily_work->client_id`"
                 . "(followed_id, reference_id, date, unfollowed, followed_login) "
                 . "VALUES "
                 . "($follow->id, $daily_work->reference_id, $time, FALSE, '$follow->username');";
@@ -1358,10 +1237,10 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 55
+  //FUNC 53
   public function save_http_server_vars($client_id, $HTTP_SERVER_VARS) {
     try {
-      $sql = "UPDATE dumbudb.clients SET HTTP_SERVER_VARS='$HTTP_SERVER_VARS' WHERE user_id=$client_id";
+      $sql = "UPDATE `doorig_visibility_db`.clients SET HTTP_SERVER_VARS='$HTTP_SERVER_VARS' WHERE user_id=$client_id";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -1375,7 +1254,7 @@ class Db_model extends CI_Model {
   
   //=======================>RESET<========================//
   
-  //FUNC 56
+  //FUNC 54
   public function reset_preference_profile_cursors() {
     try {
       $sql = ""
@@ -1393,13 +1272,13 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 57
+  //FUNC 55
   public function reset_referecne_prof($reference_id) {
     try {
 
-      $result = $this->db->query("UPDATE `dumbudb`.`reference_profile` "
-              . "SET `insta_follower_cursor`=NULL, `end_date`=NULL "
-              . "WHERE `id`=$referece_id;");
+      $result = $this->db->query("UPDATE `doorig_visibility_db`.reference_profile "
+              . "SET insta_follower_cursor=NULL, end_date=NULL "
+              . "WHERE id=$referece_id;");
       return $result;
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
@@ -1412,11 +1291,11 @@ class Db_model extends CI_Model {
   
   //=======================>OTHERS<========================//
   
-  //FUNC 58
+  //FUNC 56
   public function cmd_is_profile_followed($client_id, $followed_id) {
     try {
       $sql = ""
-          . "SELECT id FROM `dumbudb.followed`.`$client_id` "
+          . "SELECT id FROM `doorig_visibility_db.followed`.`$client_id` "
           . "WHERE `$client_id`.followed_id = $followed_id; ";
       
       $query = $this->db->query($sql);
@@ -1430,7 +1309,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 59
+  //FUNC 57
   public function cmd_has_work($client_id, $rp = NULL) {
     //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
@@ -1460,11 +1339,11 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 60
+  //FUNC 58
   public function cmd_add_observation($client_id, $observation) {
     try {
       $observation = mysqli_real_escape_string($this->connection, $observation);
-      $sql = "UPDATE dumbudb.clients SET observation='$observation' WHERE user_id=$client_id";
+      $sql = "UPDATE `doorig_visibility_db`.clients SET observation='$observation' WHERE user_id=$client_id";
       $result = $this->db->query($sql);
       return $result;
     } catch (Error $e) {
@@ -1476,10 +1355,10 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 61
+  //FUNC 59
   public function cmd_create_followed($client_id) {
     try {
-      $sql = "CREATE TABLE IF NOT EXISTS `dumbudb.followed`.`$client_id` (
+      $sql = "CREATE TABLE IF NOT EXISTS `doorig_visibility_db.followed`.`$client_id` (
                 `id` INT NOT NULL AUTO_INCREMENT,
                 `followed_id` VARCHAR(20) NULL,
                 `reference_id` INT(1) NOT NULL,
@@ -1490,7 +1369,7 @@ class Db_model extends CI_Model {
                 INDEX `fk__1_idx` (`reference_id` ASC),
                 CONSTRAINT `fk__$client_id`
                   FOREIGN KEY (`reference_id`)
-                  REFERENCES `dumbudb`.`reference_profile` (`id`)
+                  REFERENCES `doorig_visibility_db`.`reference_profile` (`id`)
                   ON DELETE NO ACTION
                   ON UPDATE NO ACTION);";
       $result = mysqli_query($this->fConnection, $sql);
@@ -1504,7 +1383,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 62
+  //FUNC 60
   public function cmd_increase_client_last_access($client_id, $hours = 1) {
     try {
       $timestamp = strtotime("+$hours hours", time());
@@ -1518,14 +1397,14 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 63
+  //FUNC 61 OK 
   public function cmd_truncate_daily_work() {
     try {
       $sql = "TRUNCATE daily_work;";
 
       $result = $this->db->query($sql);
-
       return $result;
+      
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);

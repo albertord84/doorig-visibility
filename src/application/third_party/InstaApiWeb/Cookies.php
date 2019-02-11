@@ -1,16 +1,16 @@
 <?php
 
-namespace InstaApiWeb\Responses {
+namespace InstaApiWeb {
 
    /**
    * @category InstaApiWeb Third-Party Class
    * 
    * @access public
    *
-   * @todo Define a Instagram Cookies Response.
+   * @todo Define a basic Instagram Cookies.
    * 
    */
-  class CookiesResponse {
+  class Cookies {
 
     
     /**
@@ -46,10 +46,6 @@ namespace InstaApiWeb\Responses {
       $this->Csrf_Token = $csrf_token;
       $this->DsUser_id = $dsuser_id;
       $this->Mid = $mid;
-    }
-
-    public function get_response() {
-      
     }
 
   }

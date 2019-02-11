@@ -287,14 +287,6 @@ namespace business {
      * 
      */
     public $Mundi_to_vindi;
-    
-    /**
-     * 
-     * @access public
-     * @var type 
-     * 
-     */
-    public $Status_date;
 
     /**
      * 
@@ -302,21 +294,23 @@ namespace business {
      * @var type 
      * 
      */
-    public $Reference_profiles = array();
+    public $Reference_profiles;
 
     /**
      * 
      * @todo Class constructor.
      * 
      */
-    function __construct() {
+    function __construct(int $id) {
       parent::__construct();
+      
+      $this->Id = $id;
+      $this->Reference_profiles = null;
       
       $ci = &get_instance();
       $ci->load->model('clients_model');
       $ci->load->model('db_model');
-      
-      //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
+
     }
 
         /**
@@ -324,12 +318,11 @@ namespace business {
      * @param int $client_id
      * @return DataSet  
      */
-    public function load_data(int $id) {
-      parent::load_data($id);
+    public function load_data() {
+      parent::load_data();
       
       $ci = &get_instance();
-      $data = $ci->clients_model->get_by_id($id);
-      //$data = $ci->db_model->get_client_data($id);
+      $data = $ci->clients_model->get_by_id($this->Id);
 
       $this->fill_data($data);
     }
@@ -369,47 +362,23 @@ namespace business {
       $this->Retry_registration_counter = $data->retry_registration_counter;
       $this->Proxy = $data->proxy;
       $this->Mundi_to_vindi = $data->mundi_to_vindi;
-      $this->Status_date = $data->status_date;
-      $this->Reference_profiles = array();
     }
     
     /**
-     * 
-     * @todo
-     * @param type
-     * @return
-     * 
+     * Obtiene 
+     * @param type $client_id
      */
-    public function set_client_cookies($client_id = NULL, $cookies = NULL) {
+    public function get_reference_profiles() {
       $ci = &get_instance();
-      $client_id = $client_id ? $client_id : $this->id;
-      $cookies = $cookies ? $cookies : $this->cookies;
-      $result = $ci->db_model->set_client_cookies($client_id, $cookies);
-      return $result;
-    }
 
-    /**
-     * 
-     * @todo
-     * @param type
-     * @return
-     * 
-     */
-    public function set_client_status($client_id = NULL, $status_id = NULL) {
-      $ci = &get_instance();
-      try {
-        $client_id = $client_id ? $client_id : $this->id;
-        $status_id = $status_id ? $status_id : $this->status_id;
-        //$DB = new \follows\cls\DB();
-        $result = $ci->db_model->set_client_status($client_id, $status_id);
-        if ($result) {
-          print "Client $client_id to status $status_id!!!";
-        } else {
-          print "FAIL CHANGING Client $client_id to status $status_id!!!";
-        }
-      } catch (Exception $exc) {
-        echo $exc->getTraceAsString();
+      $this->Reference_profiles = array();
+      $rows = $ci->db_model->get_reference_profiles($this->Id);
+      
+      foreach ($rows as $tupla){
+        $this->Reference_profiles[] = $tupla;
       }
+      
+      return $this->Reference_profiles;
     }
     
     /**
@@ -420,57 +389,31 @@ namespace business {
       $ci = &get_instance();
       return $ci->db_model->get_clients_data();
     }
-
-    
+          
     /**
-     * Obtiene 
-     * @param type $client_id
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
      */
-    //public function get_reference_profiles($client_id) {
-    public function get_reference_profiles() {
+    public function update_client_cookies($cookies) {
       $ci = &get_instance();
-        //$client_id = $client_id ? $client_id : $this->id;
-        //$ref_profs_data = $ci->db_model->get_reference_profiles_data($client_id);
-        $rows = $ci->db_model->get_reference_profiles_data($this->Id);
-        foreach ($rows as $item){
-          array_push($this->reference_profiles, $Ref_Prof);
-        }
-        
-        /*while ($prof_data = $ref_profs_data->fetch_object()) {
-          //CONCERTAR quitar follows...
-          $Ref_Prof = new \follows\cls\Reference_profile();
-          //print_r($prof_data);
-          // Update Ref Prof Data if not privated
-          // TODO: Chechk if privated RP
-//                    if ($Ref_Prof->is_private($prof_data->insta_name) === FALSE) {
-          $Ref_Prof->id = $prof_data->id;
-          $Ref_Prof->insta_id = $prof_data->insta_id;
-          $Ref_Prof->insta_name = $prof_data->insta_name;
-          $Ref_Prof->insta_follower_cursor = $prof_data->insta_follower_cursor;
-          $Ref_Prof->deleted = ($prof_data->deleted || ($prof_data->deleted == "1")) ? true : false;
-          $Ref_Prof->type = $prof_data->type;
-          $Ref_Prof->end_date = $prof_data->end_date;
-          $Ref_Prof->status = $prof_data->status_id;
-          array_push($this->reference_profiles, $Ref_Prof);
-        }*/
-
+      $ci->db_model->update_client_cookies($this->Id, $cookies);
     }
-    
 
     /**
-     *
-     * @param type $offset
-     * @param type $rows
-     * @return type
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
      */
-    //DELETE FUNTION
-    /* public function get_begginer_client($offset = 0, $rows = 0) {
-      $client_data = $ci->db_model->get_biginner_data($offset, $rows);
-      return $client_data;
-      //$Client = $this->fill_client_data($client_data);
-      //return $Client;
-      } */
-    
+    public function update_client_status($status_id) {
+      $ci = &get_instance();
+      $ci->db_model->update_client_status($this->Id, $status_id);
+    }
+     
     /**
      * 
      * @todo
@@ -482,7 +425,6 @@ namespace business {
       $ci = &get_instance();
       try {
         $Clients = array();
-        //$DB = new \follows\cls\DB();
         $clients_data = $ci->db_model->get_clients_data_for_report();
         while ($client_data = $clients_data->fetch_object()) {
           $profile_data = (new Reference_profile())->get_insta_ref_prof_data($client_data->login, $client_data->id);
@@ -579,7 +521,7 @@ namespace business {
      */
     public function create_daily_work($client_id) {
       $ci = &get_instance();
-      $Client = $this->get_client($client_id);
+      $Client = $ci->db_model->get_client_data($client_id);
       if (count($Client->reference_profiles) > 0) {
         $DIALY_REQUESTS_BY_CLIENT = $Client->to_follow;
         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / count($Client->reference_profiles);
@@ -609,7 +551,6 @@ namespace business {
       $Robot = new Robot();
       $proxy = $Robot->get_proxy_str($this);
       $status = new reference_profiles_status();
-      //$DB = new DB();
       if ($this->reference_profiles) {
         foreach ($this->reference_profiles as $ref_prof) {
           if ($ref_prof->deleted && $ref_prof->status != $status->DELETED) {
@@ -650,14 +591,12 @@ namespace business {
       try {
         $login_data = $ci->InstaApiLib->login($this->login, $this->pass, $this->Proxy);
       } catch (Exception $exc) {
-        //CONCERTAR myDB
-        $myDB->insert_event_to_washdog($Client->id, $exc->getMessage(), $source);
+        $ci->db_model->insert_event_to_washdog($Client->id, $exc->getMessage(), $source);
         echo $exc->getTraceAsString();
       }
 
-
       if (is_object($login_data) && isset($login_data->json_response->authenticated) && $login_data->json_response->authenticated) {
-        $this->set_client_cookies($Client->id, json_encode($login_data));
+        $ci->db_model->set_client_cookies($Client->id, json_encode($login_data));
         echo "<br>\n Autenticated Client!!! Cookies changed: $Client->login ($Client->id) <br>\n\n\n<br>\n";
         return $login_data;
       } else {
@@ -668,12 +607,12 @@ namespace business {
         if (isset($login_data->json_response) && $login_data->json_response->status == 'ok') {
           if ($login_data->json_response->message == 'checkpoint_required') {
             if ($Client->status_id != user_status::VERIFY_ACCOUNT) {
-              $this->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+              $ci->db_model->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
             }
           } else
           if ($login_data->json_response->message == 'incorrect_password') {
             if ($Client->status_id != user_status::BLOCKED_BY_INSTA) {
-              $this->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+              $ci->db_model->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
             }
           } else
           if ($login_data->json_response->message == 'problem_with_your_request') {
@@ -682,20 +621,9 @@ namespace business {
             $ci->db_model->insert_event_to_washdog($Client->id, washdog_type::PROBLEM_WITH_YOUR_REQUEST, 1, 0, $login_data->json_response->message);
           }
         }
-        $this->set_client_cookies($Client->id, NULL);
+        $ci->db_model->set_client_cookies($Client->id, NULL);
         return NULL;
       }
-    }
-
-    /**
-     * 
-     * @todo
-     * @param type
-     * @return
-     * 
-     */
-    public function check_insta_user() {
-      
     }
 
     /**

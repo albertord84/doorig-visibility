@@ -3,16 +3,16 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 use InstaApiWeb\Proxy;
+use InstaApiWeb\Cookies;
 use InstaApiWeb\InstaURLs;
 use InstaApiWeb\InstaClient;
 use InstaApiWeb\VerificationChoice;
 use InstaApiWeb\Responses\LoginResponse;
 use InstaApiWeb\Exceptions\InstaException;
-use InstaApiWeb\Responses\CookiesResponse;
 use InstaApiWeb\Exceptions\InstaCurlNetworkException;
 use InstaApiWeb\Exceptions\InstaPasswordException;
 use InstaApiWeb\Exceptions\InstaCheckpointException;
-use business\CookiesRequest;
+use business\Cookies;
 
 /**
  * @category CodeIgniter-Library: InstaApiLib
@@ -24,19 +24,24 @@ use business\CookiesRequest;
  */
 class InstaClient_lib {
 
+<<<<<<< HEAD
   public function __construct(array $params) {
+=======
+  public function __construct() {
+    require_once config_item('thirdparty-cookies-class');
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
     require_once config_item('thirdparty-proxy-resource');
     require_once config_item('thirdparty-insta_url-resource');
     require_once config_item('thirdparty-login_response-class');
     require_once config_item('thirdparty-insta_client-resource');
-    require_once config_item('thirdparty-cookies_response-class');
     require_once config_item('thirdparty-verification_choice-resource');
     require_once config_item('insta-checkpoint-exception-class');
-    require_once config_item('business-cookies_request-class');
+    require_once config_item('business-cookies-class');
 
     $this->CI = &get_instance();
     $this->CI->load->model("db_model");
 
+<<<<<<< HEAD
     if (!array_key_exists("insta_id", $params )) {
       throw new Exception("The params insta_id was not found");
     }
@@ -49,6 +54,9 @@ class InstaClient_lib {
     if (array_key_exists( "proxy",$params))
       $proxy = $params["proxy"];
     $this->InstaClient = new InstaClient($insta_id, $cookies, $proxy);
+=======
+    $this->InstaClient = new InstaClient("", new Cookies("", "", "", ""), new Proxy("", "", "", ""));
+>>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
   }
 
   public function make_login(string $login, string $pass) {

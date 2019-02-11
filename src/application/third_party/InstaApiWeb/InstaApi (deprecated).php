@@ -2,8 +2,8 @@
 
 namespace InstaApiWeb {
   
+  use InstaApiWeb\Cookies;
   use InstaApiWeb\Responses\LoginResponse;
-  use InstaApiWeb\Responses\CookiesResponse;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaCurlNetworkException;
   use InstaApiWeb\Exceptions\InstaPasswordException;
@@ -33,9 +33,9 @@ namespace InstaApiWeb {
     public function __construct() {
       require_once config_item('composer_autoload');
       require_once config_item('insta-exception-class');
+      require_once config_item('thirdparty-cookies-class');
       require_once config_item('curl_nertwork-exception-class');
       require_once config_item('thirdparty-login_response-class');
-      require_once config_item('thirdparty-cookies_response-class');
       require_once config_item('insta-password-exception-class');
       require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-checkpoint-exception-class');
@@ -75,7 +75,7 @@ namespace InstaApiWeb {
         $ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
         $mid = $ig->client->getCookie('mid')->getValue();
         
-        $Cookies = new CookiesResponse($sessionid, $csrftoken, $ds_user_id, $mid);  
+        $Cookies = new Cookies($sessionid, $csrftoken, $ds_user_id, $mid);  
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
         
         return $loginResponse;

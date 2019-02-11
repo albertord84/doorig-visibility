@@ -50,4 +50,8 @@ class Worker_test extends CI_Controller {
     $worker->do_work();
   }
 
+  public function test () {
+    echo "hola mundo";
+    $obj = new Worker();
+  }
 }
