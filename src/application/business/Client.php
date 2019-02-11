@@ -4,7 +4,7 @@ namespace business {
 
   require_once config_item('business-user-class');
   require_once config_item('business-user-class');
-
+  
   
   /**
    * @category Business class
@@ -302,7 +302,9 @@ namespace business {
      * @var type 
      * 
      */
-    public $Reference_profiles = array();
+    public $Reference_profiles = array();    
+    
+    public $InstaClient;
 
     /**
      * 
@@ -315,8 +317,8 @@ namespace business {
       $ci = &get_instance();
       $ci->load->model('clients_model');
       $ci->load->model('db_model');
-      
-      //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
+      $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\CookiesRequest($cookies)), 'InstaClient_lib');
+      $this->InstaClient = $ci->InstaClient_lib;
     }
 
         /**
