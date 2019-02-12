@@ -2,22 +2,23 @@
 
 namespace InstaApiWeb {
 
-  require_once 'InstaReferenceProfile.php';
-  
+  require_once config_item('thirdparty-insta_ref_profile-resource');
+  use InstaApiWeb\InstaReferenceProfile;
+    
   /**
    * Description of HashProfile
    *
    * @author dumbu
    */
-  class HashProfile extends ReferenceProfile {
+  class InstaHashProfile extends InstaReferenceProfile {
 
     //begin ReferenceProfile
     /* protected function make_curl_str(\stdClass $cookies, int $N, string $cursor = NULL, Proxy $proxy = NULL) {
 
       } */
-    public function __construct() {
+    public function __construct(string $insta_name) {
       parent::__construct();
-      $this->tag_query = "ded47faa9a1aaded10161a2ff32abb6b";
+      $this->insta_name = $insta_name;
     }
 
     public function process_insta_prof_data(\stdClass $content) {
@@ -43,7 +44,7 @@ namespace InstaApiWeb {
       return $Profile;
     }
 
-    public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+    public function get_insta_followers(CookiesRequest $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
       $profiles = new InstaProfileList();
 
       $json_response = $this->get_insta_media($cookies, $N, $cursor, $proxy);
@@ -77,50 +78,11 @@ namespace InstaApiWeb {
         var_dump($output);
       } catch (Exception $e) {
         var_dump($e);
-      }
-            
-      /*try {
-
-        $variables = "{\"tag_name\":\"$tag\",\"first\":2";
-        if ($cursor != NULL && $cursor != "NULL") {
-          $variables .= ",\"after\":\"$cursor\"";
-        }
-        $variables .= "}";
-
-        $api = new InstaApi();
-        $curl_str = $api->make_query($this->tag_query, $variables, $cookies, $proxy);
-        if ($curl_str === NULL)
-          return NULL;
-        exec($curl_str, $output, $status);
-        $json = json_decode($output[0]);
-        //var_dump($output);
-        if (isset($json) && $json->status == 'ok') {
-          if (isset($json->data->hashtag->edge_hashtag_to_media) && isset($json->data->hashtag->edge_hashtag_to_media->page_info)) {
-            $cursor = $json->data->hashtag->edge_hashtag_to_media->page_info->end_cursor;
-            if (count($json->data->hashtag->edge_hashtag_to_media->edges) == 0) {
-
-              if ($this->has_logs)
-                echo ("<br>\n No nodes!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-              $cursor = NULL;
-              if (!$this->has_logs)
-                echo ("<br>\n Set end cursor to NULL!!!!!!!! Deleted daily work!!!!!!!!!!!!");
-            }
-          }
-          return $json;
-        } else if ($this->has_logs) {
-          var_dump($output);
-          print_r($curl_str);
-          echo ("<br>\n Untrated error!!!");
-        }
-
-        return NULL;
-      } catch (\Exception $exc) {
-        if (!$without_log)
-          echo $exc->getTraceAsString();
-      }*/
+      }          
+ 
     }
 
-    public function get_post_user_info($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+    public function get_post_user_info(string $post_reference, CookiesRequest $cookies = NULL, Proxy $proxy = NULL) {
 
       if ($cookies != NULL) {
         $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;

@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 use business\Client;
-use business\CookiesRequest;
+use InstaApiWeb\CookiesRequest;
 
 class Library_test extends CI_Controller {
 
@@ -330,32 +330,26 @@ class Library_test extends CI_Controller {
     echo "<pre>";
     echo "<h2>Test GeoProfile Library</h2>";
     echo "[load] GeoProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/GeoProfile_lib", null, 'GeoProfile_lib');
-    $cookies = json_decode('{"json_response":{"authenticated":true,"user":true,"status":"ok"},"csrftoken":"kToHKxaPB4iPuVY7t2XzQdi3GeyxrI7D","sessionid":"5453435354%3AVg6DjXraZlISez%3A15","ds_user_id":"5453435354","mid":"W-SbgAAEAAGuwWxQcdNcdZ0xa8Mi"}');
-    $this->GeoProfile_lib->get_insta_media(15,NULL,$cookies);
+    $this->load->library("InstaApiWeb/InstaGeoProfile_lib", array("insta_id"=>"330156361"), 'GeoProfile_lib');
+    $cookies = new CookiesRequest(json_decode('{"json_response":{"authenticated":true,"user":true,"status":"ok"},"csrftoken":"7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0","sessionid":"3445996566%3AUdrflm2b4CXrbl%3A15","ds_user_id":"3445996566","mid":"XEExCwAEAAE88jhoc0YKOgFcqT3I"}'));
+    $this->GeoProfile_lib->get_insta_media(15,null,$cookies);
     echo "(<b>ok</b>)<br>";
     
     echo "<pre>";
     echo "<h2>Test HashProfile Library</h2>";
     echo "[load] HashProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/HashProfile_lib", null, 'HashProfile_lib');
-    $this->HashProfile_lib->get_insta_media(15,NULL,$cookies);
+    $this->load->library("InstaApiWeb/InstaHashProfile_lib", array("insta_name"=>"cuba"), 'HashProfile_lib');
+    $this->HashProfile_lib->get_insta_media(15,null,$cookies);
     echo "(<b>ok</b>)<br>";
 
     
     echo "<pre>";
     echo "<h2>Test PersonProfile Library</h2>";
     echo "[load] PersonProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/PersonProfile_lib", null, 'PersonProfile_lib');
-    $this->PersonProfile_lib->get_insta_media(15,NULL,$cookies);
+    $this->load->library("InstaApiWeb/InstaPersonProfile_lib",array("insta_id"=>"3445996566") , 'PersonProfile_lib');
+    $this->PersonProfile_lib->get_insta_followers(15,null,$cookies);
     echo "(<b>ok</b>)<br>";
-    
         
-    echo "<pre>";
-    echo "<h2>Test PersonProfile Library</h2>";
-    echo "[load] PersonProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/PersonProfile_lib", null, 'PersonProfile_lib');
-    $this->PersonProfile_lib->get_insta_media(15,NULL,$cookies);
-    echo "(<b>ok</b>)<br>";
+ 
   }
 }

@@ -290,7 +290,8 @@ namespace InstaApiWeb {
      */
     public function setReferencePost (string $reference){
       $this->ReferencePost = $reference;
-    }
+    }   
+    
     
     /**
      * 
@@ -376,12 +377,14 @@ namespace InstaApiWeb {
         case EnumEntity::GEO + EnumAction::GET_POST:
         case EnumEntity::PERSON + EnumAction::GET_POST:
         case EnumEntity::HASHTAG + EnumAction::GET_POST:
+        case EnumEntity::PERSON + EnumAction::GET_FOLLOWERS:
+         $exc_mess = "The media-cUrl parameters (id, cursor, first) have not been established!!!. Use: setMediaData (string, int, string).";
           if ($this->MediaStr == null){
-            throw new InstaCurlMediaException("The media-cUrl parameters (id, cursor, first) have not been established!!!. Use: setMediaData(string, int, string).");
+            throw new InstaCurlMediaException($exc_mess);
           }
           $str_cur = $this->get_post($proxy, $cookies, $this->MediaStr);
-        break;           
-      
+        break;
+         break;
         default:
           throw new InstaCurlActionException("The action required: ($this->ActionType) is not applied to: ($this->ProfileType)!!!.");
       }

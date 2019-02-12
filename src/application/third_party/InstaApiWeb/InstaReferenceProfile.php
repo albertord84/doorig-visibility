@@ -6,7 +6,7 @@ namespace InstaApiWeb {
    *
    * @author dumbu
    */
-  abstract class ReferenceProfile {
+  abstract class InstaReferenceProfile {
       //not need
       //public $id
 
@@ -18,17 +18,15 @@ namespace InstaApiWeb {
 
       protected $has_logs = TRUE;
 
-      protected $tag_query;
 
-      public function __construct() {
-            $this->insta_id = 212673249;            
+      public function __construct() {          
             require_once config_item('thirdparty-insta_api-resource');
             require_once config_item('thirdparty-insta_curl_mgr-resource');      
             require_once config_item('thirdparty-cookies');
             //require_once config_item('thirdparty-proxy');
       }
     
-      protected static function get_insta_data_from_client($ref_prof, \stdClass $cookies, $proxy = NULL) {
+      protected static function get_insta_data_from_client($ref_prof, CookiesRequest $cookies, $proxy = NULL) {
           if ($ref_prof == "" || $ref_prof == NULL) {
               throw new \Exception("This was and empty or null referece profile (ref_prof)");
           }
@@ -72,7 +70,7 @@ namespace InstaApiWeb {
           return json_decode($output);
       }
 
-     public function get_insta_prof_data(\stdClass $cookies=NULL, Proxy $proxy = NULL)
+     public function get_insta_prof_data(CookiesRequest $cookies=NULL, Proxy $proxy = NULL)
      {
         try {
           $Profile = NULL;
@@ -90,12 +88,12 @@ namespace InstaApiWeb {
 
      abstract protected function  process_insta_prof_data(\stdClass $content);   
 
-     abstract public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL);
+     abstract public function get_insta_followers(CookiesRequest $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL);
 
      abstract public function get_insta_media(int $N, string $cursor = NULL, CookiesRequest $cookies = NULL, Proxy $proxy = NULL);
 
      //Debe ser pasada para una clase de Post
-     abstract public function get_post_user_info($post_reference, \stdClass  $cookies = NULL, Proxy $proxy = NULL);
+     abstract public function get_post_user_info(string $post_reference, CookiesRequest  $cookies = NULL, Proxy $proxy = NULL);
 
      public function TurnOn_Logs(){ $has_logs = TRUE; }
 

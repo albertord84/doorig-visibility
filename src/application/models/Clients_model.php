@@ -106,7 +106,21 @@ class Clients_model extends CI_Model {
 
     return $query->row();
   }
-
+  
+  function get_insta_client_by_id($user_id)
+  {
+    return $this->get_client_view_by_id($user_id, "user_id,insta_id,cookies");
+  }
+  
+  private function get_client_view_by_id($user_id, $query_field) {   
+    $this->db->select($query_field);
+    $this->db->where('user_id', $user_id);
+    $query = $this->db->get('clients');
+    return $query->row();
+  }
+  
+  
+  
   function get_all($offset = 0, $rows = 0) {
     $this->db->limit($offset, $rows);
     $this->db->select('*')->from('clients');
