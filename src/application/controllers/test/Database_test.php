@@ -251,16 +251,17 @@ class Database_test extends CI_Controller {
 
     //FUNC 34
     //$obj = $this->db_model->update_client_status(1, 3);
+
     echo "FUNC 34-[set] set_client_status  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
 
     if ($func == 34) var_dump($obj);
 
     //FUNC 35
     $obj = $this->db_model->update_client_status_by_login('alberto_dreyes', 1);
-    echo "FUNC 35-[set] set_client_status_by_login  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
 
-    if ($func == 35) var_dump($obj);    
-
+    echo "FUNC 35-[set] update_client_status_by_login  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
+    if ($func == 35) var_dump($obj);
+    
     //FUNC 36
     $obj = $this->db_model-> update_client_cookies(1, '{"json_response":{"status":"ok","authenticated":true,"user":"test"}');
     echo "FUNC 36 -[set] set_client_cookies => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";

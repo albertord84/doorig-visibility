@@ -419,7 +419,9 @@ namespace business {
       $ci = &get_instance();
       $ci->db_model->update_client_status($this->Id, $status_id);
     }
-     
+    
+    //--------------------------REORGANIZAR------------------------------------//
+    
     /**
      * 
      * @todo
@@ -613,12 +615,12 @@ namespace business {
         if (isset($login_data->json_response) && $login_data->json_response->status == 'ok') {
           if ($login_data->json_response->message == 'checkpoint_required') {
             if ($Client->status_id != user_status::VERIFY_ACCOUNT) {
-              $ci->db_model->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+              $ci->db_model->update_client_status($Client->id, user_status::VERIFY_ACCOUNT);
             }
           } else
           if ($login_data->json_response->message == 'incorrect_password') {
             if ($Client->status_id != user_status::BLOCKED_BY_INSTA) {
-              $ci->db_model->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+              $ci->db_model->update_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
             }
           } else
           if ($login_data->json_response->message == 'problem_with_your_request') {

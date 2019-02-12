@@ -22,6 +22,7 @@ require_once config_item('business-class');
             $ci->load->model('db_model');
             //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
 
+
             /*  $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
               $this->IPS = $config["IPS"];
               $this->Day_client_work = new Day_client_work();
@@ -41,7 +42,7 @@ require_once config_item('business-class');
         }
 
         public function process_error($json_response) {
-            
+
         }
 
         public function process_get_insta_ref_prof_data_for_daily_report($content, \BusinessRefProfile $ref_prof) {
