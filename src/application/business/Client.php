@@ -3,7 +3,6 @@
 namespace business {
 
   require_once config_item('business-user-class');
-  require_once config_item('business-user-class');
 
   
   /**
