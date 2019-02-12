@@ -33,7 +33,7 @@ set_error_handler("my_error_handler");
 */
 function my_exception_handler($error) 
 { 
-    echo "<pre>"; 
+  echo "<pre>"; 
   echo "<h2>Exception no manipulada.... tratada por my_exception_handler</h2>";
   echo "<b>Code: </b>".$error->getCode()."<br>";
   echo "<b>Message: </b>".$error->getMessage()."<br>";

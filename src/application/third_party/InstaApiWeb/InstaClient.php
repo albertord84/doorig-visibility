@@ -4,7 +4,7 @@ namespace InstaApiWeb {
 
   require_once config_item('business-cookies_request-class');
 
-  use InstaApiWeb\CookiesRequest;
+  use InstaApiWeb\Cookies;
   use InstaApiWeb\Responses\LoginResponse;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaCurlException;
@@ -27,7 +27,7 @@ namespace InstaApiWeb {
     public $proxy;
     private $has_logs;
 
-    public function __construct(string $insta_id, CookiesRequest $cookies, Proxy $proxy = NULL) {
+    public function __construct(string $insta_id, Cookies $cookies, Proxy $proxy = NULL) {
       require_once config_item('composer_autoload');
       require_once config_item('insta-exception-class');
       require_once config_item('insta-cookies-exception-class');
@@ -200,7 +200,7 @@ namespace InstaApiWeb {
     }
 
 
-    public static function verify_cookies(CookiesRequest $cookies) {
+    public static function verify_cookies(Cookies $cookies) {
       if ($cookies != NULL) {
         return (isset($cookies->CsrfToken) && $cookies->CsrfToken !== NULL && $cookies->CsrfToken !== '' &&
                 isset($cookies->Mid) && $cookies->Mid !== NULL && $cookies->Mid !== '' &&

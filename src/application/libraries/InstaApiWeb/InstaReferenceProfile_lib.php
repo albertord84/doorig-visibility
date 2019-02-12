@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-use InstaApiWeb\CookiesRequest;
+use InstaApiWeb\Cookies;
 
 /**
  * Description of ReferenceProfile_lib
@@ -19,30 +19,23 @@ abstract class InstaReferenceProfile_lib {
 
   public function __construct() {
     require_once config_item('thirdparty-proxy-resource');
-    require_once config_item('thirdparty-cookies');
+    require_once config_item('thirdparty-cookies-resource');
   }
 
-  public function process_insta_prof_data(\stdClass $content) {
-    if ($this->ReferenceProfile == null)
-      throw new Exception("Null reference exception in ReferenceProfile variable");
-    return $this->ReferenceProfile->process_insta_prof_data($content);
-  }
-
-  public function get_insta_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+  public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
     if ($this->ReferenceProfile == null)
       throw new Exception("Null reference exception in ReferenceProfile variable");
     return $this->ReferenceProfile->get_insta_followers($cookies, $N, $cursor, $proxy);
   }
 
-  public function get_insta_media(int $N, string $cursor = NULL, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+  public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
     if ($this->ReferenceProfile == null) {
       throw new Exception("Null reference exception in ReferenceProfile variable");
     }
-    $cookies_req = new CookiesRequest($cookies);
-    return $this->ReferenceProfile->get_insta_media($N, $cursor, $cookies_req, $proxy);
+    return $this->ReferenceProfile->get_post($N, $cursor, $cookies, $proxy);
   }
 
-  public function get_post_user_info($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
+  public function get_post_user_info($post_reference, Cookies $cookies = NULL, Proxy $proxy = NULL) {
 
     if ($this->ReferenceProfile == null)
       throw new Exception("Null reference exception in ReferenceProfile variable");

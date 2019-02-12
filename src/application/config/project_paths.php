@@ -20,7 +20,11 @@
   //$config['business-ref_profile-class'] = getcwd().'/application/business/BusinessRefProfile.php';
   $config['business-class'] = getcwd().'/application/business/Business.php';
   $config['business-client-class'] = getcwd().'/application/business/Client.php';  
+
+  $config['business-basic-client-class'] = getcwd().'/application/business/BasicClient.php';
+  $config['business-insta-client-class'] = getcwd().'/application/business/BInstaClient.php';
   $config['business-cookies-class'] = getcwd().'/application/business/Cookies.php';
+
   $config['business-own_exception-class'] = getcwd().'/application/business/OwnException.php';
   $config['business-proxy-class'] = getcwd().'/application/business/Proxy.php';
   //$config['business-proxy_manager-class'] = getcwd().'/application/business/ProxyManager.php';
@@ -48,6 +52,7 @@
 */
   
   //Recursos de la InstaApiWeb que viraron tambien librerias (nombreRecurso_lib)
+  $config['thirdparty-insta_ref_profile-resource'] = getcwd(). '/application/third_party/InstaApiWeb/InstaReferenceProfile.php';
   $config['thirdparty-insta_geo_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaGeoProfile.php';
   $config['thirdparty-insta_hash_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaHashProfile.php';
   $config['thirdparty-insta_person_profile-resource'] = getcwd().'/application/third_party/InstaApiWeb/InstaPersonProfile.php';  

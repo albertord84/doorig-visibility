@@ -28,12 +28,12 @@ require_once config_item('business-class');
               $this->Ref_profile = new Reference_profile(); */
         }
 
-        public function do_follow_work(\InstaReferenceProfile_lib $profile) {
-            echo "[exec] get_insta_followers() ==> ";
+        public function do_follow_work(DailyWork $work) {
+           /* echo "[exec] get_insta_followers() ==> ";
             $cookies = json_decode('{"json_response":{"authenticated":true,"user":true,"status":"ok"},"csrftoken":"kToHKxaPB4iPuVY7t2XzQdi3GeyxrI7D","sessionid":"5453435354%3AVg6DjXraZlISez%3A15","ds_user_id":"5453435354","mid":"W-SbgAAEAAGuwWxQcdNcdZ0xa8Mi"}');
 
             $profile->get_insta_media(15, NULL, $cookies);
-            echo "(<b>ok</b>)<br>";
+            echo "(<b>ok</b>)<br>";*/
         }
 
         public function do_unfollow_work() {

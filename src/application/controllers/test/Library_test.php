@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 use business\Client;
-use business\Cookies;
+use InstaApiWeb\Cookies;
 
 class Library_test extends CI_Controller {
 
@@ -10,7 +10,7 @@ class Library_test extends CI_Controller {
 
     require_once config_item('db-exception-class');
     require_once config_item('business-client-class');
-    require_once config_item('thirdparty-cookies');
+    require_once config_item('thirdparty-cookies-resource');
   }
 
   public function index() {
@@ -195,7 +195,7 @@ class Library_test extends CI_Controller {
     $cookies->csrftoken = "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0";
     $cookies->ds_user_id = "3445996566";
     $cookies->mid = "XEExCwAEAAE88jhoc0YKOgFcqT3I";
-    $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\CookiesRequest($cookies)), 'InstaClient_lib');
+    $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\Cookies($cookies)), 'InstaClient_lib');
     echo "(<b>ok</b>)<br>";
      
    /* echo "[exec] make_login() ==> ";
@@ -332,32 +332,30 @@ class Library_test extends CI_Controller {
     echo "<pre>";
     echo "<h2>Test GeoProfile Library</h2>";
     echo "[load] GeoProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/GeoProfile_lib", null, 'GeoProfile_lib');
-    $cookies = json_decode('{"json_response":{"authenticated":true,"user":true,"status":"ok"},"csrftoken":"kToHKxaPB4iPuVY7t2XzQdi3GeyxrI7D","sessionid":"5453435354%3AVg6DjXraZlISez%3A15","ds_user_id":"5453435354","mid":"W-SbgAAEAAGuwWxQcdNcdZ0xa8Mi"}');
-    $this->GeoProfile_lib->get_post(15,NULL,$cookies);
+
+    $this->load->library("InstaApiWeb/InstaGeoProfile_lib", array("insta_id"=>"330156361"), 'GeoProfile_lib');
+    $cookies = new Cookies(' {"sessionid":"204662017%3AGQm7k6jfzicxNp%3A17","csrftoken":"WMhg3ci30e5yfmnRToZxQdnua2HyUNTK","ds_user_id":"204662017","mid":"WtlMoQABAAHZAlviRrBwRMd8ynet","json_response":{"status":"ok","authenticated":true}}  ');
+    $this->GeoProfile_lib->get_post(15,null,$cookies);
+
     echo "(<b>ok</b>)<br>";
     
     echo "<pre>";
     echo "<h2>Test HashProfile Library</h2>";
     echo "[load] HashProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/HashProfile_lib", null, 'HashProfile_lib');
-    $this->HashProfile_lib->get_post(15,NULL,$cookies);
+
+    $this->load->library("InstaApiWeb/InstaHashProfile_lib", array("insta_name"=>"cuba"), 'HashProfile_lib');
+    $this->HashProfile_lib->get_post(15,null,$cookies);
     echo "(<b>ok</b>)<br>";
 
     
     echo "<pre>";
     echo "<h2>Test PersonProfile Library</h2>";
     echo "[load] PersonProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/PersonProfile_lib", null, 'PersonProfile_lib');
-    $this->PersonProfile_lib->get_insta_media(15,NULL,$cookies);
+    $this->load->library("InstaApiWeb/InstaPersonProfile_lib",array("insta_id"=>"3445996566") , 'PersonProfile_lib');
+    $cursor = null;
+    $this->PersonProfile_lib->get_insta_followers($cookies,15,$cursor);
     echo "(<b>ok</b>)<br>";
-    
         
-    echo "<pre>";
-    echo "<h2>Test PersonProfile Library</h2>";
-    echo "[load] PersonProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/PersonProfile_lib", null, 'PersonProfile_lib');
-    $this->PersonProfile_lib->get_insta_media(15,NULL,$cookies);
-    echo "(<b>ok</b>)<br>";
+ 
   }
 }
