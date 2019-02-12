@@ -413,7 +413,9 @@ namespace business {
       $ci = &get_instance();
       $ci->db_model->update_client_status($this->Id, $status_id);
     }
-     
+    
+    //--------------------------REORGANIZAR------------------------------------//
+    
     /**
      * 
      * @todo
