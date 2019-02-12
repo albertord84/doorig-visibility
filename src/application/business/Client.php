@@ -312,8 +312,10 @@ namespace business {
       $ci->load->model('db_model');
 
     }
+    
+    //--------------------------FUNC OK------------------------------------//
 
-        /**
+    /**
      * Get client data
      * @param int $client_id
      * @return DataSet  
