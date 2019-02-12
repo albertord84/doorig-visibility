@@ -318,8 +318,10 @@ namespace business {
       $this->InstaClient = $ci->InstaClient_lib;
 
     }
+    
+    //--------------------------FUNC OK------------------------------------//
 
-        /**
+    /**
      * Get client data
      * @param int $client_id
      * @return DataSet  
