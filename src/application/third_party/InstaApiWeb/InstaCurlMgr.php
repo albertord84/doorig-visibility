@@ -382,21 +382,24 @@ namespace InstaApiWeb {
       
       switch ($profile + $action){      
         case EnumEntity::CLIENT + EnumAction::CMD_CHECKPOINT:
-          //
+          //$obj_curl = 
         break;
       
         case EnumEntity::CLIENT + EnumAction::GET_CHALLENGE_CODE:
-          //
+          //$obj_curl = 
         break;
       
         case EnumEntity::CLIENT + EnumAction::GET_TOP_SEARCH:
-          //
+          //$obj_curl = 
         break;
       
         case EnumEntity::GEO + EnumAction::GET_PROFILE_INFO:
         case EnumEntity::PERSON + EnumAction::GET_PROFILE_INFO:
         case EnumEntity::HASHTAG + EnumAction::GET_PROFILE_INFO:
-          //
+          if($this->ReferencePost == null){
+            throw new InstaCurlArgumentException("The parameter (reference_post) was not given!!!.Use: setReferencePost(string).");
+          }
+          $obj_curl = $this->get_profile_info();
         break;
       
         default:
@@ -441,73 +444,38 @@ namespace InstaApiWeb {
         $this->Headers['compressed']); 
       
       return $curl_str;
-      
-      // TOMADO DE: get_post() | HashProfile.php => line:69 | GeoProfile
-      //- EJEMPLO PARA PASO 2-----
-      /*$variables = urlencode($variables);
-      $graphquery_url = InstaURLs::GraphqlQuery;
-      $url = "$graphquery_url?query_hash=$query&variables=$variables";
-      $proxy_str = $proxy->ToString();
-      $curl_str = "curl $proxy_str '$url' ";*/
-            
-      /*if ($cookies !== NULL) {
-        if ($cookies->mid == NULL || $cookies->csrftoken == NULL || $cookies->sessionid == NULL ||
-          $cookies->ds_user_id == NULL)
-          return NULL;
-        $curl_str .= "-H 'Cookie: mid=$cookies->mid; sessionid=$cookies->sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$cookies->csrftoken; ds_user_id=$cookies->ds_user_id' ";
-        $curl_str .= "-H 'X-CSRFToken: $cookies->csrftoken' ";
-      }*/
-
-      //- EJEMPLO PARA PASO 3-----
-      //$cnf = new \follows\cls\system_config();
-      /*$curl_str .= "-H 'Origin: https://www.instagram.com' ";
-      $curl_str .= "-H 'Accept-Encoding: gzip, deflate' ";
-      $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-      //$curl_str .= "-H 'User-Agent: $cnf->CURL_USER_AGENT' ";
-      $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-      $curl_str .= "-H 'X-Requested-with: XMLHttpRequest' ";
-      $curl_str .= "-H 'content-type: application/x-www-form-urlencoded' ";
-      $curl_str .= "-H 'Accept: /*' ";
-      $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-      $curl_str .= "-H 'Authority: www.instagram.com' ";
-      $curl_str .= "--compressed ";
-      return $curl_str;*/
     }
     
     /**
      * Funcion de Utileria.
-     * Construye cUrl tipo CMD para las acciones de los friendship ==> [Follow, Unfollow, Like].
+     * 
      */
-    private function cmd_friendships (Proxy $proxy, Cookies $cookies, string $resource_id) {     
+    private function get_owner_post (Proxy $proxy, Cookies $cookies, string $reference_post, string $insta_id = "") {
       // Paso 1. configuracion inicial de la curl
-      $curl_str = sprintf("curl %s %s/%s/%s/%s/", 
-        ($proxy != null) ? $proxy->ToString() : "", 
-        $this->InstaURL['Base'], $this->ActionType->getObjetiveUrl(), $resource_id, $this->ActionType->getCmdSubQuery());
-       
+      $sub = sprintf("%s/p", $this->InstaURL['Base']);      
+      if ($this->ProfileType->getEnumValue() == EnumEntity::HASHTAG)
+        $sub = sprintf("%s/%s/?__a=1", $sub, $this->ReferencePost);
+      else
+        $sub = sprintf("%s/%s/?taken-at=%s&__a=1", $sub, $this->ReferencePost, $this->InstaId);
+        
+      $curl_str = sprintf("curl %s '%s'", $proxy->ToString(), $sub);
+      
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null){
-        $curl_str = sprintf("%s %s", $curl_str, $this->Headers['X-Post']);
-        $curl_str = sprintf("%s %s", $curl_str, $this->Headers['Cookie-small']);
-        $curl_str = sprintf($curl_str, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
-      
-        $csrf = sprintf("%s", $this->Headers['X-CSRFToken']);
-        $csrf = sprintf($csrf, $cookies->CsrfToken);
-        $curl_str = sprintf("%s %s", $curl_str, $csrf);
+        $ck = sprintf("%s", $this->Headers['Cookie-big']);
+        $ck = sprintf($ck, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
+        $curl_str = sprintf("%s %s", $curl_str, $ck);
       }
       
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s %s %s", $curl_str, 
-        $this->Headers['Origin'], 
-        $this->Headers['AcceptEncodingGzip'], 
-        $this->Headers['AcceptLanguage'], 
+      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", $curl_str,
+        $this->Headers['AcceptEncodingGzip'],
+        $this->Headers['XRequested'],      
+        $this->Headers['AcceptLanguage'],
         $this->Headers['UserAgent'],
-        $this->Headers['XRequested'],
-        $this->Headers['X-Instagram-Ajax'],
-        $this->Headers['ContentType'],
-        $this->Headers['Accept'],
+        $this->Headers['Accept'],      
         $this->Headers['Referer'],
         $this->Headers['Authority'],
-        $this->Headers['ContentLength'],
         $this->Headers['compressed']);
       
       return $curl_str;
@@ -517,86 +485,51 @@ namespace InstaApiWeb {
      * Funcion de Utileria.
      * 
      */
-    private function get_owner_post (Proxy $proxy, Cookies $cookies, string $reference_post, string $insta_id = "") {
-      // Paso 1. configuracion inicial de la curl
-      //$subUrl = ($this->ProfileType->getEnumValue() == EnumEntity::HASHTAG)
-              
-      $curl_str = sprintf("curl %s '%s'", $proxy->ToString(), $this->InstaURL['Base']);
-      
-      // Paso 2. agregando la cookies a la curl
-      
-      // Paso 3. agregando el resto de los headers
-      
-      return $curl_str;
-      
-      // EXEMPLO:HASHprofile -------------------------------------
-      $url = "https://www.instagram.com/p/$post_reference/?__a=1";
-      $curl_str = "curl $proxy '$url' ";
-      $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
-      $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
-      $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-      $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-      $curl_str .= "-H 'Accept: */*' ";
-      $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-      $curl_str .= "-H 'Authority: www.instagram.com' ";
-      if ($cookies != NULL) {
-        $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
-      }
-      $curl_str .= "--compressed ";
-      
-      // EXEMPLO: GEOprofile -------------------------------------
-      $url = "https://www.instagram.com/p/$post_reference/?taken-at=$this->insta_id&__a=1";
-      $curl_str = "curl $proxy '$url' ";
-      $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
-      $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
-      $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-      $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-      $curl_str .= "-H 'Accept: */*' ";
-      $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-      $curl_str .= "-H 'Authority: www.instagram.com' ";
-      if ($cookies != NULL) {
-        $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
-      }
-      $curl_str .= "--compressed ";
-    }
-    
-    private function checkpoint () {
-      // INSTACLIENT - make_checkpoint
-      $csrftoken = $this->cookies->csrftoken;
-      $mid = $this->cookies->mid;
-      $url = $this->InstaURL['Base'] . "/" . $this->cookies->checkpoint_url;
-      $ch = curl_init($this->InstaURL['Base']);
-      
-      $postinfo = "security_code=$code";
-      
+    private function get_profile_info(Proxy $proxy, Cookies $cookies) {
+      /*if ($ref_prof == "" || $ref_prof == NULL) {
+        throw new \Exception("This was and empty or null referece profile (ref_prof)");
+      }*/
+      $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
+      $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
+      $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
+      $mid = isset($cookies->mid) ? $cookies->mid : 0;
       $headers = array();
-      $headers[] = $this->Headers['Origin'];
+      $headers[] = $this->Headers['Host'];
       $headers[] = $this->Headers['UserAgent'];
       $headers[] = $this->Headers['AcceptAll'];
       $headers[] = $this->Headers['AcceptLanguage'];
-      $headers[] = $this->Headers['AcceptEncodingGzip'];
-      $headers[] = "Referer: $url";
-      $headers[] = "X-CSRFToken: $csrftoken";
-      $headers[] = "X-Instagram-AJAX: 1";
+      $headers[] = $this->Headers['AcceptEncodingSdch'];
+      $headers[] = "Referer: https://www.instagram.com/";
       $headers[] = "Content-Type: application/x-www-form-urlencoded";
-//            $headers[] = "Content-Type: application/json";
       $headers[] = "X-Requested-With: XMLHttpRequest";
-      $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
-
+      $headers[] = "Authority: www.instagram.com";
+      if ($cookies != NULL) {
+        $headers[] = "X-CSRFToken: $csrftoken";
+        $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
+      }
+      $url = InstaURLs::TopSearch;
+      $url .= "?context=blended&query=$ref_prof";
+      $ch = curl_init(InstaURLs::Instagram);
       curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_HEADER, FALSE);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-      //curl_setopt($ch, CURLOPT_POST, true);
-      //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-      //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
-      curl_setopt($ch, CURLOPT_HEADER, 1);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-      curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-      
-      return $ch;
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+
+      if ($proxy != NULL) {
+        curl_setopt($ch, CURLOPT_PROXY, $proxy->ip);
+        curl_setopt($ch, CURLOPT_PROXYPORT, $proxy->port);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$proxy->user:$proxy->password");
+      }
+      $output = curl_exec($ch);
+      //$string = curl_error($ch);
+      curl_close($ch);
+      return json_decode($output);
     }
     
-    private function challenge ()
+    private function get_challenge ()
     {
       $ch = curl_init(InstaURLs::Instagram);
       $csrftoken = $this->get_insta_csrftoken($ch);
@@ -641,49 +574,79 @@ namespace InstaApiWeb {
       return $ch;
     }
     
-    // se convierte en curl
-    private function get_profile_info($ref_prof, Proxy $proxy, Cookies $cookies) {
-      if ($ref_prof == "" || $ref_prof == NULL) {
-        throw new \Exception("This was and empty or null referece profile (ref_prof)");
+    /**
+     * Funcion de Utileria.
+     * Construye cUrl tipo CMD para las acciones de los friendship ==> [Follow, Unfollow, Like].
+     */
+    private function cmd_friendships (Proxy $proxy, Cookies $cookies, string $resource_id) {     
+      // Paso 1. configuracion inicial de la curl
+      $curl_str = sprintf("curl %s %s/%s/%s/%s/", 
+        ($proxy != null) ? $proxy->ToString() : "", 
+        $this->InstaURL['Base'], $this->ActionType->getObjetiveUrl(), $resource_id, $this->ActionType->getCmdSubQuery());
+       
+      // Paso 2. agregando la cookies a la curl
+      if ($cookies != null){
+        $curl_str = sprintf("%s %s", $curl_str, $this->Headers['X-Post']);
+        $curl_str = sprintf("%s %s", $curl_str, $this->Headers['Cookie-small']);
+        $curl_str = sprintf($curl_str, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
+      
+        $csrf = sprintf("%s", $this->Headers['X-CSRFToken']);
+        $csrf = sprintf($csrf, $cookies->CsrfToken);
+        $curl_str = sprintf("%s %s", $curl_str, $csrf);
       }
-      $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
-      $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
-      $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
-      $mid = isset($cookies->mid) ? $cookies->mid : 0;
+      
+      // Paso 3. agregando el resto de los headers
+      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s %s %s", $curl_str, 
+        $this->Headers['Origin'], 
+        $this->Headers['AcceptEncodingGzip'], 
+        $this->Headers['AcceptLanguage'], 
+        $this->Headers['UserAgent'],
+        $this->Headers['XRequested'],
+        $this->Headers['X-Instagram-Ajax'],
+        $this->Headers['ContentType'],
+        $this->Headers['Accept'],
+        $this->Headers['Referer'],
+        $this->Headers['Authority'],
+        $this->Headers['ContentLength'],
+        $this->Headers['compressed']);
+      
+      return $curl_str;
+    }
+    
+    private function cmd_checkpoint () {
+      // INSTACLIENT - make_checkpoint
+      $csrftoken = $this->cookies->csrftoken;
+      $mid = $this->cookies->mid;
+      $url = $this->InstaURL['Base'] . "/" . $this->cookies->checkpoint_url;
+      $ch = curl_init($this->InstaURL['Base']);
+      
+      $postinfo = "security_code=$code";
+      
       $headers = array();
-      $headers[] = $this->Headers['Host'];
+      $headers[] = $this->Headers['Origin'];
       $headers[] = $this->Headers['UserAgent'];
       $headers[] = $this->Headers['AcceptAll'];
       $headers[] = $this->Headers['AcceptLanguage'];
-      $headers[] = $this->Headers['AcceptEncodingSdch'];
-      $headers[] = "Referer: https://www.instagram.com/";
+      $headers[] = $this->Headers['AcceptEncodingGzip'];
+      $headers[] = "Referer: $url";
+      $headers[] = "X-CSRFToken: $csrftoken";
+      $headers[] = "X-Instagram-AJAX: 1";
       $headers[] = "Content-Type: application/x-www-form-urlencoded";
+//            $headers[] = "Content-Type: application/json";
       $headers[] = "X-Requested-With: XMLHttpRequest";
-      $headers[] = "Authority: www.instagram.com";
-      if ($cookies != NULL) {
-        $headers[] = "X-CSRFToken: $csrftoken";
-        $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
-      }
-      $url = InstaURLs::TopSearch;
-      $url .= "?context=blended&query=$ref_prof";
-      $ch = curl_init(InstaURLs::Instagram);
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_HEADER, FALSE);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+      $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
 
-      if ($proxy != NULL) {
-        curl_setopt($ch, CURLOPT_PROXY, $proxy->ip);
-        curl_setopt($ch, CURLOPT_PROXYPORT, $proxy->port);
-        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$proxy->user:$proxy->password");
-      }
-      $output = curl_exec($ch);
-      //$string = curl_error($ch);
-      curl_close($ch);
-      return json_decode($output);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      //curl_setopt($ch, CURLOPT_POST, true);
+      //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+      //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
+      curl_setopt($ch, CURLOPT_HEADER, 1);
+      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+      
+      return $ch;
     }
     
   }
