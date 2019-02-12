@@ -366,23 +366,6 @@ namespace business {
     }
     
     /**
-     * Obtiene 
-     * @param type $client_id
-     */
-    public function get_reference_profiles() {
-      $ci = &get_instance();
-
-      $this->Reference_profiles = array();
-      $rows = $ci->db_model->get_reference_profiles($this->Id);
-      
-      foreach ($rows as $tupla){
-        $this->Reference_profiles[] = $tupla;
-      }
-      
-      return $this->Reference_profiles;
-    }
-    
-    /**
      * 
      * @return type
      */
@@ -417,6 +400,25 @@ namespace business {
     
     //--------------------------REORGANIZAR------------------------------------//
     
+    //Componente de ReferenceProfiles
+    /**
+     * Obtiene 
+     * @param type $client_id
+     */
+    public function get_reference_profiles() {
+      $ci = &get_instance();
+
+      $this->Reference_profiles = array();
+      $rows = $ci->db_model->get_reference_profiles($this->Id);
+      
+      foreach ($rows as $tupla){
+        $this->Reference_profiles[] = $tupla;
+      }
+      
+      return $this->Reference_profiles;
+    }
+    
+    //DailyReport
     /**
      * 
      * @todo
@@ -445,7 +447,8 @@ namespace business {
         echo $exc->getTraceAsString();
       }
     }
-
+    
+    //Robot
     /**
      * 
      * @todo
@@ -514,7 +517,8 @@ namespace business {
         echo $exc->getTraceAsString();
       }
     }
-
+            
+    //DailyWork
     /**
      * 
      * @todo
@@ -540,7 +544,8 @@ namespace business {
         echo "Not reference profiles: $Client->login <br>\n<br>\n";
       }
     }
-
+    
+    //Componente de ReferenceProfiles
     /**
      * 
      * @todo
@@ -548,7 +553,7 @@ namespace business {
      * @return
      * 
      */
-    public function rp_workable_count() {
+    public function reference_profiles_workable_count() {
       $ci = &get_instance();
       $count = 0;
       $Robot = new Robot();
@@ -570,6 +575,7 @@ namespace business {
       return $count;
     }
 
+    //DailyWork
     /**
      * 
      * @todo
@@ -582,6 +588,7 @@ namespace business {
       $ci->db_model->delete_daily_work_client($client_id);
     }
 
+    //Componente del Robot
     /**
      * 
      * @todo
@@ -629,6 +636,7 @@ namespace business {
       }
     }
 
+    //Componente del Robot        
     /**
      * 
      * @todo
@@ -645,7 +653,8 @@ namespace business {
       //guardar las cookies en la Base de Datos
       return $res;
     }
-
+    
+    //Componente del Robot
     /**
      * 
      * @todo
