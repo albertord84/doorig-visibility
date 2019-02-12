@@ -852,7 +852,7 @@ class Db_model extends CI_Model {
   }
 
   //FUNC 35 OK
-  public function set_client_status_by_login($login, $status_id) {
+  public function update_client_status_by_login($login, $status_id) {
     try {
 
       $status_date = time();

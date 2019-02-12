@@ -107,7 +107,7 @@ namespace business\worker {
             //para chekear que esas cookies estan correctas, si no, bloquear por ssenha errada  status_id=3
             $ci->db_model->cmd_create_followed($Client->id);
             print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
-            $Client->set_client_status($Client->id, user_status::ACTIVE);
+            $Client->update_client_status($Client->id, user_status::ACTIVE);
             // Distribute work between clients
             $RPWC = $Client->rp_workable_count();
             print("<br>\nWorkable Referenc Profile: $RPWC <br>\n<br>\n");
@@ -143,7 +143,7 @@ namespace business\worker {
           }
           else if ($Client->status_id === user_status::ACTIVE) {
             $ci->db_model->set_client_cookies($Client->id);
-            $ci->db_model->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+            $ci->db_model->update_client_status($Client->id, user_status::VERIFY_ACCOUNT);
             $ci->db_model->insert_event_to_washdog($Client->client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, 0, "Cookies incompletas when prepare_daily_work");
           }
         } elseif (!$Client->paused) {

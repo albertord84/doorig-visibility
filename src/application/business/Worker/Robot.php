@@ -70,7 +70,7 @@ namespace business\worker {
             {                
                 $result = $ci->db_model->delete_daily_work_client($daily_work->client_id);
                 //$ci->db_model->set_client_cookies($daily_work->client_id);
-                $ci->db_model->set_client_status($daily_work->client_id, user_status::BLOCKED_BY_TIME);
+                $ci->db_model->update_client_status($daily_work->client_id, user_status::BLOCKED_BY_TIME);
                 $ci->db_model->insert_event_to_washdog($daily_work->client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id, "Respuesta incompleta: $curl_str");
                 $error = TRUE;
                 var_dump($curl_str);
@@ -242,13 +242,13 @@ namespace business\worker {
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     $result = $ci->db_model->delete_daily_work_client($client_id);
                     $ci->db_model->insert_event_to_washdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-                    $ci->db_model->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $ci->db_model->update_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     break;
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $result = $ci->db_model->delete_daily_work_client($client_id);
                     var_dump($result);
                     $ci->db_model->insert_event_to_washdog($client_id, washdog_type::SET_TO_UNFOLLOW, 1, $this->id);
-                    $ci->db_model->set_client_status($client_id, user_status::UNFOLLOW);
+                    $ci->db_model->update_client_status($client_id, user_status::UNFOLLOW);
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
 //                    print "<br>\n Client (id: $client_id) MUST set to UNFOLLOW!!! <br>\n";
                     break;
@@ -260,7 +260,7 @@ namespace business\worker {
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
                     $result = $ci->db_model->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $ci->db_model->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $ci->db_model->update_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     $ci->db_model->insert_event_to_washdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     // Alert when insta block by IP
@@ -276,7 +276,7 @@ namespace business\worker {
                 case 5: // "checkpoint_required"
                     $result = $ci->db_model->delete_daily_work_client($client_id);
                     var_dump($result);
-                    $ci->db_model->set_client_status($client_id, user_status::VERIFY_ACCOUNT);
+                    $ci->db_model->update_client_status($client_id, user_status::VERIFY_ACCOUNT);
                     $ci->db_model->insert_event_to_washdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, $this->id);
                     $ci->db_model->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
@@ -287,7 +287,7 @@ namespace business\worker {
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." "Aguarde alguns minutos antes de tentar novamente."
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     //$result = $this->DB->delete_daily_work_client($client_id);
-                    //$this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    //$this->DB->update_client_status($client_id, user_status::BLOCKED_BY_TIME);
 //                    var_dump($result);
 //                    print "<br>\n Unautorized Client (id: $client_id) STUDING set it to BLOCKED_BY_TIME!!! <br>\n";
                     // Alert when insta block by IP
@@ -315,7 +315,7 @@ namespace business\worker {
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $result = $ci->db_model->delete_daily_work_client($client_id);
                     $ci->db_model->insert_event_to_washdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-                    $ci->db_model->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $ci->db_model->update_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     //var_dump($result);
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
@@ -344,7 +344,7 @@ namespace business\worker {
                     print "<br> se ha bloqueado. Vuelve a intentarlo</br>";
                     $result = $ci->db_model->delete_daily_work_client($client_id);
                     //$ci->db_model->set_client_cookies($client_id);                    
-                    $ci->db_model->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+                    $ci->db_model->update_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     break;
                 case 12:
                     $result = $ci->db_model->update_reference_cursor($ref_prof_id, NULL);
@@ -354,7 +354,7 @@ namespace business\worker {
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
 //                    $result = $ci->db_model->delete_daily_work_client($client_id);
 //                    $ci->db_model->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-//                    $ci->db_model->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
+//                    $ci->db_model->update_client_status($client_id, user_status::BLOCKED_BY_TIME);
                     $error = FALSE;
                     break;
             }
