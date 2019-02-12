@@ -10,11 +10,7 @@ class Library_test extends CI_Controller {
 
     require_once config_item('db-exception-class');
     require_once config_item('business-client-class');
-<<<<<<< HEAD
     require_once config_item('thirdparty-cookies');
-=======
-    require_once config_item('business-cookies-class');
->>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
   }
 
   public function index() {
@@ -105,13 +101,10 @@ class Library_test extends CI_Controller {
     $this->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'GeoProfile_lib');
     echo "(<b>ok</b>)<br>";
     
-<<<<<<< HEAD
-   echo "[exec] process_insta_prof_data() ==> ";
+    echo "[exec] process_insta_prof_data() ==> ";
     $this->GeoProfile_lib->process_insta_prof_data(new \stdClass());
-=======
     echo "[exec] process_top_search_profile() ==> ";
     $this->GeoProfile_lib->process_top_search_profile(new \stdClass());
->>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
     echo "(<b>ok</b>)<br>";
    
     echo "[exec] get_followers() ==> ";

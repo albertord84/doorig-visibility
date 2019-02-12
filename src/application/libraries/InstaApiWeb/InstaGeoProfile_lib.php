@@ -22,32 +22,8 @@ class InstaGeoProfile_lib extends InstaReferenceProfile_lib{
   
   public function __construct() {
     parent::__construct();
-    require_once config_item('thirdparty-insta_geo_profile-resource');    
-
-
+    require_once config_item('thirdparty-insta_geo_profile-resource');  
     $this->ReferenceProfile = new GeoProfile();
   }
-  
-=======
-    //$this->GeoProfile = new GeoProfile();
-  }
 
-  public function process_top_search_profile(\stdClass $content) {
-     $this->GeoProfile->process_top_search_profile($content);
-  }
-
-  public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
-     $this->GeoProfile->get_followers($cookies, $N, $cursor, $proxy);
-  }
-
-  public function get_post(int $N, string $cursor = NULL, \stdClass  $cookies = NULL, Proxy $proxy = NULL) {
-   $cookies = new Cookies($cookies);
-    $this->GeoProfile->get_post($N, $cursor, $cookies, $proxy);
-  }
-
-  public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
-    $this->GeoProfile->get_owner_post_data($post_reference, $cookies, $proxy);
-  }
-
->>>>>>> 779ec2dc6af91589e0777d18dc193d380529ae9c
 }
