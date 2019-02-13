@@ -128,67 +128,66 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
+                
                 <li class="nav-small-cap text-center">MÓDULOS</li>
-                <li id="lnk-dashboard"> 
-                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
+                <li> 
+                    <a class="has-arrow waves-effect waves-dark dashboard-access" aria-expanded="false">
                         <i class="icon-Car-Wheel"></i>
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
+                
                 <li>
-                    <a id="visivility_lnk" class="has-arrow waves-effect waves-dark" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark visivility-access" aria-expanded="false">
                         <!--<i class="icon-Diamond"></i>-->
                         <i class="icon-Globe"></i>
                         <span class="hide-menu">Mais visibilidade </span>
                     </a>
                 </li>
-                <!--<li> 
-                    <a class="has-arrow waves-effect waves-dark" aria-expanded="false">
-                        <i class="icon-Business-Mens"></i>
-                        <span class="hide-menu">Captação de Leads</span>
-                    </a>
-                </li>-->
+                
                 <li> 
-                    <a href="<?php echo base_url()."index.php/welcome/redirect_to_post_stories"?>" class="has-arrow waves-effect waves-dark disabled" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark post-stories-access disabled1" aria-expanded="false">
                         <i class="icon-Landscape-2"></i>
                         <span class="hide-menu">Post-Stories</span>
                     </a>
                 </li>
+                
                 <li> 
-                    <a href="<?php echo base_url()."index.php/welcome/redirect_to_directs"?>" class="has-arrow waves-effect waves-dark disabled" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark directs-access disabled1" aria-expanded="false">
                         <i class="icon-Mail-Send"></i>
                         <span class="hide-menu">Envio de Directs</span>
                     </a>
                 </li>
+                
                 <li> 
-                    <a href="<?php echo base_url()."index.php/welcome/redirect_to_deep_analysis"?>" class="has-arrow waves-effect waves-dark disabled" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark deep-analisys-access disabled1" aria-expanded="false">
                         <i class="icon-Brain-2"></i>
                         <span class="hide-menu">Deep-Analisys</span>
                     </a>
-                </li>                            
+                </li>  
+                
                 <li class="nav-small-cap text-center">OUTROS</li>
                 <li> 
-                    <a href="<?php echo base_url()."index.php/welcome/payment"?>" class="has-arrow waves-effect waves-dark" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark payment-access disabled1" aria-expanded="false">
                         <i class="icon-Money-2"></i>
                         <span class="hide-menu">Pagamento</span>
                     </a>
-                </li>                            
+                </li>   
+                
                 <li> 
-                    <a href="<?php echo base_url()."index.php/welcome/abstract_account"?>" class="has-arrow waves-effect waves-dark disabled" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark sumarize-account-access disabled1" aria-expanded="false">
                         <i class=" icon-Bar-Chart"></i>
                         <span class="hide-menu">Resumo Conta</span>
                     </a>
                 </li>
+                
                 <li>
-                    <a id="message_lnk" class="has-arrow waves-effect waves-dark"  aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark message-access"  aria-expanded="false">
                         <i class="icon-Headset"></i>
                         <span class="hide-menu">Contate-nos</span>
                     </a>
                 </li>
             </ul>
         </nav>
-        <!-- End Sidebar navigation -->
     </div>
-    <!-- End Sidebar scroll-->
 </aside>
-<!-- End Left Sidebar - style you can find in sidebar.scss  -->
