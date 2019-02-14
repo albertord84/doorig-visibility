@@ -223,6 +223,7 @@ namespace InstaApiWeb {
     
     private $InstaId; 
     private $MediaStr; 
+    private $InstaName; 
     private $Challenge;
     private $ActionType;
     private $ResourceId;
@@ -311,6 +312,14 @@ namespace InstaApiWeb {
     
     /**
      * 
+     * @param string $challenge
+     */     
+    public function setInstaName (string $name){
+      $this->InstaName = $name;
+    }
+    
+    /**
+     * 
      * @param string $id
      * @param int $first
      * @param string $cursor
@@ -390,7 +399,10 @@ namespace InstaApiWeb {
         break;
       
         case EnumEntity::CLIENT + EnumAction::GET_TOP_SEARCH:
-          //$obj_curl = 
+          if($this->InstaName == null){
+            throw new InstaCurlArgumentException("The parameter (insta_name) was not given!!!.Use: setInstaName(string).");
+          }
+          $obj_curl = $this->get_profile_info($proxy, $cookies, $this->InstaName);
         break;
       
         case EnumEntity::GEO + EnumAction::GET_PROFILE_INFO:
@@ -399,7 +411,7 @@ namespace InstaApiWeb {
           if($this->ReferencePost == null){
             throw new InstaCurlArgumentException("The parameter (reference_post) was not given!!!.Use: setReferencePost(string).");
           }
-          $obj_curl = $this->get_profile_info();
+          $obj_curl = $this->get_profile_info($proxy, $cookies, $this->ReferencePost);
         break;
       
         default:
@@ -450,7 +462,7 @@ namespace InstaApiWeb {
      * Funcion de Utileria.
      * 
      */
-    private function get_owner_post (Proxy $proxy, Cookies $cookies, string $reference_post, string $insta_id = "") {
+    private function get_owner_post (Proxy $proxy = null, Cookies $cookies = null, string $reference_post, string $insta_id = "") {
       // Paso 1. configuracion inicial de la curl
       $sub = sprintf("%s/p", $this->InstaURL['Base']);      
       if ($this->ProfileType->getEnumValue() == EnumEntity::HASHTAG)
@@ -485,31 +497,28 @@ namespace InstaApiWeb {
      * Funcion de Utileria.
      * 
      */
-    private function get_profile_info(Proxy $proxy, Cookies $cookies) {
-      /*if ($ref_prof == "" || $ref_prof == NULL) {
-        throw new \Exception("This was and empty or null referece profile (ref_prof)");
-      }*/
-      $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
-      $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
-      $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
-      $mid = isset($cookies->mid) ? $cookies->mid : 0;
+    private function get_profile_info(Proxy $proxy = null, Cookies $cookies = null, string $reference_post) {
       $headers = array();
       $headers[] = $this->Headers['Host'];
       $headers[] = $this->Headers['UserAgent'];
       $headers[] = $this->Headers['AcceptAll'];
       $headers[] = $this->Headers['AcceptLanguage'];
       $headers[] = $this->Headers['AcceptEncodingSdch'];
-      $headers[] = "Referer: https://www.instagram.com/";
-      $headers[] = "Content-Type: application/x-www-form-urlencoded";
-      $headers[] = "X-Requested-With: XMLHttpRequest";
-      $headers[] = "Authority: www.instagram.com";
-      if ($cookies != NULL) {
-        $headers[] = "X-CSRFToken: $csrftoken";
-        $headers[] = "Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id";
+      $headers[] = $this->Headers['Referer'];
+      $headers[] = $this->Headers['ContentType'];
+      $headers[] = $this->Headers['X-Requested'];
+      $headers[] = $this->Headers['Authority'];
+      
+      if ($cookies != NULL) {                               
+        $hdr = sprintf("%s", $this->Headers['X-CSRFToken']);
+        $headers[] = sprintf($hdr, $cookies->CsrfToken);
+        
+        $hdr = sprintf("%s", $this->Headers['Cookie-big']);
+        $headers[] = sprintf($hdr, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
       }
-      $url = InstaURLs::TopSearch;
-      $url .= "?context=blended&query=$ref_prof";
-      $ch = curl_init(InstaURLs::Instagram);
+      
+      $url = sprintf("%s/?context=blended&query=%s", $this->InstaURL['TopSearch'], $reference_post);
+      $ch = curl_init($this->InstaURL['Base']);
       curl_setopt($ch, CURLOPT_URL, $url);
       curl_setopt($ch, CURLOPT_HEADER, FALSE);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -518,17 +527,19 @@ namespace InstaApiWeb {
       curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 
       if ($proxy != NULL) {
-        curl_setopt($ch, CURLOPT_PROXY, $proxy->ip);
-        curl_setopt($ch, CURLOPT_PROXYPORT, $proxy->port);
+        curl_setopt($ch, CURLOPT_PROXY, $proxy->Ipp);
+        curl_setopt($ch, CURLOPT_PROXYPORT, $proxy->Port);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$proxy->user:$proxy->password");
+        curl_setopt($ch, CURLOPT_PROXYUSERPWD, "$proxy->User:$proxy->Password");
       }
-      $output = curl_exec($ch);
-      //$string = curl_error($ch);
-      curl_close($ch);
-      return json_decode($output);
+      
+      return $ch;
     }
     
+    /**
+     * Funcion de Utileria.
+     * 
+     */
     private function get_challenge ()
     {
       $ch = curl_init(InstaURLs::Instagram);
@@ -613,6 +624,10 @@ namespace InstaApiWeb {
       return $curl_str;
     }
     
+    /**
+     * Funcion de Utileria.
+     * 
+     */
     private function cmd_checkpoint () {
       // INSTACLIENT - make_checkpoint
       $csrftoken = $this->cookies->csrftoken;
