@@ -12,7 +12,7 @@ use InstaApiWeb\Exceptions\InstaException;
 use InstaApiWeb\Exceptions\InstaCurlNetworkException;
 use InstaApiWeb\Exceptions\InstaPasswordException;
 use InstaApiWeb\Exceptions\InstaCheckpointException;
-use business\Cookies;
+//use business\Cookies;
 
 /**
  * @category CodeIgniter-Library: InstaApiLib

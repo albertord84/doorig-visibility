@@ -2,7 +2,7 @@
 
 namespace InstaApiWeb {
 
-  require_once config_item('business-cookies_request-class');
+  #require_once config_item('business-cookies_request-class');
 
   use InstaApiWeb\Cookies;
   use InstaApiWeb\Responses\LoginResponse;
@@ -37,7 +37,7 @@ namespace InstaApiWeb {
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
 
-      require_once config_item('thirdparty-cookies_response-class');
+      require_once config_item('thirdparty-cookies-resource');
       require_once config_item('thirdparty-insta_curl_mgr-resource');
 
 

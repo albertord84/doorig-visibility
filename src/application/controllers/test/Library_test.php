@@ -195,7 +195,7 @@ class Library_test extends CI_Controller {
     $cookies->csrftoken = "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0";
     $cookies->ds_user_id = "3445996566";
     $cookies->mid = "XEExCwAEAAE88jhoc0YKOgFcqT3I";
-    $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\Cookies($cookies)), 'InstaClient_lib');
+    $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\Cookies(json_encode($cookies))), 'InstaClient_lib');
     echo "(<b>ok</b>)<br>";
      
    /* echo "[exec] make_login() ==> ";
