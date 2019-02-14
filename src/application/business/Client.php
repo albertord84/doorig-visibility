@@ -3,7 +3,6 @@
 namespace business {
 
   require_once config_item('business-user-class');
-  require_once config_item('business-user-class');
 
   
   /**
@@ -312,8 +311,10 @@ namespace business {
       $ci->load->model('db_model');
 
     }
+    
+    //--------------------------FUNC OK------------------------------------//
 
-        /**
+    /**
      * Get client data
      * @param int $client_id
      * @return DataSet  
@@ -365,23 +366,6 @@ namespace business {
     }
     
     /**
-     * Obtiene 
-     * @param type $client_id
-     */
-    public function get_reference_profiles() {
-      $ci = &get_instance();
-
-      $this->Reference_profiles = array();
-      $rows = $ci->db_model->get_reference_profiles($this->Id);
-      
-      foreach ($rows as $tupla){
-        $this->Reference_profiles[] = $tupla;
-      }
-      
-      return $this->Reference_profiles;
-    }
-    
-    /**
      * 
      * @return type
      */
@@ -413,7 +397,28 @@ namespace business {
       $ci = &get_instance();
       $ci->db_model->update_client_status($this->Id, $status_id);
     }
-     
+    
+    //--------------------------REORGANIZAR------------------------------------//
+    
+    //Componente de ReferenceProfiles
+    /**
+     * Obtiene 
+     * @param type $client_id
+     */
+    public function get_reference_profiles() {
+      $ci = &get_instance();
+
+      $this->Reference_profiles = array();
+      $rows = $ci->db_model->get_reference_profiles($this->Id);
+      
+      foreach ($rows as $tupla){
+        $this->Reference_profiles[] = $tupla;
+      }
+      
+      return $this->Reference_profiles;
+    }
+    
+    //DailyReport
     /**
      * 
      * @todo
@@ -442,7 +447,8 @@ namespace business {
         echo $exc->getTraceAsString();
       }
     }
-
+    
+    //Robot
     /**
      * 
      * @todo
@@ -511,7 +517,8 @@ namespace business {
         echo $exc->getTraceAsString();
       }
     }
-
+            
+    //DailyWork
     /**
      * 
      * @todo
@@ -537,7 +544,8 @@ namespace business {
         echo "Not reference profiles: $Client->login <br>\n<br>\n";
       }
     }
-
+    
+    //Componente de ReferenceProfiles
     /**
      * 
      * @todo
@@ -545,7 +553,7 @@ namespace business {
      * @return
      * 
      */
-    public function rp_workable_count() {
+    public function reference_profiles_workable_count() {
       $ci = &get_instance();
       $count = 0;
       $Robot = new Robot();
@@ -567,6 +575,7 @@ namespace business {
       return $count;
     }
 
+    //DailyWork
     /**
      * 
      * @todo
@@ -579,6 +588,7 @@ namespace business {
       $ci->db_model->delete_daily_work_client($client_id);
     }
 
+    //Componente del Robot
     /**
      * 
      * @todo
@@ -607,12 +617,12 @@ namespace business {
         if (isset($login_data->json_response) && $login_data->json_response->status == 'ok') {
           if ($login_data->json_response->message == 'checkpoint_required') {
             if ($Client->status_id != user_status::VERIFY_ACCOUNT) {
-              $ci->db_model->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+              $ci->db_model->update_client_status($Client->id, user_status::VERIFY_ACCOUNT);
             }
           } else
           if ($login_data->json_response->message == 'incorrect_password') {
             if ($Client->status_id != user_status::BLOCKED_BY_INSTA) {
-              $ci->db_model->set_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
+              $ci->db_model->update_client_status($Client->id, user_status::BLOCKED_BY_INSTA);
             }
           } else
           if ($login_data->json_response->message == 'problem_with_your_request') {
@@ -626,6 +636,7 @@ namespace business {
       }
     }
 
+    //Componente del Robot        
     /**
      * 
      * @todo
@@ -642,7 +653,8 @@ namespace business {
       //guardar las cookies en la Base de Datos
       return $res;
     }
-
+    
+    //Componente del Robot
     /**
      * 
      * @todo
