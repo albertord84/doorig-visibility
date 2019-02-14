@@ -110,7 +110,7 @@ namespace business\worker {
             print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
             $Client->update_client_status($Client->id, user_status::ACTIVE);
             // Distribute work between clients
-            $RPWC = $Client->rp_workable_count();
+            $RPWC = $Client->reference_profiles_workable_count();
             print("<br>\nWorkable Referenc Profile: $RPWC <br>\n<br>\n");
             if (strtotime("today") - $Client->init_date < 40 * 24 * 60 * 60) {
               $DIALY_REQUESTS_BY_CLIENT = 480;
