@@ -3,7 +3,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-warning" style="color:red"></i> Alerta</h4>
+                <h4 class="modal-title"><i class="fas fa-exclamation-triangle" style="color:red;font-size:16px"></i> Alerta</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -22,7 +22,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><i class="fa fa-check" style="color:green"></i> Sucesso</h4>
+                <h4 class="modal-title"><i class="fas fa-check" style="color:green;font-size:16px"></i> Sucesso</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
