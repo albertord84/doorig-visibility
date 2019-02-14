@@ -93,7 +93,10 @@ class DailyWork extends Business{
                      . "daily_work.to_follow,daily_work.to_unfollow");
             */
            
-           $this->Client = BInstaClient::buildClient($work_data->user_id,$work_data->insta_id,new CookiesRequest($work_data->cookies));
+           $this->Client = new Client($id);
+           $this->Client->loadBInstaClient();
+           $this->Client->loadBPaymentClient();
+           //$this->Client = BInstaClient::buildClient($work_data->user_id,$work_data->insta_id,new CookiesRequest($work_data->cookies));
                  
         }
         
