@@ -17,14 +17,14 @@ class Welcome extends CI_Controller {
     }
 
     public function index($access_token, $client_id) {
-        if (confirm_access_token($access_token)) {
+        if ($this->check_access_token($access_token, $client_id)) {
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $this->load->view('client_view', $param);
         }
-        header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+        //header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
     }
 
-    private function check_access_token($access_token) {
+    private function check_access_token($access_token, $client_id) {
         try {
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "/welcome/confirm_access_token";
             $GuzClient = new \GuzzleHttp\Client();
@@ -33,6 +33,16 @@ class Welcome extends CI_Controller {
                 GuzzleHttp\RequestOptions::JSON => ['client_id' => $client_id],
                 GuzzleHttp\RequestOptions::JSON => ['module_id' => $GLOBALS['sistem_config']->module_id]
             ]);
+
+            $StatusCode = $response->getStatusCode();
+            $content = $response->getBody()->getContents();
+            $content = json_decode($content);
+            if ($StatusCode == 200 && $content->code == 0) {
+                //3. Response
+                var_dump($content);
+            } else {
+                header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+            }
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }

@@ -75,6 +75,7 @@ $config['thirdparty-cookies'] = getcwd() . '/application/third_party/InstaApiWeb
  */
 
 $config['business-error-codes-class'] = getcwd() . '/application/business/ErrorCodes.php';
+$config['business-own-exception-class'] = getcwd() . '/application/business/OwnException.php';
 
 //Exception de la BD
 $config['db-exception-class'] = getcwd() . '/application/business/OwnException.php';
@@ -91,6 +92,13 @@ $config['insta-exception-class'] = getcwd() . '/application/third_party/InstaApi
 //$config['wrong_end_cursor-exception-class'] = getcwd().'/application/third_party/InstaApiWeb/Exception/WrongEndCursorException.php';
 
 $config['insta-curl-exception-class'] = getcwd() . '/application/third_party/InstaApiWeb/Exception/InstaCurlException.php';
+
+/*
+  |--------------------------------------------------------------------------
+  | Paths de las Clases Response del Negocio
+ */
+$config['business-response-class'] = getcwd() . '/application/business/Response/Response.php';
+$config['business-response-login-token-class'] = getcwd() . '/application/business/Response/ResponseLoginToken.php';
 
 /*
   |--------------------------------------------------------------------------
