@@ -39,13 +39,12 @@ class Welcome extends CI_Controller {
             $content = json_decode($content);
             if ($StatusCode == 200 && $content->code == 0) {
                 //3. Response
-                var_dump($content);
-            } else {
-                header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+                return TRUE;
             }
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
+        return FALSE;
     }
 
     //TODO  Alberto:  poner en las clases controladoras que te de la gana
