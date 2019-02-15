@@ -13,10 +13,10 @@ namespace business {
    *
    * @author jose
    */
-  abstract class BaseClient {
+  abstract class Loader extends Business {
 
     //put your code here
-    public abstract function load_data(int $id);
+    public abstract function load_data();
 
     protected abstract function fill_data(\stdClass $data);
   }

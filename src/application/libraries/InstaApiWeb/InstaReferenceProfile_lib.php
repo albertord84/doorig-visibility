@@ -21,6 +21,9 @@ abstract class InstaReferenceProfile_lib {
     require_once config_item('thirdparty-proxy-resource');
     require_once config_item('thirdparty-cookies-resource');
   }
+  
+  public function get_insta_prof_data(Cookies $cookies=NULL, Proxy $proxy = NULL)
+  {}
 
   public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
     if ($this->ReferenceProfile == null)

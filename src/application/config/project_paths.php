@@ -21,7 +21,7 @@
   $config['business-class'] = getcwd().'/application/business/Business.php';
   $config['business-client-class'] = getcwd().'/application/business/Client.php';  
 
-  $config['business-basic-client-class'] = getcwd().'/application/business/BasicClient.php';
+  $config['business-loader-class'] = getcwd().'/application/business/Loader.php';
   $config['business-insta-client-class'] = getcwd().'/application/business/BInstaClient.php';
   $config['business-cookies-class'] = getcwd().'/application/business/Cookies.php';
 

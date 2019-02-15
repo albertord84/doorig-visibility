@@ -47,21 +47,7 @@ class Daily_work_model extends CI_Model {
 
   function get_next_work() {
     $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) AND reference_profile.deleted <> TRUE";    
-    /*
-     *   . "   users.id as users_id, "
-              . "   clients.cookies as client_cookies, "
-              . "   reference_profile.insta_id as rp_insta_id, "
-              . "   reference_profile.type as rp_type, "
-              . "   reference_profile.id as rp_id "
-     */
-    $this->db->select("clients.cookies as cookies,"
-                     ."clients.user_id as user_id,"
-                     . "clients.last_access as client_last_access,"
-                     ."reference_profile.insta_id as rp_insta_id,"
-                     ."reference_profile.type as rp_type,"
-                     . "reference_profile.id as rp_id,"
-                     . "clients.insta_id as insta_id,"
-                     . "daily_work.to_follow,daily_work.to_unfollow");
+    $this->db->select( "reference_id, to_follow, to_unfollow, clients.user_id as client_id ");
     $this->db->join('reference_profile', 'reference_profile.id = daily_work.reference_id');
     $this->db->join('clients', 'clients.user_id = reference_profile.client_id');
     $this->db->where($where);
