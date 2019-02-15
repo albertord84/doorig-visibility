@@ -3,7 +3,8 @@
 namespace business\worker {
 
   use business\Business;
-
+  use business\worker\Robots;
+  
   require_once config_item('business-class');
 
 //require_once config_item('business-robot-class');
@@ -45,7 +46,7 @@ namespace business\worker {
     public $dir;
     public $robot;
     public $mail;
-
+    private $ci;
     /* public function __construct($id = -1) {
       $this->Robot = new Robot($DB); //CONCERTAR
       $this->Robot->config = $GLOBALS['sistem_config'];
@@ -57,9 +58,9 @@ namespace business\worker {
       } */
 
     function __construct() {
-      $ci = &get_instance();
+      $this->ci = &get_instance();
 
-      $ci->load->model('db_model');
+      $this->ci->load->model('db_model');
       //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
       $ci->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'InstaGeoProfile_lib');
       
@@ -181,7 +182,20 @@ namespace business\worker {
 
     // LISTA!!!
     public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
-      $ci = &get_instance();
+    
+      echo "<pre>";
+      echo "<h2>Test GeoProfile Library</h2>";
+      echo "[load] GeoProfile_lib ==> ";
+      ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
+      while(DailyWork::exist_work())
+      {
+        $daily_work = DailyWork::get_next_work();
+        $robot = new Robot();
+        $robot->do_follow_work($daily_work);
+        $robot->do_unfollow_work($daily_work);
+      }
+      
+      /*$ci = &get_instance();
       try {
         $has_work = TRUE;
         $steps = 0;
@@ -237,8 +251,10 @@ namespace business\worker {
         echo "<br>\n<br>\nCongratulations!!! Job done...!<br>\n";
       } catch (\Exception $exc) {
         echo $exc->getTraceAsString();
-      }
+      }*/
     }
+    
+    /*
 
     // LISTA!!!
     private function do_client_work(DailyWork $daily_work) {
@@ -335,7 +351,7 @@ namespace business\worker {
       $ci = &get_instance();
       $ci->db_model->cmd_truncate_daily_work();
     }
-
+ */
   }
 
 }

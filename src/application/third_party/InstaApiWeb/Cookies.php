@@ -2,52 +2,52 @@
 
 namespace InstaApiWeb {
 
-   /**
-   * @category InstaApiWeb Third-Party Class
-   * 
-   * @access public
-   *
-   * @todo Define a basic Instagram Cookies.
-   * 
-   */
-  class Cookies {
+    /**
+     * @category InstaApiWeb Third-Party Class
+     * 
+     * @access public
+     *
+     * @todo Define a basic Instagram Cookies.
+     * 
+     */
+    class Cookies {
 
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Session_id;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Csrf_Token;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $DsUser_id;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Mid;
-    
-    public function __construct($session_id, $csrf_token, $dsuser_id, $mid) {
-      $this->Session_id = $session_id;
-      $this->Csrf_Token = $csrf_token;
-      $this->DsUser_id = $dsuser_id;
-      $this->Mid = $mid;
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $SessionId;
+
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $CsrfToken;
+
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $DsUserId;
+
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $Mid;
+
+        public function __construct(string $cookies_str) {
+            $obj = json_decode($cookies_str);
+            $this->SessionId = $obj->sessionid;
+            $this->CsrfToken = $obj->csrftoken;
+            $this->DsUserId = $obj->ds_user_id;
+            $this->Mid = $obj->mid;
+        }
+
     }
-
-  }
 
 }

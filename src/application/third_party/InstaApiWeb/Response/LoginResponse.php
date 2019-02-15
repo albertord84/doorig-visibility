@@ -2,7 +2,7 @@
 
 namespace InstaApiWeb\Responses {
   
-  require_once config_item('thirdparty-cookies-class');
+  require_once config_item('thirdparty-cookies');
   
   /**
    * @category InstaApiWeb Third-Party Class

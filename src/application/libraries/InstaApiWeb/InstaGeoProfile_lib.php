@@ -4,9 +4,10 @@
 require_once config_item('reference-profile_libraries');  
 
 use InstaApiWeb\Proxy;
-//use InstaApiWeb\GeoProfile;
-//use InstaApiWeb\Cookies;
-//use ReferenceProfile_lib;
+
+use InstaApiWeb\InstaGeoProfile;
+use InstaApiWeb\Cookies;
+//use \ReferenceProfile_lib;
 
 
 /**
@@ -18,30 +19,18 @@ use InstaApiWeb\Proxy;
  * 
  */
 
-class InstaGeoProfile_lib extends ReferenceProfile_lib{
+class InstaGeoProfile_lib extends InstaReferenceProfile_lib{
   
-  public function __construct() {
+  public function __construct(array $params) {
     parent::__construct();
+
     require_once config_item('thirdparty-insta_geo_profile-resource');    
 
-    //$this->GeoProfile = new GeoProfile();
-  }
-
-  public function process_top_search_profile(\stdClass $content) {
-     $this->GeoProfile->process_top_search_profile($content);
-  }
-
-  public function get_followers(\stdClass $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
-     $this->GeoProfile->get_followers($cookies, $N, $cursor, $proxy);
-  }
-
-  public function get_post(int $N, string $cursor = NULL, \stdClass  $cookies = NULL, Proxy $proxy = NULL) {
-   $cookies = new Cookies($cookies);
-    $this->GeoProfile->get_post($N, $cursor, $cookies, $proxy);
-  }
-
-  public function get_owner_post_data($post_reference, \stdClass $cookies = NULL, Proxy $proxy = NULL) {
-    $this->GeoProfile->get_owner_post_data($post_reference, $cookies, $proxy);
+    if (!array_key_exists("insta_id", $params)) {
+      throw new Exception("The params insta_id was not found");
+    }
+    $insta_id = $params["insta_id"];
+    $this->ReferenceProfile = new InstaGeoProfile($insta_id);
   }
 
 }
