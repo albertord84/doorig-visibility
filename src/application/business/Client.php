@@ -313,7 +313,7 @@ namespace business {
       $ci->load->model('clients_model');
       $ci->load->model('db_model');
 
-      $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\CookiesRequest($cookies)), 'InstaClient_lib');
+      $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\Cookies($cookies)), 'InstaClient_lib');
       $this->InstaClient = $ci->InstaClient_lib;
 
     }
