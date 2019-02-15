@@ -632,7 +632,7 @@ namespace InstaApiWeb {
      * Funcion de Utileria.
      * Construye cUrl tipo CMD para las acciones de los friendship ==> [Follow, Unfollow, Like].
      */
-    private function cmd_friendships (Proxy $proxy, Cookies $cookies, string $resource_id) {     
+    private function cmd_friendships (Proxy $proxy = null, Cookies $cookies, string $resource_id) {     
       // Paso 1. configuracion inicial de la curl
       $curl_str = sprintf("curl %s %s/%s/%s/%s/", 
         ($proxy != null) ? $proxy->ToString() : "", 
