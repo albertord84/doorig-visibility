@@ -16,9 +16,26 @@ class Welcome extends CI_Controller {
         require_once config_item('business-response-login-token-class');
     }
 
-    public function index() {
-        $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
-        $this->load->view('client_view', $param);
+    public function index($access_token, $client_id) {
+        if (confirm_access_token($access_token)) {
+            $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
+            $this->load->view('client_view', $param);
+        }
+        header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+    }
+
+    private function check_access_token($access_token) {
+        try {
+            $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "/welcome/confirm_access_token";
+            $GuzClient = new \GuzzleHttp\Client();
+            $response = $GuzClient->post($url, [
+                GuzzleHttp\RequestOptions::JSON => ['confirm_access_token' => $access_token],
+                GuzzleHttp\RequestOptions::JSON => ['client_id' => $client_id],
+                GuzzleHttp\RequestOptions::JSON => ['module_id' => $GLOBALS['sistem_config']->module_id]
+            ]);
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
     }
 
     //TODO  Alberto:  poner en las clases controladoras que te de la gana
