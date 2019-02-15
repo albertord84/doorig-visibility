@@ -18,7 +18,7 @@ class Db_model extends CI_Model {
   
   //======================>GET<=======================//
 
-  //FUNC 0 OK
+  //FUNC 0 OK moved to clients_model
   public function get_clients_by_status($user_status, $offset = 0, $rows = 50) {
     try {
       $sql = sprintf("SELECT * FROM users
@@ -39,7 +39,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 1 OK
+  //FUNC 1 OK moved to clients_model
   public function get_clients_data() {
     try {
       $CLIENT = UserRole::CLIENT;
@@ -77,7 +77,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 2 OK
+  //FUNC 2 OK moved to clients_model
   public function get_client_data($client_id) {
     try {
       $sql = ""
@@ -98,7 +98,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 3 OK
+  //FUNC 3 OK move to reference_profile_model
   public function get_reference_profiles($client_id) {
     try {
 
@@ -117,7 +117,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 4 OK
+  //FUNC 4 OK (deprecated)
   public function get_biginner_data($offset = 0, $rows = 50) {
     try {
 
@@ -147,7 +147,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 5 OK
+  //FUNC 5 OK ?
   public function get_clients_data_for_report() {
     try {
 
@@ -175,7 +175,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 6 OK
+  //FUNC 6 OK ?
   public function get_unfollow_clients_data() {
     try {
 
@@ -206,7 +206,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 7 OK
+  //FUNC 7 OK ?
   public function get_gateway_plane_id($dumbu_plane_id) {
     try {
 
@@ -225,7 +225,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 8 OK
+  //FUNC 8 OK moved to clients_model
   public function get_client_payment_data($client_id) {
     try {
       
@@ -247,7 +247,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 9 OK
+  //FUNC 9 OK moved to clients_model
   public function get_client_login_data($client_id) {
     try {
 
@@ -267,7 +267,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 10 OK
+  //FUNC 10 OK moved to clients_model
   public function get_client_data_bylogin($login) {
     try {
 
@@ -289,7 +289,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 11 OK
+  //FUNC 11 OK moved to clients_model
   public function get_client_proxy($client_id) {
     try {
 
@@ -309,7 +309,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 12 OK
+  //FUNC 12 OK moved to clients_model
   public function get_client_instaid_data($client_id) {
     try {
 
@@ -328,11 +328,11 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 13 OK
+  //FUNC 13 OK ?
   public function get_client_id_from_reference_profile_id($ref_prof_id) {
     try {
   
-      $sql = "SELECT client_id FROM `doorig_visibility_db`.reference_profile WHERE  id =" . $ref_prof_id . ";";
+      $sql = "SELECT client_id FROM reference_profile WHERE  id =" . $ref_prof_id . ";";
       
       $query = $this->db->query($sql);
       return $query->row();
@@ -346,7 +346,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 14 OK
+  //FUNC 14 OK ?
   public function get_reference_profiles_follows(int $ref_prof_id) {
     try {
 
@@ -366,7 +366,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 15 OK
+  //FUNC 15 OK move to daily_work_model
   public function get_follow_work() {
     try {
       
@@ -414,7 +414,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 16 OK
+  //FUNC 16 OK move to daily_work_model
   public function get_follow_work_by_id($reference_id) {
     try {
       
@@ -456,7 +456,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 17 
+  //FUNC 17 move to daily_work_model
   public function get_follow_work_by_client_id($client_id, $rp = NULL) {
     try {
       // Get daily work
@@ -518,7 +518,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 18 TO CHECK
+  //FUNC 18 TO CHECK ?
   public function get_unfollow_work($client_id) {
     try {
       // Get profiles to unfollow today for this Client...(i.e the last followed)
@@ -543,7 +543,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 19 OK
+  //FUNC 19 move to dumbu_system_config_model
   public function get_system_config_vars() {
     try {
 
@@ -560,7 +560,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 20 OK
+  //FUNC 20 OK move to black_and_white_list_model
   public function get_white_list($id_user) {
     try {
       $sql = "SELECT insta_id "
@@ -580,7 +580,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 21 OK
+  //FUNC 21 OK move to black_and_white_list_model
   public function get_white_list_paged($id_user, $offset, $rows) {
     try {
       $sql = ""
@@ -605,7 +605,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 22 OK
+  //FUNC 22 OK move to black_and_white_list_model
   public function get_black_list($id_user) {
     try {
       $sql = ""
@@ -629,7 +629,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 23 OK
+  //FUNC 23 OK move to black_and_white_list_model
   public function get_client_with_white_list() {
     try {
       $sql = "SELECT DISTINCT client_id FROM `doorig_visibility_db`.black_and_white_list WHERE  black_or_white = 1;";
@@ -649,7 +649,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 24 OK
+  //FUNC 24 OK moved to clients_model
   public function get_client_with_orderkey($orderkey) {
 
     try {
@@ -666,7 +666,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 25 OK
+  //FUNC 25 OK ?
   public function get_number_followed_today($client_id) {
     try {
       if ($client_id != '0' && $client_id != 0) {
@@ -689,7 +689,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 26 OK
+  //FUNC 26 OK move to reference_profile_model
   public function get_reference_profiles_with_problem($client_id) {
     try {
 
@@ -710,7 +710,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 27 OK
+  //FUNC 27 OK move to proxy_model
   public function get_not_reserved_proxy_list() {
     try {
       $sql = "SELECT * FROM Proxy WHERE isReserved = FALSE;";
@@ -726,7 +726,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 28 OK
+  //FUNC 28 OK move to proxy_model
   public function get_proxy($idProxy) {
     try {
       $sql = "SELECT * FROM Proxy WHERE idProxy = $idProxy;";
@@ -741,7 +741,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 29 OK
+  //FUNC 29 OK moved to clients_model
   public function get_proxy_plient_counts($proxy) {
     try {
       $BEGINNER = UserStatus::BEGINNER;
@@ -761,7 +761,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 30 OK
+  //FUNC 30 OK moved to clients_model
   public function get_client_withou_proxy() {
     try {
       $BEGINNER = UserStatus::BEGINNER;
@@ -780,7 +780,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 31 OK
+  //FUNC 31 OK moved to clients_model
   public function get_dumbu_statistics() {
     try {
       //clientes por status
@@ -796,7 +796,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 32 OK
+  //FUNC 32 OK moved to clients_model
   public function get_dumbu_paying_customers() {
     try {
       //clientes pagantes
@@ -812,7 +812,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 33 OK
+  //FUNC 33 OK move to reference_profile_model
   public function get_reference_profile_status() {
     try {
       //clientes por status
@@ -830,7 +830,7 @@ class Db_model extends CI_Model {
   
   //======================>SET<=======================//
   
-  //FUNC 34 OK
+  //FUNC 34 OK  moved to clients_model
   public function update_client_status($client_id, $status_id) {
     try {
 
@@ -851,7 +851,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 35 OK
+  //FUNC 35 OK  moved to clients_model
   public function update_client_status_by_login($login, $status_id) {
     try {
 
@@ -879,7 +879,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 36 OK
+  //FUNC 36 OK  moved to clients_model
   public function update_client_cookies($client_id, $cookies) {
     try {
 
@@ -897,7 +897,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 37 OK
+  //FUNC 37 OK  moved to clients_model
   public function set_pasword($client_id, $password) {
     try {
       $sql = "UPDATE `doorig_visibility_db`.users SET pass='$password' WHERE id=$client_id";
@@ -912,7 +912,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 38 OK
+  //FUNC 38 OK  moved to clients_model
   public function set_cookies_to_null($client_id) {
     try {
       $sql = "UPDATE `doorig_visibility_db`.clients SET cookies=NULL WHERE user_id=$client_id";
@@ -927,7 +927,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 39 OK
+  //FUNC 39 OK  moved to clients_model
   public function set_client_last_access($client_id, $timestamp) {
     try {
       $sql = "UPDATE `doorig_visibility_db`.clients SET last_access='$timestamp' WHERE user_id=$client_id";
@@ -942,7 +942,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 40 OK
+  //FUNC 40 OK  moved to clients_model
   public function set_client_order_key($client_id, $order_key, $pay_day) {
     try {
       $sql = "UPDATE `doorig_visibility_db`.clients SET pay_day='$pay_day', order_key='$order_key' WHERE user_id='$client_id';";
@@ -957,7 +957,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 41 OK
+  //FUNC 41 OK  moved to clients_model
   public function set_proxy_to_client($client_id, $proxy_id) {
     try {
       $sql = "UPDATE clients SET clients.proxy = $proxy_id WHERE clients.user_id = $client_id;";
@@ -974,7 +974,7 @@ class Db_model extends CI_Model {
   
   //=======================>INSERT<========================//
   
-  //FUNC 42
+  //FUNC 42 move to daily_report_model
   public function insert_client_daily_report($client_id, $profile_data) {
     try {
 
@@ -995,7 +995,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 43
+  //FUNC 43 move to daily_work_model
   public function insert_daily_work($ref_prof_id, $to_follow, $to_unfollow, $login_data) {
     try {
       $sql = ""
@@ -1016,7 +1016,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 44
+  //FUNC 44 move to washdog_model
   public function insert_event_to_washdog($user_id, $action, $source = 0, $robot_id = NULL, $metadata = NULL) {
     try {
       //mysqli_real_escape_string($escapestr)
@@ -1050,7 +1050,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 45
+  //FUNC 45 moved to clients_model
   public function insert_dumbu_statistics($cols, $arr) {
     try {
       $sql = "INSERT INTO `doorig_visibility_db`.dumbu_statistic " . $cols . " VALUE " . $arr . ";";
@@ -1067,7 +1067,7 @@ class Db_model extends CI_Model {
   
   //=======================>UPDATE<========================//
   
-  //FUNC 46
+  //FUNC 46 move to daily_work_model
   public function update_daily_work($ref_prof_id, $follows, $unfollows, $faults = 0) {
     try {
       $sql = ""
@@ -1077,7 +1077,6 @@ class Db_model extends CI_Model {
               . "WHERE daily_work.reference_id = $ref_prof_id; ";
 
       $result1 = $this->db->query($sql);
-      // Record Client last access and foults
       $time = time();
       $sql = ""
               . "UPDATE clients "
@@ -1086,9 +1085,6 @@ class Db_model extends CI_Model {
               . "    clients.foults = clients.foults + $faults "
               . "WHERE reference_profile.id = $ref_prof_id; ";
       $result2 = $this->db->query($sql);
-      //    if ($result2) {
-      //    }
-      //$affected = mysqli_num_rows($result);
       if ($result1) {
         print "<br>Update daily_work! follows: $follows | unfollows: $unfollows <br>";
       } else
@@ -1103,7 +1099,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 47
+  //FUNC 47 move to daily_work_model
   public function update_reference_cursor($reference_id, $end_cursor) {
     $date = ($end_cursor == '' || $end_cursor == NULL) ? time() : NULL;
     $ended_status = (new reference_profiles_status())->ENDED;
@@ -1135,12 +1131,12 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 48
+  //FUNC 48 move to reference_profile_model
   public function update_reference_profile_status($status, $id) {
     return $this->update_table_field("reference_profile", "status_id", $status, "WHERE id = $id");
   }
 
-  //FUNC 49
+  //FUNC 49 ?
   public function update_table_field($table, $field, $value, $query) {
     try {
       $sql = "UPDATE $table SET $table.$field = $value $query;";
@@ -1157,7 +1153,7 @@ class Db_model extends CI_Model {
 
   //======================>DELETED<========================//
   
-  //FUNC 50
+  //FUNC 50 move to daily_work_model
   public function delete_daily_work($ref_prof_id) {
     try {
       $sql = ""
@@ -1175,7 +1171,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 51
+  //FUNC 51 move to daily_work_model
   public function delete_daily_work_client($client_id) {
     try {
       $sql = "DELETE FROM daily_work WHERE daily_work.reference_id IN "
@@ -1197,7 +1193,7 @@ class Db_model extends CI_Model {
   
   //========================>SAVE<=========================//
   
-  //FUNC 52
+  //FUNC 52 move to reference_profile_model
   public function save_follow_work($Ref_profile_follows, $daily_work) {
     try {
       //daily work: reference_id 	to_follow 	last_access 	id 	insta_name 	insta_id 	client_id 	insta_follower_cursor 	user_id 	credit_card_number 	credit_card_status_id 	credit_card_cvc 	credit_card_name 	pay_day 	insta_id 	insta_followers_ini 	insta_following 	id 	name 	login 	pass 	email 	telf 	role_id 	status_id 	languaje 
@@ -1237,7 +1233,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 53
+  //FUNC 53 moved to clients_model
   public function save_http_server_vars($client_id, $HTTP_SERVER_VARS) {
     try {
       $sql = "UPDATE `doorig_visibility_db`.clients SET HTTP_SERVER_VARS='$HTTP_SERVER_VARS' WHERE user_id=$client_id";
@@ -1254,7 +1250,7 @@ class Db_model extends CI_Model {
   
   //=======================>RESET<========================//
   
-  //FUNC 54
+  //FUNC 54 move to reference_profile_model
   public function reset_preference_profile_cursors() {
     try {
       $sql = ""
@@ -1272,7 +1268,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 55
+  //FUNC 55 move to reference_profile_model
   public function reset_referecne_prof($reference_id) {
     try {
 
@@ -1291,7 +1287,7 @@ class Db_model extends CI_Model {
   
   //=======================>OTHERS<========================//
   
-  //FUNC 56
+  //FUNC 56 ?
   public function cmd_is_profile_followed($client_id, $followed_id) {
     try {
       $sql = ""
@@ -1309,7 +1305,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 57
+  //FUNC 57 move to daily_work_model
   public function cmd_has_work($client_id, $rp = NULL) {
     //$Elapsed_time_limit = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME;
     try {
@@ -1339,13 +1335,12 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 58
+  //FUNC 58 OK moved to clients_model
   public function cmd_add_observation($client_id, $observation) {
     try {
-      $observation = mysqli_real_escape_string($this->connection, $observation);
-      $sql = "UPDATE `doorig_visibility_db`.clients SET observation='$observation' WHERE user_id=$client_id";
-      $result = $this->db->query($sql);
-      return $result;
+          $sql = "UPDATE clients SET observation='$observation' WHERE user_id=$client_id";
+          $result = $this->db->query($sql);
+          return $result;
     } catch (Error $e) {
       if ($this->db->error()['code'] != 0) {
         throw new Db_Exception($this->db->error(), $e);
@@ -1355,7 +1350,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 59
+  //FUNC 59 ?
   public function cmd_create_followed($client_id) {
     try {
       $sql = "CREATE TABLE IF NOT EXISTS `doorig_visibility_db.followed`.`$client_id` (
@@ -1383,7 +1378,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 60
+  //FUNC 60 moved to clients_model
   public function cmd_increase_client_last_access($client_id, $hours = 1) {
     try {
       $timestamp = strtotime("+$hours hours", time());
@@ -1397,7 +1392,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 61 OK 
+  //FUNC 61 move to daily_work_model 
   public function cmd_truncate_daily_work() {
     try {
       $sql = "TRUNCATE daily_work;";
