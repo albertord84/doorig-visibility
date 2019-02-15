@@ -152,11 +152,11 @@ class Database_test extends CI_Controller {
       var_dump($obj);
 
     //FUNC 18
-    //$obj = $this->db_model->get_unfollow_work(1);
-    //echo "FUNC 18-[get] get_unfollow_work  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
-    if ($func == 18)
-      var_dump($obj);
 
+    /*$obj = $this->db_model->get_unfollow_work(1);
+    echo "FUNC 18-[get] get_unfollow_work  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";
+    if ($func == 18) var_dump($obj);*/
+    
     //FUNC 19
     $obj = $this->db_model->get_system_config_vars();
     echo "FUNC 19-[get] get_system_config_vars  => result: " . count($obj) . " ==> (<b>ok</b>)<br><br>";

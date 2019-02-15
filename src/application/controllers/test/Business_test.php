@@ -6,6 +6,7 @@ if (!defined('BASEPATH'))
 use business\Proxy;
 use business\Client;
 use business\StatusProfiles;
+use business\ReferenceProfile;
 
 class Business_test extends CI_Controller {
 
@@ -15,6 +16,8 @@ class Business_test extends CI_Controller {
     require_once config_item('business-proxy-class');
     require_once config_item('business-client-class');
     require_once config_item('business-status_profiles-class');
+    require_once config_item('business-reference_profiles-class');    
+    
   }
 
   public function index() {
@@ -52,18 +55,17 @@ class Business_test extends CI_Controller {
     echo "[load] load() ==> (<b>ok</b>)"; //var_dump($obj);
 
     //======= REFERENCE-PROFILE =======//
-    /*echo "<h2>Test ReferenceProfile Business</h2>";
+    echo "<h2>Test ReferenceProfile Business</h2>";
     $obj = new ReferenceProfile();
     echo "[new] ReferenceProfile_business ==> (<b>ok</b>)<br>";
     
     $obj->load_data(1);
-    echo "[load] load() ==> (<b>ok</b>)"; var_dump($obj);*/
+    echo "[load] load() ==> (<b>ok</b>)"; //var_dump($obj);
     
     //======= STATUS-PROFILE =======//
     echo "<h2>Test StatusProfiles Business</h2>";
     $obj = new StatusProfiles();
     echo "[new] StatusProfiles_business ==> (<b>ok</b>)";
-
     
     //echo "<h2>"; print_r(memory_get_usage()); echo '<br>'; echo "</h2>";
   }

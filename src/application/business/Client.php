@@ -377,7 +377,7 @@ namespace business {
      */
     public function get_clients() {
       $ci = &get_instance();
-      return $ci->db_model->get_clients_data();
+      return $ci->clients_model->get_clients_data();
     }
           
     /**
@@ -389,7 +389,7 @@ namespace business {
      */
     public function update_client_cookies($cookies) {
       $ci = &get_instance();
-      $ci->db_model->update_client_cookies($this->Id, $cookies);
+      $ci->clients_model->update_client_cookies($this->Id, $cookies);
     }
 
     /**
@@ -401,7 +401,75 @@ namespace business {
      */
     public function update_client_status($status_id) {
       $ci = &get_instance();
-      $ci->db_model->update_client_status($this->Id, $status_id);
+      $ci->clients_model->update_client_status($this->Id, $status_id);
+    }
+    
+    /**
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
+     */
+    public function dumbu_statistics() {
+      $ci = &get_instance();
+      try {
+        $Clients = array();
+        $time = strtotime(date("Y-m-d H:00:00"));
+        $datas = $ci->clients_model->get_dumbu_statistics();
+        $arr = '(';
+        $cols = '(';
+        foreach ($datas as $value) {
+          switch ($value['status_id']) {
+            case "1":
+              $cols .= "ACTIVE,";
+              break;
+            case "2":
+              $cols .= "BLOCKED_BY_PAYMENT,";
+              break;
+            case "3":
+              $cols .= "BLOCKED_BY_INSTA,";
+              break;
+            case "4":
+              $cols .= "DELETED,";
+              break;
+            case "5":
+              $cols .= "INACTIVE,";
+              break;
+            case "6":
+              $cols .= "PENDING,";
+              break;
+            case "7":
+              $cols .= "UNFOLLOW,";
+              break;
+            case "8":
+              $cols .= "BEGINNER,";
+              break;
+            case "9":
+              $cols .= "VERIFY_ACCOUNT,";
+              break;
+            case "10":
+              $cols .= "BLOCKED_BY_TIME,";
+              break;
+            case "21":
+              $cols .= "PAYING_CUSTOMERS,";
+              break;
+          }
+          $arr .= $value['cnt'] . ',';
+        }
+
+        $datas2 = $ci->clients_model->get_dumbu_paying_customers();
+        foreach ($datas2 as $value) {
+          $cols .= "PAYING_CUSTOMERS,";
+          $arr .= $value['cnt'] . ',';
+        }
+
+        $cols .= 'date)';
+        $arr .= $time . ')';
+        $ci->clients_model->insert_dumbu_statistics($cols, $arr);
+      } catch (Exception $exc) {
+        echo $exc->getTraceAsString();
+      }
     }
     
     //--------------------------REORGANIZAR------------------------------------//
@@ -453,77 +521,7 @@ namespace business {
         echo $exc->getTraceAsString();
       }
     }
-    
-    //Robot
-    /**
-     * 
-     * @todo
-     * @param type
-     * @return
-     * 
-     */
-    public function dumbu_statistics() {
-      $ci = &get_instance();
-      try {
-        $Clients = array();
-        //$DB = new \follows\cls\DB();
-        $time = strtotime(date("Y-m-d H:00:00"));
-        $datas = $ci->db_model->get_dumbu_statistics();
-        $arr = '(';
-        $cols = '(';
-        foreach ($datas as $value) {
-          switch ($value['status_id']) {
-            case "1":
-              $cols .= "ACTIVE,";
-              break;
-            case "2":
-              $cols .= "BLOCKED_BY_PAYMENT,";
-              break;
-            case "3":
-              $cols .= "BLOCKED_BY_INSTA,";
-              break;
-            case "4":
-              $cols .= "DELETED,";
-              break;
-            case "5":
-              $cols .= "INACTIVE,";
-              break;
-            case "6":
-              $cols .= "PENDING,";
-              break;
-            case "7":
-              $cols .= "UNFOLLOW,";
-              break;
-            case "8":
-              $cols .= "BEGINNER,";
-              break;
-            case "9":
-              $cols .= "VERIFY_ACCOUNT,";
-              break;
-            case "10":
-              $cols .= "BLOCKED_BY_TIME,";
-              break;
-            case "21":
-              $cols .= "PAYING_CUSTOMERS,";
-              break;
-          }
-          $arr .= $value['cnt'] . ',';
-        }
-
-        $datas2 = $ci->db_model->get_dumbu_paying_customers();
-        foreach ($datas2 as $value) {
-          $cols .= "PAYING_CUSTOMERS,";
-          $arr .= $value['cnt'] . ',';
-        }
-
-        $cols .= 'date)';
-        $arr .= $time . ')';
-        $ci->db_model->insert_dumbu_statistics($cols, $arr);
-      } catch (Exception $exc) {
-        echo $exc->getTraceAsString();
-      }
-    }
-            
+             
     //DailyWork
     /**
      * 

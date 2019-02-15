@@ -28,6 +28,7 @@
   $config['business-own_exception-class'] = getcwd().'/application/business/OwnException.php';
   $config['business-proxy-class'] = getcwd().'/application/business/Proxy.php';
   //$config['business-proxy_manager-class'] = getcwd().'/application/business/ProxyManager.php';
+  $config['business-reference_profiles-class'] = getcwd().'/application/business/ReferenceProfile.php';
   $config['business-status_profiles-class'] = getcwd().'/application/business/StatusProfiles.php';
   $config['business-user-class'] = getcwd().'/application/business/User.php';
   //$config['business-system_config-class'] = getcwd().'/application/business/SystemConfig.php';
