@@ -351,21 +351,6 @@ class Clients_model extends CI_Model {
     }
   }
   
-  public function get_dumbu_paying_customers() {
-    try {
-      //clientes pagantes
-      $sql = "SELECT count(*) as cnt FROM `doorig_visibility_db`.users JOIN `doorig_visibility_db`.clients ON users.id=clients.user_id WHERE users.status_id in (1,3,5,6,7,9,10) AND credit_card_number<>'' AND credit_card_number<>'PAYMENT_BY_TICKET_BANK' AND credit_card_number is not NULL;";
-      $query = $this->db->query($sql);
-      return $query->row();
-    } catch (Error $e) {
-      if ($this->db->error()['code'] != 0) {
-        throw new Db_Exception($this->db->error(), $e);
-      } else {
-        throw $e;
-      }
-    }
-  }
-  
   public function update_client_status($client_id, $status_id) {
     try {
 
@@ -540,35 +525,6 @@ class Clients_model extends CI_Model {
       }
     }
   }
-  
-  public function get_dumbu_statistics() {
-    try {
-      //clientes por status
-      $sql = "SELECT status_id,count(*) as cnt FROM `doorig_visibility_db`.users GROUP BY status_id;";
-      $query = $this->db->query($sql);
-      return $query->result();
-    } catch (Error $e) {
-      if ($this->db->error()['code'] != 0) {
-        throw new Db_Exception($this->db->error(), $e);
-      } else {
-        throw $e;
-      }
-    }
-  }
-  
-  public function insert_dumbu_statistics($cols, $arr) {
-    try {
-      $sql = "INSERT INTO `doorig_visibility_db`.dumbu_statistic " . $cols . " VALUE " . $arr . ";";
-      $result = $this->db->query($sql);
-      return $result;
-    } catch (Error $e) {
-      if ($this->db->error()['code'] != 0) {
-        throw new Db_Exception($this->db->error(), $e);
-      } else {
-        throw $e;
-      }
-    }
-  }
-}
+
 ?>
 

@@ -780,7 +780,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 31 OK moved to clients_model
+  //FUNC 31 OK ?
   public function get_dumbu_statistics() {
     try {
       //clientes por status
@@ -796,7 +796,7 @@ class Db_model extends CI_Model {
     }
   }
 
-  //FUNC 32 OK moved to clients_model
+  //FUNC 32 OK ?
   public function get_dumbu_paying_customers() {
     try {
       //clientes pagantes
@@ -1050,7 +1050,7 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 45 moved to clients_model
+  //FUNC 45 ?
   public function insert_dumbu_statistics($cols, $arr) {
     try {
       $sql = "INSERT INTO `doorig_visibility_db`.dumbu_statistic " . $cols . " VALUE " . $arr . ";";

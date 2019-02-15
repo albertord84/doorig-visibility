@@ -398,6 +398,10 @@ namespace business {
       $ci->clients_model->update_client_status($this->Id, $status_id);
     }
     
+        
+    //--------------------------REORGANIZAR------------------------------------//
+    
+    //?
     /**
      * 
      * @todo
@@ -465,8 +469,6 @@ namespace business {
         echo $exc->getTraceAsString();
       }
     }
-    
-    //--------------------------REORGANIZAR------------------------------------//
     
     //Componente de ReferenceProfiles
     /**
