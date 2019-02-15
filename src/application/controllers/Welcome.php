@@ -37,12 +37,13 @@ class Welcome extends CI_Controller {
             $StatusCode = $response->getStatusCode();
             $content = $response->getBody()->getContents();
             $content = json_decode($content);
+            //var_dump($content);
             if ($StatusCode == 200 && $content->code == 0) {
                 //3. Response
                 return TRUE;
             }
         } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+            echo $exc->getMessage();
         }
         return FALSE;
     }
