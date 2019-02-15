@@ -1,59 +1,52 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+  exit('No direct script access allowed');
 
 /**
- * @category CodeIgniter-Model: translation_Model
+
+ * @category CodeIgniter-Model: clients_Model
+
  * 
+
  * @access public
- * 
+
  * @todo <description>
+
  * 
+
  */
 class Translation_model extends CI_Model {
-  function construct() {
-    parent::construct();
-  }
 
-  function save($token, $portugues, $ingles, $espanol, $active) {
-    $this->token = $token;
-    $this->portugues = $portugues;
-    $this->ingles = $ingles;
-    $this->espanol = $espanol;
-    $this->active = $active;
-    $this->db->insert('translation', $this);
+    public $language = NULL;
 
-    return $this->db->insert_id();
-  }
+    function construct() {
+        parent::construct();
+    }
 
-  function remove($id) {
-    $this->db->delete('translation', array('id' => $id));
-  }
+    public function get_text_by_token($token, $lang = "PT") {
+        if($lang==='PT')
+            $this->language ='portugues';
+        else
+        if($lang==='EN')
+            $this->language ='ingles';
+        else
+        if($lang==='ES')
+                $this->language ='espanol';
+            
+        $this->db->select($this->language);
+        $this->db->from('translation');
+        $this->db->where('token', $token);
+        $string = $this->db->get()->row_array();
 
-  function update($id, $token, $portugues, $ingles, $espanol, $active) {
-    $this->token = $token;
-    $this->portugues = $portugues;
-    $this->ingles = $ingles;
-    $this->espanol = $espanol;
-    $this->active = $active;
+        if (!count($string)) {
+            $data['token'] = $token;
+            $data['portugues'] = $token;
+            $data['ingles'] = 'Not traduction yet';
+            $data['espanol'] = 'Not traduction yet';
+            $this->db->insert('translation', $data);
+        } else
+            return $string[$this->language];
+    }
 
-    $this->db->update('translation', $this, array('id' => $id));
-  }
-
-  function get_by_id($id) {
-    $this->db->where('id', $id);
-    $query = $this->db->get('translation');
-
-    return $query->row();
-  }
-
-  function get_all($offset = 0, $rows = 0) {	
-    $this->db->limit($offset, $rows);	
-    $this->db->select('*')->from('translation');
-    //$this->db->order_by('<field>', '<type>'); ==> asc/desc
-    $query = $this->db->get();
-
-    return $query->result();
-  }
 }
-
-?>
-
