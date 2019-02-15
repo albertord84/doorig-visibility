@@ -350,7 +350,7 @@ class Clients_model extends CI_Model {
       }
     }
   }
-  
+   
   public function update_client_status($client_id, $status_id) {
     try {
 
@@ -525,6 +525,6 @@ class Clients_model extends CI_Model {
       }
     }
   }
-
+}
 ?>
 
