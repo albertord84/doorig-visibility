@@ -145,6 +145,13 @@ function modal_success_message(text_message){
     $('#success_message_text').text(text_message);        
 }
 
+function modal_confirm_message(text_message,function_name,param){
+    var action = function_name+"('"+param+"')";
+    $('#confirm_message_text').text(text_message);
+    $('#accept_modal_confirm_message').attr('onclick',action)
+    $('#modal_confirm_message').modal('show');
+}
+
 
 $(document).ready(function(){  
     
