@@ -30,18 +30,39 @@ require_once config_item('business-class');
         }
 
         public function do_follow_work(DailyWork $work) {
-           /* echo "[exec] get_insta_followers() ==> ";
-            $cookies = json_decode('{"json_response":{"authenticated":true,"user":true,"status":"ok"},"csrftoken":"kToHKxaPB4iPuVY7t2XzQdi3GeyxrI7D","sessionid":"5453435354%3AVg6DjXraZlISez%3A15","ds_user_id":"5453435354","mid":"W-SbgAAEAAGuwWxQcdNcdZ0xa8Mi"}');
+          $profile_list = array();
+          $cookies = $work->Client->InstaInfo->Cookies;
+          foreach ($work->get_followers($cookies,5/*,proxy*/) as $profile) {
+            //pedir datos del perfil y validar perfil
+            if($this->validate_profile($profile))
+            {
+              $result = $work->Client->InstaInfo->InstaClient->follow($profile->get_insta_id);
+              if($this->process_response($result))
+              {
+                  array_push($profile_list);
+              }
+            }
+          }
+        }
+               
 
-            $profile->get_insta_media(15, NULL, $cookies);
-            echo "(<b>ok</b>)<br>";*/
+        public function do_unfollow_work(DailyWork $work) {
+          $profile_list = array();
+          foreach ($work->get_unfollow_list() as $profile) {            
+            $result = $work->Client->InstaInfo->InstaClient->unfollow($profile->id);
+            if($this->process_response($result))
+            {
+                array_push($profile_list);
+            }            
+          }
+        }
+        
+        public function validate_profile($profile)
+        {
+          return TRUE;
         }
 
-        public function do_unfollow_work() {
-            //está comentada en el antiguo fichero 
-        }
-
-        public function process_error($json_response) {
+        public function process_response($json_response) {
 
         }
 

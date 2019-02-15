@@ -35,7 +35,7 @@ namespace InstaApiWeb {
       }
     }
 
-    public function get_reference_user($cookies, $reference_user_name) {
+    public function get_user_data($cookies, $reference_user_name) {
       if ($cookies != NULL) {
         $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
         $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;

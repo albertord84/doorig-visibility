@@ -187,10 +187,13 @@ namespace business\worker {
       echo "<h2>Test GeoProfile Library</h2>";
       echo "[load] GeoProfile_lib ==> ";
       ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
-      $this->ci->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'GeoProfile_lib');
-      $robot = new Robot();
-      $robot->do_follow_work($this->ci->GeoProfile_lib);
-      echo "(<b>ok</b>)<br>";
+      while(DailyWork::exist_work())
+      {
+        $daily_work = DailyWork::get_next_work();
+        $robot = new Robot();
+        $robot->do_follow_work($daily_work);
+        $robot->do_unfollow_work($daily_work);
+      }
       
       /*$ci = &get_instance();
       try {
@@ -250,6 +253,8 @@ namespace business\worker {
         echo $exc->getTraceAsString();
       }*/
     }
+    
+    /*
 
     // LISTA!!!
     private function do_client_work(DailyWork $daily_work) {
@@ -346,7 +351,7 @@ namespace business\worker {
       $ci = &get_instance();
       $ci->db_model->cmd_truncate_daily_work();
     }
-
+ */
   }
 
 }
