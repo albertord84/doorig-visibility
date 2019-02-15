@@ -3,6 +3,8 @@
 namespace business {
 
   require_once config_item('business-user-class');
+  
+  use business\User;
 
   /**
    * @category Business class
