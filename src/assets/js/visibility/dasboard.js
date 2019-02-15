@@ -1,20 +1,92 @@
 $(document).ready(function(){
     
-    $("#message_lnk").click(function(){
-        url = base_url.replace(module,"dashboard");
-        $(location).attr('href', url+"index.php/welcome/message_view");
-        return false;
+    $(".dashboard-access").click(function(){        
+        var final_url = base_url.replace(module,"dashboard");
+        var btn =this;
+        $.ajax({ 
+            url : base_url+'index.php/welcome/call_to_generate_access_token',
+            data :{},
+            type : 'POST',
+            dataType : 'json',
+            success : function(response){
+                spinner_stop(btn);
+                if(response.code===0){
+                    $(location).attr('href', final_url+"/src/index.php/welcome/index/"+response.LoginToken+"/"+response.StatusModule);
+                } else
+                    modal_alert_message(response.message);                    
+            },
+            error : function(xhr, status) {
+                spinner_stop(btn);
+                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+            }
+        });  
     });
     
-    $("#visivility_lnk").click(function(){        
-        //chamar por AJAX a função geradora de access_token
-        //e no success do AJAX fazer a redireção
-        url = base_url.replace(module,"visibility");
-        $(location).attr('href', url);
-        return false;
+    $(".visivility-access").click(function(){        
+        var final_url = base_url.replace(module,"visibility");
+        var btn =this;
+        $.ajax({ 
+            url : base_url+'index.php/welcome/call_to_generate_access_token',
+            data :{
+                "final_module":"visibility",
+            },
+            type : 'POST',
+            dataType : 'json',
+            success : function(response){
+                spinner_stop(btn);
+                if(response.code===0){
+                    $(location).attr('href', final_url+"/src/index.php/welcome/index/"+response.LoginToken+"/"+response.StatusModule);
+                } else
+                    modal_alert_message(response.message);                    
+            },
+            error : function(xhr, status) {
+                spinner_stop(btn);
+                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+            }
+        });       
     });
     
+    $(".post-stories-access").click(function(){        
+        modal_alert_message("acessando post-stories"); return false;
+    });
     
+    $(".directs-access").click(function(){        
+        modal_alert_message("acessando directs"); return false;
+    });
+    
+    $(".deep-analisys-access").click(function(){        
+        modal_alert_message("acessando deep-analisys"); return false;
+    });
+    
+    $(".payment-access").click(function(){        
+        modal_alert_message("acessando payment"); return false;
+    });
+    
+    $(".sumarize-account-access").click(function(){        
+        modal_alert_message("acessando sumarize-account"); return false;
+    });
+            
+    $(".message-access").click(function(){
+        var final_url = base_url.replace(module,"dashboard");
+        var btn =this;
+        $.ajax({ 
+            url : base_url+'index.php/welcome/call_to_generate_access_token',
+            data :{},
+            type : 'POST',
+            dataType : 'json',
+            success : function(response){
+                spinner_stop(btn);
+                if(response.code===0){
+                    $(location).attr('href', final_url+"/src/index.php/welcome/message_view/"+response.LoginToken+"/"+response.StatusModule);
+                } else
+                    modal_alert_message(response.message);                    
+            },
+            error : function(xhr, status) {
+                spinner_stop(btn);
+                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+            }
+        }); 
+    });
 });
 
 

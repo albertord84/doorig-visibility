@@ -41,6 +41,7 @@
   $config['business-dumbu_response-class'] = getcwd().'/application/business/SystemResponse/DUMBUResponse.php';
   $config['business-payment_response-class'] = getcwd().'/application/business/SystemResponse/PaymentResponse.php';
   $config['business-reference_profile_response-class'] = getcwd().'/application/business/SystemResponse/ReferenceProfileResponse.php';
+  $config['business-response-class'] = getcwd().'/application/business/Response/Response.php';
   
 /*
 |--------------------------------------------------------------------------

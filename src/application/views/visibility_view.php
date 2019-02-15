@@ -33,26 +33,25 @@
         <!-- You can change the theme colors from here -->
         <link href="<?php echo base_url()?>assets/css/colors/default.css" id="theme" rel="stylesheet">
         
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/wizard.css"> 
+        
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
             var module = "visibility";
-        </script>
+        </script>        
+        
     </head>
 
     <body class="fix-header fix-sidebar card-no-border">
-        <div class="preloader">
-            <div class="loader">
-                <div class="loader__figure"></div>
-                <p class="loader__label">DOORIG</p>
-            </div>
-        </div>
-        <!-- Main wrapper -->
+        
         <div id="main-wrapper">
             <?php echo $lateral_menu;?>
         </div>    
             
-        <div class="page-wrapper">
+        <div class="page-wrapper">            
             <div class="container-fluid">
+                
                 <div class="row page-titles">
                     <div class="col-md-8 align-self-center">
                         <!--<h3 class="text-themecolor">Aumente sua visibilidade no Instagram!</h3>-->
@@ -61,14 +60,21 @@
                             <li class="breadcrumb-item active">Mais visibilidade</li>
                         </ol>
                     </div>
-
                 </div>
+                
                 <div class="row">
                     <div class="col-12">
 
                         <div class="card">
-                            <div class="card-body">
-                                <h1>MÓDULO VISIBILIDADE</h1>
+                            <div class="row card-body">
+                                <div class="col-md-8">
+                                    <h1>MÓDULO VISIBILIDADE</h1>                                    
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <a href="#contract-now">
+                                        <button class="btn btn-info">Contratar agora <i class="fas fa-user-plus"></i></button>
+                                    </a>                                    
+                                </div>
                             </div>
                         </div>
 
@@ -170,411 +176,369 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                           </div>
-<!--                                               <div class="col-md-6 col-sm-12">
-                                                <div class="right-content-area"> 
-                                                    <div class="sec-title text-left">
-                                                        <h2>PASSO A PASSO</h2></div>
-                                                        <spam></spam>
-
-                                                    <div class="about-item" style="width: 180%">
-                                                        <ul>
-                                                            <li><i class="fa fa-arrow-circle-right"></i>1. Escolha os Perfis de referência, geolocalização ou hastag dos que deseja captar seus seguidores para sua marca</li>
-                                                            <li><i class="fa fa-arrow-circle-right"></i>2. A ferramenta de visibilidade seguirá automaticamente os seguidores dos Perfis de referência</li>
-                                                            <li><i class="fa fa-arrow-circle-right"></i>3. Uma parte desses seguidores poderão seguir você de volta por se identificar com o conteúdo da sua marca</li>
-                                                            <li><i class="fa fa-arrow-circle-right"></i>4. A ferramenta deixará de seguir esses perfis automáticamente após 48 horas.</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                           </div>-->
+                                            </div>
                                         </div>
                                     </div>
                                 </section>
                             </div>
                         </div>
 
-                        <!-- SIGNIN SECTION -->
+                        
+                        <A name="contract-now"></A>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body wizard-content">
+                                    <div class="card-body">
+                                        
                                         <div class="col-md-12">
                                             <div class="sec-title text-center">
-                                                <h2>Assinar agora</h2>
+                                                <h2>Contratar agora</h2>
                                                 <span class="border"></span>
                                             </div>
                                         </div>
-                                        <form action="#" class="tab-wizard wizard-circle">
-                                            <!-- Step 1 -->
-                                                <h6>Informar marca</h6>
-                                                <section>
+                                        
+                                        
+                                        <div class="col-md-12">                                                
+                                            <!-- Steep 1 -->
+                                                <section class="sigin-painel-steep-1" style="display:none;">
+                                                    <!-- Wizzard 1 -->
+                                                    <div class="row">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-8">                                                            
+                                                            <div class="stepwizard" style="width: 100%">
+                                                                <div class="stepwizard-row setup-panel">
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-1" type="button" class="btn btn-info btn-circle">1</a>
+                                                                    </div>
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                                                    </div>
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                                                    </div>                                                                    
+                                                                </div>
+                                                                <br>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-2"></div>
+                                                    </div>
+                                                    <!-- Form 1 -->
+                                                    <div class="row" >
+                                                        <div class="col-md-1"></div>
+                                                        <div class="col-md-10" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
+                                                            <div class="row" >
+                                                                <div class="col-md-1"></div>
+                                                                <div class="col-md-10"> 
+                                                                    <form>
+                                                                        <div class="form-group">
+                                                                            <label>Perfil da sua marca:</label>
+                                                                            <input id="login_profile" type="text" class="form-control to-lower-case" >
+                                                                            <div id="container_search_profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                                                <table id="table_search_profile" class="table">                                
+                                                                                </table>
+                                                                            </div>                                                                
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Senha:</label>
+                                                                            <input id="password" type="password" class="form-control" id="firstName1"> 
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label>Confirmar senha:</label>
+                                                                            <input id="password-rep" type="password" class="form-control" id="firstName1"> 
+                                                                        </div>
+                                                                    </form>                                                                    
+                                                                </div>
+                                                                <div class="col-md-1"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1"></div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-md-2"></div>
                                                         <div class="col-md-8">
-                                                            <div class="form-group">
-                                                                <label for="firstName1">Perfil da sua marca:</label>
-                                                                <input type="text" class="form-control" id="firstName1"> 
+                                                            <div class="form-group text-right" style="margin-top:40px">
+                                                                <button id="btn-contract-steep-1" type="button" class="btn btn-info" style="padding:10px 30px 10px 30px">
+                                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                                    Seguinte
+                                                                </button>                                                                    
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label for="firstName1">Senha:</label>
-                                                                <input type="text" class="form-control" id="firstName1"> 
-                                                            </div>                                                                
                                                         </div>
-                                                        <div class="col-md-2"></div> 
+                                                        <div class="col-md-2"></div>                                                                
                                                     </div>
-                                                </section>
-                                            <!-- Step 2 -->
-                                                <h6>Selecionar plano</h6>
-                                                <section class="price-table">
-                                                    <div class="container">
+                                                </section> 
+                                               
+                                            <!-- Steep 2 -->                                                
+                                                <section class="sigin-painel-steep-2" style="display:none;">
+                                                    <!-- Wizzard 2 -->
+                                                    <div class="row">
+                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-8">
+                                                            <div class="stepwizard" style="width: 100%">
+                                                                <div class="stepwizard-row setup-panel">
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                                                                    </div>
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-2" type="button" class="btn btn-primary btn-circle">2</a>
+                                                                    </div>
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                            </div>                                                            
+                                                        </div>
+                                                        <div class="col-md-2"></div>                                                        
+                                                    </div>
+                                                    <!-- Form 2 -->
+                                                    <form>
                                                         <div class="row">
-                                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                                <div id="midle_plane" class="table-block text-center" >                                                                        
-                                                                    <div class="table-det">
-                                                                        <h2 style="font-size:2em"><span>$R </span>20.45</h2>
-                                                                        <h3>Médio</h3>
-                                                                        <ul>
-                                                                            <li>Perfis de Referência</li>
-                                                                            <li>Like First</li>
-                                                                        </ul>
-                                                                        <!--<div class="button">
-                                                                            <a class="thm-btn bg-clr3" href="#">Get Service</a>
-                                                                        </div>-->
-                                                                        <label class="inline custom-control custom-checkbox block">
-                                                                            <input type="checkbox" class="custom-control-input">
-                                                                            <span class="custom-control-label ml-0">1 star</span> 
-                                                                        </label>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-10" >
+                                                                <div class="row price-table" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
+                                                                    <div class="col-md-4">
+                                                                        <div id="midle_plane" class="table-block text-center" >                                                                        
+                                                                            <div class="table-det">
+                                                                                <h3 style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Médio</h3>
+                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span>20.45</h2>
+                                                                                <ul>
+                                                                                    <li style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">Perfis de Referência</li>
+                                                                                    <li style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">Like First</li>
+                                                                                </ul>
+                                                                                <br><br>
+                                                                                <label class="inline custom-control custom-checkbox block">
+                                                                                    <input id="midle_plane_radio" type="radio" name="select_plane" class="custom-control-input">
+                                                                                    <span class="custom-control-label ml-0"></span> 
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                                <div id="fast_plane" class="table-block text-center active">                                                                        
-                                                                    <div class="table-det">
-                                                                        <h2 style="font-size:2em"><span>$R </span>38.12</h2>
-                                                                        <h3>Rápido</h3>
-                                                                        <ul>
-                                                                            <li>Perfis de Referência</li>
-                                                                            <li>Geolocalização</li>
-                                                                            <li>Like First</li>
-                                                                        </ul>
-                                                                        <!--<div class="button">
-                                                                            <a class="thm-btn bg-clr3" href="#">Get Service</a>
-                                                                        </div>-->
-                                                                        <label class="inline custom-control custom-checkbox block">
-                                                                            <input type="checkbox" class="custom-control-input">
-                                                                            <span class="custom-control-label ml-0">1 star</span> 
-                                                                        </label>
+                                                                    <div class="col-md-4">
+                                                                        <div id="fast_plane" class="table-block text-center active">                                                                        
+                                                                            <div class="table-det">
+                                                                                <h3 style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Rápido</h3>
+                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span>38.12</h2>
+                                                                                <ul>
+                                                                                    <li style="margin-top:3px;margin-bottom:3px;padding-top:3px;padding-bottom:3px;">Perfis de Referência</li>
+                                                                                    <li style="margin-top:3px;margin-bottom:3px;padding-top:3px;padding-bottom:3px;">Geolocalização</li>
+                                                                                    <li style="margin-top:3px;margin-bottom:3px;padding-top:3px;padding-bottom:3px;">Like First</li>
+                                                                                </ul>
+                                                                                <br>
+                                                                                <label class="inline custom-control custom-checkbox block">
+                                                                                    <input id="fast_plane_radio" type="radio" name="select_plane" class="custom-control-input">
+                                                                                    <span class="custom-control-label ml-0"></span> 
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                                <div  class="table-block text-center">                                                                        
-                                                                    <div id="very_fast_plane" class="table-det">
-                                                                        <h2 style="font-size:2em"><span>$R </span>55.00</h2>
-                                                                        <h3>Ultra rápido</h3>
-                                                                        <ul>
-                                                                            <li>Perfis de Referência</li>
-                                                                            <li>Geolocalização</li>
-                                                                            <li>Hashtag</li>
-                                                                            <li>Like First</li>
-                                                                        </ul>
-                                                                        <!--<div class="button">
-                                                                            <a class="thm-btn bg-clr3" href="#">Get Service</a>
-                                                                        </div>-->
-                                                                        <label class="inline custom-control custom-checkbox block">
-                                                                            <input type="checkbox" class="custom-control-input">
-                                                                            <span class="custom-control-label ml-0">1 star</span> 
-                                                                        </label>
+                                                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                                                        <div id="very_fast_plane" class="table-block text-center">                                                                        
+                                                                            <div id="very_fast_plane" class="table-det">
+                                                                                <h3 style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Ultra rápido</h3>
+                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span>55.00</h2>
+                                                                                <ul>
+                                                                                    <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Perfis de Referência</li>
+                                                                                    <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>
+                                                                                    <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Hashtag</li>
+                                                                                    <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Like First</li>
+                                                                                </ul>
+                                                                                <label class="inline custom-control custom-checkbox block" style="margin-bottom:10px">
+                                                                                    <input id="very_fast_plane_radio" type="radio" name="select_plane" class="custom-control-input">
+                                                                                    <span class="custom-control-label ml-0"></span> 
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                                </div> 
+                                                                <div class="row">
+                                                                    <div class="col-md-2"></div>
+                                                                    <div class="col-md-8 text-right" style="margin-top:40px">
+                                                                        <button id="btn-contract-steep-2" type="button" class="btn btn-info" style="padding:10px 30px 10px 30px">
+                                                                            <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                                            Seguinte
+                                                                        </button>                                                                    
+                                                                    </div>
+                                                                    <div class="col-md-2"></div>
+                                                                </div> 
+                                                            </div>    
+                                                            <div class="col-md-1"></div>
+                                                        </div> 
+                                                    </form>
                                                 </section>
-                                            <!-- Step 3 -->
-                                                <h6>Configuração inicial</h6>
-                                                <section>
+                                                                
+                                            <!-- Steep 3 -->         
+                                                <section class="sigin-painel-steep-3" style="display:block;">
+                                                    <!-- Wizzard 3 -->
                                                     <div class="row">
                                                         <div class="col-md-2"></div>
                                                         <div class="col-md-8">
-                                                            <label for="int1">Insira pelo menos um Perfil de Referência:</label>
-                                                            <div class="input-group">
-                                                                <input id="cep" type="text" class="form-control" placeholder="Perfil de referência *" required="required" data-validation-required-message="CEP inválido.">
-<!--                                                                    <div class="input-group-append">
-                                                                    <button id="verify_cep" style="height: 38px" title="Adicionar" class="btn btn-outline-secondary" type="button"><i class="fas fa-plus"></i></button>
-                                                                </div>-->
-                                                                <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>
-                                                            </div>
+                                                            <div class="stepwizard" style="width: 100%">
+                                                                <div class="stepwizard-row setup-panel">
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
+                                                                    </div>
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-2" type="button" class="btn btn-success btn-circle">2</a>
+                                                                    </div>
+                                                                    <div class="stepwizard-step">
+                                                                        <a href="#step-3" type="button" class="btn btn-primary btn-circle">3</a>
+                                                                    </div>
+                                                                </div>
+                                                                <br>
+                                                            </div>                                                            
                                                         </div>
-                                                        <div class="col-md-2"></div>
+                                                        <div class="col-md-2"></div>                                                        
                                                     </div>
-                                                     <div class="row">
-                                                        <div class="col-md-1"></div>
-                                                        <div class="col-md-10">
-                                                            <div id="mandatary_reference_profile_container" class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
+                                                    <!-- Form 3 -->
+                                                    <form>
+                                                        <div class="row">
+                                                            <div class="col-md-2"></div>
+                                                            <div class="col-md-8">
+                                                                <label for="int1">Insira pelo menos um Perfil de Referência:</label>
+                                                                <div class="input-group">
+                                                                    <input id="login_profile1" type="text" class="form-control to-lower-case" placeholder="Perfil de referência *" required="required" >
+                                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                                    <button id="add-reference-profile" type="button" class="btn btn-info" style="margin-left:px;max-height:38px">
+                                                                        Adicionar
+                                                                        <i class="fa fa-plus-circle"></i> 
+                                                                    </button>
+                                                                    <div id="container_search_profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                                        <table id="table_search_profile1" class="table">                                
+                                                                        </table>
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2"></div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-10">
+                                                                <div class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
+                                                                    <div id="container-reference-profiles" class="row">
+                                                                        
+                                                                        
+                                                                        <div class='col-md-4 col-sm-12 col-xs-12'>
+                                                                            <div class='card'>
+                                                                                <div class='profile card-body card-body-profile'>
+                                                                                    <button class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> 
+                                                                                    <br>
+                                                                                    <div class='text-center'>
+                                                                                        <img class='img-profile' src='https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net'>
+                                                                                        <h5 class='card-title'>
+                                                                                            @<a id='name-profile' href='https://www.instagram.com/leticiajural/' target='_blank'>
+                                                                                                leticiajural1
+                                                                                            </a>
+                                                                                        </h5>                                                                                    
+                                                                                    </div>
+                                                                                    <div class='row'>
+                                                                                        <div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>
+                                                                                            <p class='m-b-0 label-profile'>Posts</p>
+                                                                                            <h6 id='amount-post-profile' class='text-muted'>105</h6>
+                                                                                        </div>
+                                                                                        <div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>
+                                                                                            <p class='m-b-0 label-profile'>Seguidores</p>
+                                                                                            <h6 id='amount-folowers-profile' class='text-muted'>8,317</h6>
+                                                                                        </div>
+                                                                                        <div class='col-md-4 col-sm-12 col-xs-12 text-center p-0' >
+                                                                                            <p class='m-b-0 label-profile' >Seguindo</p>
+                                                                                            <h6 id='amount-following-profile' class='text-muted'>1,457</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        
+                                                                        
+                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                                                            <div class="card">
+                                                                                <div class="profile card-body card-body-profile">
+                                                                                    <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
+                                                                                    <br>
+                                                                                    <div class="text-center">
+                                                                                        <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/581e26f0c737200838ab7d63cd5f710c/5CE31862/t51.2885-19/s150x150/16110336_541368592676753_1487422431021760512_a.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
+                                                                                        <h5 class="card-title">
+                                                                                            @<a id="name-profile" href="https://www.instagram.com/desainemarmores/" target="_blank">
+                                                                                                desainemarmores
+                                                                                            </a>
+                                                                                        </h5>                                                                                    
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
+                                                                                            <p class="m-b-0 label-profile">Posts</p>
+                                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
+                                                                                        </div>
+                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
+                                                                                            <p class="m-b-0 label-profile">Seguidores</p>
+                                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
+                                                                                        </div>
+                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
+                                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
+                                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                                                            <div class="card">
+                                                                                <div class="profile card-body card-body-profile">
+                                                                                    <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
+                                                                                    <br>
+                                                                                    <div class="text-center">
+                                                                                        <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
+                                                                                        <h5 class="card-title">
+                                                                                            <a id="name-profile" href="https://www.instagram.com/leticiajural/" target="_blank">
+                                                                                                @leticiajural2
+                                                                                            </a>
+                                                                                        </h5>                                                                                    
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
+                                                                                            <p class="m-b-0 label-profile">Posts</p>
+                                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
+                                                                                        </div>
+                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
+                                                                                            <p class="m-b-0 label-profile">Seguidores</p>
+                                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
+                                                                                        </div>
+                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
+                                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
+                                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        
+                                                                    </div>                                                                    
+                                                                </div>
                                                                 <div class="row">
-                                                                    <div class="col-md-4 col-sm-12 col-xs-12">
-                                                                        <div class="card">
-                                                                            <div class="profile card-body card-body-profile">
-                                                                                <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
-                                                                                <br>
-                                                                                <div class="text-center">
-                                                                                    <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                                    <h5 class="card-title">
-                                                                                        @<a id="name-profile" href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                                            leticiajural
-                                                                                        </a>
-                                                                                    </h5>                                                                                    
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Posts</p>
-                                                                                        <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Seguidores</p>
-                                                                                        <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                                        <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                                        <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                    <div class="col-md-2"></div>
+                                                                    <div class="col-md-8 text-right" style="margin-top:40px">
+                                                                        <button id="btn-contract-steep-3" type="button" class="btn btn-info" style="padding:10px 30px 10px 30px">
+                                                                            <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                                            Finalizar
+                                                                        </button>                                                                    
                                                                     </div>
-                                                                    <div class="col-md-4 col-sm-12 col-xs-12">
-                                                                        <div class="card">
-                                                                            <div class="profile card-body card-body-profile">
-                                                                                <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
-                                                                                <br>
-                                                                                <div class="text-center">
-                                                                                    <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/581e26f0c737200838ab7d63cd5f710c/5CE31862/t51.2885-19/s150x150/16110336_541368592676753_1487422431021760512_a.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                                    <h5 class="card-title">
-                                                                                        @<a id="name-profile" href="https://www.instagram.com/desainemarmores/" target="_blank">
-                                                                                            desainemarmores
-                                                                                        </a>
-                                                                                    </h5>                                                                                    
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Posts</p>
-                                                                                        <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Seguidores</p>
-                                                                                        <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                                        <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                                        <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4 col-sm-12 col-xs-12">
-                                                                        <div class="card">
-                                                                            <div class="profile card-body card-body-profile">
-                                                                                <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
-                                                                                <br>
-                                                                                <div class="text-center">
-                                                                                    <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                                    <h5 class="card-title">
-                                                                                        <a id="name-profile" href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                                            @leticiajural
-                                                                                        </a>
-                                                                                    </h5>                                                                                    
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Posts</p>
-                                                                                        <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Seguidores</p>
-                                                                                        <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                                        <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                                        <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-4 col-sm-12 col-xs-12">
-                                                                        <div class="card">
-                                                                            <div class="profile card-body card-body-profile">
-                                                                                <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
-                                                                                <br>
-                                                                                <div class="text-center">
-                                                                                    <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                                    <h5 class="card-title">
-                                                                                        <a id="name-profile" href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                                            @leticiajural
-                                                                                        </a>
-                                                                                    </h5>                                                                                    
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Posts</p>
-                                                                                        <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                        <p class="m-b-0 label-profile">Seguidores</p>
-                                                                                        <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                                    </div>
-                                                                                    <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                                        <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                                        <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    <div class="col-md-2"></div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-md-1"></div>
-                                                    </div>
+                                                            <div class="col-md-1"></div>
+                                                        </div>                                                        
+                                                        
+                                                    </form>
                                                 </section>
-                                            <!-- Step 4 -->
-<!--                                                <h6>Finalizar</h6>
-                                                <section>
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="behName1">Behaviour :</label>
-                                                                <input type="text" class="form-control" id="behName1">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="participants1">Confidance</label>
-                                                                <input type="text" class="form-control" id="participants1">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="participants1">Result</label>
-                                                                <select class="custom-select form-control" id="participants1" name="location">
-                                                                    <option value="">Select Result</option>
-                                                                    <option value="Selected">Selected</option>
-                                                                    <option value="Rejected">Rejected</option>
-                                                                    <option value="Call Second-time">Call Second-time</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label for="decisions1">Comments</label>
-                                                                <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>Rate Interviwer :</label>
-                                                                <div class="c-inputs-stacked">
-                                                                    <label class="inline custom-control custom-checkbox block">
-                                                                        <input type="checkbox" class="custom-control-input">
-                                                                        <span class="custom-control-label ml-0">1 star</span> 
-                                                                    </label>
-                                                                    <label class="inline custom-control custom-checkbox block">
-                                                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label ml-0">2 star</span> </label>
-                                                                    <label class="inline custom-control custom-checkbox block">
-                                                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label ml-0">3 star</span> </label>
-                                                                    <label class="inline custom-control custom-checkbox block">
-                                                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label ml-0">4 star</span> </label>
-                                                                    <label class="inline custom-control custom-checkbox block">
-                                                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label ml-0">5 star</span> </label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </section>-->
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <!-- PRICE SECTION -->
-                        <!--<div class="card">
-                            <div class="card-body">    
-                                <section class="price-table">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="sec-title text-center">
-                                                    <h2>Best Pricing Plan</h2>
-                                                    <span class="border"></span>
-                                                    <p>Lorem ipsum dolor  amet mi ultricies interdum pede eu vestibulum vulputate maurimtum <br>commod rhoncus consectetuer reduce producet</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="table-block text-center">
-                                                    <div class="icon-box">
-                                                        <i class="flaticon-folder"></i>
-                                                    </div>
-                                                    <div class="table-det">
-                                                        <h2 ><span>$</span>20.45</h2>
-                                                        <h3>Personal Plan</h3>
-                                                        <ul>
-                                                            <li>Normal Server Power</li>
-                                                            <li>Unlimited Montly Traffic</li>
-                                                            <li>Cloud Technology</li>
-                                                            <li>Unlimited Disic Space</li>
-                                                        </ul>
-                                                        <div class="button">
-                                                            <a class="thm-btn bg-clr3" href="#">Get Service</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="table-block text-center active">
-                                                    <div class="icon-box">
-                                                        <i class="flaticon-folder"></i>
-                                                    </div>
-                                                    <div class="table-det">
-                                                        <h2 ><span>$</span>38.12</h2>
-                                                        <h3>Business Plan</h3>
-                                                        <ul>
-                                                            <li>Normal Server Power</li>
-                                                            <li>Unlimited Montly Traffic</li>
-                                                            <li>Cloud Technology</li>
-                                                            <li>Unlimited Disic Space</li>
-                                                        </ul>
-                                                        <div class="button">
-                                                            <a class="thm-btn bg-clr4" href="#">Get Service</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                                <div class="table-block text-center">
-                                                    <div class="icon-box">
-                                                        <i class="flaticon-folder"></i>
-                                                    </div>
-                                                    <div class="table-det">
-                                                        <h2 ><span>$</span>55.00</h2>
-                                                        <h3>Super Service Plan</h3>
-                                                        <ul>
-                                                            <li>Normal Server Power</li>
-                                                            <li>Unlimited Montly Traffic</li>
-                                                            <li>Cloud Technology</li>
-                                                            <li>Unlimited Disic Space</li>
-                                                        </ul>
-                                                        <div class="button">
-                                                            <a class="thm-btn bg-clr3" href="#">Get Service</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </div>
-                        </div>-->
-
                     </div>
                 </div>
+                
+                <?php echo $modals?>
 
                 <footer class="footer text-center">
                     DOORIG - TODOS OS DIREITOS RESERVADOS
@@ -612,22 +576,16 @@
         <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
         <script type="text/javascript">$('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();</script>        
-        <!--Wizard JavaScript -->
-        <script src="<?php echo base_url()?>assets/node_modules/moment/min/moment.min.html"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.steps.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.validate.min.js"></script>
-        <!-- Sweet-Alert  -->
-        <script src="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/steps.js"></script>
+        
         
         <!-- system scripts -->
-        <script src="<?php echo base_url()?>assets/js/dashboard/talkme_painel_dashboard.js"></script>
-        <script src="<?php echo base_url()?>assets/js/dashboard/basics.js"></script>
-        <script src="<?php echo base_url()?>assets/js/dashboard/dasboard.js"></script>
-        
-        <script src="<?php echo base_url()?>assets/js/visibility.js"></script>
-        
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/mask.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/basics.js"></script>        
+        <script src="<?php echo base_url()?>assets/js/visibility/dasboard.js"></script>        
+        <script src="<?php echo base_url()?>assets/js/visibility/ig_interactions.js"></script>        
+        <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"></script>
         
     </body>
 </html>

@@ -4,21 +4,59 @@ ini_set('xdebug.var_display_max_depth', 256);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
-class Welcome extends CI_Controller {
+use business\Response\Response;
+//use business\Response\ResponseLoginToken;
+//use business\Client;
+//use business\Node;
+//use business\ErrorCodes;
+//use business\ClientStatus;
 
-//    public function index() {
-//        $param["lateral_menu"] = $this->load->view('lateral_menu');
-//        $this->load->view('visibility_view', $param);
-//    }
+class Welcome extends CI_Controller {
     
+    public function __construct() {
+        parent::__construct();
+        require_once config_item('business-response-class');
+    }
+
+
     public function index() {
+        $param["lateral_menu"] = $this->load->view('lateral_menu','', TRUE);
+        $param["modals"] = $this->load->view('modals','', TRUE);
+        $this->load->view('visibility_view', $param);
+    }
+    
+    public function client() {
         $param["lateral_menu"] = $this->load->view('lateral_menu','', TRUE);
         $this->load->view('client_view', $param);
     }
     
     
     //TODO  Alberto:  poner en las clases controladoras que te de la gana
-    //---------------PRINCIPALS FUNCTIONS-----------------------------
+    //---------------HOME FUNCTIONS-----------------------------
+    public function contract_visibility_steep_1() { //setting proper profile
+        $datas = $this->input->post();
+        $datas["login_profile"];
+        $datas["password"];
+        $datas["passwordrep"];        
+        return Response::ResponseOK()->toJson();        
+    }
+    
+    public function contract_visibility_steep_2() { //setting plane
+        $datas = $this->input->post();
+        $datas["plane"];  //midle, fast, very_fast        
+        return Response::ResponseOK()->toJson();        
+    }
+    
+    public function contract_visibility_steep_3() { //ending contract module
+        //conferir no banco de dados se pelo menos inseriu um RP
+        //SESSION["contrated"]=true;
+        return Response::ResponseOK()->toJson();        
+    }    
+    
+    
+    
+    
+    //---------------CLIENTS FUNCTIONS-----------------------------
 	public function insert_reference_profile(){
             $this->load-library("sessions_utils");
             $this->is_client();
