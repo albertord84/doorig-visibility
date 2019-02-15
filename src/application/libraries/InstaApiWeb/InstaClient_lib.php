@@ -32,7 +32,7 @@ class InstaClient_lib {
     require_once config_item('thirdparty-insta_client-resource');
     require_once config_item('thirdparty-verification_choice-resource');
     require_once config_item('insta-checkpoint-exception-class');
-    require_once config_item('business-cookies-class');
+    require_once config_item('thirdparty-cookies');
 
     $this->CI = &get_instance();
     $this->CI->load->model("db_model");

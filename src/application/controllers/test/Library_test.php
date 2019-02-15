@@ -9,8 +9,8 @@ class Library_test extends CI_Controller {
     parent::__construct();
 
     require_once config_item('db-exception-class');
-    require_once config_item('business-client-class');
-    require_once config_item('thirdparty-cookies-resource');
+   // require_once config_item('business-client-class');
+    require_once config_item('thirdparty-cookies');
   }
 
   public function index() {

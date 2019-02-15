@@ -1,0 +1,108 @@
+.img-profile{
+    width: 60px;
+    height: 60px;
+    border: 1px solid silver;
+    border-radius: 30px;
+}
+.img-geolocation{
+    width: 60px;
+    height: 60px;
+    border: 1px solid silver;
+    border-radius: 30px;
+}
+.img-hashtag{
+    width: 60px;
+    height: 60px;
+    border: 1px solid silver;
+    border-radius: 30px;
+}
+.img-profile-client{
+    width: 160px;
+    height: 160px;
+    border: 3px solid silver;
+    border-radius: 90px;
+}
+
+.label-profile{
+    font-size: 0.8em;
+}
+
+.card-body-profile{
+    border: 1px solid #E6E6E6;
+    border-radius: 5px; 
+    box-shadow: 2px 3px #E6E6E6;
+}
+
+.card-over-card{
+    border: 1px solid #E6E6E6;
+    border-radius: 5px; 
+    box-shadow: 2px 3px #E6E6E6;
+}
+
+.p-0{
+    padding:0px;
+}
+.m-0{
+    margin:0px;
+}
+
+.profile:hover{
+    background-color:#fff;
+    -webkit-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+       -moz-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+        -ms-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+         -o-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+}
+.geolocation:hover{
+    background-color:#fff;
+    -webkit-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+       -moz-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+        -ms-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+         -o-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+}
+.hastag:hover{
+    background-color:#fff;
+    -webkit-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+       -moz-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+        -ms-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+         -o-box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 2px 5px 15px rgba(0,0,0,0.2);
+}
+
+.message-scroll{
+    height: 280px;
+    overflow-y: auto; 
+}
+
+.col-img-profile{    
+    max-width: 80px;
+    text-align: center
+}
+
+.search-img-profile{    
+    border: solid 1px #efefef; 
+    border-radius: 40px;
+    height: 40px;
+    width: 40px;
+    margin: 10px 0 0 0;    
+}
+
+.search-div-profile{
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 50px;
+}
+
+.myspinner{
+    font-size:18px;
+    display:none;
+    visibility:hidden;
+}
+
+.to-lower-case{
+    text-transform:lowercase;    
+}

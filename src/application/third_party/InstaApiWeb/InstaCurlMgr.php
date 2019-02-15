@@ -3,7 +3,7 @@
 namespace InstaApiWeb {
   
   require_once config_item('thirdparty-proxy-resource');
-  require_once config_item('thirdparty-cookies-resource');
+  require_once config_item('thirdparty-cookies');
   require_once config_item('insta-curl-exception-class');
 
   use stdClass;

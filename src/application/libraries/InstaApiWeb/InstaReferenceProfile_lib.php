@@ -19,7 +19,7 @@ abstract class InstaReferenceProfile_lib {
 
   public function __construct() {
     require_once config_item('thirdparty-proxy-resource');
-    require_once config_item('thirdparty-cookies-resource');
+    require_once config_item('thirdparty-cookies');
   }
   
   public function get_insta_prof_data(Cookies $cookies=NULL, Proxy $proxy = NULL)
