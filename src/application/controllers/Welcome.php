@@ -21,13 +21,13 @@ class Welcome extends CI_Controller {
         require_once config_item('business-response-login-token-class');
     }
     
-    public function index_teste_mode() {
-            $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
-            $param["modals"] = $this->load->view('modals','', TRUE);
-            $this->load->view('visibility_view', $param);
+    public function index() {
+        $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
+        $param["modals"] = $this->load->view('modals','', TRUE);
+        $this->load->view('visibility_view', $param);
     }
     
-    public function index($access_token, $client_id) {
+    public function index1($access_token, $client_id) {
         if ($this->check_access_token($access_token, $client_id)) {
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals','', TRUE);

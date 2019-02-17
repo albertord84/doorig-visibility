@@ -398,7 +398,7 @@
                                                                 <div class="input-group">
                                                                     <input id="login-reference-profile" type="text" onkeyup="search_match_profile('#login-reference-profile','#table-search-reference-profile');" class="form-control to-lower-case">
                                                                     <i class="fa fa-spinner fa-spin myspinner"></i>
-                                                                    <button id="add-reference-profile" type="button" class="btn btn-info" style="margin-left:px;max-height:38px">
+                                                                    <button id="add-reference-profile" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
                                                                         Adicionar
                                                                         <i class="fa fa-plus-circle"></i> 
                                                                     </button>
@@ -413,7 +413,7 @@
                                                         <div class="row">
                                                             <div class="col-md-1"></div>
                                                             <div class="col-md-10">
-                                                                <div class="container" style="height:300px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px; overflow-y: auto; ">
+                                                                <div class="container container-profiles">
                                                                     <div id="container-reference-profiles" class="row">
                                                                         <!-- PROFILES HERE AS A col-md-4 ELEMENT ADDED OR LOADED IN REAL TIME -->
                                                                     </div>                                                                    

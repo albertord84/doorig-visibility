@@ -43,7 +43,7 @@
         <!--<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">-->
         <link href="<?php echo base_url()?>assets/css/bootstrap-toggle.min.css" rel="stylesheet">
         
-        
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
         
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
@@ -52,19 +52,19 @@
     </head>
 
     <body class="fix-header fix-sidebar card-no-border">
-        <div class="preloader">
+<!--        <div class="preloader">
             <div class="loader">
                 <div class="loader__figure"></div>
                 <p class="loader__label">DOORIG</p>
             </div>
-        </div>
+        </div>-->
         <!-- Main wrapper -->
         <div id="main-wrapper">            
             <?php echo $lateral_menu;?>
         </div>    
         <!-- Page wrapper  -->
         <div class="page-wrapper">
-            <div class="container-fluid">
+            <div class="container-fluid">                
                 <div class="row page-titles">
                     <div class="col-md-8 align-self-center">
                         <ol class="breadcrumb">
@@ -280,6 +280,7 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
+                                        <!-- REFERENCE PROFILE DETAILS -->
                                         <div class="col-md-12">
                                             <div class="text-right">
                                                 <a href="#">Saiva mais <i class="far fa-question-circle"></i></a>
@@ -302,142 +303,33 @@
                                             <div class="col-md-2 text-left"></div>
                                         </div>
                                         <br>
+                                        <!-- ADD REFERENCE PROFILE BUTTON -->
                                         <div class="row">
                                             <div class="col-md-2"></div>
                                             <div class="col-md-8">
-                                                <div class="input-group">
-                                                    <input id="cep" type="text" class="form-control" placeholder="Novo perfil de referência">
-                                                    <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>                                                    
+                                                <label for="int1">Novo Perfil de Referência:</label>
+                                                <div class="input-group" id="container-add-reference-profile">
+                                                    <input id="login-reference-profile" type="text" onkeyup="search_match_profile('#login-reference-profile','#table-search-reference-profile');" class="form-control to-lower-case">
+                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                    <button id="add-reference-profile" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
+                                                        Adicionar
+                                                        <i class="fa fa-plus-circle"></i> 
+                                                    </button>
+                                                    <div id="container-search-reference-profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                        <table id="table-search-reference-profile" class="table">                                
+                                                        </table>
+                                                    </div> 
                                                 </div>
                                             </div>
                                             <div class="col-md-2"></div>
-                                        </div>                                        
+                                        </div>
                                         <div class="row">
                                             <div class="col-md-1"></div>
                                             <div class="col-md-10">
-                                                <div id="mandatary_reference_profile_container" class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
-                                                    <div class="row">
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="profile card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                            <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    @leticiajural
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Seguidores</p>
-                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="profile card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a  href="https://www.instagram.com/desainemarmores/" target="_blank">
-                                                                            <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/581e26f0c737200838ab7d63cd5f710c/5CE31862/t51.2885-19/s150x150/16110336_541368592676753_1487422431021760512_a.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    @desainemarmores
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Seguidores</p>
-                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="profile card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                            <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    @leticiajural
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Seguidores</p>
-                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="profile card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a  href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                        <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    @leticiajural
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Seguidores</p>
-                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="container container-profiles">
+                                                    <div id="container-reference-profiles" class="row">
+                                                        <!-- PROFILES HERE AS A col-md-4 ELEMENT ADDED OR LOADED IN REAL TIME -->
+                                                    </div>                                                  
                                                 </div>
                                             </div>
                                             <div class="col-md-1"></div>
@@ -466,10 +358,10 @@
                                         <div class="row">
                                             <div class="col-md-2 text-left"></div>
                                             <div class="col-md-4 text-left">
-                                                <h4 class="text-muted"><span id="amount-reference-profile-used">21</span> perfis de referência usados</h4>
+                                                <h4 class="text-muted"><span id="amount-reference-profile-used">21</span> Geolocalizações usadas</h4>
                                             </div>
                                             <div class="col-md-4 text-right">
-                                                <h4 class="text-muted"><span id="amount-profile-followed">21256</span> perfis seguidos </h4>
+                                                <h4 class="text-muted"><span id="amount-profile-followed">21256</span> Perfis seguidos </h4>
                                             </div>
                                             <div class="col-md-2 text-left"></div>
                                         </div>
@@ -477,9 +369,18 @@
                                         <div class="row">
                                             <div class="col-md-2"></div>
                                             <div class="col-md-8">
-                                                <div class="input-group">
-                                                    <input id="cep" type="text" class="form-control" placeholder="Nova geolocalização">
-                                                    <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>
+                                                <label for="int1">Nova Geolocalização:</label>
+                                                <div class="input-group" id="container-add-geolocalização">
+                                                    <input id="login-geolocation" type="text" onkeyup="search_match_geolocation('#login-geolocation','#table-search-geolocation');" class="form-control to-lower-case">
+                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                    <button id="add-geolocation" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
+                                                        Adicionar
+                                                        <i class="fa fa-plus-circle"></i>
+                                                    </button>
+                                                    <div id="container-search-geolocation" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                        <table id="table-search-geolocation" class="table">                                
+                                                        </table>
+                                                    </div> 
                                                 </div>
                                             </div>
                                             <div class="col-md-2"></div>
@@ -487,73 +388,11 @@
                                         <div class="row">
                                             <div class="col-md-1"></div>
                                             <div class="col-md-10">
-                                                <div id="mandatary_reference_profile_container" class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
-                                                    <div class="row">
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="geolocation card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a  href="https://www.instagram.com/explore/locations/132572325/paraty-rio-de-janeiro-brazil/" target="_blank">
-                                                                            <img class="img-geolocation" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/07114fc29134522fb4155acd130f6356/5CEDA917/t51.2885-15/e35/c0.180.1440.1440/s150x150/50940491_285229628820295_7727971394039570778_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                            <i class="fas fa-map-marker-alt"></i>paraty
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-12 col-sm-12 col-xs-12 text-center p-0">
-                                                                            Paraty, Rio de Janeiro, Brazil
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="geolocation card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a  href="https://www.instagram.com/explore/locations/235572176/havana-cuba/" target="_blank">
-                                                                            <img class="img-geolocation" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/0e0665bc27d1d522d0344227c6585a8d/5CE43CF1/t51.2885-15/e35/c0.66.1080.1080/s150x150/49906960_1195650967254359_2837116182678356102_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    <i class="fas fa-map-marker-alt"></i>havana
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-12 col-sm-12 col-xs-12 text-center p-0">
-                                                                            Havana, Cuba
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="geolocation card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a  href="https://www.instagram.com/explore/locations/265308852/porto-seguro/" target="_blank">
-                                                                            <img class="img-geolocation" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/7855b5a00e80b4d39f44a49f8983936d/5CF89720/t51.2885-15/e35/c0.135.1080.1080/s150x150/49907385_2707625052581813_7768085816435745265_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    <i class="fas fa-map-marker-alt"></i>porto-seguro
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-12 col-sm-12 col-xs-12 text-center p-0">
-                                                                            Porto Seguro
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div class="container container-profiles">
+                                                    <div id="container-geolocations" class="row">
+                                                        <!-- GEOLOCATIONS HERE AS A col-md-4 ELEMENT ADDED OR LOADED IN REAL TIME -->
+                                                    </div>                                                  
+                                                </div>                                                
                                             </div>
                                             <div class="col-md-1"></div>
                                         </div>                                                
@@ -591,10 +430,19 @@
                                         <br>
                                         <div class="row">
                                             <div class="col-md-2"></div>
-                                            <div class="col-md-8">
-                                                <div class="input-group">
-                                                    <input id="cep" type="text" class="form-control" placeholder="Novo hastag">
-                                                    <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>
+                                            <div class="col-md-8">                                                
+                                                <label for="int1">Novo Hashtag:</label>
+                                                <div class="input-group" id="container-add-hashtag">
+                                                    <input id="login-hashtag" type="text" onkeyup="search_match_hashtag('#login-hashtag','#table-search-hashtag');" class="form-control to-lower-case">
+                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                    <button id="add-hashtag" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
+                                                        Adicionar
+                                                        <i class="fa fa-plus-circle"></i>
+                                                    </button>
+                                                    <div id="container-search-hashtag" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                        <table id="table-search-hashtag" class="table">                                
+                                                        </table>
+                                                    </div> 
                                                 </div>
                                             </div>
                                             <div class="col-md-2"></div>
@@ -602,63 +450,9 @@
                                         <div class="row">
                                             <div class="col-md-1"></div>
                                             <div class="col-md-10">
-                                                <div id="mandatary_reference_profile_container" class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
-                                                    <div class="row">
-
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="hastag card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a href="https://www.instagram.com/explore/tags/paratyrj/" target="_blank">
-                                                                            <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/b7bf187e14a9483e73010aa9ea668f64/5CEEB777/t51.2885-15/e35/s150x150/49466842_394330344461436_4342610591931226679_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    #paratyrj
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                            <h6 id="amount-post-profile" class="text-muted">122,763</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                            <div class="card">
-                                                                <div class="hastag card-body card-body-profile">
-                                                                    <button class="profile-delete close" type="button" title="Eliminar"><span aria-hidden="true">&times;</span></button> 
-                                                                    <br>
-                                                                    <div class="text-center">
-                                                                        <a href="https://www.instagram.com/explore/tags/buzios/" target="_blank">
-                                                                            <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/184bd8ef3e8ed6f076c6545ce9ddda38/5CFFE32C/t51.2885-15/e35/c61.0.720.720a/s150x150/49907342_135759430788163_1102588690808536521_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                            <h5 id="name-profile" class="card-title">
-                                                                                    #buzios
-                                                                            </h5>                                                                                    
-                                                                        </a>
-                                                                    </div>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                            <h6 id="amount-post-profile" class="text-muted">1,614,076</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
+                                                <div class="container container-profiles">
+                                                    <div id="container-hashtags" class="row">
+                                                        <!-- HASHTAGS HERE AS A col-md-4 ELEMENT ADDED OR LOADED IN REAL TIME -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -688,125 +482,71 @@
 
                                         <div class="row">
                                             <div class="col-md-1"></div>
+                                            
                                             <div class="col-md-5">
-                                                <h2 class="text-muted pd-10 text-center"> Nunca deseguir</h2>
-                                                <div class="input-group">
-                                                    <input id="cep" type="text" class="form-control" placeholder="Perfil">
-                                                    <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>
+                                                <h2 class="text-muted pd-10 text-center"> Nunca deseguir</h2>                                                
+                                                <div class="input-group" id="container-add-profile-wl">
+                                                    <input id="login-profile-wl" type="text" onkeyup="search_match_hashtag('#login-hashtag','#table-search-hashtag');" class="form-control to-lower-case">
+                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                    <button id="add-profile-wl" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
+                                                        Adicionar
+                                                        <i class="fa fa-plus-circle"></i>
+                                                    </button>
+                                                    <div id="container-search-profile-wl" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                        <table id="table-search-profile-wl" class="table">                                
+                                                        </table>
+                                                    </div> 
                                                 </div>
                                                 <div class="card-over-card">
                                                     <div class="card-body">
                                                         <div class="message-box">
-                                                            <div class="message-widget message-scroll">
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/b32831cf9858708dcf63d408d4bdb71a/5CF726F7/t51.2885-19/s150x150/50234427_626897431073233_568031019991564288_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>msouzi</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                                                                                             
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/b32831cf9858708dcf63d408d4bdb71a/5CF726F7/t51.2885-19/s150x150/50234427_626897431073233_568031019991564288_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>msouzi</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                                                                                             
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/b32831cf9858708dcf63d408d4bdb71a/5CF726F7/t51.2885-19/s150x150/50234427_626897431073233_568031019991564288_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>msouzi</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                                                                                             
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/b32831cf9858708dcf63d408d4bdb71a/5CF726F7/t51.2885-19/s150x150/50234427_626897431073233_568031019991564288_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>msouzi</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                                                                                             
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/b32831cf9858708dcf63d408d4bdb71a/5CF726F7/t51.2885-19/s150x150/50234427_626897431073233_568031019991564288_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>msouzi</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                                                                                             
-
+                                                            <div id="" class="message-widget message-scroll">
+                                                                <div id="container-profile-wl">
+                                                                    <!-- PROFILES OF WHITE LIST HERE -->
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-5">
-                                                <h2 class="text-muted pd-10 text-center"> Nunca seguir</h2>
-                                                <div class="input-group">
-                                                    <input id="cep" type="text" class="form-control" placeholder="Perfil">
-                                                    <button type="button" class="btn btn-info" style="margin-left:5px;max-height:38px"><i class="fa fa-plus-circle"></i> Adicionar</button>
+                                                <h2 class="text-muted pd-10 text-center"> Nunca seguir</h2>                                                
+                                                <div class="input-group" id="container-add-profile-bl">
+                                                    <input id="login-profile-bl" type="text" onkeyup="search_match_hashtag('#login-hashtag','#table-search-hashtag');" class="form-control to-lower-case">
+                                                    <i class="fa fa-spinner fa-spin myspinner"></i>
+                                                    <button id="add-profile-bl" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
+                                                        Adicionar
+                                                        <i class="fa fa-plus-circle"></i>
+                                                    </button>
+                                                    <div id="container-search-profile-bl" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                        <table id="table-search-profile-bl" class="table">                                
+                                                        </table>
+                                                    </div> 
                                                 </div>
                                                 <div class="card-over-card">
                                                     <div class="card-body">
                                                         <div class="message-box">
-                                                            <div class="message-widget message-scroll">
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/5cf37201c531c842a66247fe150d80db/5CF4909D/t51.2885-19/s150x150/42002828_488142708262658_4860776533704310784_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>ma.ietto</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                               
-                                                                <!-- Message -->
-                                                                <a class="item-white-list" href="#">
-                                                                    <div class="user-img"> 
-                                                                        <img src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/5cf37201c531c842a66247fe150d80db/5CF4909D/t51.2885-19/s150x150/42002828_488142708262658_4860776533704310784_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net" alt="photo" class="img-circle"> 
-                                                                        <span class="profile-status online pull-right"></span> 
-                                                                    </div>
-                                                                    <div class="mail-contnet">
-                                                                        <h5>ma.ietto</h5> 
-                                                                        <span class="time">Adicionado em: 01/02/2019</span> 
-                                                                    </div>
-                                                                </a>                                                               
+                                                            <div id="" class="message-widget message-scroll">
+                                                                <div id="container-profile-bl">
+                                                                    <!--PROFILES OF BLACK LIST HERE -->
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-1"></div>
                                         </div>                                                                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
+                
+                <?php echo $modals?>
 
                 <footer class="footer text-center">
                     DOORIG - TODOS OS DIREITOS RESERVADOS
@@ -867,14 +607,13 @@
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>        
         
         <!-- system scripts -->
-        <script src="<?php echo base_url()?>assets/js/visibility/talkme_painel_dashboard.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/mask.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/basics.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/dasboard.js"></script>
-        
-        <script src="<?php echo base_url()?>assets/js/client_painel.js"></script>
-        
-        
-        
+        <script src="<?php echo base_url()?>assets/js/visibility/ig_interactions.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"></script>
         
     </body>
 </html>
