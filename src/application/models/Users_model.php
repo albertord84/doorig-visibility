@@ -60,7 +60,29 @@ class Users_model extends CI_Model {
 
     return $query->row();
   }
-
+  
+  function get_user_base_info($user_id)
+  {
+    return $this->get_client_view_by_id($user_id, "id,role_id,name,login,pass,status_id,email");
+  }
+  
+  function get_user_contact_info($user_id)
+  {
+    return $this->get_client_view_by_id($user_id, "user_id,insta_id,cookies");
+  }
+  
+  function get_user_extra_info($user_id)
+  {
+    return $this->get_client_view_by_id($user_id, "user_id,insta_id,cookies");
+  }
+  
+  private function get_client_view_by_id($id, $query_field) {   
+    $this->db->select($query_field);
+    $this->db->where('id', $id);
+    $query = $this->db->get('users');
+    return $query->row();
+  }
+  
   function get_all($offset = 0, $rows = 0){	
     $this->db->limit($offset, $rows);	
     $this->db->select('*')->from('users');

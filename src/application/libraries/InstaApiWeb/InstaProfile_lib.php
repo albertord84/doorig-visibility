@@ -21,11 +21,16 @@ class InstaProfile_lib {
     $this->InstaProfile = new InstaProfile(new \stdClass());
   }
 
-  public function get_reference_user($cookies, $reference_user_name) 
+  public function get_user_data($cookies, $reference_user_name) 
   {
-    $this->InstaProfile->get_reference_user($cookies, $reference_user_name);
+    return $this->InstaProfile->get_user_data($cookies, $reference_user_name);
   }
 
+  
+  public function get_insta_id()
+  {
+    return $this->InstaProfile->insta_id;
+  }
   // Funcion temporal para comprobar que se cargo la lib.
   public function Msg ()
   {
