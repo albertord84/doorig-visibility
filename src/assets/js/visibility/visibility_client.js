@@ -22,41 +22,63 @@ $(document).ready(function () {
         //spinner_stop(btn);
     });
     
-    function add_reference_profile(container, profile){
+    function add_reference_profile(container, profile){        
         //1. get profile datas of IG
         var datas = get_profile_datas(profile); //implemented in ig_iterations.js
-        //2. append html-code card to container
-        var str =   "<div id='container-"+profile+"' class='col-md-4 col-sm-12 col-xs-12'>"+
-                    "<div class='card'>"+
-                        "<div class='profile card-body card-body-profile'>"+
-                            "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_reference_profile\", \""+profile+"\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> "+
-                            "<br>"+
-                            "<div class='text-center'>"+
-                                "@<a id='name-profile' href='"+datas["profile_url"]+"' target='_blank'>"+
-                                    "<img class='img-profile' src='"+datas["profile_picture_url"]+"'>"+
-                                    "<h5 class='card-title'>"+
-                                            datas["profile"]+
-                                    "</h5>"+
-                                "</a>"+
+        //2. send request to server and append html-code card to container
+        if(!datas){
+            modal_alert_message("O perfil não existe no Instagram");
+        }else{
+            $.ajax({ 
+                url : base_url+'index.php/welcome/insert_reference_profile',
+                data :{
+                    "profile":profile
+                },
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    //spinner_stop(btn);
+                    if(response.code===0){
+                        var str = "<div id='container-"+profile+"' class='col-md-4 col-sm-12 col-xs-12'>"+
+                            "<div class='card'>"+
+                                "<div class='profile card-body card-body-profile'>"+
+                                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_reference_profile\", \""+profile+"\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> "+
+                                    "<br>"+
+                                    "<div class='text-center'>"+
+                                        "<a id='name-profile' href='"+datas["profile_url"]+"' target='_blank'>"+
+                                            "<img class='img-profile' src='"+datas["profile_picture_url"]+"'>"+
+                                            "<h5 class='card-title'>"+
+                                                    "@"+datas["profile"]+
+                                            "</h5>"+
+                                        "</a>"+
+                                    "</div>"+
+                                    "<div class='row'>"+
+                                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
+                                            "<p class='m-b-0 label-profile'>Posts</p>"+
+                                            "<h6 id='amount-post-profile' class='text-muted'>"+datas["post"]+"</h6>"+
+                                        "</div>"+
+                                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
+                                            "<p class='m-b-0 label-profile'>Seguidores</p>"+
+                                            "<h6 id='amount-folowers-profile' class='text-muted'>"+datas["followers"]+"</h6>"+
+                                        "</div>"+
+                                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0' >"+
+                                            "<p class='m-b-0 label-profile' >Seguindo</p>"+
+                                            "<h6 id='amount-following-profile' class='text-muted'>"+datas["following"]+"</h6>"+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
                             "</div>"+
-                            "<div class='row'>"+
-                                "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
-                                    "<p class='m-b-0 label-profile'>Posts</p>"+
-                                    "<h6 id='amount-post-profile' class='text-muted'>"+datas["post"]+"</h6>"+
-                                "</div>"+
-                                "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
-                                    "<p class='m-b-0 label-profile'>Seguidores</p>"+
-                                    "<h6 id='amount-folowers-profile' class='text-muted'>"+datas["followers"]+"</h6>"+
-                                "</div>"+
-                                "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0' >"+
-                                    "<p class='m-b-0 label-profile' >Seguindo</p>"+
-                                    "<h6 id='amount-following-profile' class='text-muted'>"+datas["following"]+"</h6>"+
-                                "</div>"+
-                            "</div>"+
-                        "</div>"+
-                    "</div>"+
-                "</div>";
-        $(container).append(str);
+                        "</div>";
+                        $(container).append(str);
+                    } else
+                        modal_alert_message(response.message);                    
+                },
+                error : function(xhr, status) {
+                    //spinner_stop(btn);
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                }
+            });
+        }
     }
     
     
@@ -85,29 +107,51 @@ $(document).ready(function () {
     function add_geolocation(container, geolocation){
         //1. get profile datas of IG
         var datas = get_geolocation_datas(geolocation); //implemented in ig_iterations.js
-        //2. append html-code card to container
-        var str="<div id='container-"+geolocation+"' class='col-md-4 col-sm-12 col-xs-12'>"+
-                "<div class='card'>"+
-                    "<div class='geolocation card-body card-body-profile'>"+
-                        "<button onclick='modal_confirm_message(\"Confirma a eliminação dessa gelocalização?\", \"delete_geolocation\", \""+geolocation+"\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> "+
-                        "<br>"+
-                        "<div class='text-center'>"+
-                            "<a  href='"+datas["profile_url"]+"' target='_blank'>"+
-                                "<img class='img-geolocation' src='"+datas["geolocation_picture_url"]+"'>"+
-                                "<h5 id='name-profile' class='card-title'>"+
-                                "<i class='fas fa-map-marker-alt'></i> "+datas["geolocation"]+
-                                "</h5>"+
-                            "</a>"+
-                        "</div>"+
-                        "<div class='row'>"+
-                            "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>"+
-                                datas["place"]+
-                            "</div>"+
-                        "</div>"+
-                    "</div>"+
-                "</div>"+
-            "</div>";
-        $(container).append(str);        
+        //2. send request to server and append html-code card to container
+        if(!datas){
+            modal_alert_message("A geolocalização não existe no Instagram");
+        }else{
+            $.ajax({ 
+                url : base_url+'index.php/welcome/insert_geolocation',
+                data :{
+                    "geolocation":geolocation
+                },
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    //spinner_stop(btn);
+                    if(response.code===0){
+                        var str="<div id='container-"+geolocation+"' class='col-md-4 col-sm-12 col-xs-12'>"+
+                                "<div class='card'>"+
+                                    "<div class='geolocation card-body card-body-profile'>"+
+                                        "<button onclick='modal_confirm_message(\"Confirma a eliminação dessa gelocalização?\", \"delete_geolocation\", \""+geolocation+"\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> "+
+                                        "<br>"+
+                                        "<div class='text-center'>"+
+                                            "<a  href='"+datas["profile_url"]+"' target='_blank'>"+
+                                                "<img class='img-geolocation' src='"+datas["geolocation_picture_url"]+"'>"+
+                                                "<h5 id='name-profile' class='card-title'>"+
+                                                "<i class='fas fa-map-marker-alt'></i> "+datas["geolocation"]+
+                                                "</h5>"+
+                                            "</a>"+
+                                        "</div>"+
+                                        "<div class='row'>"+
+                                            "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>"+
+                                                datas["place"]+
+                                            "</div>"+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
+                            "</div>";
+                        $(container).append(str); 
+                    } else
+                        modal_alert_message(response.message);                    
+                },
+                error : function(xhr, status) {
+                    //spinner_stop(btn);
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                }
+            }); 
+        }      
     }
     
     
@@ -136,34 +180,56 @@ $(document).ready(function () {
     function add_hashtag(container, hashtag){        
         //1. get profile datas of IG
         var datas = get_hashtag_datas(hashtag); //implemented in ig_iterations.js
-        //2. append html-code card to container
-        var str="<div id='container-"+hashtag+"' class='col-md-4 col-sm-12 col-xs-12'>"+
-            "<div class='card'>"+
-                "<div class='hastag card-body card-body-profile'>"+
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse hashtag?\", \"delete_hashtag\", \""+hashtag+"\");' class='profile-delete close' type='button' title='Eliminar'><span aria-hidden='true'>&times;</span></button>"+
-                    "<br>"+
-                    "<div class='text-center'>"+
-                        "<a href='"+datas["hashtag_url"]+"' target='_blank'>"+
-                            "<img class='img-profile' src='"+datas["hashtag_picture_url"]+"'>"+
-                            "<h5 id='name-profile' class='card-title'>"+
-                                    "#"+datas["hashtag"]+""+
-                            "</h5>"+
-                        "</a>"+
-                    "</div>"+
-                    "<div class='row'>"+
-                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
-                        "</div>"+
-                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
-                            "<p class='m-b-0 label-profile'>Posts</p>"+
-                            "<h6 id='amount-post-profile' class='text-muted'>"+datas["post"]+"</h6>"+
-                        "</div>"+
-                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0' >"+
-                        "</div>"+
-                    "</div>"+
-                "</div>"+
-            "</div>"+
-        "</div>";
-        $(container).append(str);        
+        //2. send request to server and append html-code card to container
+        if(!datas){
+            modal_alert_message("O hashtag não existe no Instagram");
+        }else{
+            $.ajax({ 
+                url : base_url+'index.php/welcome/insert_hashtag',
+                data :{
+                    "hashtag":hashtag
+                },
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    //spinner_stop(btn);
+                    if(response.code===0){
+                        var str="<div id='container-"+hashtag+"' class='col-md-4 col-sm-12 col-xs-12'>"+
+                            "<div class='card'>"+
+                                "<div class='hastag card-body card-body-profile'>"+
+                                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse hashtag?\", \"delete_hashtag\", \""+hashtag+"\");' class='profile-delete close' type='button' title='Eliminar'><span aria-hidden='true'>&times;</span></button>"+
+                                    "<br>"+
+                                    "<div class='text-center'>"+
+                                        "<a href='"+datas["hashtag_url"]+"' target='_blank'>"+
+                                            "<img class='img-profile' src='"+datas["hashtag_picture_url"]+"'>"+
+                                            "<h5 id='name-profile' class='card-title'>"+
+                                                    "#"+datas["hashtag"]+""+
+                                            "</h5>"+
+                                        "</a>"+
+                                    "</div>"+
+                                    "<div class='row'>"+
+                                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
+                                        "</div>"+
+                                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>"+
+                                            "<p class='m-b-0 label-profile'>Posts</p>"+
+                                            "<h6 id='amount-post-profile' class='text-muted'>"+datas["post"]+"</h6>"+
+                                        "</div>"+
+                                        "<div class='col-md-4 col-sm-12 col-xs-12 text-center p-0' >"+
+                                        "</div>"+
+                                    "</div>"+
+                                "</div>"+
+                            "</div>"+
+                        "</div>";
+                        $(container).append(str);
+                    } else
+                        modal_alert_message(response.message);                    
+                },
+                error : function(xhr, status) {
+                    //spinner_stop(btn);
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                }
+            }); 
+        }       
     }
     
     
@@ -192,21 +258,44 @@ $(document).ready(function () {
     function add_profile_wl(container, profile_wl){        
         //1. get profile datas of IG
         var datas = get_profile_datas(profile_wl); //implemented in ig_iterations.js
-        //2. append html-code card to container
-        var str="<a id='container-"+profile_wl+"' class='item-white-list'>"+
-            "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \""+profile_wl+"\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>"+
-                "<span aria-hidden='true'>&times;</span>"+
-            "</button>"+
-            "<div class='user-img'>"+
-                "<img src='"+datas['profile_picture_url']+"' alt='photo' class='img-circle'>"+
-                "<!--<span class='profile-status online pull-right'></span>-->"+
-            "</div>"+
-            "<div class='mail-contnet'>"+
-                "<h5>"+datas['profile']+"</h5>"+
-                "<span class='time'>"+datas['followers']+" seguidores</span>"+
-            "</div>"+
-        "</a>";
-        $(container).append(str);
+        //2. send append html-code card to container
+        //2. send request to server and append html-code card to container
+        if(!datas){
+            modal_alert_message("O hashtag não existe no Instagram");
+        }else{
+            $.ajax({ 
+                url : base_url+'index.php/welcome/insert_profile_in_white_list',
+                data :{
+                    "profile":profile_wl
+                },
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    //spinner_stop(btn);
+                    if(response.code===0){
+                        var str="<a id='container-"+profile_wl+"' class='item-white-list'>"+
+                            "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \""+profile_wl+"\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>"+
+                                "<span aria-hidden='true'>&times;</span>"+
+                            "</button>"+
+                            "<div class='user-img'>"+
+                                "<img src='"+datas['profile_picture_url']+"' alt='photo' class='img-circle'>"+
+                                "<!--<span class='profile-status online pull-right'></span>-->"+
+                            "</div>"+
+                            "<div class='mail-contnet'>"+
+                                "<h5>"+datas['profile']+"</h5>"+
+                                "<span class='time'>"+datas['followers']+" seguidores</span>"+
+                            "</div>"+
+                        "</a>";
+                        $(container).append(str);
+                    } else
+                        modal_alert_message(response.message);                    
+                },
+                error : function(xhr, status) {
+                    //spinner_stop(btn);
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                }
+            });
+        }
     }
     
     //BLACK LIST FUNCTIONS--------------------------------------------------------------------
@@ -235,57 +324,166 @@ $(document).ready(function () {
         //1. get profile datas of IG
         var datas = get_profile_datas(profile_bl); //implemented in ig_iterations.js
         //2. append html-code card to container
-        var str="<a id='container-"+profile_bl+"'  class='item-white-list'>"+
-            "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \""+profile_bl+"\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>"+
-                "<span aria-hidden='true'>&times;</span>"+
-            "</button>"+
-            "<div class='user-img'>"+
-                "<img src='"+datas['profile_picture_url']+"' alt='photo' class='img-circle'>"+
-                "<!--<span class='profile-status online pull-right'></span>-->"+
-            "</div>"+
-            "<div class='mail-contnet'>"+
-                "<h5>"+datas['profile']+"</h5>"+
-                "<span class='time'>"+datas['followers']+" seguidores</span>"+
-            "</div>"+
-        "</a>";
-        $(container).append(str);
+        if(!datas){
+            modal_alert_message("O hashtag não existe no Instagram");
+        }else{
+            $.ajax({ 
+                url : base_url+'index.php/welcome/insert_profile_in_black_list',
+                data :{
+                    "profile":profile_bl
+                },
+                type : 'POST',
+                dataType : 'json',
+                success : function(response){
+                    //spinner_stop(btn);
+                    if(response.code===0){
+                        var str="<a id='container-"+profile_bl+"'  class='item-white-list'>"+
+                            "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \""+profile_bl+"\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>"+
+                                "<span aria-hidden='true'>&times;</span>"+
+                            "</button>"+
+                            "<div class='user-img'>"+
+                                "<img src='"+datas['profile_picture_url']+"' alt='photo' class='img-circle'>"+
+                                "<!--<span class='profile-status online pull-right'></span>-->"+
+                            "</div>"+
+                            "<div class='mail-contnet'>"+
+                                "<h5>"+datas['profile']+"</h5>"+
+                                "<span class='time'>"+datas['followers']+" seguidores</span>"+
+                            "</div>"+
+                        "</a>";
+                        $(container).append(str);
+                    } else
+                        modal_alert_message(response.message);                    
+                },
+                error : function(xhr, status) {
+                    //spinner_stop(btn);
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                }
+            }); 
+        }   
     }
     
     
 });
 
+
+
 function delete_reference_profile(profile){
-    //1. eliminar profile do banco de dados com ajax
-    //2. en el success del ajax remover el container del profile    
-    cnt = "#container-"+profile;
-    $(cnt).remove();
+    //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
+    $.ajax({ 
+        url : base_url+'index.php/welcome/delete_reference_profile',
+        data :{
+            "profile":profile
+        },
+        type : 'POST',
+        dataType : 'json',
+        success : function(response){
+            //spinner_stop(btn);
+            if(response.code===0){
+                cnt = "#container-"+profile;
+                $(cnt).remove(); 
+            } else
+                modal_alert_message(response.message);                    
+        },
+        error : function(xhr, status) {
+            //spinner_stop(btn);
+            modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+        }
+    });    
 }
 
 function delete_geolocation(geolocation){
-    //1. eliminar geolocation do banco de dados com ajax
-    //2. en el success del ajax remover el container de la geolocation
-    cnt = "#container-"+geolocation;
-    $(cnt).remove();
+    //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
+    $.ajax({ 
+        url : base_url+'index.php/welcome/delete_geolocation',
+        data :{
+            "geolocation":geolocation
+        },
+        type : 'POST',
+        dataType : 'json',
+        success : function(response){
+            //spinner_stop(btn);
+            if(response.code===0){
+                cnt = "#container-"+geolocation;
+                $(cnt).remove(); 
+            } else
+                modal_alert_message(response.message);                    
+        },
+        error : function(xhr, status) {
+            //spinner_stop(btn);
+            modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+        }
+    });
 }
 
 function delete_hashtag(hashtag){
-    //1. eliminar hashtag do banco de dados com ajax
-    //2. en el success del ajax remover el container del hashtag
-    cnt = "#container-"+hashtag;
-    $(cnt).remove();
+    //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
+    $.ajax({ 
+        url : base_url+'index.php/welcome/delete_hashtag',
+        data :{
+            "hashtag":hashtag
+        },
+        type : 'POST',
+        dataType : 'json',
+        success : function(response){
+            //spinner_stop(btn);
+            if(response.code===0){
+                cnt = "#container-"+hashtag;
+                $(cnt).remove(); 
+            } else
+                modal_alert_message(response.message);                    
+        },
+        error : function(xhr, status) {
+            //spinner_stop(btn);
+            modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+        }
+    });
 }
 
 function delete_profile_wl(profile_wl){
-    //1. eliminar hashtag do banco de dados com ajax
-    //2. en el success del ajax remover el container del hashtag
-    cnt = "#container-"+profile_wl;
-    $(cnt).remove();
+    //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
+    $.ajax({ 
+        url : base_url+'index.php/welcome/delete_profile_in_white_list',
+        data :{
+            "profile":profile_wl
+        },
+        type : 'POST',
+        dataType : 'json',
+        success : function(response){
+            //spinner_stop(btn);
+            if(response.code===0){
+                cnt = "#container-"+profile_wl;
+                $(cnt).remove(); 
+            } else
+                modal_alert_message(response.message);                    
+        },
+        error : function(xhr, status) {
+            //spinner_stop(btn);
+            modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+        }
+    });
 }
 
 function delete_profile_bl(profile_bl){
-    //1. eliminar hashtag do banco de dados com ajax
-    //2. en el success del ajax remover el container del hashtag
-    cnt = "#container-"+profile_bl;
-    $(cnt).remove();
+    //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
+    $.ajax({ 
+        url : base_url+'index.php/welcome/delete_profile_in_white_list',
+        data :{
+            "profile":profile_bl
+        },
+        type : 'POST',
+        dataType : 'json',
+        success : function(response){
+            //spinner_stop(btn);
+            if(response.code===0){
+                cnt = "#container-"+delete_profile_in_black_list;
+                $(cnt).remove(); 
+            } else
+                modal_alert_message(response.message);                    
+        },
+        error : function(xhr, status) {
+            //spinner_stop(btn);
+            modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+        }
+    });
 }
 
