@@ -26,7 +26,7 @@ namespace business {
     public $InstaClient;
     public $Client;
     
-    function __construct(Client $client) {
+    function __construct(Client &$client) {
       $ci = &get_instance();
       $ci->load->model('clients_model');
       $ci->load->model('db_model');
