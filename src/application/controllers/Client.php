@@ -111,6 +111,14 @@ class Client extends CI_Controller {
             echo json_encode($response);
 	}
 	
+ /* public function client_cancel(){
+            $this->load-library("sessions_utils");
+            $this->is_client();
+            $datas = $this->input->post();
+
+            echo json_encode($response);
+	} */
+    
 	public function is_client(){
             if(!($this->session->user->user_id && $this->session->user->role_id==user_role::CLIENT))
                 header("Location:https://dooring-visibility.com");

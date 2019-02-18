@@ -17,6 +17,9 @@ class GeoProfiles extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        
+        require_once config_item('business-client-class');
+        require_once config_item('business-response-class');
 
         $this->load->helper('url');
 
