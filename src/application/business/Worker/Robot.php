@@ -31,12 +31,12 @@ require_once config_item('business-class');
 
         public function do_follow_work(DailyWork $work) {
           $profile_list = array();
-          $cookies = $work->Client->InstaInfo->Cookies;
+          $cookies = $work->Client->InstaCurlInfo->Cookies;
           foreach ($work->get_followers($cookies,5/*,proxy*/) as $profile) {
             //pedir datos del perfil y validar perfil
             if($this->validate_profile($profile))
             {
-              $result = $work->Client->InstaInfo->InstaClient->follow($profile->get_insta_id);
+              $result = $work->Client->InstaCurlInfo->InstaClient->follow($profile->get_insta_id);
               if($this->process_response($result))
               {
                   array_push($profile_list);
@@ -49,7 +49,7 @@ require_once config_item('business-class');
         public function do_unfollow_work(DailyWork $work) {
           $profile_list = array();
           foreach ($work->get_unfollow_list() as $profile) {            
-            $result = $work->Client->InstaInfo->InstaClient->unfollow($profile->id);
+            $result = $work->Client->InstaCurlInfo->InstaClient->unfollow($profile->id);
             if($this->process_response($result))
             {
                 array_push($profile_list);
