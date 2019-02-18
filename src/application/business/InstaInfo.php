@@ -55,6 +55,11 @@ namespace business {
     protected function fill_data(\stdClass $data) {
       $this->Insta_Id = $data->insta_id;
       $this->Cookies = new Cookies($data->cookies);
+      if($this->Cookies->is_empty())
+      {
+         $login_status = $this->Client->login($this->Cookies);
+      }
+         
     }
 
   }

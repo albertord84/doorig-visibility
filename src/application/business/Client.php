@@ -5,7 +5,10 @@ namespace business {
     require_once config_item('business-user-class');
     require_once config_item('business-insta-info-class');
 
-    use business\User;
+    use business\{
+        User,
+        Cookies
+    };
 
     /**
      * @category Business class
@@ -21,7 +24,7 @@ namespace business {
 
         public function __construct(int $id) {
             parent::__construct($id);
-            
+
             $this->InstaInfo = new InstaInfo($this);
         }
 
@@ -42,6 +45,10 @@ namespace business {
 
         public function verify_cookies() {
             
+        }
+
+        public function login() {
+            return true;
         }
 
     }

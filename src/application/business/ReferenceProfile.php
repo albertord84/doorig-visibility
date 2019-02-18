@@ -2,11 +2,7 @@
 
 namespace business {
   
-  
   require_once config_item('business-loader-class');  
-  
-  use business\Loader;
-  use \stdClass;
 
   /**
    * Description of HashtagProfile
