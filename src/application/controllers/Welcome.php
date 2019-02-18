@@ -56,7 +56,7 @@ class Welcome extends CI_Controller {
             $content = $response->getBody()->getContents();
             $content = json_decode($content);
             //var_dump($content);
-            if ($StatusCode == 200 && $content->code == 0) {
+            if ($StatusCode == 200 && is_set($content->code) && $content->code == 0) {
                 //3. Response
                 return TRUE;
             }
