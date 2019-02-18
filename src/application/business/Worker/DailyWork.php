@@ -56,9 +56,11 @@ class DailyWork extends Business{
            $ci = &get_instance();           
            $ci->load->model('daily_work_model');           
            $work_data = $ci->daily_work_model->get_next_work();           
+           
            $dailywork->Ref_profile = new \business\ReferenceProfile($work_data->reference_id);           
            $dailywork->Client = new Client($work_data->client_id);
            $dailywork->Client->load_insta_data();
+           
            return $dailywork;
                  
         }
@@ -82,6 +84,11 @@ class DailyWork extends Business{
                 $To_Unfollow->followed_id = $Followed->followed_id;
                 array_push($this->Followeds_to_unfollow, $To_Unfollow);
             }*/
+        }
+        
+        public static function delete_dailywork(Client $client)                
+        {
+           
         }
    }
 }

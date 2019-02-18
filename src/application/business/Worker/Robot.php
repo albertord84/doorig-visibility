@@ -39,8 +39,9 @@ require_once config_item('business-class');
               $result = $work->Client->InstaCurlInfo->InstaClient->follow($profile->get_insta_id);
               if($this->process_response($result))
               {
-                  array_push($profile_list);
+                  array_push($profile_list,$profile);                
               }
+              else{ break; }
             }
           }
         }
@@ -52,8 +53,9 @@ require_once config_item('business-class');
             $result = $work->Client->InstaCurlInfo->InstaClient->unfollow($profile->id);
             if($this->process_response($result))
             {
-                array_push($profile_list);
-            }            
+                array_push($profile_list,$profile);
+            }      
+            else{ break; }
           }
         }
         
@@ -62,8 +64,12 @@ require_once config_item('business-class');
           return TRUE;
         }
 
-        public function process_response($json_response) {
-
+        public function process_response($response) {
+            if($response-status == 'ok')
+            {
+               return true;
+            }
+            return false;
         }
 
         public function process_get_insta_ref_prof_data_for_daily_report($content, \BusinessRefProfile $ref_prof) {

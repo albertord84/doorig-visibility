@@ -52,9 +52,9 @@ namespace InstaApiWeb {
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
 
-            $profiles = new InstaProfileList();
+            $profiles = array();
 
-            $json_response = $this->get_post($cookies, $N, $cursor, $proxy);
+            $json_response = $this->get_post($N, $cursor, $cookies, $proxy);
             if (is_object($json_response)) {
                 if (isset($json_response->data->hashtag->edge_hashtag_to_media)) {
                     if ($this->has_logs) {
@@ -64,7 +64,7 @@ namespace InstaApiWeb {
                     foreach ($json_response->data->hashtag->edge_hashtag_to_media->edges as $Edge) {
                         $profile = new \stdClass();
                         $profile->node = $this->get_owner_post_data($Edge->node->shortcode, $cookies, $proxy);
-                        array_push($profiles->profile_list, $profile);
+                        array_push($profiles, $profile);
                     }
                     $error = FALSE;
                 } else {
@@ -83,6 +83,7 @@ namespace InstaApiWeb {
                 var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 var_dump($output);
+                return json_decode($output[0]);
             } catch (Exception $e) {
                 var_dump($e);
             }

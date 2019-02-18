@@ -398,6 +398,7 @@ namespace InstaApiWeb {
         case EnumEntity::GEO + EnumAction::GET_POST:
         case EnumEntity::PERSON + EnumAction::GET_POST:
         case EnumEntity::HASHTAG + EnumAction::GET_POST:
+        case EnumEntity::PERSON + EnumAction::GET_FOLLOWERS;
           if ($this->MediaStr == null){
             throw new InstaCurlMediaException("The media-cUrl parameters (id, cursor, first) have not been established!!!. Use: setMediaData(string, int, string).");
           }
