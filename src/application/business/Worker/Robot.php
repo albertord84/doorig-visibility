@@ -29,14 +29,16 @@ require_once config_item('business-class');
               $this->Ref_profile = new Reference_profile(); */
         }
 
-        public function do_follow_work(DailyWork $work) {
+        public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
           $profile_list = array();
           $cookies = $work->Client->InstaCurlInfo->Cookies;
+          $ci = &get_instance();
+         
           foreach ($work->get_followers($cookies,5/*,proxy*/) as $profile) {
             //pedir datos del perfil y validar perfil
             if($this->validate_profile($profile))
             {
-              $result = $work->Client->InstaCurlInfo->InstaClient->follow($profile->get_insta_id);
+              $instaclient>follow($profile->get_insta_id);
               if($this->process_response($result))
               {
                   array_push($profile_list,$profile);                
@@ -44,19 +46,21 @@ require_once config_item('business-class');
               else{ break; }
             }
           }
+          unset($ci->InstaClient_lib);
         }
                
 
-        public function do_unfollow_work(DailyWork $work) {
+        public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
           $profile_list = array();
           foreach ($work->get_unfollow_list() as $profile) {            
-            $result = $work->Client->InstaCurlInfo->InstaClient->unfollow($profile->id);
+            $result = $instaclient->unfollow($profile->id);
             if($this->process_response($result))
             {
                 array_push($profile_list,$profile);
             }      
             else{ break; }
-          }
+            
+          }          
         }
         
         public function validate_profile($profile)

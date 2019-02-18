@@ -23,7 +23,6 @@ namespace business {
     //put your code here
     public $Insta_Id;
     public $Cookies;
-    public $InstaClient;
     public $Client;
     
     function __construct(Client &$client) {
@@ -40,16 +39,10 @@ namespace business {
      * @return DataSet  
      */
     public function load_data() {     
-
       $ci = &get_instance();
       $data = $ci->clients_model->get_insta_client_by_id($this->Client->Id);
+      
       $this->fill_data($data);
-
-      $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $this->Insta_Id,
-          "cookies" => $this->Cookies ), 'InstaClient_lib');
-
-      $this->InstaClient = $ci->InstaClient_lib;
-      //$data = $ci->db_model->get_client_data($id);
     }
 
     protected function fill_data(\stdClass $data) {
