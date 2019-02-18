@@ -43,7 +43,7 @@ namespace business {
     }
 
 
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Phone_ddi = $data->phone_ddi;
       $this->Phone_ddd = $data->phone_ddd;
       $this->Phone_number = $data->phone_number;
@@ -99,7 +99,7 @@ namespace business {
      *  
      */
     public $End_date;
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Status_date = $data->status_date;
       $this->Languaje = $data->languaje;
       $this->Init_date = $data->init_date;
