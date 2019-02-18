@@ -1,7 +1,4 @@
 <?php
-
-require_once config_item('business-class');
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +6,9 @@ require_once config_item('business-class');
  */
 
 namespace business {
-  
+
+
+  require_once config_item('business-class');  
   use business\Business;
   /**
    * Description of BasicClient

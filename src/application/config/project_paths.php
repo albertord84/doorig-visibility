@@ -16,13 +16,13 @@ if (!defined('BASEPATH'))
 
 $config['business-admin-class'] = getcwd() . '/application/business/Admin.php';
 $config['business-attendent-class'] = getcwd() . '/application/business/Attendent.php';
-$config['business-geo_profile-class'] = getcwd() . '/application/business/BusinessGeoProfile.php';
-$config['business-hash_profile-class'] = getcwd() . '/application/business/BusinessHashProfile.php';
-$config['business-person_profile-class'] = getcwd() . '/application/business/BusinessPersonProfile.php';
-$config['business-ref_profile-class'] = getcwd() . '/application/business/BusinessRefProfile.php';
+//$config['business-geo_profile-class'] = getcwd() . '/application/business/BusinessGeoProfile.php';
+//$config['business-hash_profile-class'] = getcwd() . '/application/business/BusinessHashProfile.php';
+//$config['business-person_profile-class'] = getcwd() . '/application/business/BusinessPersonProfile.php';
+$config['business-ref_profile-class'] = getcwd() . '/application/business/ReferenceProfile.php';
 $config['business-class'] = getcwd() . '/application/business/Business.php';
 $config['business-loader-class'] = getcwd() . '/application/business/Loader.php';
-$config['business-insta-client-class'] = getcwd() . '/application/business/BInstaClient.php';
+$config['business-insta-info-class'] = getcwd() . '/application/business/InstaInfo.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
 $config['business-cookies_request-class'] = getcwd() . '/application/business/CookiesRequest.php';
 $config['business-own_exception-class'] = getcwd() . '/application/business/OwnException.php';

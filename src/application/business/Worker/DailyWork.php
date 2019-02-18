@@ -1,20 +1,19 @@
 <?php
 
-namespace business\worker{
-  
-  use business\Client;
-  use business\Business; 
-  use business\SystemConfig;
-  use buisness\BInstaClient;
-  use buisness\ReferenceProfile;
+namespace business\worker{  
   
   require_once config_item('business-class');
   require_once config_item('business-client-class');
-  require_once config_item('business-system_config-class');
-  require_once config_item('business-insta-client-class');
+  require_once config_item('business-ref_profile-class');
+  //require_once config_item('business-insta-client-class');
   require_once config_item('thirdparty-cookies');
   
-  use InstaApiWeb\CookiesRequest;
+  use InstaApiWeb\Cookies;  
+  use business\Client;
+  use business\Business; 
+  use business\SystemConfig;
+  use buisness\Loader;
+  use buisness\ReferenceProfile;
 
   /**
    * @category Business class
@@ -53,11 +52,14 @@ class DailyWork extends Business{
         
         public static function get_next_work()
         {
-           $ci = &get_instance();
+           $dailywork = new DailyWork();
+           $ci = &get_instance();           
+           $ci->load->model('daily_work_model');           
            $work_data = $ci->daily_work_model->get_next_work();           
-           $this->Ref_profile = new ReferenceProfile($work_data->reference_id);           
-           $this->Client = new Client($work_data->client_id);
-           $this->Client->load_insta_data();
+           $dailywork->Ref_profile = new \business\ReferenceProfile($work_data->reference_id);           
+           $dailywork->Client = new Client($work_data->client_id);
+           $dailywork->Client->load_insta_data();
+           return $dailywork;
                  
         }
         

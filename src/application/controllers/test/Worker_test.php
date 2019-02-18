@@ -13,9 +13,8 @@ class Worker_test extends CI_Controller {
 
     public function __construct() {
     parent::__construct();
-
-    require_once config_item('business-client-class');
-    require_once config_item('business-system_config-class');
+   require_once config_item('business-client-class');
+    //require_once config_item('business-system_config-class');
     require_once config_item('business-daily_work-class');
     require_once config_item('business-robot-class');
     require_once config_item('business-worker-class');
@@ -53,5 +52,13 @@ class Worker_test extends CI_Controller {
   public function test () {
     echo "hola mundo";
     $obj = new Worker();
+  }
+  
+  public function testDailyWork()
+  {
+     echo "<h2>Test Dailywork</h2>";
+    $daily_work = DailyWork::get_next_work();
+    var_dump($daily_work);
+    echo "[new] get_next_work ==> (<b>ok</b>)<br>";
   }
 }

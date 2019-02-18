@@ -9,6 +9,8 @@ namespace business {
   require_once config_item('business-user_status-class');
   require_once config_item('business-loader-class');
   
+  use business\Loader;
+  
   class Contact_Information extends Loader
   {
     public $User;
@@ -43,7 +45,7 @@ namespace business {
     }
 
 
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Phone_ddi = $data->phone_ddi;
       $this->Phone_ddd = $data->phone_ddd;
       $this->Phone_number = $data->phone_number;
@@ -99,7 +101,7 @@ namespace business {
      *  
      */
     public $End_date;
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Status_date = $data->status_date;
       $this->Languaje = $data->languaje;
       $this->Init_date = $data->init_date;
@@ -188,7 +190,7 @@ namespace business {
       //$this->Id = $id;
       $ci = &get_instance();
       $ci->load->model('users_model'); 
-      $this->id = $id;
+      $this->Id = $id;
       $this->load_data();
     }
 
@@ -199,7 +201,7 @@ namespace business {
       $this->fill_data($data);
     }
     
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Id = $data->id;
       $this->Role = $data->role_id;
       $this->Name = $data->name;
