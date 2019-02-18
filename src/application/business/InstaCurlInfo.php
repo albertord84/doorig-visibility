@@ -19,7 +19,7 @@ namespace business {
    *
    * @author jose
    */
-  class InstaInfo extends Loader{
+  class InstaCurlInfo extends Loader{
     //put your code here
     public $Insta_Id;
     public $Cookies;
@@ -54,12 +54,7 @@ namespace business {
 
     protected function fill_data(\stdClass $data) {
       $this->Insta_Id = $data->insta_id;
-      $this->Cookies = new Cookies($data->cookies);
-      if($this->Cookies->is_empty())
-      {
-         $login_status = $this->Client->login($this->Cookies);
-      }
-         
+      $this->Cookies = new Cookies($data->cookies);      
     }
 
   }

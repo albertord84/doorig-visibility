@@ -3,9 +3,7 @@
 namespace business {
 
   require_once config_item('business-user-class');
-  require_once config_item('business-insta-info-class');
-  
-  use business\User;
+  require_once config_item('business-insta-curl-info-class');
 
   /**
    * @category Business class
@@ -21,7 +19,7 @@ namespace business {
 
     public function __construct(int $id) {
       parent::__construct($id);
-      $this->InstaInfo = new InstaInfo($this);
+      $this->InstaInfo = new InstaCurlInfo($this);
     }
 
     public function load_data() {
@@ -40,7 +38,7 @@ namespace business {
       $this->InstaInfo->load_data();
     }
     
-    public function login(Cookies &$cookies)
+    public function login()
     {
        return true;
     }
