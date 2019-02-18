@@ -37,3 +37,24 @@
     </div>
 </div>
 
+<!--modal confirm message with dinamic all to yes-function-->
+<div id="modal_confirm_message" class="modal" style="margin-top:15%" tabindex="-2" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-question" style="color:blue;font-size:16px"></i> Confirmação</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="confirm_message_text" style="color:black"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="decline_modal_confirm_message" type="button" class="btn btn-warning" data-dismiss="modal">Declinar</button>
+                <button id="accept_modal_confirm_message" type="button" class="btn btn-info" data-dismiss="modal">Confirmnar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

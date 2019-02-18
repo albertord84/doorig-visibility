@@ -200,7 +200,7 @@
                                         
                                         <div class="col-md-12">                                                
                                             <!-- Steep 1 -->
-                                                <section class="sigin-painel-steep-1" style="display:none;">
+                                                <section class="sigin-painel-steep-1" style="display:block;">
                                                     <!-- Wizzard 1 -->
                                                     <div class="row">
                                                         <div class="col-md-2"></div>
@@ -211,10 +211,10 @@
                                                                         <a href="#step-1" type="button" class="btn btn-info btn-circle">1</a>
                                                                     </div>
                                                                     <div class="stepwizard-step">
-                                                                        <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                                                        <a href="#step-2" type="button" class="btn btn-secondary btn-circle" disabled="disabled">2</a>
                                                                     </div>
                                                                     <div class="stepwizard-step">
-                                                                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                                                        <a href="#step-3" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
                                                                     </div>                                                                    
                                                                 </div>
                                                                 <br>
@@ -232,7 +232,7 @@
                                                                     <form>
                                                                         <div class="form-group">
                                                                             <label>Perfil da sua marca:</label>
-                                                                            <input id="login_profile" type="text" class="form-control to-lower-case" >
+                                                                            <input id="login_profile" type="text" onkeyup="search_match_profile('#login_profile','#table_search_profile');" class="form-control to-lower-case" >
                                                                             <div id="container_search_profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
                                                                                 <table id="table_search_profile" class="table">                                
                                                                                 </table>
@@ -279,10 +279,10 @@
                                                                         <a href="#step-1" type="button" class="btn btn-success btn-circle">1</a>
                                                                     </div>
                                                                     <div class="stepwizard-step">
-                                                                        <a href="#step-2" type="button" class="btn btn-primary btn-circle">2</a>
+                                                                        <a href="#step-2" type="button" class="btn btn-info btn-circle">2</a>
                                                                     </div>
                                                                     <div class="stepwizard-step">
-                                                                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                                                        <a href="#step-3" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
                                                                     </div>
                                                                 </div>
                                                                 <br>
@@ -367,7 +367,7 @@
                                                 </section>
                                                                 
                                             <!-- Steep 3 -->         
-                                                <section class="sigin-painel-steep-3" style="display:block;">
+                                                <section class="sigin-painel-steep-3" style="display:none;">
                                                     <!-- Wizzard 3 -->
                                                     <div class="row">
                                                         <div class="col-md-2"></div>
@@ -381,7 +381,7 @@
                                                                         <a href="#step-2" type="button" class="btn btn-success btn-circle">2</a>
                                                                     </div>
                                                                     <div class="stepwizard-step">
-                                                                        <a href="#step-3" type="button" class="btn btn-primary btn-circle">3</a>
+                                                                        <a href="#step-3" type="button" class="btn btn-info btn-circle">3</a>
                                                                     </div>
                                                                 </div>
                                                                 <br>
@@ -390,20 +390,20 @@
                                                         <div class="col-md-2"></div>                                                        
                                                     </div>
                                                     <!-- Form 3 -->
-                                                    <form>
+                                                    <div id="container-add-reference-profile">
                                                         <div class="row">
                                                             <div class="col-md-2"></div>
                                                             <div class="col-md-8">
                                                                 <label for="int1">Insira pelo menos um Perfil de Referência:</label>
                                                                 <div class="input-group">
-                                                                    <input id="login_profile1" type="text" class="form-control to-lower-case" placeholder="Perfil de referência *" required="required" >
+                                                                    <input id="login-reference-profile" type="text" onkeyup="search_match_profile('#login-reference-profile','#table-search-reference-profile');" class="form-control to-lower-case">
                                                                     <i class="fa fa-spinner fa-spin myspinner"></i>
-                                                                    <button id="add-reference-profile" type="button" class="btn btn-info" style="margin-left:px;max-height:38px">
+                                                                    <button id="add-reference-profile" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
                                                                         Adicionar
                                                                         <i class="fa fa-plus-circle"></i> 
                                                                     </button>
-                                                                    <div id="container_search_profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
-                                                                        <table id="table_search_profile1" class="table">                                
+                                                                    <div id="container-search-reference-profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
+                                                                        <table id="table-search-reference-profile" class="table">                                
                                                                         </table>
                                                                     </div> 
                                                                 </div>
@@ -413,105 +413,9 @@
                                                         <div class="row">
                                                             <div class="col-md-1"></div>
                                                             <div class="col-md-10">
-                                                                <div class="container" style="min-height:70px;background-color:#FAFAFA; border:1px solid #E6E6E6; margin-top:10px; padding: 15px">
+                                                                <div class="container container-profiles">
                                                                     <div id="container-reference-profiles" class="row">
-                                                                        
-                                                                        
-                                                                        <div class='col-md-4 col-sm-12 col-xs-12'>
-                                                                            <div class='card'>
-                                                                                <div class='profile card-body card-body-profile'>
-                                                                                    <button class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> 
-                                                                                    <br>
-                                                                                    <div class='text-center'>
-                                                                                        <img class='img-profile' src='https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net'>
-                                                                                        <h5 class='card-title'>
-                                                                                            @<a id='name-profile' href='https://www.instagram.com/leticiajural/' target='_blank'>
-                                                                                                leticiajural1
-                                                                                            </a>
-                                                                                        </h5>                                                                                    
-                                                                                    </div>
-                                                                                    <div class='row'>
-                                                                                        <div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>
-                                                                                            <p class='m-b-0 label-profile'>Posts</p>
-                                                                                            <h6 id='amount-post-profile' class='text-muted'>105</h6>
-                                                                                        </div>
-                                                                                        <div class='col-md-4 col-sm-12 col-xs-12 text-center p-0'>
-                                                                                            <p class='m-b-0 label-profile'>Seguidores</p>
-                                                                                            <h6 id='amount-folowers-profile' class='text-muted'>8,317</h6>
-                                                                                        </div>
-                                                                                        <div class='col-md-4 col-sm-12 col-xs-12 text-center p-0' >
-                                                                                            <p class='m-b-0 label-profile' >Seguindo</p>
-                                                                                            <h6 id='amount-following-profile' class='text-muted'>1,457</h6>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        
-                                                                        
-                                                                        
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                                            <div class="card">
-                                                                                <div class="profile card-body card-body-profile">
-                                                                                    <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
-                                                                                    <br>
-                                                                                    <div class="text-center">
-                                                                                        <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/581e26f0c737200838ab7d63cd5f710c/5CE31862/t51.2885-19/s150x150/16110336_541368592676753_1487422431021760512_a.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                                        <h5 class="card-title">
-                                                                                            @<a id="name-profile" href="https://www.instagram.com/desainemarmores/" target="_blank">
-                                                                                                desainemarmores
-                                                                                            </a>
-                                                                                        </h5>                                                                                    
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                                        </div>
-                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                            <p class="m-b-0 label-profile">Seguidores</p>
-                                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                                        </div>
-                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        
-                                                                        <div class="col-md-4 col-sm-12 col-xs-12">
-                                                                            <div class="card">
-                                                                                <div class="profile card-body card-body-profile">
-                                                                                    <button class="profile-delete close" type="button" title="Fechar"><span aria-hidden="true">&times;</span></button> 
-                                                                                    <br>
-                                                                                    <div class="text-center">
-                                                                                        <img class="img-profile" src="https://instagram.fsdu8-1.fna.fbcdn.net/vp/e3e5009d310027e1344a6ef66285c867/5CDAF899/t51.2885-19/s150x150/47694626_1984680308492965_2263875741303177216_n.jpg?_nc_ht=instagram.fsdu8-1.fna.fbcdn.net">
-                                                                                        <h5 class="card-title">
-                                                                                            <a id="name-profile" href="https://www.instagram.com/leticiajural/" target="_blank">
-                                                                                                @leticiajural2
-                                                                                            </a>
-                                                                                        </h5>                                                                                    
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                            <p class="m-b-0 label-profile">Posts</p>
-                                                                                            <h6 id="amount-post-profile" class="text-muted">105</h6>
-                                                                                        </div>
-                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0">
-                                                                                            <p class="m-b-0 label-profile">Seguidores</p>
-                                                                                            <h6 id="amount-folowers-profile" class="text-muted">8,317</h6>
-                                                                                        </div>
-                                                                                        <div class="col-md-4 col-sm-12 col-xs-12 text-center p-0" >
-                                                                                            <p class="m-b-0 label-profile" >Seguindo</p>
-                                                                                            <h6 id="amount-following-profile" class="text-muted">1,457</h6>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        
+                                                                        <!-- PROFILES HERE AS A col-md-4 ELEMENT ADDED OR LOADED IN REAL TIME -->
                                                                     </div>                                                                    
                                                                 </div>
                                                                 <div class="row">
@@ -526,9 +430,8 @@
                                                                 </div>
                                                             </div>
                                                             <div class="col-md-1"></div>
-                                                        </div>                                                        
-                                                        
-                                                    </form>
+                                                        </div> 
+                                                    </div>
                                                 </section>
                                         </div>
                                     </div>

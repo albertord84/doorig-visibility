@@ -7,7 +7,6 @@
 
 namespace business {
 
-
   require_once config_item('business-class');  
   use business\Business;
   /**

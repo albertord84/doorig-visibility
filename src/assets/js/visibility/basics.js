@@ -1,4 +1,6 @@
 var ig_profile_regular_expression = "^[a-zA-Z0-9\._]{1,300}$";
+var ig_geolocation_regular_expression = "^[a-zA-Z0-9\._]{1,300}$";
+var ig_hashtag_regular_expression = "^[a-zA-Z0-9\._]{1,300}$";
 var verification_code_regular_expression = "^[0-9]{4}$";
 var email_regular_expression = "^[a-zA-Z0-9\._-]+@([a-zA-Z0-9-]{2,}[.])*[a-zA-Z]{2,}$";
 var complete_name_regular_expression = "^[a-z A-Z0-9áÁéÉíÍóÓúÚàÀèÈìÌòÒùÙãÃõÕâÂêÊôÔûÛñ\._]{2,150}$";
@@ -145,6 +147,12 @@ function modal_success_message(text_message){
     $('#success_message_text').text(text_message);        
 }
 
+function modal_confirm_message(text_message,function_name,param){
+    var action = function_name+"('"+param+"')";
+    $('#confirm_message_text').text(text_message);
+    $('#accept_modal_confirm_message').attr('onclick',action)
+    $('#modal_confirm_message').modal('show');
+}
 
 $(document).ready(function(){  
     

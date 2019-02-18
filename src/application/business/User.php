@@ -1,8 +1,6 @@
 <?php
 
 namespace business {
-
-  use stdClass;
   
   require_once config_item('business-class');
   require_once config_item('business-user_role-class');

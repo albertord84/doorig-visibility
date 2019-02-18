@@ -40,8 +40,10 @@ namespace business {
       $this->InstaInfo->load_data();
     }
     
-    public function verify_cookies()
-    {}
+    public function login(Cookies &$cookies)
+    {
+       return true;
+    }
   }
 
 }
