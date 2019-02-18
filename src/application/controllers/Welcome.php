@@ -67,7 +67,6 @@ class Welcome extends CI_Controller {
     }
 
     
-    
     //TODO  Alberto:  poner en las clases controladoras que te de la gana
     
     //---------------HOME FUNCTIONS-----------------------------
