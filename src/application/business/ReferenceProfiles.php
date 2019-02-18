@@ -4,7 +4,7 @@ namespace business {
 
     require_once config_item('business-class');
     require_once config_item('business-client-class');
-    require_once config_item('business-reference-profile-class');
+    require_once config_item('business-ref_profile-class');
     require_once config_item('business-error-codes-class');
 
     /**
@@ -17,7 +17,7 @@ namespace business {
      */
     class ReferenceProfiles extends Business {
 
-        public $Modules;
+        public $ReferenceProfiles;
         private $Client; // Client Reference
 
         /**
@@ -28,33 +28,29 @@ namespace business {
         function __construct(Client &$client) {
             parent::__construct();
 
-            $CI = &get_instance();
-            $CI->load->model("Clients_modules_model");
-
             $this->Client = $client;
-            $this->Modules = array();
+            $this->ReferenceProfiles = array();
         }
 
         /**
          * 
          * @throws Exception
          */
-        public function load_data(int $active) {
+        public function load_data(int $status = 0) {
             $CI = &get_instance();
-            $data = $CI->Clients_modules_model->get_all($this->Client->Id);
+            $CI->load->model("Reference_profile_model");
+            $data = $CI->Reference_profile_model->get_all_id($this->Client->Id, $status);
 
             $this->fill_data($data);
         }
 
-        private function fill_data(array $modules = NULL) {
-            if (count($modules)) {
-                foreach ($modules as $key => $client_module) {
-                    $Module = new Module();
-                    $Module->load_data($client_module->id);
-                    $this->Modules[$Module->Name] = new ClientModule($this->Client, $Module);
-                    $this->Modules[$Module->Name]->fill_data($client_module);
-                    //$this->Modules[$key] = new ClientModule($this->Client, $Module);
-                    //$this->Modules[$key]->fill_data($module);
+        private function fill_data(array $referenec_profiles = NULL) {
+            if (count($referenec_profiles)) {
+                foreach ($referenec_profiles as $key => $reference_profile) {
+                    $ReferenceProfile = new ReferenceProfile($reference_profile->id);
+
+                    $this->ReferenceProfiles[$reference_profile->id] = $ReferenceProfile;
+                    //$this->ReferenceProfiles[$ReferenceProfile->id] = $ReferenceProfile;
                 }
             } else {
                 //throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);

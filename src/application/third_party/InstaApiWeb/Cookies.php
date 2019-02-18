@@ -40,7 +40,7 @@ namespace InstaApiWeb {
          */
         public $Mid;
 
-        public function __construct(string $cookies_str) {
+        public function __construct(string $cookies_str = null) {
             $obj = json_decode($cookies_str);
             if(isset($obj->sessionid)) $this->SessionId = $obj->sessionid;
             if(isset($obj->csrftoken)) $this->CsrfToken = $obj->csrftoken;
