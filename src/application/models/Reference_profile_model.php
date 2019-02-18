@@ -84,7 +84,7 @@ class Reference_profile_model extends CI_Model {
         if ($status != 0)  // Return specific status if != 0,  else return all
             $this->db->where('status_id', $status);
         if ($type != -1)   // Return specific type if != -1,  else return all
-            $this->db->where('status_id', $status);
+            $this->db->where('type', $type);
 
         $this->db->select('id')->from('reference_profile');
         //$this->db->order_by('<field>', '<type>'); ==> asc/desc

@@ -27,6 +27,7 @@ class PersonProfiles extends CI_Controller {
         require_once config_item('business-client-class');
         require_once config_item('business-ref_profile-class');
         require_once config_item('business-response-class');
+        require_once config_item('business-response-reference-profiles-class');
     }
 
     public function index() {
@@ -45,15 +46,6 @@ class PersonProfiles extends CI_Controller {
         $datas['reference_profile_id'] = 24307;
 
         try {
-            /**
-              $client_id = $this->session->userdata('client_id');
-
-              $Client = new Client($client_id);
-              $status = 1; // ACTIVE
-              $Client->load_insta_reference_profiles_data($status);
-
-              $Client->ReferenceProfiles->remove($datas['reference_profile_id']);
-             */
             $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
             $ReferenceProfile->remove();
         } catch (Exception $exc) {
@@ -72,7 +64,7 @@ class PersonProfiles extends CI_Controller {
 
             $Client = new BusinessClient($client_id);
             $status = 1; // ACTIVE
-            $type = 2;   // Person Profile
+            $type = -1;   // Person Profile
             $Client->load_insta_reference_profiles_data($status, $type);
 
             $Response = new ResponseReferenceProfiles($Client->ReferenceProfiles);
