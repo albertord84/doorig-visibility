@@ -127,6 +127,14 @@ namespace business {
             $this->Cursor = $data->cursor;
         }
 
+        /**
+         *  
+         */
+        public function remove() {
+            $ci = &get_instance();
+            $ci->reference_profile_model->remove($this->Id);
+        }
+
         public function save_data() {
             
         }

@@ -46,8 +46,8 @@ namespace business {
             $this->InstaCurlInfo->load_data();
         }
 
-        public function load_insta_reference_profiles_data() {
-            $this->ReferenceProfiles->load_data();
+        public function load_insta_reference_profiles_data(int $status = 0) {
+            $this->ReferenceProfiles->load_data($status);
         }
 
         public function login() {

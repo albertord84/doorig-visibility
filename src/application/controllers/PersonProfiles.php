@@ -19,8 +19,6 @@ class PersonProfiles extends CI_Controller {
 
         require_once config_item('business-client-class');
         require_once config_item('business-response-class');
-
-        $this->load->model('reference_profiles_model', 'personProfiles');
     }
 
     public function index() {
@@ -29,19 +27,23 @@ class PersonProfiles extends CI_Controller {
     }
 
     public function insert_reference_profile() {
-        $this->load - library("sessions_utils");
-        $this->is_client();
         $datas = $this->input->post();
-
-        echo json_encode($response);
     }
 
     public function delete_reference_profile() {
-        $this->load - library("sessions_utils");
-        $this->is_client();
         $datas = $this->input->post();
-
-        echo json_encode($response);
+        
+        
+        $datas['reference_profile_id'] = 24307;
+        
+        try {
+            
+        } catch (Exception $exc) {
+            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return;
+        }
+        
+        Response::ResponseOK()->toJson();
     }
 
 }
