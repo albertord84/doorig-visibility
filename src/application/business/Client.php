@@ -6,6 +6,8 @@ namespace business {
     require_once config_item('business-user-class');
     require_once config_item('business-insta-curl-info-class');
     require_once config_item('business-ref_profile-class');
+    require_once config_item('business-reference-profiles-class');
+    
 
     /**
      * @category Business class
@@ -19,7 +21,7 @@ namespace business {
 
         public $InstaCurlInfo;
         public $InstaContactInfo;       // Client intagram general information Class
-        public $ReferenceProfiles; // Client referent profiles Class
+        public $ReferenceProfiles;      // Client referent profiles Class
 
         public function __construct(int $id) {
             parent::__construct($id);
@@ -46,8 +48,8 @@ namespace business {
             $this->InstaCurlInfo->load_data();
         }
 
-        public function load_insta_reference_profiles_data(int $status = 0) {
-            $this->ReferenceProfiles->load_data($status);
+        public function load_insta_reference_profiles_data(int $status = 0, int $type = -1) {
+            $this->ReferenceProfiles->load_data($status, $type);
         }
 
         public function login() {

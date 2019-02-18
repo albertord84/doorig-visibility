@@ -77,11 +77,13 @@ class Reference_profile_model extends CI_Model {
         return $query->result();
     }
 
-    function get_all_id($ClientId, $status = 0, $offset = 0, $rows = 0) {
+    function get_all_id($ClientId, $status = 0, $type = -1, $offset = 0, $rows = 0) {
         $this->db->limit($offset, $rows);
 
         $this->db->where('client_id', $ClientId);
-        if ($status != 0)
+        if ($status != 0)  // Return specific status if != 0,  else return all
+            $this->db->where('status_id', $status);
+        if ($type != -1)   // Return specific type if != -1,  else return all
             $this->db->where('status_id', $status);
 
         $this->db->select('id')->from('reference_profile');
