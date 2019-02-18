@@ -37,6 +37,15 @@ class PersonProfiles extends CI_Controller {
 
     public function insert_person_profile() {
         $datas = $this->input->post();
+        
+        try {
+            $id = ReferenceProfile::save($datas['insta_name'], $datas['insta_id']);
+        } catch (Exception $exc) {
+            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return;
+        }
+
+        Response::ResponseOK()->toJson();
     }
 
     public function delete_person_profile() {
