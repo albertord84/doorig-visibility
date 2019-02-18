@@ -16,11 +16,11 @@ namespace business {
    */
   class Client extends User {
 
-    public $InstaInfo;
+    public $InstaCurlInfo;
 
     public function __construct(int $id) {
       parent::__construct($id);
-      $this->InstaInfo = new InstaCurlInfo($this);
+      $this->InstaCurlInfo = new InstaCurlInfo($this);
     }
 
     public function load_data() {
@@ -36,7 +36,7 @@ namespace business {
     
     public function load_insta_data()
     {
-      $this->InstaInfo->load_data();
+      $this->InstaCurlInfo->load_data();
     }
     
     public function login()
