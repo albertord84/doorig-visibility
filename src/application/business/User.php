@@ -7,6 +7,8 @@ namespace business {
   require_once config_item('business-user_status-class');
   require_once config_item('business-loader-class');
   
+  use business\Loader;
+  
   class Contact_Information extends Loader
   {
     public $User;
@@ -186,7 +188,7 @@ namespace business {
       //$this->Id = $id;
       $ci = &get_instance();
       $ci->load->model('users_model'); 
-      $this->id = $id;
+      $this->Id = $id;
       $this->load_data();
     }
 
@@ -197,7 +199,7 @@ namespace business {
       $this->fill_data($data);
     }
     
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Id = $data->id;
       $this->Role = $data->role_id;
       $this->Name = $data->name;

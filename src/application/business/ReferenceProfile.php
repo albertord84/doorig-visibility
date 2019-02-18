@@ -1,8 +1,12 @@
 <?php
 
 namespace business {
-
-  use stdClass;
+  
+  
+  require_once config_item('business-loader-class');  
+  
+  use business\Loader;
+  use \stdClass;
 
   /**
    * Description of HashtagProfile
@@ -79,9 +83,8 @@ namespace business {
     public $Cursor;
     public $Ref_profile_lib;
 
-    function __construct(int $id) {
+    public function __construct(int $id) {
       parent::__construct();
-
       $ci = &get_instance();
       $ci->load->model('reference_profile_model');
       $this->Id = $id;
@@ -111,7 +114,7 @@ namespace business {
       $this->fill_data($data);
     }
 
-    protected function fill_data(stdClass $data) {
+    protected function fill_data(\stdClass $data) {
       $this->Id = $data->id;
       $this->Insta_name = $data->insta_name;
       $this->Insta_id = $data->insta_id;

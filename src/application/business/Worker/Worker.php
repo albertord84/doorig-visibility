@@ -182,10 +182,7 @@ namespace business\worker {
 
     // LISTA!!!
     public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
-    
-      echo "<pre>";
-      echo "<h2>Test GeoProfile Library</h2>";
-      echo "[load] GeoProfile_lib ==> ";
+          
       ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
       while(DailyWork::exist_work())
       {
