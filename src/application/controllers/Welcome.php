@@ -67,8 +67,8 @@ class Welcome extends CI_Controller {
     }
 
     
-    
     //TODO  Alberto:  poner en las clases controladoras que te de la gana
+    
     //---------------HOME FUNCTIONS-----------------------------
     public function contract_visibility_steep_1() { //setting proper profile
         $datas = $this->input->post();
