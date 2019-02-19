@@ -76,7 +76,7 @@ $config['thirdparty-profile_type-resource'] = getcwd() . '/application/third_par
 $config['thirdparty-verification_choice-resource'] = getcwd() . '/application/third_party/InstaApiWeb/VerificationChoice.php';
 
 //Otros recursos dentro de InstaApiWeb
-$config['thirdparty-cookies'] = getcwd() . '/application/third_party/InstaApiWeb/Cookies.php';
+$config['thirdparty-cookies-resource'] = getcwd() . '/application/third_party/InstaApiWeb/Cookies.php';
 
 /*
   | --------------------------------------------------------------------------

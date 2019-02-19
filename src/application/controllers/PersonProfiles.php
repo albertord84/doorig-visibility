@@ -10,15 +10,6 @@ use business\{
     Response\ResponseReferenceProfiles
 };
 
-/**
-
- * Desarrollo del controlador: clientsController
-
- *
-
- * @author 
-
- */
 class PersonProfiles extends CI_Controller {
 
     public function __construct() {
@@ -37,6 +28,8 @@ class PersonProfiles extends CI_Controller {
 
     public function insert_person_profile() {
         $datas = $this->input->post();
+        
+        // Deco
         
         try {
             $id = ReferenceProfile::save($datas['insta_name'], $datas['insta_id']);

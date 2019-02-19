@@ -3,7 +3,7 @@
 namespace InstaApiWeb {
   
   require_once config_item('thirdparty-proxy-resource');
-  require_once config_item('thirdparty-cookies');
+  require_once config_item('thirdparty-cookies-resource');
   require_once config_item('insta-curl-exception-class');
 
   use stdClass;
@@ -493,7 +493,7 @@ namespace InstaApiWeb {
      */
     private function get_post (Proxy $proxy = null, Cookies $cookies = null, string $media_str) {           
       // Paso 1. configuracion inicial de la curl
-      $curl_str = sprintf("curl %s '%s/?query_hash=%s&variables=%s'", 
+      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s/?query_hash=%s&variables=%s'", 
         ($proxy != null) ? $proxy->ToString() : "", 
         $this->InstaURL['Graphql'], $this->ProfileType->getHashQuery(), urlencode($media_str));
       
@@ -536,7 +536,7 @@ namespace InstaApiWeb {
       else
         $sub = sprintf("%s/%s/?taken-at=%s&__a=1", $sub, $this->ReferencePost, $this->InstaId);
         
-      $curl_str = sprintf("curl %s '%s'", $proxy->ToString(), $sub);
+      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s'", $proxy->ToString(), $sub);
       
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null){
@@ -647,7 +647,7 @@ namespace InstaApiWeb {
     private function get_profile_info(Cookies $cookies = null, string $reference_user) {      
       // Paso 1. configuracion inicial de la curl
       $sub = sprintf("%s/%s/?__a=1", $this->InstaURL['Base'], $reference_user);              
-      $curl_str = sprintf("curl %s", $sub);
+      $curl_str = sprintf("/opt/lampp/bin/curl '%s'", $sub);
       
       // Paso 2. agregando la cookies a la curl
       if ($cookies != NULL) {
@@ -676,7 +676,7 @@ namespace InstaApiWeb {
      */
     private function cmd_friendships (Proxy $proxy = null , Cookies $cookies, string $resource_id) {     
       // Paso 1. configuracion inicial de la curl
-      $curl_str = sprintf("curl %s %s/%s/%s/%s/", 
+      $curl_str = sprintf("/opt/lampp/bin/curl %s %s/%s/%s/%s/", 
         ($proxy != null) ? $proxy->ToString() : "", 
         $this->InstaURL['Base'], $this->ActionType->getObjetiveUrl(), $resource_id, $this->ActionType->getCmdSubQuery());
        

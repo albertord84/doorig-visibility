@@ -9,8 +9,9 @@ class Library_test extends CI_Controller {
     parent::__construct();
 
     require_once config_item('db-exception-class');
-    require_once config_item('business-client-class');
-    require_once config_item('thirdparty-cookies');
+    //require_once config_item('business-client-class');
+    require_once config_item('thirdparty-cookies-resource');
+    require_once config_item('thirdparty-insta_profile-resource');
   }
 
   public function index() {
@@ -34,7 +35,7 @@ class Library_test extends CI_Controller {
     // -OK-
     echo "<pre>";
     echo "[load] GeoProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'GeoProfile_lib');
+    //$this->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'GeoProfile_lib');
     echo "(<b>ok</b>)";
     $count++;
 
@@ -330,6 +331,19 @@ class Library_test extends CI_Controller {
   public function curl()
   {
     echo "<pre>";
+    echo "<h2>Test PersonProfile Library</h2>";
+    echo "[load] PersonProfile_lib ==> ";
+    $this->load->library("InstaApiWeb/InstaProfile_lib", null, 'InstaProfile_lib');
+    $cookies = new Cookies('{"sessionid":"204662017%3AGQm7k6jfzicxNp%3A17","csrftoken":"WMhg3ci30e5yfmnRToZxQdnua2HyUNTK","ds_user_id":"204662017","mid":"WtlMoQABAAHZAlviRrBwRMd8ynet","json_response":{"status":"ok","authenticated":true}}  ');
+    $result = $this->InstaProfile_lib->get_user_data("leticiajural", $cookies, null);
+    var_dump($result);
+    echo "(<b>ok</b>)<br>";
+    
+    
+    
+    
+    
+    echo "<pre>";
     echo "<h2>Test GeoProfile Library</h2>";
     echo "[load] GeoProfile_lib ==> ";
 
@@ -355,7 +369,6 @@ class Library_test extends CI_Controller {
     $cursor = null;
     $this->PersonProfile_lib->get_insta_followers($cookies,15,$cursor);
     echo "(<b>ok</b>)<br>";
-        
  
   }
 }
