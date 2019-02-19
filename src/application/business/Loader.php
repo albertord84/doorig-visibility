@@ -8,19 +8,21 @@
 namespace business {
 
 
-  require_once config_item('business-class');  
-  use business\Business;
-  /**
-   * Description of BasicClient
-   *
-   * @author jose
-   */
-  abstract class Loader extends Business {
+    require_once config_item('business-class');
 
-    //put your code here
-    public abstract function load_data();
+    use business\Business;
 
-    protected abstract function fill_data(\stdClass $data);
-  }
+    /**
+     * Description of BasicClient
+     *
+     * @author jose
+     */
+    abstract class Loader extends Business {
+
+        //put your code here
+        public abstract function load_data();
+
+        protected abstract function fill_data(\stdClass $data);
+    }
 
 }

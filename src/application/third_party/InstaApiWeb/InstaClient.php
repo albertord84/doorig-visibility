@@ -32,7 +32,7 @@ namespace InstaApiWeb {
       require_once config_item('insta-exception-class');
       require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-curl-exception-class');
-      require_once config_item('insta-cookies-exception-class');      
+      require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-password-exception-class');
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
@@ -199,7 +199,6 @@ namespace InstaApiWeb {
         return $csrftoken; */
     }
 
-
     public static function verify_cookies(Cookies $cookies) {
       if ($cookies != NULL) {
         return (isset($cookies->CsrfToken) && $cookies->CsrfToken !== NULL && $cookies->CsrfToken !== '' &&
@@ -355,10 +354,10 @@ namespace InstaApiWeb {
         return $result2;
       } catch (Exceptions\InstaCheckpointException $exc) {
         $res = $exc->GetChallenge();
-        $response = $this->get_challenge_data($res, $login, $Client);
-        if (isset($response->challenge->challengeType) && ($response->challenge->challengeType == "SelectVerificationMethodForm")) {
-          $response = $this->get_challenge_data($res, $login, $choise);
-        }
+        //$response = $this->get_challenge_data($res, $login, $Client);
+        //   if (isset($response->challenge->challengeType) && ($response->challenge->challengeType == "SelectVerificationMethodForm")) {
+        $response = $this->get_challenge_data($res, $login, $choise);
+        //  }
         return $response;
       }
     }
@@ -367,10 +366,15 @@ namespace InstaApiWeb {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::GET_CHALLENGE_CODE));
         $mngr->setResourceId($resource_id);
-        $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-        var_dump($curl_str);
-        exec($curl_str, $output, $status);
-        var_dump($output);
+        $ch = $mngr->make_curl_str($this->proxy, $this->cookies);
+        $html = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        $start = strpos($html, "{");
+        $json_str = substr($html, $start);
+        $resposta = json_decode($json_str);
+        $this->cookies = $cookies;
+        var_dump($resposta);
+        return $resposta;
       } catch (\Exception $exc) {
         var_dump($exc);
       }
