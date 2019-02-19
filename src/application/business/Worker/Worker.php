@@ -3,7 +3,8 @@
 namespace business\worker {
 
   use business\Business;
-
+  use business\worker\Robots;
+  
   require_once config_item('business-class');
 
 //require_once config_item('business-robot-class');
@@ -45,7 +46,7 @@ namespace business\worker {
     public $dir;
     public $robot;
     public $mail;
-
+    private $ci;
     /* public function __construct($id = -1) {
       $this->Robot = new Robot($DB); //CONCERTAR
       $this->Robot->config = $GLOBALS['sistem_config'];
@@ -57,10 +58,13 @@ namespace business\worker {
       } */
 
     function __construct() {
-      $ci = &get_instance();
+      $this->ci = &get_instance();
 
-      $ci->load->model('db_model');
+      $this->ci->load->model('db_model');
       //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
+      $ci->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'InstaGeoProfile_lib');
+      
+      echo "<br><br>cargue el worker";
 
     }
 
@@ -104,9 +108,9 @@ namespace business\worker {
             //para chekear que esas cookies estan correctas, si no, bloquear por ssenha errada  status_id=3
             $ci->db_model->cmd_create_followed($Client->id);
             print("<br>\nAutenticated Client: $Client->login <br>\n<br>\n");
-            $Client->set_client_status($Client->id, user_status::ACTIVE);
+            $Client->update_client_status($Client->id, user_status::ACTIVE);
             // Distribute work between clients
-            $RPWC = $Client->rp_workable_count();
+            $RPWC = $Client->reference_profiles_workable_count();
             print("<br>\nWorkable Referenc Profile: $RPWC <br>\n<br>\n");
             if (strtotime("today") - $Client->init_date < 40 * 24 * 60 * 60) {
               $DIALY_REQUESTS_BY_CLIENT = 480;
@@ -140,7 +144,7 @@ namespace business\worker {
           }
           else if ($Client->status_id === user_status::ACTIVE) {
             $ci->db_model->set_client_cookies($Client->id);
-            $ci->db_model->set_client_status($Client->id, user_status::VERIFY_ACCOUNT);
+            $ci->db_model->update_client_status($Client->id, user_status::VERIFY_ACCOUNT);
             $ci->db_model->insert_event_to_washdog($Client->client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, 0, "Cookies incompletas when prepare_daily_work");
           }
         } elseif (!$Client->paused) {
@@ -178,7 +182,17 @@ namespace business\worker {
 
     // LISTA!!!
     public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
-      $ci = &get_instance();
+          
+      ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
+      while(DailyWork::exist_work())
+      {
+        $daily_work = DailyWork::get_next_work();
+        $robot = new Robot();
+        $robot->do_follow_work($daily_work);
+        $robot->do_unfollow_work($daily_work);
+      }
+      
+      /*$ci = &get_instance();
       try {
         $has_work = TRUE;
         $steps = 0;
@@ -234,8 +248,10 @@ namespace business\worker {
         echo "<br>\n<br>\nCongratulations!!! Job done...!<br>\n";
       } catch (\Exception $exc) {
         echo $exc->getTraceAsString();
-      }
+      }*/
     }
+    
+    /*
 
     // LISTA!!!
     private function do_client_work(DailyWork $daily_work) {
@@ -332,7 +348,7 @@ namespace business\worker {
       $ci = &get_instance();
       $ci->db_model->cmd_truncate_daily_work();
     }
-
+ */
   }
 
 }

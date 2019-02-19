@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+  exit('No direct script access allowed');
 
 /**
  * @author:      Carlos R. Herrera Marquez <cherreram2012@gmail.com>
@@ -14,13 +14,19 @@ if (!defined('BASEPATH'))
   | Paths de las clases del Negocio.
  */
 
+$config['business-class'] = getcwd() . '/application/business/Business.php';
+$config['business-client-class'] = getcwd() . '/application/business/Client.php';
+$config['business-user-class'] = getcwd() . '/application/business/User.php';
 $config['business-admin-class'] = getcwd() . '/application/business/Admin.php';
 $config['business-attendent-class'] = getcwd() . '/application/business/Attendent.php';
-$config['business-geo_profile-class'] = getcwd() . '/application/business/BusinessGeoProfile.php';
-$config['business-hash_profile-class'] = getcwd() . '/application/business/BusinessHashProfile.php';
-$config['business-person_profile-class'] = getcwd() . '/application/business/BusinessPersonProfile.php';
-$config['business-ref_profile-class'] = getcwd() . '/application/business/BusinessRefProfile.php';
-$config['business-class'] = getcwd() . '/application/business/Business.php';
+//$config['business-geo_profile-class'] = getcwd() . '/application/business/BusinessGeoProfile.php';
+//$config['business-hash_profile-class'] = getcwd() . '/application/business/BusinessHashProfile.php';
+//$config['business-person_profile-class'] = getcwd() . '/application/business/BusinessPersonProfile.php';
+$config['business-ref_profile-class'] = getcwd() . '/application/business/ReferenceProfile.php';
+$config['business-reference-profiles-class'] = getcwd() . '/application/business/ReferenceProfiles.php';
+$config['business-loader-class'] = getcwd() . '/application/business/Loader.php';
+$config['business-insta_commands-class'] = getcwd() . '/application/business/InstaCommands.php';
+$config['business-insta-curl-info-class'] = getcwd() . '/application/business/InstaCurlInfo.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
 $config['business-cookies_request-class'] = getcwd() . '/application/business/CookiesRequest.php';
 $config['business-own_exception-class'] = getcwd() . '/application/business/OwnException.php';
@@ -44,6 +50,7 @@ $config['business-dumbu_response-class'] = getcwd() . '/application/business/Sys
 $config['business-payment_response-class'] = getcwd() . '/application/business/SystemResponse/PaymentResponse.php';
 $config['business-reference_profile_response-class'] = getcwd() . '/application/business/SystemResponse/ReferenceProfileResponse.php';
 $config['business-response-class'] = getcwd() . '/application/business/Response/Response.php';
+$config['business-response-reference-profiles-class'] = getcwd() . '/application/business/Response/ResponseReferenceProfiles.php';
 
 /*
   |--------------------------------------------------------------------------
@@ -52,6 +59,7 @@ $config['business-response-class'] = getcwd() . '/application/business/Response/
 
 //Recursos de la InstaApiWeb que viraron tambien librerias (nombreRecurso_lib)
 $config['thirdparty-insta_geo_profile-resource'] = getcwd() . '/application/third_party/InstaApiWeb/InstaGeoProfile.php';
+$config['thirdparty-insta_ref_profile-resource'] = getcwd() . '/application/third_party/InstaApiWeb/InstaReferenceProfile.php';
 $config['thirdparty-insta_hash_profile-resource'] = getcwd() . '/application/third_party/InstaApiWeb/InstaHashProfile.php';
 $config['thirdparty-insta_person_profile-resource'] = getcwd() . '/application/third_party/InstaApiWeb/InstaPersonProfile.php';
 $config['thirdparty-media-resource'] = getcwd() . '/application/third_party/InstaApiWeb/Media (deprecated).php';
@@ -68,16 +76,12 @@ $config['thirdparty-profile_type-resource'] = getcwd() . '/application/third_par
 $config['thirdparty-verification_choice-resource'] = getcwd() . '/application/third_party/InstaApiWeb/VerificationChoice.php';
 
 //Otros recursos dentro de InstaApiWeb
-$config['thirdparty-cookies'] = getcwd() . '/application/third_party/InstaApiWeb/CookiesRequest.php';
+$config['thirdparty-cookies-resource'] = getcwd() . '/application/third_party/InstaApiWeb/Cookies.php';
 
 /*
-| --------------------------------------------------------------------------
-| Paths de las Clases Exception
-*/
-
-$config['business-error-codes-class'] = getcwd() . '/application/business/ErrorCodes.php';
-$config['business-own-exception-class'] = getcwd() . '/application/business/OwnException.php';
-
+  | --------------------------------------------------------------------------
+  | Paths de las Clases Exception
+ */
 //Exception de la BD
 $config['db-exception-class'] = getcwd() . '/application/business/OwnException.php';
 
@@ -96,17 +100,10 @@ $config['insta-curl-exception-class'] = getcwd() . '/application/third_party/Ins
 
 /*
   |--------------------------------------------------------------------------
-  | Paths de las Clases Response del Negocio
- */
-$config['business-response-class'] = getcwd() . '/application/business/Response/Response.php';
-$config['business-response-login-token-class'] = getcwd() . '/application/business/Response/ResponseLoginToken.php';
-
-/*
-  |--------------------------------------------------------------------------
   | Paths de las Clases Response de la InstaApiWeb
  */
+
 $config['thirdparty-client_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/ClientResponse.php';
-$config['thirdparty-cookies_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/CookiesResponse.php';
 $config['thirdparty-insta_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/InstaResponse.php';
 $config['thirdparty-login_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/LoginResponse.php';
 $config['thirdparty-end_cursor_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/EndCursorResponse.php';
@@ -125,6 +122,16 @@ $config['payment-mundipagg-libraries'] = getcwd() . '/application/libraries/Paym
 $config['payment-vindi-libraries'] = getcwd() . '/application/libraries/Payment/Vindi.php';
 
 //Librerias Api Web
-$config['reference-profile_libraries'] = getcwd() . '/application/libraries/InstaApiWeb/ReferenceProfile_lib.php';
+$config['reference-profile_libraries'] = getcwd() . '/application/libraries/InstaApiWeb/InstaReferenceProfile_lib.php';
+
+$config['business-error-codes-class'] = getcwd() . '/application/business/ErrorCodes.php';
+$config['business-own-exception-class'] = getcwd() . '/application/business/OwnException.php';
+
+/*
+  |--------------------------------------------------------------------------
+  | Paths de las Clases Response del Negocio
+ */
+$config['business-response-class'] = getcwd() . '/application/business/Response/Response.php';
+$config['business-response-login-token-class'] = getcwd() . '/application/business/Response/ResponseLoginToken.php';
 ?>
 

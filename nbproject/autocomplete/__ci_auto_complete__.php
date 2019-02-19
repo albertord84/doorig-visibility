@@ -1,7 +1,11 @@
 <?php
 
 /**
+<<<<<<< HEAD
+ * @property CI_DB_active_record $db
+=======
  * @property CI_DB_query_builder $db
+>>>>>>> 9ebf152f70ca66df35866e60b6c0bb105c548295
  * @property CI_DB_forge $dbforge
  * @property CI_Benchmark $benchmark
  * @property CI_Calendar $calendar
@@ -67,7 +71,11 @@ class CI_DB_Driver {
 }
 
 /**
+<<<<<<< HEAD
+ * @property CI_DB_active_record $db
+=======
  * @property CI_DB_query_builder $db
+>>>>>>> 9ebf152f70ca66df35866e60b6c0bb105c548295
  * @property CI_DB_forge $dbforge
  * @property CI_Config $config
  * @property CI_Loader $load

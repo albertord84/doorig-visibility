@@ -10,7 +10,7 @@ namespace business {
    * @todo Define an Client business class.
    * 
    */
-  class CookiesRequest {
+  class Cookies {
 
     /**
      * 
@@ -47,7 +47,19 @@ namespace business {
       $this->DsUserId = $dsuser_id;
       $this->Mid = $mid;
     }
-
+    
+    /**
+     * Genera el json que representa la cookies
+     * @return string
+     */
+    public function encode() {
+      return "";
+    }
+    
+    
+    public function decode() {
+      return "";
+    }
   }
 
 }
