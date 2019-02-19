@@ -62,7 +62,7 @@ namespace InstaApiWeb {
                     if (isset($json_response->data->user->edge_followed_by)) { // if response is ok
                         echo "Nodes: " . count($json_response->data->user->edge_followed_by->edges) . " <br>\n";
                         $page_info = $json_response->data->user->edge_followed_by->page_info;
-                        $profiles = new InstaProfileList($json_response->data->user->edge_followed_by->edges);
+                        $profiles = $json_response->data->user->edge_followed_by->edges;
                         if ($page_info->has_next_page === FALSE && $page_info->end_cursor != NULL) { // Solo qdo es <> de null es que llego al final
                             throw new Exceptions\WrongEndCursorException("It not has more pafes but end cursor it is diferent of NULL");
                         } else if ($page_info->has_next_page === FALSE && $page_info->end_cursor === NULL) {
@@ -85,6 +85,7 @@ namespace InstaApiWeb {
                 var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 var_dump($output);
+                return json_decode($output[0]);
             } catch (Exception $e) {
                 var_dump($e);
             }

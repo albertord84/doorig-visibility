@@ -19,14 +19,13 @@ namespace business {
    *
    * @author jose
    */
-  class InstaInfo extends Loader{
+  class InstaCurlInfo extends Loader{
     //put your code here
     public $Insta_Id;
     public $Cookies;
-    public $InstaClient;
     public $Client;
     
-    function __construct(Client $client) {
+    function __construct(Client &$client) {
       $ci = &get_instance();
       $ci->load->model('clients_model');
       $ci->load->model('db_model');
@@ -40,21 +39,15 @@ namespace business {
      * @return DataSet  
      */
     public function load_data() {     
-
       $ci = &get_instance();
       $data = $ci->clients_model->get_insta_client_by_id($this->Client->Id);
+      
       $this->fill_data($data);
-
-      $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $this->Insta_Id,
-          "cookies" => $this->Cookies ), 'InstaClient_lib');
-
-      $this->InstaClient = $ci->InstaClient_lib;
-      //$data = $ci->db_model->get_client_data($id);
     }
 
     protected function fill_data(\stdClass $data) {
       $this->Insta_Id = $data->insta_id;
-      $this->Cookies = new Cookies($data->cookies);
+      $this->Cookies = new Cookies($data->cookies);      
     }
 
   }

@@ -1,8 +1,7 @@
 $(document).ready(function () {   
     
     var alt = "300px";
-    var plane = "fast";
-       
+    var plane = "fast";       
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
     $('#very_fast_plane').height(alt);  
@@ -109,14 +108,22 @@ $(document).ready(function () {
         $("#very_fast_plane").addClass("active");
         plane_id = "very_fast";
     });
-        
+    
+    $("#container-add-reference-profile").keypress(function (e) {
+        if (e.which == 13) {
+            $("#add-reference-profile").click();
+            return false;
+        }
+    }); 
+    
     $("#add-reference-profile").click(function(){
         //var btn =this; spinner_start(btn);
-        profile = validate_element("#login_profile1",ig_profile_regular_expression);
+        profile = validate_element("#login-reference-profile",ig_profile_regular_expression);
         if(profile){
             container = "#container-reference-profiles";
-            profile = $("#login_profile1").val();
+            profile = $("#login-reference-profile").val();
             add_reference_profile(container, profile);
+            $("#login-reference-profile").val("");
         }else{
             modal_alert_message("Perfil incorreto, confira");
         }
@@ -127,10 +134,10 @@ $(document).ready(function () {
         //1. get profile datas of IG
         datas = get_profile_datas(profile); //implemented in ig_iterations.js
         //2. append html-code card to container
-        str =   "<div class='col-md-4 col-sm-12 col-xs-12'>"+
+        str =   "<div id='container-"+profile+"' class='col-md-4 col-sm-12 col-xs-12'>"+
                     "<div class='card'>"+
                         "<div class='profile card-body card-body-profile'>"+
-                            "<button class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> "+
+                            "<button onclick='modal_confirm_message(\"Confirma a eliminação desse item?\", \"delete_reference_profile\", \""+profile+"\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> "+
                             "<br>"+
                             "<div class='text-center'>"+
                                 "<img class='img-profile' src='"+datas["profile_picture_url"]+"'>"+
@@ -161,4 +168,13 @@ $(document).ready(function () {
         
     }
     
+    
 }); 
+
+    function delete_reference_profile(profile){
+        //1. eliminar profile do banco de dados com ajax
+        
+        //2. en el success del ajax remover el container del profile
+        cnt = "#container-"+profile;
+        $(cnt).remove();
+    }

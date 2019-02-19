@@ -52,8 +52,8 @@ namespace InstaApiWeb {
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
 
-            $json_response = $this->get_insta_media($cookies, $N, $cursor, $proxy);
-            $profiles = new InstaProfileList();
+            $json_response = $this->get_post($N, $cursor, $cookies, $proxy);
+            $profiles = array();
             if (is_object($json_response) && $json_response->status == 'ok') {
                 if (isset($json_response->data->location->edge_location_to_media)) { // if response is ok
                     if ($this->has_logs) {
@@ -63,7 +63,7 @@ namespace InstaApiWeb {
                     foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
                         $profile = new \stdClass();
                         $profile->node = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
-                        array_push($profiles->profile_list, $profile);
+                        array_push($profiles, $profile);
                     }
                 } else {
                     throw new Exceptions\EndCursorException("The cursor has ended");
@@ -88,6 +88,7 @@ namespace InstaApiWeb {
                 var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 var_dump($output);
+                return json_decode($output[0]);
             } catch (Exception $e) {
                 var_dump($e);
             }

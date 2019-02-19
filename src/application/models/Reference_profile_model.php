@@ -55,9 +55,28 @@ class Reference_profile_model extends CI_Model {
     return $query->row();
   }
 
-  function get_all($offset = 0, $rows = 0){	
+  function get_all($ClientId, $status = 0, $offset = 0, $rows = 0){	
     $this->db->limit($offset, $rows);	
+    
+    $this->db->where('client_id', $ClientId);
+    if ($status != 0)
+        $this->db->where('status_id', $status);
+    
     $this->db->select('*')->from('reference_profile');
+    //$this->db->order_by('<field>', '<type>'); ==> asc/desc
+    $query = $this->db->get();
+    
+    return $query->result();
+  }
+
+  function get_all_id($ClientId, $status = 0, $offset = 0, $rows = 0){	
+    $this->db->limit($offset, $rows);	
+    
+    $this->db->where('client_id', $ClientId);
+    if ($status != 0)
+        $this->db->where('status_id', $status);
+    
+    $this->db->select('id')->from('reference_profile');
     //$this->db->order_by('<field>', '<type>'); ==> asc/desc
     $query = $this->db->get();
     

@@ -29,32 +29,38 @@ require_once config_item('business-class');
               $this->Ref_profile = new Reference_profile(); */
         }
 
-        public function do_follow_work(DailyWork $work) {
+        public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
           $profile_list = array();
-          $cookies = $work->Client->InstaInfo->Cookies;
+          $cookies = $work->Client->InstaCurlInfo->Cookies;
+          $ci = &get_instance();
+         
           foreach ($work->get_followers($cookies,5/*,proxy*/) as $profile) {
             //pedir datos del perfil y validar perfil
             if($this->validate_profile($profile))
             {
-              $result = $work->Client->InstaInfo->InstaClient->follow($profile->get_insta_id);
+              $instaclient>follow($profile->get_insta_id);
               if($this->process_response($result))
               {
-                  array_push($profile_list);
+                  array_push($profile_list,$profile);                
               }
+              else{ break; }
             }
           }
+          unset($ci->InstaClient_lib);
         }
                
 
-        public function do_unfollow_work(DailyWork $work) {
+        public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
           $profile_list = array();
           foreach ($work->get_unfollow_list() as $profile) {            
-            $result = $work->Client->InstaInfo->InstaClient->unfollow($profile->id);
+            $result = $instaclient->unfollow($profile->id);
             if($this->process_response($result))
             {
-                array_push($profile_list);
-            }            
-          }
+                array_push($profile_list,$profile);
+            }      
+            else{ break; }
+            
+          }          
         }
         
         public function validate_profile($profile)
@@ -62,8 +68,12 @@ require_once config_item('business-class');
           return TRUE;
         }
 
-        public function process_response($json_response) {
-
+        public function process_response($response) {
+            if($response-status == 'ok')
+            {
+               return true;
+            }
+            return false;
         }
 
         public function process_get_insta_ref_prof_data_for_daily_report($content, \BusinessRefProfile $ref_prof) {

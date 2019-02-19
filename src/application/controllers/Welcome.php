@@ -21,11 +21,17 @@ class Welcome extends CI_Controller {
         require_once config_item('business-response-login-token-class');
     }
     
-    public function index($access_token, $client_id) {
+    public function index() {
+        $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
+        $param["modals"] = $this->load->view('modals','', TRUE);
+        $this->load->view('visibility_client', $param);
+    }
+    
+    public function index1($access_token, $client_id) {
         if ($this->check_access_token($access_token, $client_id)) {
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals','', TRUE);
-            $this->load->view('visibility_view', $param);
+            $this->load->view('visibility_home', $param);
         }
         //header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
     }
@@ -33,7 +39,7 @@ class Welcome extends CI_Controller {
     public function client() {
         $param["lateral_menu"] = $this->load->view('lateral_menu','', TRUE);
         $param["modals"] = $this->load->view('modals','', TRUE);
-        $this->load->view('client_view', $param);
+        $this->load->view('visibility_client', $param);
     }
 
     private function check_access_token($access_token, $client_id) {
@@ -50,7 +56,7 @@ class Welcome extends CI_Controller {
             $content = $response->getBody()->getContents();
             $content = json_decode($content);
             //var_dump($content);
-            if ($StatusCode == 200 && $content->code == 0) {
+            if ($StatusCode == 200 && is_set($content->code) && $content->code == 0) {
                 //3. Response
                 return TRUE;
             }
@@ -81,137 +87,136 @@ class Welcome extends CI_Controller {
     public function contract_visibility_steep_3() { //ending contract module
         //conferir no banco de dados se pelo menos inseriu um RP
         //SESSION["contrated"]=true;
-        return Response::ResponseOK()->toJson();        
-    }    
-    
+        return Response::ResponseOK()->toJson();
+    }
     
     //---------------CLIENTS FUNCTIONS-----------------------------
 	public function insert_reference_profile(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function insert_geolocation(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
-	public function insert_hastag(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+	public function insert_hashtag(){
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function insert_profile_in_white_list(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function insert_profile_in_black_list(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function delete_reference_profile(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function delete_geolocation(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
-	public function delete_hastag(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+	public function delete_hashtag(){
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function delete_profile_in_white_list(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function delete_profile_in_black_list(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function client_play_tool(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function client_pause_tool(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function client_active_autolike(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function client_unactive_autolike(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function client_active_total_unfollow(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
 
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function client_unactive_total_unfollow(){
-            $this->load-library("sessions_utils");
-            $this->is_client();
+            //$this->load-library("sessions_utils");
+            //$this->is_client();
             $datas = $this->input->post();
             //1. cONFERIR QUE CLIENTE ESTA ACTIVOS Y QUE NOT TIENE DFGDFGB
-            echo json_encode($response);
+            return Response::ResponseOK()->toJson();
 	}
 	
 	public function is_client(){
