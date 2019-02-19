@@ -6,7 +6,7 @@ namespace business\worker{
   require_once config_item('business-client-class');
   require_once config_item('business-ref_profile-class');
   //require_once config_item('business-insta-client-class');
-  require_once config_item('thirdparty-cookies');
+  require_once config_item('thirdparty-cookies-resource');
   
   use InstaApiWeb\Cookies;  
   use business\Client;

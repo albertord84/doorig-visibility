@@ -63,7 +63,7 @@ namespace InstaApiWeb {
                     $page_info = $json_response->data->hashtag->edge_hashtag_to_media->page_info;
                     foreach ($json_response->data->hashtag->edge_hashtag_to_media->edges as $Edge) {
                         $profile = new \stdClass();
-                        $profile->node = $this->get_owner_post_data($Edge->node->shortcode, $cookies, $proxy);
+                        $profile->node = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
                         array_push($profiles, $profile);
                     }
                     $error = FALSE;
