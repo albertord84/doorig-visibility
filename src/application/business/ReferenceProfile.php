@@ -127,8 +127,20 @@ namespace business {
             $this->Cursor = $data->cursor;
         }
 
-        public function save_data() {
-            
+        /**
+         *  
+         */
+        public function remove() {
+            $ci = &get_instance();
+            $ci->reference_profile_model->remove($this->Id);
+        }
+
+        /**
+         *  
+         */
+        static function save() {
+            $ci = &get_instance();
+            return $ci->reference_profile_model->save($this->Id);
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {

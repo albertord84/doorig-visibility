@@ -36,10 +36,10 @@ namespace business {
          * 
          * @throws Exception
          */
-        public function load_data(int $status = 0) {
+        public function load_data(int $status = 0, int $type = -1) {
             $CI = &get_instance();
             $CI->load->model("Reference_profile_model");
-            $data = $CI->Reference_profile_model->get_all_id($this->Client->Id, $status);
+            $data = $CI->Reference_profile_model->get_all_id($this->Client->Id, $status, $type);
 
             $this->fill_data($data);
         }
@@ -55,6 +55,14 @@ namespace business {
             } else {
                 //throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
             }
+        }
+
+        /**
+         *  
+         */
+        public function remove_reference_profile(int $reference_profile_id) {
+            $this->ReferenceProfiles[$reference_profile_id]->remove($reference_profile_id);
+            unset($this->ReferenceProfiles[$reference_profile_id]);
         }
 
     }

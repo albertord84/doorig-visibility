@@ -52,6 +52,7 @@ $config['business-dumbu_response-class'] = getcwd() . '/application/business/Sys
 $config['business-payment_response-class'] = getcwd() . '/application/business/SystemResponse/PaymentResponse.php';
 $config['business-reference_profile_response-class'] = getcwd() . '/application/business/SystemResponse/ReferenceProfileResponse.php';
 $config['business-response-class'] = getcwd() . '/application/business/Response/Response.php';
+$config['business-response-reference-profiles-class'] = getcwd() . '/application/business/Response/ResponseReferenceProfiles.php';
 
 /*
   |--------------------------------------------------------------------------
@@ -77,7 +78,7 @@ $config['thirdparty-profile_type-resource'] = getcwd() . '/application/third_par
 $config['thirdparty-verification_choice-resource'] = getcwd() . '/application/third_party/InstaApiWeb/VerificationChoice.php';
 
 //Otros recursos dentro de InstaApiWeb
-$config['thirdparty-cookies'] = getcwd() . '/application/third_party/InstaApiWeb/Cookies.php';
+$config['thirdparty-cookies-resource'] = getcwd() . '/application/third_party/InstaApiWeb/Cookies.php';
 
 /*
   | --------------------------------------------------------------------------

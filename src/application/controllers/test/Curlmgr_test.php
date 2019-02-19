@@ -20,8 +20,8 @@ class CurlMgr_test extends CI_Controller {
   public function __construct() {
     parent::__construct();
 
-    require_once config_item('business-proxy-class');
-    require_once config_item('business-cookies-class');
+    require_once config_item('thirdparty-proxy-resource');
+    require_once config_item('thirdparty-cookies-resource');
     require_once config_item('thirdparty-insta_curl_mgr-resource');
     require_once config_item('insta-curl-exception-class');
   }
@@ -100,6 +100,13 @@ class CurlMgr_test extends CI_Controller {
       echo "<h2>PERSON + GET_POST</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::PERSON), new EnumAction(EnumAction::GET_POST));
       $obj->setMediaData("CCC", "3", "CC-cursor-33");
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      //var_dump($obj);      
+      echo "</div>";
+
+      echo "<h2>PERSON + GET_PROFILE_INFO</h2>";
+      $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::PERSON), new EnumAction(EnumAction::GET_PROFILE_INFO));
+      $obj->setReferenceUser("leticiajural");
       echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
       //var_dump($obj);      
       echo "</div>";
