@@ -3,10 +3,11 @@
 if (!defined('BASEPATH'))
   exit('No direct script access allowed');
 
-use business\Proxy;
 use business\Client;
-use business\StatusProfiles;
+use business\InstaCommands;
+use business\Proxy;
 use business\ReferenceProfile;
+use business\StatusProfiles;
 
 class Business_test extends CI_Controller {
 
@@ -16,7 +17,8 @@ class Business_test extends CI_Controller {
     require_once config_item('business-proxy-class');
     require_once config_item('business-client-class');
     require_once config_item('business-status_profiles-class');
-    require_once config_item('business-reference_profiles-class');    
+    require_once config_item('business-reference-profiles-class');    
+    require_once config_item('business-insta_commands-class');    
     
   }
 
@@ -25,6 +27,14 @@ class Business_test extends CI_Controller {
   }
 
   public function run() {
+    //======= INSTA-COMMANDS =======//
+    echo "<h2>Test get_profile_public_data </h2>";
+    //$profile_name = "leticiajural";
+    $profile_name = "carinamacedosoaresoficial";
+    $obj = InstaCommands::get_profile_public_data($profile_name);
+    var_dump($obj);
+    echo "[get] StatusProfiles_business ==> (<b>ok</b>)";
+    
     //======= CLIENT =======//
     echo "<pre>";
     echo "<h2>Test Client Business</h2>";
