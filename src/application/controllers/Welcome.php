@@ -4,6 +4,7 @@ ini_set('xdebug.var_display_max_depth', 256);
 ini_set('xdebug.var_display_max_children', 256);
 ini_set('xdebug.var_display_max_data', 1024);
 
+use business\Client;
 use business\Response\Response;
 use business\Response\ResponseLoginToken;
 
@@ -16,37 +17,38 @@ class Welcome extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        require_once config_item('business-client-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-login-token-class');
     }
 
-    public function index() { //teste
+    public function index_tpm() { //teste
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["modals"] = $this->load->view('modals', '', TRUE);
-        $this->load->view('visibility_client', $param);
+        $this->load->view('visibility_home', $param);
+        //$this->load->view('visibility_client', $param);
     }
 
-    public function index_org($access_token, $client_id) {
-        if ($this->check_access_token($access_token, $client_id)) {            
-//            $Client = new Client();
-//            $Client->load_data_by_doorig_client_id($content->ClientId);
-//            $Client->load_modules(TRUE);
-            
-//            $this->session->set_userdata('client', serialize($Client)); 
-//            $param["client"] = $Client; 
-            
+    public function index($access_token, $client_id) {
+        $ClientModule = $this->check_access_token($access_token, $client_id);
+        if ($ClientModule) {
+
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals', '', TRUE);
-            ///////////////////
-            $_modulo_contratado = true;
-            ///////////////////
-            if(!$_modulo_contratado){
-                $this->load->view('visibility_home', $param);
-            }else{
+
+            if ($ClientModule->Active) {
+                $Client = new Client($ClientModule->Id);
+                $Client->load_data();
+                $this->session->set_userdata('client', serialize($Client)); 
+                
+                $param["client"] = $Client; 
                 $this->load->view('visibility_client', $param);
+            } else {
+                $this->session->set_userdata('client_module', serialize($ClientModule));
+                $this->load->view('visibility_home', $param);
             }
         } else {
-            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);                
+            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
         }
     }
 
@@ -101,7 +103,7 @@ class Welcome extends CI_Controller {
             return;
         }
     }
-    
+
     private function check_access_token($access_token, $client_id) {
         try {
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "welcome/confirm_access_token";
@@ -116,15 +118,14 @@ class Welcome extends CI_Controller {
             $StatusCode = $response->getStatusCode();
             $content = $response->getBody()->getContents();
             $content = json_decode($content);
-            if ($StatusCode == 200 && is_set($content->code) && $content->code == 0) {
+            if ($StatusCode == 200 && isset($content->code) && $content->code == 0) {
                 //3. Response
-                return TRUE;
+                return $content->ClientModule;
             }
         } catch (Exception $exc) {
             echo $exc->getMessage();
         }
         return FALSE;
     }
-
 
 }
