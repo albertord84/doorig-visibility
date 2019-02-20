@@ -1,47 +1,53 @@
 $(document).ready(function(){
     
-    $(".dashboard-access").click(function(){        
+    $(".dashboard-access").click(function(){
+        if(module=="dashboard")
+            return;
+        alert(module);
         var final_url = base_url.replace(module,"dashboard");
-        var btn =this;
+        //var btn =this;
         $.ajax({ 
             url : base_url+'index.php/welcome/call_to_generate_access_token',
-            data :{},
+            data :{
+                "module_id":0 // go to dashboard
+            },
             type : 'POST',
             dataType : 'json',
             success : function(response){
-                spinner_stop(btn);
+                //spinner_stop(btn);
                 if(response.code===0){
-                    $(location).attr('href', final_url+"/src/index.php/welcome/index/"+response.LoginToken+"/"+response.StatusModule);
+                    $(location).attr('href', final_url+"index.php/welcome/internal_index/"+response.LoginToken+"/"+response.ClientId);
                 } else
                     modal_alert_message(response.message);                    
             },
             error : function(xhr, status) {
-                spinner_stop(btn);
-                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                //spinner_stop(btn);
+                modal_alert_message('Erro enviando a mensagem, tente depois...');                    
             }
         });  
     });
     
-    $(".visivility-access").click(function(){        
+    $(".visivility-access").click(function(){
         var final_url = base_url.replace(module,"visibility");
-        var btn =this;
-        $.ajax({ 
-            url : base_url+'index.php/welcome/call_to_generate_access_token',
+        //var btn =this;
+        $.ajax({
+            url :base_url+'index.php/welcome/call_to_generate_access_token',
             data :{
-                "final_module":"visibility",
+                "module_id":1 // go to visivility
             },
             type : 'POST',
             dataType : 'json',
             success : function(response){
-                spinner_stop(btn);
+                console.log(response);
+                //spinner_stop(btn);
                 if(response.code===0){
-                    $(location).attr('href', final_url+"/src/index.php/welcome/index/"+response.LoginToken+"/"+response.StatusModule);
+                    $(location).attr('href', final_url+"index.php/welcome/index/"+response.LoginToken+"/"+response.ClientId);
                 } else
                     modal_alert_message(response.message);                    
             },
             error : function(xhr, status) {
-                spinner_stop(btn);
-                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                //spinner_stop(btn);
+                modal_alert_message('Erro enviando a mensagem, tente depois...');                    
             }
         });       
     });
@@ -68,22 +74,24 @@ $(document).ready(function(){
             
     $(".message-access").click(function(){
         var final_url = base_url.replace(module,"dashboard");
-        var btn =this;
+        //var btn =this;
         $.ajax({ 
             url : base_url+'index.php/welcome/call_to_generate_access_token',
-            data :{},
+            data :{
+                "module_id":0 // go to dashboard
+            },
             type : 'POST',
             dataType : 'json',
             success : function(response){
-                spinner_stop(btn);
+                //spinner_stop(btn);
                 if(response.code===0){
-                    $(location).attr('href', final_url+"/src/index.php/welcome/message_view/"+response.LoginToken+"/"+response.StatusModule);
+                    $(location).attr('href', final_url+"index.php/welcome/message_view/"+response.LoginToken+"/"+response.ClientId);
                 } else
                     modal_alert_message(response.message);                    
             },
             error : function(xhr, status) {
-                spinner_stop(btn);
-                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));                    
+                //spinner_stop(btn);
+                modal_alert_message('Erro enviando a mensagem, tente depois...');                    
             }
         }); 
     });

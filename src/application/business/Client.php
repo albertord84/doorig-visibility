@@ -7,7 +7,6 @@ namespace business {
     require_once config_item('business-insta-curl-info-class');
     require_once config_item('business-ref_profile-class');
     require_once config_item('business-reference-profiles-class');
-    
 
     /**
      * @category Business class
@@ -25,7 +24,7 @@ namespace business {
 
         public function __construct(int $id) {
             parent::__construct($id);
-            
+
             $this->InstaCurlInfo = new InstaCurlInfo($this);
             //$this->InstaContactInfo = new InstaContactInfo($this);
             $this->ReferenceProfiles = new ReferenceProfiles($this);
@@ -33,11 +32,13 @@ namespace business {
 
         public function load_data() {
             parent::load_data();
-            
+
             $ci = &get_instance();
             $data = $ci->users_model->get_user_base_info($this->Id);
-            
-            $this->fill_data($data);
+
+            if ($data) {
+                $this->fill_data($data);
+            }
         }
 
         protected function fill_data(\stdClass $data) {
@@ -57,6 +58,7 @@ namespace business {
         }
 
     }
+
 }
 
 ?>
