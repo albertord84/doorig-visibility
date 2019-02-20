@@ -30,7 +30,7 @@ $(document).ready(function () {
             modal_alert_message("O perfil não existe no Instagram");
         }else{
             $.ajax({ 
-                url : base_url+'index.php/welcome/insert_reference_profile',
+                url : base_url+'index.php/PersonProfiles/insert_person_profile',
                 data :{
                     "profile":profile
                 },
@@ -112,7 +112,7 @@ $(document).ready(function () {
             modal_alert_message("A geolocalização não existe no Instagram");
         }else{
             $.ajax({ 
-                url : base_url+'index.php/welcome/insert_geolocation',
+                url : base_url+'index.php/GeolocationProfiles/insert_geolocation',
                 data :{
                     "geolocation":geolocation
                 },
@@ -185,7 +185,7 @@ $(document).ready(function () {
             modal_alert_message("O hashtag não existe no Instagram");
         }else{
             $.ajax({ 
-                url : base_url+'index.php/welcome/insert_hashtag',
+                url : base_url+'index.php/HashtagProfiles/insert_hashtag',
                 data :{
                     "hashtag":hashtag
                 },
@@ -264,7 +264,7 @@ $(document).ready(function () {
             modal_alert_message("O hashtag não existe no Instagram");
         }else{
             $.ajax({ 
-                url : base_url+'index.php/welcome/insert_profile_in_white_list',
+                url : base_url+'index.php/BlackWhiteList/insert_profile_in_white_list',
                 data :{
                     "profile":profile_wl
                 },
@@ -328,7 +328,7 @@ $(document).ready(function () {
             modal_alert_message("O hashtag não existe no Instagram");
         }else{
             $.ajax({ 
-                url : base_url+'index.php/welcome/insert_profile_in_black_list',
+                url : base_url+'index.php/BlackWhiteList/insert_profile_in_black_list',
                 data :{
                     "profile":profile_bl
                 },
@@ -370,7 +370,7 @@ $(document).ready(function () {
 function delete_reference_profile(profile){
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({ 
-        url : base_url+'index.php/welcome/delete_reference_profile',
+        url : base_url+'index.php/PersonProfiles/delete_person_profile',
         data :{
             "profile":profile
         },
@@ -394,7 +394,7 @@ function delete_reference_profile(profile){
 function delete_geolocation(geolocation){
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({ 
-        url : base_url+'index.php/welcome/delete_geolocation',
+        url : base_url+'index.php/GeolocationProfiles/delete_geolocation',
         data :{
             "geolocation":geolocation
         },
@@ -418,7 +418,7 @@ function delete_geolocation(geolocation){
 function delete_hashtag(hashtag){
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({ 
-        url : base_url+'index.php/welcome/delete_hashtag',
+        url : base_url+'index.php/HashtagProfiles/delete_hashtag',
         data :{
             "hashtag":hashtag
         },
@@ -442,7 +442,7 @@ function delete_hashtag(hashtag){
 function delete_profile_wl(profile_wl){
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({ 
-        url : base_url+'index.php/welcome/delete_profile_in_white_list',
+        url : base_url+'index.php/BlackWhiteList/delete_profile_in_white_list',
         data :{
             "profile":profile_wl
         },
@@ -466,7 +466,7 @@ function delete_profile_wl(profile_wl){
 function delete_profile_bl(profile_bl){
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({ 
-        url : base_url+'index.php/welcome/delete_profile_in_white_list',
+        url : base_url+'index.php/BlackWhiteList/delete_profile_in_black_list',
         data :{
             "profile":profile_bl
         },
@@ -475,7 +475,7 @@ function delete_profile_bl(profile_bl){
         success : function(response){
             //spinner_stop(btn);
             if(response.code===0){
-                cnt = "#container-"+delete_profile_in_black_list;
+                cnt = "#container-"+profile_bl;
                 $(cnt).remove(); 
             } else
                 modal_alert_message(response.message);                    
