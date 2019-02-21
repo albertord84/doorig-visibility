@@ -374,13 +374,13 @@ class Library_test extends CI_Controller {
   
   public function login (){
     //echo "estoy dentro de login";
-    $cookies =  new stdClass();
-    $cookies->sessionid = "3445996566%3AUdrflm2b4CXrbl%3A15";
-    $cookies->csrftoken = "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0";
-    $cookies->ds_user_id = "3445996566";
-    $cookies->mid = "XEExCwAEAAE88jhoc0YKOgFcqT3I";
     
-    $param = array("insta_id"=>"3445996566", "cookies" => new InstaApiWeb\Cookies(json_encode($cookies)));
+    $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15", 
+                "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0", 
+                "ds_user_id" => "3445996566", 
+                "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
+    
+    $param = array("insta_id"=>"3445996566", "cookies" => new Cookies(json_encode($ck)));
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
     $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
     var_dump($r);

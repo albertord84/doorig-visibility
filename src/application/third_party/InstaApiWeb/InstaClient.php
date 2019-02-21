@@ -236,13 +236,11 @@ namespace InstaApiWeb {
           $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
         }
 
-        $sessionid = $ig->client->getCookie('sessionid')->getValue();
-        $csrftoken = $ig->client->getCookie('csrftoken')->getValue();
-        $ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
-        $mid = $ig->client->getCookie('mid')->getValue();
-
-
-        $Cookies = new Cookies($sessionid, $csrftoken, $ds_user_id, $mid);
+        $ck = array("sessionid" => $ig->client->getCookie('sessionid')->getValue(), 
+                    "csrftoken" => $ig->client->getCookie('csrftoken')->getValue(), 
+                    "ds_user_id" => $ig->client->getCookie('ds_user_id')->getValue(), 
+                    "mid" => $ig->client->getCookie('mid')->getValue());
+        $Cookies = new Cookies(json_encode($ck));
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
 
         return $loginResponse;
