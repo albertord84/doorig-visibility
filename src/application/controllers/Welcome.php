@@ -25,8 +25,8 @@ class Welcome extends CI_Controller {
     public function index_tpm() { //teste
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["modals"] = $this->load->view('modals', '', TRUE);
-        $this->load->view('visibility_home', $param);
-        //$this->load->view('visibility_client', $param);
+//        $this->load->view('visibility_home', $param);
+        $this->load->view('visibility_client', $param);
     }
 
     public function index($access_token, $client_id) {
@@ -48,7 +48,7 @@ class Welcome extends CI_Controller {
                 $this->load->view('visibility_home', $param);
             }
         } else {
-            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+//            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
         }
     }
 
@@ -96,7 +96,7 @@ class Welcome extends CI_Controller {
                 $Response = new ResponseLoginToken($content->LoginToken, "", $client_id);
                 return $Response->toJson();
             } else {
-                header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+//                header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
             }
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
@@ -110,6 +110,7 @@ class Welcome extends CI_Controller {
             $GuzClient = new \GuzzleHttp\Client();
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
+                    
                     'module_id' => $GLOBALS['sistem_config']->module_id,
                     'client_id' => $client_id,
                     'access_token' => $access_token
