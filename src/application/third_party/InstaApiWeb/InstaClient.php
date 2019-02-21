@@ -5,12 +5,12 @@ namespace InstaApiWeb {
   #require_once config_item('business-cookies_request-class');
 
   use InstaApiWeb\Cookies;
+  use InstaApiWeb\InstaCurlMgr;
   use InstaApiWeb\Responses\LoginResponse;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaCurlException;
   use InstaApiWeb\Exceptions\InstaPasswordException;
   use InstaApiWeb\Exceptions\InstaCheckpointException;
-  use InstaApiWeb\InstaCurlMgr;
 
   /**
    * @category CodeIgniter-Library: InstaApiLib
@@ -36,8 +36,7 @@ namespace InstaApiWeb {
       require_once config_item('insta-password-exception-class');
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
-
-      require_once config_item('thirdparty-cookies');
+      require_once config_item('thirdparty-cookies-resource');
       require_once config_item('thirdparty-insta_curl_mgr-resource');
 
 
@@ -243,7 +242,7 @@ namespace InstaApiWeb {
         $mid = $ig->client->getCookie('mid')->getValue();
 
 
-        $Cookies = new CookiesResponse($sessionid, $csrftoken, $ds_user_id, $mid);
+        $Cookies = new Cookies($sessionid, $csrftoken, $ds_user_id, $mid);
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
 
         return $loginResponse;
