@@ -419,10 +419,10 @@ class Library_test extends CI_Controller {
     
     echo "<h3>result login</h3>";
     //$r = $this->InstaClient_lib->checkpoint_requested("carlosh_test", "Servidor19");        
-    var_dump($r);
+//    var_dump($r);
     
-    exec("curl 'https://www.instagram.com/challenge/3445996566/iDF1GfIeqT/' -H 'cookie: mid=XD3OzgAEAAHUu2xvm6meNNMo-BgB;csrftoken=5OLjdNXobyLR8Cyqq0O3NdcIDPscdzbq' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9,es;q=0.8,pt;q=0.7' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' -H 'x-requested-with: XMLHttpRequest' -H 'x-csrftoken: 5OLjdNXobyLR8Cyqq0O3NdcIDPscdzbq' -H 'x-ig-app-id: 936619743392459' -H 'x-instagram-ajax: 871c83538bd0' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/3445996566/iDF1GfIeqT/' --data 'choice=0' --compressed", $output);
-    var_dump($output); exit;
+//    exec("curl 'https://www.instagram.com/challenge/3445996566/iDF1GfIeqT/' -H 'cookie: mid=XD3OzgAEAAHUu2xvm6meNNMo-BgB;csrftoken=5OLjdNXobyLR8Cyqq0O3NdcIDPscdzbq' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9,es;q=0.8,pt;q=0.7' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' -H 'x-requested-with: XMLHttpRequest' -H 'x-csrftoken: 5OLjdNXobyLR8Cyqq0O3NdcIDPscdzbq' -H 'x-ig-app-id: 936619743392459' -H 'x-instagram-ajax: 871c83538bd0' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/3445996566/iDF1GfIeqT/' --data 'choice=0' --compressed", $output);
+//    var_dump($output); exit;
     
     
       $r = $this->InstaClient_lib->checkpoint_requested("riveauxmerino", "notredame");

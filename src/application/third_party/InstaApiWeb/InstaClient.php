@@ -353,6 +353,7 @@ namespace InstaApiWeb {
         $ch = $mngr->make_curl_obj($this->proxy);
         
         $html = curl_exec($ch);
+        var_dump($html);
         $info = curl_getinfo($ch);
         
         $cookies = new Cookies();
