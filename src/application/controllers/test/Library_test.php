@@ -379,10 +379,11 @@ class Library_test extends CI_Controller {
                 "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0", 
                 "ds_user_id" => "3445996566", 
                 "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
-            
-    echo "<h3>result login</h3>";
+                
     $param = array("insta_id"=>"3445996566", "cookies" => new Cookies(json_encode($ck)));
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
+    
+    echo "<h3>result login</h3>";
     $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
     var_dump($r);
     
@@ -399,7 +400,23 @@ class Library_test extends CI_Controller {
   }
   
   public function checkpoint (){
-    echo "estoy dentro de checkpoint";
+    //echo "estoy dentro de checkpoint";
+    
+    $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15", 
+                "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0", 
+                "ds_user_id" => "3445996566", 
+                "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
+    $param = array("insta_id"=>"3445996566", "cookies" => new Cookies(json_encode($ck)));
+    $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
+    
+    echo "<h3>result login</h3>";
+    $r = $this->InstaClient_lib->checkpoint_requested("carlosh_test", "Servidor19");        
+    var_dump($r);
+    
+    $r = $this->InstaClient_lib->get_challenge_data("carlosh_test", "Servidor19");
+    var_dump($r);  
+      
+    $r = $this->InstaClient_lib->make_checkpoint();
   }
   
 }
