@@ -106,9 +106,10 @@ $config['insta-curl-exception-class'] = getcwd() . '/application/third_party/Ins
  */
 
 $config['thirdparty-client_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/ClientResponse.php';
-$config['thirdparty-insta_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/InstaResponse.php';
+$config['thirdparty-response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/Response.php';
 $config['thirdparty-login_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/LoginResponse.php';
 $config['thirdparty-end_cursor_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/EndCursorResponse.php';
+$config['thirdparty-followers-response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/FollowersResponse.php';
 
 /*
   |--------------------------------------------------------------------------

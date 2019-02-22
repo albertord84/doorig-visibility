@@ -402,7 +402,7 @@ namespace InstaApiWeb {
           if($this->ReferencePost == null){
             throw new InstaCurlArgumentException("The parameter (reference_post) was not given!!!. Use: setReferencePost(string).");
           }
-          $str_curl = $this->get_user_info_post($proxy, $cookies, $this->ReferencePost);
+          $str_curl = $this->get_owner_post($proxy, $cookies, $this->ReferencePost);
         break;
         
         case EnumEntity::GEO + EnumAction::GET_OWNER_POST_DATA:
@@ -536,8 +536,10 @@ namespace InstaApiWeb {
         $sub = sprintf("%s/%s/?__a=1", $sub, $this->ReferencePost);
       else
         $sub = sprintf("%s/%s/?taken-at=%s&__a=1", $sub, $this->ReferencePost, $this->InstaId);
+      
+      $proxy_str = $proxy != NULL ? $proxy->ToString() : "";
         
-      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s'", $proxy->ToString(), $sub);
+      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s'", $proxy_str, $sub);
       
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null){

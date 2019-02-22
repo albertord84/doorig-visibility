@@ -37,7 +37,7 @@ namespace InstaApiWeb {
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
 
-      require_once config_item('thirdparty-cookies');
+      require_once config_item('thirdparty-cookies-resource');
       require_once config_item('thirdparty-insta_curl_mgr-resource');
 
 
@@ -55,9 +55,9 @@ namespace InstaApiWeb {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_FOLLOW));
         $mngr->setResourceId($resource_id);
         $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-        var_dump($curl_str);
+        //var_dump($curl_str);
         exec($curl_str, $output, $status);
-        var_dump($output);
+        return $output[0];
       } catch (Exception $e) {
         var_dump($e);
       }
@@ -88,7 +88,7 @@ namespace InstaApiWeb {
         var_dump($e);
       }
     }
-
+    
     /*
       public function make_insta_friendships_command(string $resource_id, string $command = 'follow', string $objetive_url = 'web/friendships') {
       $insta = InstaURLs::Instagram;

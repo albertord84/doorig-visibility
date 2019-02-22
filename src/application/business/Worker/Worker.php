@@ -3,9 +3,11 @@
 namespace business\worker {
 
    use business\Business;
+   use business\Client;
    use business\worker\Robots;
 
 require_once config_item('business-class');
+require_once config_item('business-client-class');
 
 //require_once config_item('business-robot-class');
 
@@ -62,10 +64,6 @@ require_once config_item('business-class');
          $this->ci = &get_instance();
 
          $this->ci->load->model('db_model');
-         //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
-         $ci->load->library("InstaApiWeb/InstaGeoProfile_lib", null, 'InstaGeoProfile_lib');
-
-         echo "<br><br>cargue el worker";
       }
 
       // LISTA!!!
@@ -182,8 +180,8 @@ require_once config_item('business-class');
 
       public static function verify_client(Client $client) {
          $do_login = true;
-         if ($daily_work->Client->InstaCurlInfo->Cookies == null) {
-            $do_login = $dailywork->Client->login();
+         if ($client->InstaCurlInfo->Cookies == null) {
+            $do_login = $client->login();
          }
          return $do_login;
       }
@@ -200,7 +198,7 @@ require_once config_item('business-class');
                $robot = new Robot();
                $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
-               unset($ci->InstaClient_lib);
+               unset($ci->InstaClientBusiness_lib);
             } else {
                DailyWork::delete_dailywork($daily_work->Client);
             }

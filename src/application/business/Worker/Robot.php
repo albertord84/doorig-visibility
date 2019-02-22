@@ -30,48 +30,45 @@ require_once config_item('business-class');
         }
 
         public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
-          $profile_list = array();
-          $cookies = $work->Client->InstaCurlInfo->Cookies;
-          $ci = &get_instance();
-         
-          foreach ($work->get_followers($cookies,5/*,proxy*/) as $profile) {
-            //pedir datos del perfil y validar perfil
-            if($this->validate_profile($profile))
-            {
-              $instaclient>follow($profile->get_insta_id);
-              if($this->process_response($result))
-              {
-                  array_push($profile_list,$profile);                
-              }
-              else{ break; }
+            $profile_list = array();
+            $cookies = $work->Client->InstaCurlInfo->Cookies;
+            $ci = &get_instance();
+
+            $followers = $work->Ref_profile->get_followers($cookies, 5/* ,proxy */);
+            if ($followers->Status == "ok") {
+                foreach ($followers->FollowersCollection as $profile) {
+                    //pedir datos del perfil y validar perfil
+                    if ($this->validate_profile($profile)) {
+                        $instaclient->follow($profile->insta_id);
+                        if ($this->process_response($result)) {
+                            array_push($profile_list, $profile);
+                        } else {
+                            break;
+                        }
+                    }
+                }
             }
-          }
-          unset($ci->InstaClient_lib);
         }
-               
 
         public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
-          $profile_list = array();
-          foreach ($work->get_unfollow_list() as $profile) {            
-            $result = $instaclient->unfollow($profile->id);
-            if($this->process_response($result))
-            {
-                array_push($profile_list,$profile);
-            }      
-            else{ break; }
-            
-          }          
+            $profile_list = array();
+            foreach ($work->get_unfollow_list() as $profile) {
+                $result = $instaclient->unfollow($profile->id);
+                if ($this->process_response($result)) {
+                    array_push($profile_list, $profile);
+                } else {
+                    break;
+                }
+            }
         }
-        
-        public function validate_profile($profile)
-        {
-          return TRUE;
+
+        public function validate_profile($profile) {
+            return TRUE;
         }
 
         public function process_response($response) {
-            if($response-status == 'ok')
-            {
-               return true;
+            if ($response - status == 'ok') {
+                return true;
             }
             return false;
         }

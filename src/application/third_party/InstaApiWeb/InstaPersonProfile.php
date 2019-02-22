@@ -4,9 +4,13 @@ namespace InstaApiWeb {
 
 
     require_once config_item('thirdparty-insta_ref_profile-resource');
+    require_once config_item('thirdparty-insta_profile-resource');
+    require_once config_item('thirdparty-followers-response-class');
 
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
+    use InstaApiWeb\Responses\FollowersResponse;
+    use InstaApiWeb\InstaProfile;
 
     /**
      * Description of PersonProfile
@@ -23,9 +27,7 @@ namespace InstaApiWeb {
         public function __construct(int $insta_id) {
             parent::__construct();
             $this->insta_id = $insta_id;
-
         }
-
 
         public function process_top_prof_data(\stdClass $content) {
             $Profile = NULL;
@@ -49,32 +51,34 @@ namespace InstaApiWeb {
             } else {
                 //var_dump($content);
                 //var_dump("null reference profile!!!");
-
             }
             return $Profile;
         }
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
 
-            $follower_list = $this->get_insta_followers_list($cookies, $N, $cursor, $proxy);
-            if ($follower_list != NULL) {
-                if (is_object($json_response) && $json_response->status == 'ok') {
-                    if (isset($json_response->data->user->edge_followed_by)) { // if response is ok
+            $profiles = array();
+            $json_response = $this->get_insta_followers_list($cookies, $N, $cursor, $proxy);
+            if (is_object($json_response)) {
+                if (isset($json_response->status) && $json_response->status == 'ok' && isset($json_response->data->user->edge_followed_by)) {
+
+                    $page_info = $json_response->data->user->edge_followed_by->page_info;
+                    if ($this->has_logs) {
                         echo "Nodes: " . count($json_response->data->user->edge_followed_by->edges) . " <br>\n";
-                        $page_info = $json_response->data->user->edge_followed_by->page_info;
-                        $profiles = $json_response->data->user->edge_followed_by->edges;
-                        if ($page_info->has_next_page === FALSE && $page_info->end_cursor != NULL) { // Solo qdo es <> de null es que llego al final
-                            throw new Exceptions\WrongEndCursorException("It not has more pafes but end cursor it is diferent of NULL");
-                        } else if ($page_info->has_next_page === FALSE && $page_info->end_cursor === NULL) {
-                            throw new Exceptions\EndCursorException("The cursor has ended");
-                        }
-                    } else {
-                        throw new Exceptions\EndCursorException("The cursor has ended");
                     }
-                    return $profiles;
+
+                    foreach ($json_response->data->user->edge_followed_by->edges as $node) {
+                        array_push($profiles, $this->build_full_insta_profile($node->node, $cookies, $proxy));
+                    }
+
+                    return new FollowersResponse($profiles, $page_info->end_cursor, $page_info->has_next_page, 0, 'ok');
                 }
+                $message = isset($json_response->message) ? $json_response->message :
+                        "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
+                return new FollowersResponse(array(), '', false, 1, $message);
             }
-            return $follower_list;
+
+            throw new \InstaException("unknown exception response $json_response");
         }
 
         public function get_insta_followers_list(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
@@ -86,50 +90,32 @@ namespace InstaApiWeb {
                 exec($curl_str, $output, $status);
                 var_dump($output);
                 return json_decode($output[0]);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 var_dump($e);
             }
-            /*
-              try {
-              $variables = "{\"id\":\"$this->insta_id\",\"first\":$N";
-              if ($cursor != NULL && $cursor != "NULL") {
-              $variables .= ",\"after\":\"$cursor\"";
-              }
-              $variables .= "}";
-              $api = new InstaApi();
-              $curl_str = $api->make_query($this->tag_query, $variables, $cookies, $proxy);
-              if ($curl_str === NULL)
-              return NULL;
-              exec($curl_str, $output, $status);
+        }
 
-              if (count($output) > 0 && isset($output[0])) {
-              $json = json_decode($output[0]);
-
-              if (isset($json->data->user->edge_followed_by) && isset($json->data->user->edge_followed_by->page_info)) {
-              if ($json->data->user->edge_followed_by->page_info->has_next_page === false) {
-              if ($this->has_logs) {
-              echo ("<br>\n END Cursor empty!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!<br>\n ");
-              var_dump(json_encode($json));
-              echo ("<br>\n Updated Reference Cursor to NULL!!<br>\n ");
-              }
-              $cursor = NULL;
-              } else {
-              $cursor = $json->data->user->edge_followed_by->page_info->end_cursor;
-              }
-              } else if ($this->has_logs) {
-              var_dump($output);
-              print_r($curl_str);
-              }
-
-              return $json;
-              } else if ($this->has_logs) {
-              var_dump($output);
-              print_r($curl_str);
-              return NULL;
-              }
-              } catch (\Exception $exc) {
-              echo $exc->getTraceAsString();
-              } */
+        private function build_full_insta_profile($response, Cookies $Cookies = NULL, Proxy $Proxy = NULL) {
+            $InstaProfile = new InstaProfile();
+            $InstaProfile->insta_id = $response->id;
+            $InstaProfile->insta_name = $response->username;
+            $InstaProfile->image_url = $response->profile_pic_url;
+            $profile_data = InstaProfile::get_user_data($response->username, $Cookies, $Proxy);
+            $InstaProfile->instaProfileData = new \stdClass();
+            $user = $profile_data->graphql->user;
+            if (isset($user->is_private)) {
+                $InstaProfile->instaProfileData->is_private = $user->is_private;
+            }
+            if (isset($user->edge_owner_to_timeline_media->count)) {
+                $InstaProfile->instaProfileData->posts_count = $user->edge_owner_to_timeline_media->count;
+            }
+            if (isset($user->edge_followed_by->count)) {
+                $InstaProfile->follows = $user->edge_followed_by->count;
+            }
+            if (isset($user->edge_follow->count)) {
+                $InstaProfile->following = $user->edge_follow->count;
+            }
+            return $InstaProfile;
         }
 
         public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
