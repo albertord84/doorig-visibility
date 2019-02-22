@@ -1,68 +1,64 @@
 <?php
 
-namespace InstaApiWeb\Responses {
-  
-  require_once config_item('thirdparty-cookies-resource');
-  
-  use InstaApiWeb\Cookies;
-  
-  /**
-   * @category InstaApiWeb Third-Party Class
-   * 
-   * @access public
-   *
-   * @todo Define a Instagram Login Response.
-   * 
-   */
-  class LoginResponse {
+namespace InstaApiWeb\Response {
+
+    require_once config_item('thirdparty-cookies-resource');
+    require_once config_item('thirdparty-response-class');
+
+    use InstaApiWeb\Response\Response;
 
     /**
+     * @category InstaApiWeb Third-Party Class
      * 
      * @access public
+     *
+     * @todo Define a Instagram Login Response.
      * 
      */
-    public $Verify_link;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Authenticated;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Status;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Message;
-    
-    /**
-     * 
-     * @access public
-     * 
-     */
-    public $Cookies;
+    class LoginResponse extends Response {
 
-    public function __construct($status = NULL, $authenticated = NULL, $message = NULL, Cookies $cookies = NULL, $verify_link = NULL) {
-      $this->Verify_link = $verify_link;
-      $this->Authenticated = $authenticated;
-      $this->Status = $status;
-      $this->Message = $message;
-      $this->Cookies = $cookies;
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $Verify_link;
+
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $Authenticated;
+
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $Message;
+
+        /**
+         * 
+         * @access public
+         * 
+         */
+        public $Cookies;
+
+        public function __construct($authenticated = NULL, Cookies $cookies = NULL, $verify_link = NULL, int $code = 0, string $message = NULL) {
+            parent::__construct($code, $message);
+
+            $this->Verify_link = $verify_link;
+            $this->Authenticated = $authenticated;
+            $this->Cookies = $cookies;
+
+            $this->output_array = array(
+                'Verify_link' => $this->Verify_link,
+                'Cookies' => $this->Cookies,
+                'Authenticated' => $this->Authenticated
+            );
+        }
+
     }
-
-    public function get_response() {
-      
-    }
-
-  }
 
 }

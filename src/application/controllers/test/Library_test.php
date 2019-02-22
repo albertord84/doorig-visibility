@@ -349,7 +349,9 @@ class Library_test extends CI_Controller {
 
     $this->load->library("InstaApiWeb/InstaGeoProfile_lib", array("insta_id"=>"330156361"), 'GeoProfile_lib');
     $cookies = new Cookies(' {"sessionid":"204662017%3AGQm7k6jfzicxNp%3A17","csrftoken":"WMhg3ci30e5yfmnRToZxQdnua2HyUNTK","ds_user_id":"204662017","mid":"WtlMoQABAAHZAlviRrBwRMd8ynet","json_response":{"status":"ok","authenticated":true}}  ');
-    $this->GeoProfile_lib->get_post(15,null,$cookies);
+    $cursor = null;
+    $res = $this->GeoProfile_lib->get_insta_followers($cookies,5,$cursor);
+    var_dump($res);
 
     echo "(<b>ok</b>)<br>";
     
@@ -358,7 +360,8 @@ class Library_test extends CI_Controller {
     echo "[load] HashProfile_lib ==> ";
 
     $this->load->library("InstaApiWeb/InstaHashProfile_lib", array("insta_name"=>"cuba"), 'HashProfile_lib');
-    $this->HashProfile_lib->get_post(15,null,$cookies);
+    $res = $this->HashProfile_lib->get_insta_followers($cookies,5, $cursor);
+    var_dump($res);
     echo "(<b>ok</b>)<br>";
 
     
@@ -366,8 +369,8 @@ class Library_test extends CI_Controller {
     echo "<h2>Test PersonProfile Library</h2>";
     echo "[load] PersonProfile_lib ==> ";
     $this->load->library("InstaApiWeb/InstaPersonProfile_lib",array("insta_id"=>"3445996566") , 'PersonProfile_lib');
-    $cursor = null;
-    $this->PersonProfile_lib->get_insta_followers($cookies,15,$cursor);
+    $res  = $this->PersonProfile_lib->get_insta_followers($cookies,15,$cursor);
+    var_dump($res);
     echo "(<b>ok</b>)<br>";
  
   }

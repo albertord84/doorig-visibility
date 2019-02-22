@@ -19,7 +19,7 @@ namespace InstaApiWeb {
       public function __construct() {          
             require_once config_item('thirdparty-insta_api-resource');
             require_once config_item('thirdparty-insta_curl_mgr-resource');      
-            require_once config_item('thirdparty-cookies');
+            require_once config_item('thirdparty-cookies-resource');
             //require_once config_item('thirdparty-proxy');
       }
     

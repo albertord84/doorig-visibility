@@ -29,41 +29,48 @@ require_once config_item('business-class');
               $this->Ref_profile = new Reference_profile(); */
         }
 
-        public function do_follow_work(DailyWork $work) {
-          $profile_list = array();
-          $cookies = $work->Client->InstaCurlInfo->Cookies;
-          foreach ($work->get_followers($cookies,5/*,proxy*/) as $profile) {
-            //pedir datos del perfil y validar perfil
-            if($this->validate_profile($profile))
-            {
-              $result = $work->Client->InstaCurlInfo->InstaClient->follow($profile->get_insta_id);
-              if($this->process_response($result))
-              {
-                  array_push($profile_list);
-              }
+        public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
+            $profile_list = array();
+            $cookies = $work->Client->InstaCurlInfo->Cookies;
+            $ci = &get_instance();
+
+            $followers = $work->Ref_profile->get_followers($cookies, 5/* ,proxy */);
+            if ($followers->Status == "ok") {
+                foreach ($followers->FollowersCollection as $profile) {
+                    //pedir datos del perfil y validar perfil
+                    if ($this->validate_profile($profile)) {
+                        $instaclient->follow($profile->insta_id);
+                        if ($this->process_response($result)) {
+                            array_push($profile_list, $profile);
+                        } else {
+                            break;
+                        }
+                    }
+                }
             }
-          }
-        }
-               
-
-        public function do_unfollow_work(DailyWork $work) {
-          $profile_list = array();
-          foreach ($work->get_unfollow_list() as $profile) {            
-            $result = $work->Client->InstaCurlInfo->InstaClient->unfollow($profile->id);
-            if($this->process_response($result))
-            {
-                array_push($profile_list);
-            }            
-          }
-        }
-        
-        public function validate_profile($profile)
-        {
-          return TRUE;
         }
 
-        public function process_response($json_response) {
+        public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
+            $profile_list = array();
+            foreach ($work->get_unfollow_list() as $profile) {
+                $result = $instaclient->unfollow($profile->id);
+                if ($this->process_response($result)) {
+                    array_push($profile_list, $profile);
+                } else {
+                    break;
+                }
+            }
+        }
 
+        public function validate_profile($profile) {
+            return TRUE;
+        }
+
+        public function process_response($response) {
+            if ($response - status == 'ok') {
+                return true;
+            }
+            return false;
         }
 
         public function process_get_insta_ref_prof_data_for_daily_report($content, \BusinessRefProfile $ref_prof) {

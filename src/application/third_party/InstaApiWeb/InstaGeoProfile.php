@@ -5,12 +5,18 @@ namespace InstaApiWeb {
 
 
     require_once config_item('thirdparty-insta_ref_profile-resource');
+    require_once config_item('thirdparty-followers-response-class');
 
-    use stdClass;
 //use InstaApiWeb\InstaApi;
+
+
+    use Exception;
+    use InstaApiWeb\Cookies;
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
-    use InstaApiWeb\Cookies;
+    use InstaApiWeb\Responses\FollowersResponse;
+    use function config_item;
+    use function GuzzleHttp\json_decode;
 
     /**
      * Description of GeoProfile
@@ -51,26 +57,29 @@ namespace InstaApiWeb {
         }
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
+            $json_response = $this->get_post($N, $cursor, $cookies, $proxy);
+            $profiles = array();
+            if (is_object($json_response)) {
+                if (isset($json_response->status) && $json_response->status == 'ok' && isset($json_response->data->location->edge_location_to_media)) {
+                    $page_info = $json_response->data->location->edge_location_to_media->page_info;
 
-            $json_response = $this->get_insta_media($cookies, $N, $cursor, $proxy);
-            $profiles = new InstaProfileList();
-            if (is_object($json_response) && $json_response->status == 'ok') {
-                if (isset($json_response->data->location->edge_location_to_media)) { // if response is ok
                     if ($this->has_logs) {
                         echo "Nodes: " . count($json_response->data->location->edge_location_to_media->edges) . " <br>\n";
                     }
-                    $page_info = $json_response->data->location->edge_location_to_media->page_info;
+
                     foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
-                        $profile = new \stdClass();
-                        $profile->node = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
-                        array_push($profiles->profile_list, $profile);
+                        $profile = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
+                        array_push($profiles, $profile);
                     }
-                } else {
-                    throw new Exceptions\EndCursorException("The cursor has ended");
+
+                    return new FollowersResponse($profiles, $page_info->end_cursor, $page_info->has_next_page, 0, 'ok');
                 }
-                return $profiles;
+                $message = isset($json_response->message) ? $json_response->message :
+                        "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
+                return new FollowersResponse(array(), '', false, 1, $message);
             }
-            return new \InstaException("unknown exception");
+
+            throw new \InstaException("unknown exception response: $json_response");
         }
 
         /**
@@ -78,7 +87,7 @@ namespace InstaApiWeb {
          * @param int $N
          * @param string $cursor
          * @param \stdClass $cookies
-         * @param \InstaApiWeb\Proxy $proxy
+         * @param Proxy $proxy
          */
         public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
             try {
@@ -88,6 +97,7 @@ namespace InstaApiWeb {
                 var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 var_dump($output);
+                return json_decode($output[0]);
             } catch (Exception $e) {
                 var_dump($e);
             }
@@ -138,33 +148,26 @@ namespace InstaApiWeb {
         }
 
         public function get_post_user_info(string $post_reference, Cookies $cookies = NULL, Proxy $proxy = NULL) {
-            //echo " -------Obtindo dados de perfil que postou na geolocalizacao------------<br>\n<br>\n";
-            if ($cookies != NULL) {
-                $csrftoken = isset($cookies->csrftoken) ? $cookies->csrftoken : 0;
-                $ds_user_id = isset($cookies->ds_user_id) ? $cookies->ds_user_id : 0;
-                $sessionid = isset($cookies->sessionid) ? $cookies->sessionid : 0;
-                $mid = isset($cookies->mid) ? $cookies->mid : 0;
-            }
-            $url = "https://www.instagram.com/p/$post_reference/?taken-at=$this->insta_id&__a=1";
-            $curl_str = "curl $proxy '$url' ";
-            $curl_str .= "-H 'Accept-Encoding: gzip, deflate, br' ";
-            $curl_str .= "-H 'X-Requested-With: XMLHttpRequest' ";
-            $curl_str .= "-H 'Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4' ";
-            $curl_str .= "-H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0' ";
-            $curl_str .= "-H 'Accept: */*' ";
-            $curl_str .= "-H 'Referer: https://www.instagram.com/' ";
-            $curl_str .= "-H 'Authority: www.instagram.com' ";
-            if ($cookies != NULL) {
-                $curl_str .= "-H 'Cookie: mid=$mid; sessionid=$sessionid; s_network=; ig_pr=1; ig_vw=1855; csrftoken=$csrftoken; ds_user_id=$ds_user_id' ";
-            }
-            $curl_str .= "--compressed ";
+            $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::GEO), new EnumAction(EnumAction::GET_OWNER_POST_DATA));
+            $mngr->setReferencePost($post_reference);
+            $mngr->setInstaId($this->insta_id);
+            $curl_str = $mngr->make_curl_str($proxy, $cookies);
+            var_dump($curl_str);
             $result = exec($curl_str, $output, $status);
             $object = json_decode($output[0]);
+
             if (is_object($object) && isset($object->graphql->shortcode_media->owner)) {
-                return $object->graphql->shortcode_media->owner;
+                $node = $object->graphql->shortcode_media->owner;
+                $profile = new InstaProfile();
+                $profile->insta_name = $node->username;
+                $profile->insta_id = $node->id;
+                $profile->image_url = $node->profile_pic_url;
+                $profile->instaProfileData->is_private = $node->is_private;
+                return $profile;
             }
             return NULL;
         }
+
         //end ReferenceProfile
     }
 
