@@ -346,7 +346,8 @@ namespace InstaApiWeb {
 
     public function checkpoint_requested(string $login, string $pass, VerificationChoice $choise = VerificationChoice::Email) {
       try {
-        $instaAPI = new \follows\cls\InstaAPI();
+       //
+       //  $instaAPI = new \follows\cls\InstaAPI();
         $result2 = $this->make_login($login, $pass, $this->proxy);
         return $result2;
       } catch (Exceptions\InstaCheckpointException $exc) {

@@ -25,8 +25,8 @@ class Welcome extends CI_Controller {
     public function index_tpm() { //teste
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["modals"] = $this->load->view('modals', '', TRUE);
-        $this->load->view('visibility_home', $param);
-        //$this->load->view('visibility_client', $param);
+//        $this->load->view('visibility_home', $param);
+        $this->load->view('visibility_client', $param);
     }
 
     public function index($access_token, $client_id) {
