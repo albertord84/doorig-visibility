@@ -79,12 +79,9 @@ namespace InstaApiWeb {
     public function getHashQuery() {
       $hash = null;
       switch ($this->enumValue) {
-        case EnumEntity::GEO : $hash = $this->TagQuery['Geo'];
-          break;
-        case EnumEntity::PERSON : $hash = $this->TagQuery['Person'];
-          break;
-        case EnumEntity::HASHTAG: $hash = $this->TagQuery['HashTag'];
-          break;
+        case EnumEntity::GEO    : $hash = $this->TagQuery['Geo']; break;
+        case EnumEntity::PERSON : $hash = $this->TagQuery['Person']; break;
+        case EnumEntity::HASHTAG: $hash = $this->TagQuery['HashTag']; break;
       }
 
       return $hash;
@@ -96,14 +93,10 @@ namespace InstaApiWeb {
      */
     function __toString() {
       switch ($this->enumValue) {
-        case EnumEntity::GEO : $str = "GEOLOCALIZATION";
-          break;
-        case EnumEntity::PERSON : $str = "PERSON";
-          break;
-        case EnumEntity::HASHTAG: $str = "HASHTAG";
-          break;
-        case EnumEntity::CLIENT : $str = "CLIENT";
-          break;
+        case EnumEntity::GEO    : $str = "GEOLOCALIZATION"; break;
+        case EnumEntity::PERSON : $str = "PERSON"; break;
+        case EnumEntity::HASHTAG: $str = "HASHTAG"; break;
+        case EnumEntity::CLIENT : $str = "CLIENT"; break;
       }
 
       return $str;
@@ -142,11 +135,11 @@ namespace InstaApiWeb {
      */
     public function __construct(int $value) {
       if ($value != EnumAction::CMD_LIKE && $value != EnumAction::CMD_FOLLOW &&
-              $value != EnumAction::CMD_UNFOLLOW && $value != EnumAction::CMD_CHECKPOINT &&
-              $value != EnumAction::GET_POST && $value != EnumAction::GET_FIRST_POST &&
-              $value != EnumAction::GET_FOLLOWERS && $value != EnumAction::GET_FOLLOWED &&
-              $value != EnumAction::GET_OWNER_POST_DATA && $value != EnumAction::GET_PROFILE_INFO &&
-              $value != EnumAction::GET_CHALLENGE_CODE && $value != EnumAction::GET_TOP_SEARCH)
+          $value != EnumAction::CMD_UNFOLLOW && $value != EnumAction::CMD_CHECKPOINT &&
+          $value != EnumAction::GET_POST && $value != EnumAction::GET_FIRST_POST &&
+          $value != EnumAction::GET_FOLLOWERS && $value != EnumAction::GET_FOLLOWED &&
+          $value != EnumAction::GET_OWNER_POST_DATA && $value != EnumAction::GET_PROFILE_INFO &&
+          $value != EnumAction::GET_CHALLENGE_CODE && $value != EnumAction::GET_TOP_SEARCH)
         throw new InstaCurlArgumentException("The EnumAction value ($value) provided is ilegal!!!.");
 
       parent::__construct($value);
@@ -158,12 +151,9 @@ namespace InstaApiWeb {
      */
     public function getCmdSubQuery() {
       switch ($this->enumValue) {
-        case EnumAction::CMD_LIKE : $str = "like";
-          break;
-        case EnumAction::CMD_FOLLOW : $str = "follow";
-          break;
-        case EnumAction::CMD_UNFOLLOW: $str = "unfollow";
-          break;
+        case EnumAction::CMD_LIKE    : $str = "like"; break;
+        case EnumAction::CMD_FOLLOW  : $str = "follow";  break;
+        case EnumAction::CMD_UNFOLLOW: $str = "unfollow"; break;
         default: $str = "NO_ACTION_DEFINED!!!";
       }
 
@@ -176,10 +166,10 @@ namespace InstaApiWeb {
      */
     public function getObjetiveUrl() {
       switch ($this->enumValue) {
-        case EnumAction::CMD_LIKE:
-          $str = "web/likes";
-          break;
-
+        case EnumAction::CMD_LIKE: 
+          $str = "web/likes"; 
+        break;
+        
         case EnumAction::CMD_FOLLOW:
         case EnumAction::CMD_UNFOLLOW:
           $str = "web/friendships";
@@ -197,30 +187,18 @@ namespace InstaApiWeb {
      */
     function __toString() {
       switch ($this->enumValue) {
-        case EnumAction::CMD_LIKE : $str = "CMD_LIKE";
-          break;
-        case EnumAction::CMD_FOLLOW : $str = "CMD_FOLLOW";
-          break;
-        case EnumAction::CMD_UNFOLLOW : $str = "CMD_UNFOLLOW";
-          break;
-        case EnumAction::CMD_CHECKPOINT : $str = "CMD_CHECKPOINT";
-          break;
-        case EnumAction::GET_POST : $str = "GET_POST";
-          break;
-        case EnumAction::GET_FIRST_POST : $str = "GET_FIRST_POST";
-          break;
-        case EnumAction::GET_FOLLOWERS : $str = "GET_FOLLOWERS";
-          break;
-        case EnumAction::GET_FOLLOWED : $str = "GET_FOLLOWED";
-          break;
-        case EnumAction::GET_OWNER_POST_DATA: $str = "GET_OWNER_POST_DATA";
-          break;
-        case EnumAction::GET_PROFILE_INFO : $str = "GET_PROFILE_INFO";
-          break;
-        case EnumAction::GET_CHALLENGE_CODE : $str = "GET_CHALLENGE_CODE";
-          break;
-        case EnumAction::GET_TOP_SEARCH : $str = "GET_TOP_SEARCH";
-          break;
+        case EnumAction::CMD_LIKE          : $str = "CMD_LIKE"; break;
+        case EnumAction::CMD_FOLLOW        : $str = "CMD_FOLLOW"; break;
+        case EnumAction::CMD_UNFOLLOW      : $str = "CMD_UNFOLLOW"; break;
+        case EnumAction::CMD_CHECKPOINT    : $str = "CMD_CHECKPOINT"; break;
+        case EnumAction::GET_POST          : $str = "GET_POST"; break;
+        case EnumAction::GET_FIRST_POST    : $str = "GET_FIRST_POST"; break;
+        case EnumAction::GET_FOLLOWERS      : $str = "GET_FOLLOWERS"; break;
+        case EnumAction::GET_FOLLOWED       : $str = "GET_FOLLOWED"; break;
+        case EnumAction::GET_OWNER_POST_DATA: $str = "GET_OWNER_POST_DATA"; break;
+        case EnumAction::GET_PROFILE_INFO   : $str = "GET_PROFILE_INFO"; break;
+        case EnumAction::GET_CHALLENGE_CODE : $str = "GET_CHALLENGE_CODE"; break;
+        case EnumAction::GET_TOP_SEARCH     : $str = "GET_TOP_SEARCH"; break;
       }
 
       return $str;
@@ -280,31 +258,31 @@ namespace InstaApiWeb {
       $this->InstaURL['TopSearch'] = "https://www.instagram.com/web/search/topsearch";
 
       /* Instagram cUrl Headers definitions */
-      $this->Headers['Host'] = "Host: www.instagram.com";
-      $this->Headers['X-Post'] = "-X POST";
-      $this->Headers['Cookie-big'] = "Cookie: mid=%s; sessionid=%s; s_network=; ig_pr=1; ig_vw=1855; csrftoken=%s; ds_user_id=%s";
-      $this->Headers['Cookie-small'] = "Cookie: mid=%s; csrftoken=%s";
-      $this->Headers['Cookie-public'] = "cookie: mid=W1ZcJgAEAAFqS5yqkDU8yMWgOgsB; csrftoken=gcEQPaqCjzgQ944fOec5QYec86aKVfGU";
-      $this->Headers['Cookie-classic'] = "Cookie: mid=%s; sessionid=%s; csrftoken=%s; ds_user_id=%s";
-      $this->Headers['Origin'] = "Origin: https://www.instagram.com";
-      $this->Headers['AcceptEncodingGzip'] = "Accept-Encoding: gzip, deflate";
-      $this->Headers['AcceptEncodingSdch'] = "Accept-Encoding: deflate, sdch";
-      $this->Headers['AcceptLanguage'] = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
-      $this->Headers['UserAgent'] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
-      $this->Headers['X-Requested'] = "X-Requested-with: XMLHttpRequest";
-      $this->Headers['ContentTypeForm'] = "Content-type: application/x-www-form-urlencoded";
-      $this->Headers['ContentTypeJson'] = "Content-Type: application/json";
-      $this->Headers['AcceptAll'] = "Accept: */*";
-      $this->Headers['AcceptJson'] = "Accept: application/json";
-      $this->Headers['RefererBase'] = "Referer: https://www.instagram.com/";
-      $this->Headers['RefererVar'] = "Referer: %s";
-      $this->Headers['Authority'] = "Authority: www.instagram.com";
-      $this->Headers['X-CSRFToken'] = "X-CSRFToken: %s";
+      $this->Headers['Host']                 = "Host: www.instagram.com";
+      $this->Headers['X-Post']               = "-X POST";
+      $this->Headers['Cookie-big']           = "Cookie: mid=%s; sessionid=%s; s_network=; ig_pr=1; ig_vw=1855; csrftoken=%s; ds_user_id=%s";
+      $this->Headers['Cookie-small']         = "Cookie: mid=%s; csrftoken=%s";
+      $this->Headers['Cookie-public']        = "cookie: mid=W1ZcJgAEAAFqS5yqkDU8yMWgOgsB; csrftoken=gcEQPaqCjzgQ944fOec5QYec86aKVfGU";
+      $this->Headers['Cookie-classic']       = "Cookie: mid=%s; sessionid=%s; csrftoken=%s; ds_user_id=%s";
+      $this->Headers['Origin']               = "Origin: https://www.instagram.com";
+      $this->Headers['AcceptEncodingGzip']   = "Accept-Encoding: gzip, deflate";
+      $this->Headers['AcceptEncodingSdch']   = "Accept-Encoding: deflate, sdch";
+      $this->Headers['AcceptLanguage']       = "Accept-Language: pt-BR,pt;q=0.8,en-US;q=0.6,en;q=0.4";
+      $this->Headers['UserAgent']            = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+      $this->Headers['X-Requested']          = "X-Requested-with: XMLHttpRequest";
+      $this->Headers['ContentTypeForm']      = "Content-type: application/x-www-form-urlencoded";
+      $this->Headers['ContentTypeJson']      = "Content-Type: application/json";
+      $this->Headers['AcceptAll']            = "Accept: */*";
+      $this->Headers['AcceptJson']           = "Accept: application/json";
+      $this->Headers['RefererBase']          = "Referer: https://www.instagram.com/";
+      $this->Headers['RefererVar']           = "Referer: %s";
+      $this->Headers['Authority']            = "Authority: www.instagram.com";
+      $this->Headers['X-CSRFToken']          = "X-CSRFToken: %s";
       $this->Headers['X-Instagram-Ajax-Fix'] = "X-Instagram-Ajax: dad8d866382b";
       $this->Headers['X-Instagram-Ajax-Var'] = "X-Instagram-Ajax: %s";
-      $this->Headers['ContentLength'] = "Content-Length: 0";
-      $this->Headers['Connection'] = "Connection: keep-alive";
-      $this->Headers['compressed'] = "--compressed";
+      $this->Headers['ContentLength']        = "Content-Length: 0";
+      $this->Headers['Connection']           = "Connection: keep-alive";
+      $this->Headers['compressed']           = "--compressed";
 
       // Singlenton CI
       //$ci = &get_instance();
@@ -511,7 +489,11 @@ namespace InstaApiWeb {
      */
     private function get_post(Proxy $proxy = null, Cookies $cookies = null, string $media_str) {
       // Paso 1. configuracion inicial de la curl
-      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s/?query_hash=%s&variables=%s'", ($proxy != null) ? $proxy->ToString() : "", $this->InstaURL['Graphql'], $this->ProfileType->getHashQuery(), urlencode($media_str));
+      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s/?query_hash=%s&variables=%s'", 
+        ($proxy != null) ? $proxy->ToString() : "", 
+        $this->InstaURL['Graphql'], 
+        $this->ProfileType->getHashQuery(), 
+        urlencode($media_str));
 
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null) {
@@ -525,7 +507,18 @@ namespace InstaApiWeb {
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s", $curl_str, $this->Headers['Origin'], $this->Headers['AcceptEncodingGzip'], $this->Headers['AcceptLanguage'], $this->Headers['UserAgent'], $this->Headers['XRequested'], $this->Headers['ContentTypeForm'], $this->Headers['Accept'], $this->Headers['RefererBase'], $this->Headers['Authority'], $this->Headers['compressed']);
+      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s", 
+        $curl_str, 
+        $this->Headers['Origin'], 
+        $this->Headers['AcceptEncodingGzip'], 
+        $this->Headers['AcceptLanguage'], 
+        $this->Headers['UserAgent'], 
+        $this->Headers['XRequested'], 
+        $this->Headers['ContentTypeForm'], 
+        $this->Headers['Accept'], 
+        $this->Headers['RefererBase'], 
+        $this->Headers['Authority'], 
+        $this->Headers['compressed']);
 
       return $curl_str;
     }
@@ -552,7 +545,15 @@ namespace InstaApiWeb {
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", $curl_str, $this->Headers['AcceptEncodingGzip'], $this->Headers['XRequested'], $this->Headers['AcceptLanguage'], $this->Headers['UserAgent'], $this->Headers['Accept'], $this->Headers['RefererBase'], $this->Headers['Authority'], $this->Headers['compressed']);
+      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", 
+        $curl_str, $this->Headers['AcceptEncodingGzip'], 
+        $this->Headers['XRequested'], 
+        $this->Headers['AcceptLanguage'], 
+        $this->Headers['UserAgent'], 
+        $this->Headers['Accept'], 
+        $this->Headers['RefererBase'], 
+        $this->Headers['Authority'], 
+        $this->Headers['compressed']);
 
       return $curl_str;
     }
@@ -600,7 +601,7 @@ namespace InstaApiWeb {
     }
 
     public function get_insta_csrftoken($ch) {
-      curl_setopt($ch, CURLOPT_URL, "https://www.instagram.com/");
+      curl_setopt($ch, CURLOPT_URL, $this->Headers['RefererBase']);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
       curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
@@ -636,28 +637,7 @@ namespace InstaApiWeb {
           }
         }
       }
-//            array(5) (
-//                [0] => array(2) (
-//                    [0] => (string) Set-Cookie: target = ""
-//                    [1] => (string) target = ""
-//                )
-//                [1] => array(2) (
-//                    [0] => (string) Set-Cookie: sessionid = IGSCe1aaf9cbd92bdb97f6392541718f0f1cc3c9f104fa582781747eea41f45feab6%3AaWt6gfw3qwDWgZ4pm5z3KJdHi97IhFXj%3A%7B%22_token%22%3A%223858629065%3ASaCRKRRXkW6bOn1hABewWJMkpIjPJnVH%3A02085c8afdf6bccc4e3aeda68d33cf4d9d24fd52c778bb5ef68d9055e3de38d8%22%2C%22_auth_user_id%22%3A3858629065%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_platform%22%3A4%2C%22last_refreshed%22%3A1481805181.8183546%2C%22_auth_user_hash%22%3A%22%22%7D
-//                    [1] => (string) sessionid = IGSCe1aaf9cbd92bdb97f6392541718f0f1cc3c9f104fa582781747eea41f45feab6%3AaWt6gfw3qwDWgZ4pm5z3KJdHi97IhFXj%3A%7B%22_token%22%3A%223858629065%3ASaCRKRRXkW6bOn1hABewWJMkpIjPJnVH%3A02085c8afdf6bccc4e3aeda68d33cf4d9d24fd52c778bb5ef68d9055e3de38d8%22%2C%22_auth_user_id%22%3A3858629065%2C%22_auth_user_backend%22%3A%22accounts.backends.CaseInsensitiveModelBackend%22%2C%22_token_ver%22%3A2%2C%22_platform%22%3A4%2C%22last_refreshed%22%3A1481805181.8183546%2C%22_auth_user_hash%22%3A%22%22%7D
-//                )
-//                [2] => array(2) (
-//                    [0] => (string) Set-Cookie: csrftoken = LRroVq0dMCKrMf3ZEHHxlK4096vWjS4L
-//                    [1] => (string) csrftoken = LRroVq0dMCKrMf3ZEHHxlK4096vWjS4L
-//                )
-//                [3] => array(2) (
-//                    [0] => (string) Set-Cookie: ds_user_id = 3858629065
-//                    [1] => (string) ds_user_id = 3858629065
-//                )
-//                [4] => array(2) (
-//                    [0] => (string) Set-Cookie: mid = WFKNfQAEAAFmshFCfCuZHStSf0Ou
-//                    [1] => (string) mid = WFKNfQAEAAFmshFCfCuZHStSf0Ou
-//                )
-//            )
+
       return $value;
     }
 
@@ -719,7 +699,16 @@ namespace InstaApiWeb {
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", $curl_str, $this->Headers['AcceptEncodingGzip'], $this->Headers['XRequested'], $this->Headers['AcceptLanguage'], $this->Headers['UserAgent'], $this->Headers['Accept'], $this->Headers['RefererBase'], $this->Headers['Authority'], $this->Headers['compressed']);
+      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", 
+        $curl_str, 
+        $this->Headers['AcceptEncodingGzip'], 
+        $this->Headers['XRequested'], 
+        $this->Headers['AcceptLanguage'], 
+        $this->Headers['UserAgent'], 
+        $this->Headers['Accept'], 
+        $this->Headers['RefererBase'], 
+        $this->Headers['Authority'], 
+        $this->Headers['compressed']);
 
       return $curl_str;
     }
@@ -735,7 +724,7 @@ namespace InstaApiWeb {
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null) {
         $curl_str = sprintf("%s %s", $curl_str, $this->Headers['X-Post']);
-        $curl_str = sprintf("%s %s", $curl_str, $this->Headers['Cookie-classic']);
+        $curl_str = sprintf("%s -H '%s'", $curl_str, $this->Headers['Cookie-classic']);
         $curl_str = sprintf($curl_str, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
 
         $csrf = sprintf("%s", $this->Headers['X-CSRFToken']);
@@ -744,7 +733,20 @@ namespace InstaApiWeb {
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s %s %s", $curl_str, $this->Headers['Origin'], $this->Headers['AcceptEncodingGzip'], $this->Headers['AcceptLanguage'], $this->Headers['UserAgent'], $this->Headers['XRequested'], $this->Headers['X-Instagram-Ajax-Fix'], $this->Headers['ContentTypeForm'], $this->Headers['Accept'], $this->Headers['RefererBase'], $this->Headers['Authority'], $this->Headers['ContentLength'], $this->Headers['compressed']);
+      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s %s %s", 
+        $curl_str, 
+        $this->Headers['Origin'], 
+        $this->Headers['AcceptEncodingGzip'], 
+        $this->Headers['AcceptLanguage'], 
+        $this->Headers['UserAgent'], 
+        $this->Headers['XRequested'], 
+        $this->Headers['X-Instagram-Ajax-Fix'], 
+        $this->Headers['ContentTypeForm'], 
+        $this->Headers['Accept'], 
+        $this->Headers['RefererBase'], 
+        $this->Headers['Authority'], 
+        $this->Headers['ContentLength'], 
+        $this->Headers['compressed']);
 
       return $curl_str;
     }

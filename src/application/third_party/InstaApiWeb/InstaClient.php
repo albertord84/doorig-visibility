@@ -255,15 +255,15 @@ namespace InstaApiWeb {
 
         if ((strpos($e->getMessage(), 'Challenge required') !== FALSE) || (strpos($e->getMessage(), 'Checkpoint required') !== FALSE) || (strpos($e->getMessage(), 'challenge_required') !== FALSE)) {
           $res = $e->getResponse()->getChallenge()->getApiPath();
-          throw new InstaCheckpointException(T($e->getMessage()), $e->getPrevious(), $res);
+          throw new InstaCheckpointException($e->getMessage(), $e->getPrevious(), $res);
         } else if (strpos($e->getMessage(), 'Network: CURL error 28') !== FALSE) { // Time out by bad proxy
-          throw new InstaCurlException(T($e->getMessage()), $e);
+          throw new InstaCurlException($e->getMessage(), $e);
         } else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE) {
-          throw new InstaPasswordException(T($e->getMessage()), $e);
+          throw new InstaPasswordException($e->getMessage(), $e);
         } else if (strpos($e->getMessage(), 'there was a problem with your request') !== FALSE) {
-          throw new InstaException(T('problem_with_your_request'), $e->getCode());
+          throw new InstaException('problem_with_your_request', $e->getCode());
         } else {
-          throw new InstaException(T($e->getMessage()), $e->getCode());
+          throw new InstaException($e->getMessage(), $e->getCode());
         }
       }
     }
