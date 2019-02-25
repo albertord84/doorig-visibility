@@ -138,9 +138,9 @@ namespace business {
         /**
          *  
          */
-        static function save() {
+        static function save(string $insta_id, string $instaname, int $type) {
             $ci = &get_instance();
-            return $ci->reference_profile_model->save($this->Id);
+            return $ci->reference_profile_model->save($insta_id, $instaname, $type);
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
