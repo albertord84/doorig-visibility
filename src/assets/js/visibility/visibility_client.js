@@ -154,7 +154,6 @@ $(document).ready(function () {
         }      
     }
     
-    
     //HASHTAG FUNCTIONS--------------------------------------------------------------------
     $("#container-add-hashtag").keypress(function (e) {
         if (e.which == 13) {
@@ -231,7 +230,6 @@ $(document).ready(function () {
             }); 
         }       
     }
-    
     
     //WHITE LIST FUNCTIONS--------------------------------------------------------------------
     $("#container-add-profile-wl").keypress(function (e) {
