@@ -133,16 +133,18 @@ namespace business {
         /**
          *  
          */
-        public function remove() {
+        static public function remove($Id) {
             $ci = &get_instance();
-            $ci->reference_profile_model->remove($this->Id);
+            $ci->load->model('reference_profile_model');
+            $ci->reference_profile_model->remove($Id);
         }
 
         /**
          *  
          */
-        static function save(string $insta_id, string $instaname, int $type) {
+        static function save(string $insta_id, string $instaname = NULL, int $type = NULL) {
             $ci = &get_instance();
+            $ci->load->model('reference_profile_model');
             return $ci->reference_profile_model->save($insta_id, $instaname, $type);
         }
 
