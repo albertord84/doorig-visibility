@@ -133,17 +133,19 @@ namespace business {
         /**
          *  
          */
-        public function remove() {
+        static public function remove($Id) {
             $ci = &get_instance();
-            $ci->reference_profile_model->remove($this->Id);
+            $ci->load->model('reference_profile_model');
+            $ci->reference_profile_model->remove($Id);
         }
 
         /**
          *  
          */
-        static function save() {
+        static function save(string $insta_id, string $instaname = NULL, int $type = NULL) {
             $ci = &get_instance();
-            return $ci->reference_profile_model->save($this->Id);
+            $ci->load->model('reference_profile_model');
+            return $ci->reference_profile_model->save($insta_id, $instaname, $type);
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
