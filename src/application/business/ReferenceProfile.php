@@ -3,6 +3,9 @@
 namespace business {
 
     require_once config_item('business-loader-class');
+    require_once config_item('thirdparty-cookies-resource');
+
+    use InstaApiWeb\Cookies;
 
     /**
      * Description of HashtagProfile
@@ -100,7 +103,7 @@ namespace business {
                     //throw exception type does not exist
                     break;
             }
-            
+
             $this->Ref_profile_lib = $ci->instaprofile_lib;
             unset($ci->instaprofile_lib);
         }

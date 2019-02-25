@@ -19,6 +19,7 @@ $config['business-client-class'] = getcwd() . '/application/business/Client.php'
 $config['business-user-class'] = getcwd() . '/application/business/User.php';
 $config['business-admin-class'] = getcwd() . '/application/business/Admin.php';
 $config['business-attendent-class'] = getcwd() . '/application/business/Attendent.php';
+
 //$config['business-geo_profile-class'] = getcwd() . '/application/business/BusinessGeoProfile.php';
 //$config['business-hash_profile-class'] = getcwd() . '/application/business/BusinessHashProfile.php';
 //$config['business-person_profile-class'] = getcwd() . '/application/business/BusinessPersonProfile.php';
@@ -107,9 +108,10 @@ $config['insta-curl-exception-class'] = getcwd() . '/application/third_party/Ins
  */
 
 $config['thirdparty-client_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/ClientResponse.php';
-$config['thirdparty-insta_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/InstaResponse.php';
+$config['thirdparty-response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/Response.php';
 $config['thirdparty-login_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/LoginResponse.php';
 $config['thirdparty-end_cursor_response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/EndCursorResponse.php';
+$config['thirdparty-followers-response-class'] = getcwd() . '/application/third_party/InstaApiWeb/Response/FollowersResponse.php';
 
 /*
   |--------------------------------------------------------------------------

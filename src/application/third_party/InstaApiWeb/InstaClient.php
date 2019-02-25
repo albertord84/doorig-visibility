@@ -5,12 +5,12 @@ namespace InstaApiWeb {
   #require_once config_item('business-cookies_request-class');
 
   use InstaApiWeb\Cookies;
+  use InstaApiWeb\InstaCurlMgr;
   use InstaApiWeb\Responses\LoginResponse;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaCurlException;
   use InstaApiWeb\Exceptions\InstaPasswordException;
   use InstaApiWeb\Exceptions\InstaCheckpointException;
-  use InstaApiWeb\InstaCurlMgr;
 
   /**
    * @category CodeIgniter-Library: InstaApiLib
@@ -32,12 +32,11 @@ namespace InstaApiWeb {
       require_once config_item('insta-exception-class');
       require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-curl-exception-class');
-      require_once config_item('insta-cookies-exception-class');      
+      require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-password-exception-class');
       require_once config_item('thirdparty-login_response-class');
       require_once config_item('insta-checkpoint-exception-class');
-
-      require_once config_item('thirdparty-cookies');
+      require_once config_item('thirdparty-cookies-resource');
       require_once config_item('thirdparty-insta_curl_mgr-resource');
 
 
@@ -55,9 +54,9 @@ namespace InstaApiWeb {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_FOLLOW));
         $mngr->setResourceId($resource_id);
         $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-        var_dump($curl_str);
+        //var_dump($curl_str);
         exec($curl_str, $output, $status);
-        var_dump($output);
+        return $output[0];
       } catch (Exception $e) {
         var_dump($e);
       }
@@ -88,7 +87,7 @@ namespace InstaApiWeb {
         var_dump($e);
       }
     }
-
+    
     /*
       public function make_insta_friendships_command(string $resource_id, string $command = 'follow', string $objetive_url = 'web/friendships') {
       $insta = InstaURLs::Instagram;
@@ -199,7 +198,6 @@ namespace InstaApiWeb {
         return $csrftoken; */
     }
 
-
     public static function verify_cookies(Cookies $cookies) {
       if ($cookies != NULL) {
         return (isset($cookies->CsrfToken) && $cookies->CsrfToken !== NULL && $cookies->CsrfToken !== '' &&
@@ -237,13 +235,11 @@ namespace InstaApiWeb {
           $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
         }
 
-        $sessionid = $ig->client->getCookie('sessionid')->getValue();
-        $csrftoken = $ig->client->getCookie('csrftoken')->getValue();
-        $ds_user_id = $ig->client->getCookie('ds_user_id')->getValue();
-        $mid = $ig->client->getCookie('mid')->getValue();
-
-
-        $Cookies = new CookiesResponse($sessionid, $csrftoken, $ds_user_id, $mid);
+        $ck = array("sessionid" => $ig->client->getCookie('sessionid')->getValue(), 
+                    "csrftoken" => $ig->client->getCookie('csrftoken')->getValue(), 
+                    "ds_user_id" => $ig->client->getCookie('ds_user_id')->getValue(), 
+                    "mid" => $ig->client->getCookie('mid')->getValue());
+        $Cookies = new Cookies(json_encode($ck));
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
 
         return $loginResponse;
@@ -350,15 +346,16 @@ namespace InstaApiWeb {
 
     public function checkpoint_requested(string $login, string $pass, VerificationChoice $choise = VerificationChoice::Email) {
       try {
-        $instaAPI = new \follows\cls\InstaAPI();
+       //
+       //  $instaAPI = new \follows\cls\InstaAPI();
         $result2 = $this->make_login($login, $pass, $this->proxy);
         return $result2;
       } catch (Exceptions\InstaCheckpointException $exc) {
         $res = $exc->GetChallenge();
-        $response = $this->get_challenge_data($res, $login, $Client);
-        if (isset($response->challenge->challengeType) && ($response->challenge->challengeType == "SelectVerificationMethodForm")) {
-          $response = $this->get_challenge_data($res, $login, $choise);
-        }
+        //$response = $this->get_challenge_data($res, $login, $Client);
+        //   if (isset($response->challenge->challengeType) && ($response->challenge->challengeType == "SelectVerificationMethodForm")) {
+        $response = $this->get_challenge_data($res, $login, $choise);
+        //  }
         return $response;
       }
     }
@@ -367,10 +364,15 @@ namespace InstaApiWeb {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::GET_CHALLENGE_CODE));
         $mngr->setResourceId($resource_id);
-        $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-        var_dump($curl_str);
-        exec($curl_str, $output, $status);
-        var_dump($output);
+        $ch = $mngr->make_curl_str($this->proxy, $this->cookies);
+        $html = curl_exec($ch);
+        $info = curl_getinfo($ch);
+        $start = strpos($html, "{");
+        $json_str = substr($html, $start);
+        $resposta = json_decode($json_str);
+        $this->cookies = $cookies;
+        var_dump($resposta);
+        return $resposta;
       } catch (\Exception $exc) {
         var_dump($exc);
       }

@@ -12,7 +12,6 @@ use InstaApiWeb\Exceptions\InstaException;
 use InstaApiWeb\Exceptions\InstaCurlNetworkException;
 use InstaApiWeb\Exceptions\InstaPasswordException;
 use InstaApiWeb\Exceptions\InstaCheckpointException;
-//use business\Cookies;
 
 /**
  * @category CodeIgniter-Library: InstaApiLib
@@ -32,7 +31,7 @@ class InstaClient_lib {
     require_once config_item('thirdparty-insta_client-resource');
     require_once config_item('thirdparty-verification_choice-resource');
     require_once config_item('insta-checkpoint-exception-class');
-    require_once config_item('thirdparty-cookies');
+    require_once config_item('thirdparty-cookies-resource');
 
     $this->CI = &get_instance();
     $this->CI->load->model("db_model");
@@ -57,7 +56,7 @@ class InstaClient_lib {
     } catch (InstaCheckpointException $e) {
       $result = new LoginResponse('ok', false, $e->getMessage(), NULL, $e->GetChallange());
     } catch (InstaException $e) {
-      $this->db_model->insert_event_to_washdog($Client->id, $e->getMessage(), $source);
+      //$this->CI->db_model->insert_event_to_washdog($Client->id, $e->getMessage(), $source);
 
       $result = new LoginResponse('ok', false, $e->getMessage(), NULL);
     }
