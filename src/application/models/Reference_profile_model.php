@@ -31,7 +31,7 @@ class Reference_profile_model extends CI_Model {
      * @param type $last_access
      * @return type
      */
-    function save($insta_name, $insta_id, $client_id, $status_id = 1 /* Active */, $type = 1 /* PersonProfile */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
+    function save($insta_id, $insta_name, $client_id, $status_id = 1 /* Active */, $type = 1 /* PersonProfile */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
         $this->insta_name = $insta_name;
         $this->insta_id = $insta_id;
         $this->status_id = $status_id;
@@ -55,7 +55,7 @@ class Reference_profile_model extends CI_Model {
         //$this->db->delete('reference_profile', array('id' => $id));
     }
 
-    function update($id, $insta_name = NULL, $insta_id = NULL, $status_id = NULL /* Active */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
+    function update($id, $insta_id = NULL, $insta_name = NULL, $status_id = NULL /* Active */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
         if ($insta_name)
             $this->insta_name = $insta_name;
         if ($insta_id)

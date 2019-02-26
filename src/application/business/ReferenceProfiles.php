@@ -41,6 +41,8 @@ namespace business {
             $CI->load->model("Reference_profile_model");
             $data = $CI->Reference_profile_model->get_all_id($this->Client->Id, $status, $type);
 
+            $this->ReferenceProfiles = array();
+            
             $this->fill_data($data);
         }
 
