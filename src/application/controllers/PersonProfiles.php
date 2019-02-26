@@ -42,15 +42,15 @@ class PersonProfiles extends CI_Controller {
     }
 
     public function delete_person_profile() {
-//        $datas = $this->input->post();
-//        //$datas['reference_profile_id'] = 24307;        
-//        try {
-//            $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
-//            $ReferenceProfile->remove();
-//        } catch (Exception $exc) {
-//            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
-//            return;
-//        }
+        $datas = $this->input->post();
+        //$datas['reference_profile_id'] = 24307;        
+        try {
+            $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
+            $ReferenceProfile->remove();
+        } catch (Exception $exc) {
+            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return;
+        }
 
         Response::ResponseOK()->toJson();
     }
