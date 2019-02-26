@@ -57,30 +57,36 @@ class CurlMgr_test extends CI_Controller {
   }
 
   public function run() {
+    $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15", 
+                "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0", 
+                "ds_user_id" => "3445996566", 
+                "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
+    
     try {
       echo "<div style='border: solid 2px;padding:5px;padding-top:0px;'>";
-      echo "<h2>CLIENT + LIKE</h2>";
+      echo "<h2>CLIENT + LIKE ==> via curl_str</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_LIKE));
       $obj->setResourceId("my-id-111");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
 
-      echo "<h2>CLIENT + FOLLOW</h2>";
+      echo "<h2>CLIENT + FOLLOW ==> via curl_str</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_FOLLOW));
       $obj->setResourceId("my-id-222");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
 
-      echo "<h2>CLIENT + UNFOLLOW</h2>";
+      echo "<h2>CLIENT + UNFOLLOW ==> via curl_str</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_UNFOLLOW));
       $obj->setResourceId("my-id-333");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
       echo "</div>";
       //------------------------------------------------------------------------------------
 
       echo "<div style='border: solid 2px;padding:5px;;padding-top:0px;margin-top:10px;'>";
+      echo "<h2>GEO + GET_OWNER_POST_DATA ==> via curl_str</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::GEO), new EnumAction(EnumAction::GET_OWNER_POST_DATA));
       $obj->setInstaId("123");
       $obj->setReferencePost("999");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
       echo "</div>";
       //------------------------------------------------------------------------------------
 
@@ -88,26 +94,27 @@ class CurlMgr_test extends CI_Controller {
       echo "<h2>GEO + GET_POST</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::GEO), new EnumAction(EnumAction::GET_POST));
       $obj->setMediaData("AAA", "111", "AA-cursor-11");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
       //var_dump($obj);
 
-      echo "<h2>HASHTAG + GET_POST</h2>";
+      echo "<h2>HASHTAG + GET_POST ==> via curl_str</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::HASHTAG), new EnumAction(EnumAction::GET_POST));
       $obj->setMediaData("BBB", "2", "BB-cursor-22");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
       //var_dump($obj);
 
-      echo "<h2>PERSON + GET_POST</h2>";
+      echo "<h2>PERSON + GET_POST</h2> ==> via curl_str";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::PERSON), new EnumAction(EnumAction::GET_POST));
       $obj->setMediaData("CCC", "3", "CC-cursor-33");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
       //var_dump($obj);      
       echo "</div>";
 
-      echo "<h2>PERSON + GET_PROFILE_INFO</h2>";
+      echo "<div style='border: solid 2px;padding:5px;;padding-top:0px;margin-top:10px;'>";
+      echo "<h2>PERSON + GET_PROFILE_INFO ==> via curl_str</h2>";
       $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::PERSON), new EnumAction(EnumAction::GET_PROFILE_INFO));
       $obj->setReferenceUser("leticiajural");
-      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies("AAA", "BBB", "CCC", "DDD"));
+      echo $obj->make_curl_str(new Proxy("", "", "", ""), new Cookies(json_encode($ck)));
       //var_dump($obj);      
       echo "</div>";
 
