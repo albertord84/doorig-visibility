@@ -145,11 +145,29 @@ namespace business {
         static function save(string $insta_id, string $instaname = NULL, int $type = NULL) {
             $ci = &get_instance();
             $ci->load->model('reference_profile_model');
-            return $ci->reference_profile_model->save($insta_id, $instaname, $type);
+            if (Client::exist($insta_id, 1 /*ACTIVE*/)) {
+                throw ErrorCodes::getException(ErrorCodes::EMAIL_ALREADY_EXIST);
+            } else {
+                $ci = &get_instance();
+                $client_id = $ci->reference_profile_model->save($insta_id, $instaname, $type);
+            }
+            return $client_id;
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
             return $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
+        }
+
+        static function exist(string $insta_id, int $status = 0) {
+            try {
+                $Client = new Client();
+                $Client->load_data_by_email($email);
+                return $status ? $Client->Status_id == $status : TRUE;
+            } catch (\Exception $exc) {
+                //echo $exc->getTraceAsString();
+            }
+
+            return FALSE;
         }
 
     }

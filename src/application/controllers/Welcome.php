@@ -7,6 +7,7 @@ ini_set('xdebug.var_display_max_data', 1024);
 use business\Client;
 use business\Response\Response;
 use business\Response\ResponseLoginToken;
+use business\InstaCommands;
 
 //use business\Client;
 //use business\Node;
@@ -20,6 +21,7 @@ class Welcome extends CI_Controller {
         require_once config_item('business-client-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-login-token-class');
+        require_once config_item('business-insta_commands-class');
     }
 
     public function index_tpm() { //teste
@@ -127,6 +129,13 @@ class Welcome extends CI_Controller {
             echo $exc->getMessage();
         }
         return FALSE;
+    }
+    
+    public function get_person_profile_datas(){
+        $profile_name = (string)$this->input->post()["profile"];
+        $profile_name="josergm86";
+        $result = InstaCommands::get_profile_public_data($profile_name);
+        echo \GuzzleHttp\json_encode($result);
     }
 
 }

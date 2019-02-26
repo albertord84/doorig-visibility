@@ -12,14 +12,14 @@
             <a class="navbar-brand" href="index.html">
                 <!-- Logo icon -->
                 <b>
-                    <!-- Dark Logo icon -->
-                    <img src="<?php echo base_url()?>assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                    <!-- Dark Logo icon  kkkk-->
+                    <img width="27px" src="<?php echo base_url()?>assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
                     <!-- Light Logo icon -->
                     <img src="<?php echo base_url()?>assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
                 </b>
                 <span>
                     <!-- dark Logo text -->
-                    <img src="<?php echo base_url()?>assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                    <img width="110px" src="<?php echo base_url()?>assets/images/logo-text.png" alt="homepage" class="dark-logo" />
                     <!-- Light Logo text -->    
                     <img src="<?php echo base_url()?>assets/images/logo-light-text.png" class="light-logo" alt="homepage" />
                 </span> 

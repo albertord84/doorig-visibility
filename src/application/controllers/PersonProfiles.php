@@ -29,10 +29,10 @@ class PersonProfiles extends CI_Controller {
     public function insert_person_profile() {
         $datas = $this->input->post();
         
-        // Deco
+        $client_id = unserialize($this->session->userdata('client'))->Id;
         
         try {
-            $id = ReferenceProfile::save($datas['insta_name'], $datas['insta_id']);
+            $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id);
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;
@@ -42,15 +42,15 @@ class PersonProfiles extends CI_Controller {
     }
 
     public function delete_person_profile() {
-        $datas = $this->input->post();
-        //$datas['reference_profile_id'] = 24307;        
-        try {
-            $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
-            $ReferenceProfile->remove();
-        } catch (Exception $exc) {
-            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
-            return;
-        }
+//        $datas = $this->input->post();
+//        //$datas['reference_profile_id'] = 24307;        
+//        try {
+//            $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
+//            $ReferenceProfile->remove();
+//        } catch (Exception $exc) {
+//            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+//            return;
+//        }
 
         Response::ResponseOK()->toJson();
     }

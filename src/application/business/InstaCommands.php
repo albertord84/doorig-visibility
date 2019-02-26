@@ -22,7 +22,7 @@ namespace business {
         static function get_profile_public_data(string $profile_name) {
             try {
                 $meta_content = @get_meta_tags("https://www.instagram.com/$profile_name/");
-                var_dump($meta_content); // exit;
+                //var_dump($meta_content); // exit;
 
                 $content = @file_get_contents("https://www.instagram.com/$profile_name/", false);
                 $doc = new \DOMDocument();
@@ -56,7 +56,7 @@ namespace business {
             // Copiar a partir de donde comienza el json deseado
             $start = strpos($textContent, $json_str_reference) - 2; // |{"@context
             $substr1 = substr($textContent, $start);
-            var_dump($substr1);
+            //var_dump($substr1);
 
             // Copiar hasta donde termina el json deseado
             //$search = "/<//script/>";
