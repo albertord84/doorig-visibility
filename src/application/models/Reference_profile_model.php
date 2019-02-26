@@ -31,7 +31,7 @@ class Reference_profile_model extends CI_Model {
      * @param type $last_access
      * @return type
      */
-    function save($insta_id, $insta_name, $client_id, $status_id = 1 /* Active */, $type = 1 /* PersonProfile */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
+    function save($insta_id, $insta_name, $client_id, $status_id = 1 /* Active */, $type = 0 /* PersonProfile */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
         $this->insta_name = $insta_name;
         $this->insta_id = $insta_id;
         $this->status_id = $status_id;
@@ -80,6 +80,14 @@ class Reference_profile_model extends CI_Model {
         $query = $this->db->get('reference_profile');
 
         return $query->row();
+    }
+
+    function get_by_insta_id($insta_id, $client_id) {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('insta_id', $insta_id);
+        $query = $this->db->get('reference_profile');
+
+        return $query->last_row();
     }
 
     function get_all($ClientId, $status = 0, $offset = 0, $rows = 0) {

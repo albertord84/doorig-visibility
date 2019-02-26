@@ -52,8 +52,9 @@ class ReferenceProfiles_test extends CI_Controller {
         $insta_id = '1958546960';
         $instaname = 'alberto_test';
         $type = 1;
-        $Id = ReferenceProfile::save($insta_id, $instaname, $type);
-        echo "[save] $Id = save($insta_id, $instaname, $type) ==> (<b>ok</b>)<br><br>"; //var_dump($obj);
+        $client_id = 1;
+        $Id = ReferenceProfile::save($insta_id, $instaname, $client_id, $type);
+        echo "[save] $Id = save($insta_id, $instaname, $client_id, $type) ==> (<b>ok</b>)<br><br>"; //var_dump($obj);
 
         $type = -1;
         $Client->load_insta_reference_profiles_data($status, $type);
