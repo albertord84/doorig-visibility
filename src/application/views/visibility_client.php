@@ -486,7 +486,7 @@
                                             <div class="col-md-5">
                                                 <h2 class="text-muted pd-10 text-center"> Nunca deseguir</h2>                                                
                                                 <div class="input-group" id="container-add-profile-wl">
-                                                    <input id="login-profile-wl" type="text" onkeyup="search_match_hashtag('#login-hashtag','#table-search-hashtag');" class="form-control to-lower-case">
+                                                    <input id="login-profile-wl" type="text" onkeyup="search_match_profile_wl('#login-profile-wl','#table-search-profile-wl');" class="form-control to-lower-case">
                                                     <i class="fa fa-spinner fa-spin myspinner"></i>
                                                     <button id="add-profile-wl" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
                                                         Adicionar
@@ -513,7 +513,7 @@
                                             <div class="col-md-5">
                                                 <h2 class="text-muted pd-10 text-center"> Nunca seguir</h2>                                                
                                                 <div class="input-group" id="container-add-profile-bl">
-                                                    <input id="login-profile-bl" type="text" onkeyup="search_match_hashtag('#login-hashtag','#table-search-hashtag');" class="form-control to-lower-case">
+                                                    <input id="login-profile-bl" type="text" onkeyup="search_match_profile_wl('#login-profile-bl','#table-search-profile-bl');" class="form-control to-lower-case">
                                                     <i class="fa fa-spinner fa-spin myspinner"></i>
                                                     <button id="add-profile-bl" type="button" class="btn btn-info" style="margin-left:4px;max-height:38px">
                                                         Adicionar

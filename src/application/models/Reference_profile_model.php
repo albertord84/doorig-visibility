@@ -17,16 +17,30 @@ class Reference_profile_model extends CI_Model {
         parent::construct();
     }
 
-    function save($insta_name, $insta_id, $status_id, $client_id, $insta_follower_cursor, $deleted, $end_date, $follows, $type, $last_access) {
+    /**
+     * 
+     * @param type $insta_name
+     * @param type $insta_id
+     * @param type $client_id
+     * @param type $status_id
+     * @param type $insta_follower_cursor
+     * @param type $deleted
+     * @param type $end_date
+     * @param type $follows
+     * @param type $type
+     * @param type $last_access
+     * @return type
+     */
+    function save($insta_id, $insta_name, $client_id, $status_id = 1 /* Active */, $type = 0 /* PersonProfile */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
         $this->insta_name = $insta_name;
         $this->insta_id = $insta_id;
         $this->status_id = $status_id;
+        $this->type = $type;
         $this->client_id = $client_id;
         $this->insta_follower_cursor = $insta_follower_cursor;
         $this->deleted = $deleted;
         $this->end_date = $end_date;
         $this->follows = $follows;
-        $this->type = $type;
         $this->last_access = $last_access;
         $this->db->insert('reference_profile', $this);
 
@@ -41,17 +55,22 @@ class Reference_profile_model extends CI_Model {
         //$this->db->delete('reference_profile', array('id' => $id));
     }
 
-    function update($id, $insta_name, $insta_id, $status_id, $client_id, $insta_follower_cursor, $deleted, $end_date, $follows, $type, $last_access) {
-        $this->insta_name = $insta_name;
-        $this->insta_id = $insta_id;
-        $this->status_id = $status_id;
-        $this->client_id = $client_id;
-        $this->insta_follower_cursor = $insta_follower_cursor;
-        $this->deleted = $deleted;
-        $this->end_date = $end_date;
+    function update($id, $insta_id = NULL, $insta_name = NULL, $status_id = NULL /* Active */, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = NULL) {
+        if ($insta_name)
+            $this->insta_name = $insta_name;
+        if ($insta_id)
+            $this->insta_id = $insta_id;
+        if ($status_id)
+            $this->status_id = $status_id;
+        if ($insta_follower_cursor)
+            $this->insta_follower_cursor = $insta_follower_cursor;
+        if ($deleted)
+            $this->deleted = $deleted;
+        if ($end_date)
+            $this->end_date = $end_date;
         $this->follows = $follows;
-        $this->type = $type;
-        $this->last_access = $last_access;
+        if ($last_access)
+            $this->last_access = $last_access;
 
         $this->db->update('reference_profile', $this, array('id' => $id));
     }
@@ -61,6 +80,14 @@ class Reference_profile_model extends CI_Model {
         $query = $this->db->get('reference_profile');
 
         return $query->row();
+    }
+
+    function get_by_insta_id($insta_id, $client_id) {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('insta_id', $insta_id);
+        $query = $this->db->get('reference_profile');
+
+        return $query->last_row();
     }
 
     function get_all($ClientId, $status = 0, $offset = 0, $rows = 0) {
