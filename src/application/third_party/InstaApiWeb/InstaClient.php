@@ -5,12 +5,15 @@ namespace InstaApiWeb {
   #require_once config_item('business-cookies_request-class');
 
   use InstaApiWeb\Cookies;
-  use InstaApiWeb\InstaCurlMgr;
-  use InstaApiWeb\Responses\LoginResponse;
-  use InstaApiWeb\Exceptions\InstaException;
-  use InstaApiWeb\Exceptions\InstaCurlException;
-  use InstaApiWeb\Exceptions\InstaPasswordException;
   use InstaApiWeb\Exceptions\InstaCheckpointException;
+  use InstaApiWeb\Exceptions\InstaCookiesException;
+  use InstaApiWeb\Exceptions\InstaCurlException;
+  use InstaApiWeb\Exceptions\InstaException;
+  use InstaApiWeb\Exceptions\InstaPasswordException;
+  use InstaApiWeb\InstaCurlMgr;
+  use InstaApiWeb\Proxy;
+  use InstaApiWeb\Responses\LoginResponse;
+  use InstagramAPI\Instagram;
 
   /**
    * @category CodeIgniter-Library: InstaApiLib
@@ -27,7 +30,7 @@ namespace InstaApiWeb {
     public $proxy;
     private $has_logs;
 
-    public function __construct(string $insta_id, Cookies $cookies, Proxy $proxy = NULL) {
+    public function __construct(string $insta_id, Cookies $cookies = NULL, Proxy $proxy = NULL) {
       require_once config_item('composer_autoload');
       require_once config_item('insta-exception-class');
       require_once config_item('insta-cookies-exception-class');
@@ -41,7 +44,7 @@ namespace InstaApiWeb {
 
 
       if (!InstaClient::verify_cookies($cookies)) {
-        throw new Exceptions\InstaCookiesException('the cookies you are passing are incompleate or wrong');
+        throw new InstaCookiesException('the cookies you are passing are incompleate or wrong');
       }
       $this->insta_id = $insta_id;
       $this->cookies = $cookies;
@@ -198,7 +201,7 @@ namespace InstaApiWeb {
         return $csrftoken; */
     }
 
-    public static function verify_cookies(Cookies $cookies) {
+    public static function verify_cookies(Cookies $cookies = NULL) {
       if ($cookies != NULL) {
         return (isset($cookies->CsrfToken) && $cookies->CsrfToken !== NULL && $cookies->CsrfToken !== '' &&
                 isset($cookies->Mid) && $cookies->Mid !== NULL && $cookies->Mid !== '' &&
@@ -209,15 +212,15 @@ namespace InstaApiWeb {
       return false;
     }
 
-    public function make_login(string $username, string $password) {
+    public function make_login(string $username, string $password, bool $force_login = FALSE) {
       $debug = false;
       $truncatedDebug = true;
 //////////////////////
 
-      \InstagramAPI\Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
+      Instagram::$allowDangerousWebUsageAtMyOwnRisk = true;
 
       try {
-        $ig = new \InstagramAPI\Instagram($debug, $truncatedDebug);
+        $ig = new Instagram($debug, $truncatedDebug);
 
         //$ig->setOutputInterface("191.252.110.140");
         //$ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
@@ -225,7 +228,7 @@ namespace InstaApiWeb {
           $ig->setProxy("http://" . $this->proxy->ToString());
         //$ig->setProxy("http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316");
 
-        $loginIGResponse = $ig->login($username, $password);
+        $loginIGResponse = $ig->login($username, $password, $force_login);
 
         $ig->client->loadCookieJar();
 
@@ -235,10 +238,10 @@ namespace InstaApiWeb {
           $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
         }
 
-        $ck = array("sessionid" => $ig->client->getCookie('sessionid')->getValue(), 
-                    "csrftoken" => $ig->client->getCookie('csrftoken')->getValue(), 
-                    "ds_user_id" => $ig->client->getCookie('ds_user_id')->getValue(), 
-                    "mid" => $ig->client->getCookie('mid')->getValue());
+        $ck = array("sessionid" => $ig->client->getCookie('sessionid')->getValue(),
+            "csrftoken" => $ig->client->getCookie('csrftoken')->getValue(),
+            "ds_user_id" => $ig->client->getCookie('ds_user_id')->getValue(),
+            "mid" => $ig->client->getCookie('mid')->getValue());
         $Cookies = new Cookies(json_encode($ck));
         $loginResponse = new LoginResponse('ok', true, "", $Cookies);
 
@@ -251,7 +254,7 @@ namespace InstaApiWeb {
           $source = 1;
 
         if ((strpos($e->getMessage(), 'Challenge required') !== FALSE) || (strpos($e->getMessage(), 'Checkpoint required') !== FALSE) || (strpos($e->getMessage(), 'challenge_required') !== FALSE)) {
-          //$res = $e->getResponse()->getChallenge()->getApiPath();//Jose
+          $res = $e->getResponse()->getChallenge()->getApiPath();
           throw new InstaCheckpointException($e->getMessage(), $e->getPrevious(), $res);
         } else if (strpos($e->getMessage(), 'Network: CURL error 28') !== FALSE) { // Time out by bad proxy
           throw new InstaCurlException($e->getMessage(), $e);
@@ -323,107 +326,55 @@ namespace InstaApiWeb {
       return FALSE;
     }
 
-    public function make_curl_chaining_str(string $insta_id, int $N, string $cursor = NULL) {
-      $query = "bd0d6d184eefd4d0ce7036c11ae58ed9";
-      $variables = "{\"id\":\"$insta_id\",\"first\":$N";
-      if ($cursor != NULL && $cursor != "NULL") {
-        $variables .= ",\"after\":\"$cursor\"";
-      }
-      $variables .= "}";
-
-      $curl_str = InstaApi::make_query($query, $variables, $this->cookies, $this->proxy);
-
-      return $curl_str;
-    }
-
     public function curlResponseHeaderCallback($ch, string $headerLine) {
-      /* global $cookies;
-        if (preg_match('/^Set-Cookie:\s*([^;]*)/mi', $headerLine, $cookie) == 1)
+      global $cookies;
+      if (preg_match('/^Set-Cookie:\s*([^;]*)/mi', $headerLine, $cookie) == 1)
         $cookies[] = $cookie;
-        //        $cookies[] = $headerLine;
-        return strlen($headerLine); // Needed by curl */
+      //        $cookies[] = $headerLine;
+      return strlen($headerLine); // Needed by curl */
     }
 
-    public function checkpoint_requested(string $login, string $pass, VerificationChoice $choise = VerificationChoice::Email) {
+    public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
       try {
-       //
-       //  $instaAPI = new \follows\cls\InstaAPI();
-        $result2 = $this->make_login($login, $pass, $this->proxy);
-        return $result2;
-      } catch (Exceptions\InstaCheckpointException $exc) {
-        $res = $exc->GetChallenge();
-        //$response = $this->get_challenge_data($res, $login, $Client);
-        //   if (isset($response->challenge->challengeType) && ($response->challenge->challengeType == "SelectVerificationMethodForm")) {
+        $result = $this->make_login($login, $pass);
+        return $result;
+      } catch (InstaCheckpointException $exc) {
+        $res = $exc->GetChallange();
         $response = $this->get_challenge_data($res, $login, $choise);
-        //  }
         return $response;
       }
     }
 
-    public function get_challenge_data(string $challenge, string $login, VerificationChoice $choice = VerificationChoice::Email) {
+    public function get_challenge_data(string $challenge, string $login, int $choice = VerificationChoice::Email) {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::GET_CHALLENGE_CODE));
-        $mngr->setResourceId($resource_id);
-        $ch = $mngr->make_curl_str($this->proxy, $this->cookies);
+
+        $mngr->setChallengeData($challenge);
+        $mngr->setChoise($choice);
+        $ch = $mngr->make_curl_obj($this->proxy);
+        
         $html = curl_exec($ch);
+        var_dump($html);
         $info = curl_getinfo($ch);
-        $start = strpos($html, "{");
+        
+        $cookies = new Cookies();
+        $cookies->Csrf_Token = $mngr->get_cookies_value("csrftoken");
+        $cookies->Mid = $mngr->get_cookies_value("mid");
+        
+        $ci = &get_instance();
+        $ci->session->set_userdata(["cookies-challenge" => $cookies]);
+        
+        // LOGIN WITH CURL TO TEST
+        // Parse html response
+        $start = strpos($html, "200") != 0;
         $json_str = substr($html, $start);
-        $resposta = json_decode($json_str);
-        $this->cookies = $cookies;
-        var_dump($resposta);
-        return $resposta;
+        $json_response = json_decode($json_str);
+        var_dump($output);
       } catch (\Exception $exc) {
         var_dump($exc);
       }
-
-      /* $url = $ch = curl_init(InstaURLs::Instagram);
-        $csrftoken = $this->get_insta_csrftoken($ch);
-        $urlgen = $this->get_cookies_value('urlgen');
-        $mid = $this->get_cookies_value('mid');
-        $rur = $this->get_cookies_value('rur');
-        $ig_vw = $this->get_cookies_value('ig_vw');
-        $ig_pr = $this->get_cookies_value('ig_pr');
-        $ig_vh = $this->get_cookies_value('ig_vh');
-        $ig_or = $this->get_cookies_value('ig_or');
-
-        $url = InstaURLs::Instagram;
-        $url .= "/" . $challenge;
-
-        $cookies = new \stdClass();
-        $cookies->csrftoken = $csrftoken;
-        $cookies->mid = $mid;
-        $cookies->checkpoint_url = $challenge;
-
-        $headers[] = "Origin: https://www.instagram.com";
-        $headers[] = "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0' -H 'Accept: *//* ";
-        $headers[] = "Accept-Language: en-US,en;q=0.5";
-        $headers[] = "Referer: $url";
-        $headers[] = "X-CSRFToken: $csrftoken";
-        $headers[] = "X-Instagram-AJAX: 1";
-        $headers[] = "Content-Type: application/x-www-form-urlencoded";
-        $headers[] = "X-Requested-With: XMLHttpRequest";
-        $headers[] = "Cookie: csrftoken=$csrftoken; mid=$mid; rur=$rur; ig_vw=$ig_vw; ig_pr=$ig_pr; ig_vh=$ig_vh; ig_or=$ig_or";
-        $headers[] = "Connection: keep-alive";
-        $postinfo = "choice=$choice";
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        //curl_setopt($ch, CURLOPT_POST, true);
-        //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-        //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
-        curl_setopt($ch, CURLOPT_HEADER, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-       */
-      $html = curl_exec($ch);
-      $info = curl_getinfo($ch);
-      $start = strpos($html, "{");
-      $json_str = substr($html, $start);
-      $resposta = json_decode($json_str);
-      $this->cookies = $cookies;
-
-      return $resposta;
+      
+      return $response;
     }
 
     public function make_checkpoint(string $login, string $code) {

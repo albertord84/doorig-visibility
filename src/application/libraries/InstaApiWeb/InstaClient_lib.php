@@ -126,12 +126,12 @@ class InstaClient_lib {
     $this->InstaClient->curlResponseHeaderCallback($ch, $headerLine);
   }
 
-  public function checkpoint_requested(string $login, string $pass, VerificationChoice $choise = VerificationChoice::Email) {
+  public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
 
     $this->InstaClient->checkpoint_requested($login, $pass, $choise);
   }
 
-  public function get_challenge_data(string $challenge, string $login, VerificationChoice $choice = VerificationChoice::Email) {
+  public function get_challenge_data(string $challenge, string $login, int $choice = VerificationChoice::Email) {
 
     $this->InstaClient->get_challenge_data($challenge, $login, $choice);
   }
