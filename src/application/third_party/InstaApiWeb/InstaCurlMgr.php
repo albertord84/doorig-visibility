@@ -482,7 +482,49 @@ namespace InstaApiWeb {
 
       return $obj_curl;
     }
+    
+     
+    public function get_insta_csrftoken($ch) {
+      curl_setopt($ch, CURLOPT_URL, $this->Headers['RefererBase']);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+      curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+      curl_setopt($ch, CURLINFO_COOKIELIST, true);
+      curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+      global $cookies;
+      $cookies = array();
+      $response = curl_exec($ch);
+      $csrftoken = $this->get_cookies_value("csrftoken");
+      //var_dump($cookies);
+      return $csrftoken;
+    }
 
+    public function curlResponseHeaderCallback($ch, string $headerLine) {
+      global $cookies;
+      if (preg_match('/^Set-Cookie:\s*([^;]*)/mi', $headerLine, $cookie) == 1)
+        $cookies[] = $cookie;
+      //        $cookies[] = $headerLine;
+      return strlen($headerLine); // Needed by curl */
+    }
+
+    public function get_cookies_value($key) {
+      $value = NULL;
+      global $cookies;
+      foreach ($cookies as $index => $cookie) {
+        $pos = strpos($cookie[1], $key);
+        if ($pos !== FALSE) {
+          $value = explode("=", $cookie[1]);
+          if ($value[1] != "\"\"" && $value[1] != "" && $value[1] != NULL) {
+            $value = $value[1];
+            break;
+          }
+        }
+      }
+
+      return $value;
+    }
+    
     /**
      * Funcion de Utileria.
      * Construye cUrl tipo GET para obtener un post para los perfiles de Instagram ==> [Geo, HashTag, Person]  
@@ -497,25 +539,25 @@ namespace InstaApiWeb {
 
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null) {
-        $ck = sprintf("%s", $this->Headers['Cookie-big']);
+        $ck = sprintf("-H '%s'", $this->Headers['Cookie-big']);
         $ck = sprintf($ck, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
         $curl_str = sprintf("%s %s", $curl_str, $ck);
 
-        $csrf = sprintf("%s", $this->Headers['X-CSRFToken']);
+        $csrf = sprintf("-H '%s'", $this->Headers['X-CSRFToken']);
         $csrf = sprintf($csrf, $cookies->CsrfToken);
         $curl_str = sprintf("%s %s", $curl_str, $csrf);
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s", 
+      $curl_str = sprintf("%s -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' %s", 
         $curl_str, 
         $this->Headers['Origin'], 
         $this->Headers['AcceptEncodingGzip'], 
         $this->Headers['AcceptLanguage'], 
         $this->Headers['UserAgent'], 
-        $this->Headers['XRequested'], 
+        $this->Headers['X-Requested'], 
         $this->Headers['ContentTypeForm'], 
-        $this->Headers['Accept'], 
+        $this->Headers['AcceptAll'], 
         $this->Headers['RefererBase'], 
         $this->Headers['Authority'], 
         $this->Headers['compressed']);
@@ -539,18 +581,18 @@ namespace InstaApiWeb {
 
       // Paso 2. agregando la cookies a la curl
       if ($cookies != null) {
-        $ck = sprintf("%s", $this->Headers['Cookie-big']);
+        $ck = sprintf("-H '%s'", $this->Headers['Cookie-big']);
         $ck = sprintf($ck, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
         $curl_str = sprintf("%s %s", $curl_str, $ck);
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", 
+      $curl_str = sprintf("%s -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' %s", 
         $curl_str, $this->Headers['AcceptEncodingGzip'], 
-        $this->Headers['XRequested'], 
+        $this->Headers['X-Requested'], 
         $this->Headers['AcceptLanguage'], 
         $this->Headers['UserAgent'], 
-        $this->Headers['Accept'], 
+        $this->Headers['AcceptAll'], 
         $this->Headers['RefererBase'], 
         $this->Headers['Authority'], 
         $this->Headers['compressed']);
@@ -600,47 +642,6 @@ namespace InstaApiWeb {
       return $ch;
     }
 
-    public function get_insta_csrftoken($ch) {
-      curl_setopt($ch, CURLOPT_URL, $this->Headers['RefererBase']);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-      curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-      curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-      curl_setopt($ch, CURLINFO_COOKIELIST, true);
-      curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-      global $cookies;
-      $cookies = array();
-      $response = curl_exec($ch);
-      $csrftoken = $this->get_cookies_value("csrftoken");
-      //var_dump($cookies);
-      return $csrftoken;
-    }
-
-    public function curlResponseHeaderCallback($ch, string $headerLine) {
-      global $cookies;
-      if (preg_match('/^Set-Cookie:\s*([^;]*)/mi', $headerLine, $cookie) == 1)
-        $cookies[] = $cookie;
-      //        $cookies[] = $headerLine;
-      return strlen($headerLine); // Needed by curl */
-    }
-
-    public function get_cookies_value($key) {
-      $value = NULL;
-      global $cookies;
-      foreach ($cookies as $index => $cookie) {
-        $pos = strpos($cookie[1], $key);
-        if ($pos !== FALSE) {
-          $value = explode("=", $cookie[1]);
-          if ($value[1] != "\"\"" && $value[1] != "" && $value[1] != NULL) {
-            $value = $value[1];
-            break;
-          }
-        }
-      }
-
-      return $value;
-    }
-
     /**
      * Funcion de Utileria.
      * 
@@ -686,6 +687,10 @@ namespace InstaApiWeb {
       return $ch;
     }
 
+    /**
+     * Funcion de Utileria.
+     * 
+     */
     private function get_profile_info(Cookies $cookies = null, string $reference_user) {
       // Paso 1. configuracion inicial de la curl
       $sub = sprintf("%s/%s/?__a=1", $this->InstaURL['Base'], $reference_user);
@@ -693,19 +698,19 @@ namespace InstaApiWeb {
 
       // Paso 2. agregando la cookies a la curl
       if ($cookies != NULL) {
-        $ck = sprintf("%s", $this->Headers['Cookie-big']);
+        $ck = sprintf("-H '%s'", $this->Headers['Cookie-big']);
         $ck = sprintf($ck, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
         $curl_str = sprintf("%s %s", $curl_str, $ck);
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s", 
+      $curl_str = sprintf("%s -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' %s", 
         $curl_str, 
         $this->Headers['AcceptEncodingGzip'], 
-        $this->Headers['XRequested'], 
+        $this->Headers['X-Requested'], 
         $this->Headers['AcceptLanguage'], 
         $this->Headers['UserAgent'], 
-        $this->Headers['Accept'], 
+        $this->Headers['AcceptAll'], 
         $this->Headers['RefererBase'], 
         $this->Headers['Authority'], 
         $this->Headers['compressed']);
@@ -729,20 +734,20 @@ namespace InstaApiWeb {
 
         $csrf = sprintf("%s", $this->Headers['X-CSRFToken']);
         $csrf = sprintf($csrf, $cookies->CsrfToken);
-        $curl_str = sprintf("%s %s", $curl_str, $csrf);
+        $curl_str = sprintf("%s -H '%s'", $curl_str, $csrf);
       }
 
       // Paso 3. agregando el resto de los headers
-      $curl_str = sprintf("%s %s %s %s %s %s %s %s %s %s %s %s %s", 
+      $curl_str = sprintf("%s -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' %s", 
         $curl_str, 
         $this->Headers['Origin'], 
         $this->Headers['AcceptEncodingGzip'], 
         $this->Headers['AcceptLanguage'], 
         $this->Headers['UserAgent'], 
-        $this->Headers['XRequested'], 
+        $this->Headers['X-Requested'], 
         $this->Headers['X-Instagram-Ajax-Fix'], 
         $this->Headers['ContentTypeForm'], 
-        $this->Headers['Accept'], 
+        $this->Headers['AcceptAll'], 
         $this->Headers['RefererBase'], 
         $this->Headers['Authority'], 
         $this->Headers['ContentLength'], 
