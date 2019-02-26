@@ -58,7 +58,6 @@ namespace business\worker {
             $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id);
             $dailywork->Client = new \business\Client($work_data->client_id);
             $dailywork->Client->load_insta_data();
-
             return $dailywork;
         }
 
@@ -83,6 +82,21 @@ namespace business\worker {
         }
 
         public static function delete_dailywork(Client $client) {
+            
+        }
+        
+        public function save_work()
+        {
+           /* try {
+                //$DB = new \follows\cls\DB();
+                //$this->DB->save_unfollow_work($Followeds_to_unfollow);
+                $this->DB->save_unfollow_work_db2($Followeds_to_unfollow, $daily_work->client_id);
+                $this->DB->save_follow_work($Ref_profile_follows, $daily_work);
+                return TRUE;
+            } catch (\Exception $exc) {
+                echo $exc->getTraceAsString();
+                return FALSE;
+            }*/
             
         }
 
