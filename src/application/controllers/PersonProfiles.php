@@ -32,7 +32,7 @@ class PersonProfiles extends CI_Controller {
         $client_id = unserialize($this->session->userdata('client'))->Id;
         
         try {
-            $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id);
+            $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id, 0);
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;

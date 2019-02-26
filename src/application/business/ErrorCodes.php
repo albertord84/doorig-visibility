@@ -20,6 +20,7 @@ namespace business {
         const GMAIL_ERROR_SEND = 27;
         const VERIFICATION_CODE_DONOT_MATCH = 28;
         const VALIDATION_TOKEN_NOT_FOUND = 28;
+        const DATA_ALREADY_EXIST = 29;
 
         public static $Messages = array(
             ErrorCodes::EMAIL_NOT_FOUND => "Email não encontrado",
@@ -30,6 +31,7 @@ namespace business {
             ErrorCodes::DB_ERROR => "Database error",
             ErrorCodes::VERIFICATION_CODE_DONOT_MATCH => "Codigo de verificação não coinside com o enviado",
             ErrorCodes::VALIDATION_TOKEN_NOT_FOUND => "Codigo de validação não encontrado",
+            ErrorCodes::DATA_ALREADY_EXIST => "O dado informado ja existe",
             ErrorCodes::GMAIL_ERROR_SEND => "Error sending email"
         );
 
