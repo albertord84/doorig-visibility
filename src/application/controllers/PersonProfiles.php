@@ -7,7 +7,8 @@ use business\{
     Client as BusinessClient,
     ReferenceProfile,
     Response\Response,
-    Response\ResponseReferenceProfiles
+    Response\ResponseReferenceProfiles,
+    Response\ResponseInsertedObject
 };
 
 class PersonProfiles extends CI_Controller {
@@ -19,6 +20,7 @@ class PersonProfiles extends CI_Controller {
         require_once config_item('business-ref_profile-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-reference-profiles-class');
+        require_once config_item('business-response_inserted_object-class');
     }
 
     public function index() {
@@ -28,17 +30,18 @@ class PersonProfiles extends CI_Controller {
 
     public function insert_person_profile() {
         $datas = $this->input->post();
-        
+
         $client_id = unserialize($this->session->userdata('client'))->Id;
-        
+
         try {
             $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id, 0);
+
+            $response = new ResponseInsertedObject($id);
+            $response->toJson();
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;
         }
-
-        Response::ResponseOK()->toJson();
     }
 
     public function delete_person_profile() {
