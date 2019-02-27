@@ -29,6 +29,7 @@ class PersonProfiles extends CI_Controller {
     }
 
     public function insert_person_profile() {
+        
         $datas = $this->input->post();
 
         $client_id = unserialize($this->session->userdata('client'))->Id;
