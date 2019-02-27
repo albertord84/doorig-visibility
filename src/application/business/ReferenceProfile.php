@@ -86,9 +86,9 @@ namespace business {
             parent::__construct();
             $ci = &get_instance();
             $ci->load->model('reference_profile_model');
-            
+
+            $this->Id = $id;
             if ($id) {
-                $this->Id = $id;
                 $this->load_data();
             }
         }
@@ -99,7 +99,7 @@ namespace business {
 
             $this->fill_data($data);
         }
-        
+
         public function load_data_by_id(int $id) {
             $ci = &get_instance();
             $data = $ci->reference_profile_model->get_by_id($id);
@@ -111,7 +111,8 @@ namespace business {
             $ci = &get_instance();
             $data = $ci->reference_profile_model->get_by_insta_id($insta_id, $client_id);
 
-            $this->fill_data($data);
+            if ($data)
+                $this->fill_data($data);
         }
 
         protected function fill_data(\stdClass $data) {
@@ -127,7 +128,7 @@ namespace business {
             $this->Type = $data->type;
             $this->Last_access = $data->last_access;
             $this->Cursor = $data->cursor;
-            
+
             $ci = &get_instance();
             switch ($this->Type) {
                 case 0:
@@ -179,12 +180,10 @@ namespace business {
             try {
                 $RP = new ReferenceProfile();
                 $RP->load_data_by_insta_id($insta_id, $client_id);
-                return $status ? $RP->Status_id == $status : TRUE;
+                return ($RP->Id) && $RP->Status_id ? $RP->Status_id == $status : FALSE;
             } catch (\Exception $exc) {
                 //echo $exc->getTraceAsString();
             }
-
-            return FALSE;
         }
 
     }

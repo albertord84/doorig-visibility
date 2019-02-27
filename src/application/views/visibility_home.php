@@ -487,7 +487,6 @@
         <script src="<?php echo base_url()?>assets/js/visibility/mask.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/basics.js"></script>        
         <script src="<?php echo base_url()?>assets/js/visibility/dasboard.js"></script>        
-        <script src="<?php echo base_url()?>assets/js/visibility/ig_interactions.js"></script>        
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"></script>
         
     </body>

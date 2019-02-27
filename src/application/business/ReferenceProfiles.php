@@ -36,7 +36,7 @@ namespace business {
          * 
          * @throws Exception
          */
-        public function load_data(int $status = 0, int $type = -1) {
+        public function load_data(int $status = 1, int $type = -1) {
             $CI = &get_instance();
             $CI->load->model("Reference_profile_model");
             $data = $CI->Reference_profile_model->get_all_id($this->Client->Id, $status, $type);

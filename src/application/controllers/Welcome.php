@@ -34,15 +34,13 @@ class Welcome extends CI_Controller {
     public function index($access_token, $client_id) {
         $ClientModule = $this->check_access_token($access_token, $client_id);
         if ($ClientModule) {
-
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals', '', TRUE);
-
             if ($ClientModule->Active) {
                 $Client = new Client($ClientModule->Id);
                 $Client->load_data();
-                $this->session->set_userdata('client', serialize($Client)); 
-                
+                $Client->ReferenceProfiles->load();
+                $this->session->set_userdata('client', serialize($Client));
                 $param["client"] = $Client; 
                 $this->load->view('visibility_client', $param);
             } else {
