@@ -7,7 +7,8 @@ use business\{
     Client as BusinessClient,
     ReferenceProfile,
     Response\Response,
-    Response\ResponseReferenceProfiles
+    Response\ResponseReferenceProfiles,
+    Response\ResponseInsertedObject
 };
 
 class PersonProfiles extends CI_Controller {
@@ -19,6 +20,7 @@ class PersonProfiles extends CI_Controller {
         require_once config_item('business-ref_profile-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-reference-profiles-class');
+        require_once config_item('business-response_inserted_object-class');
     }
 
     public function index() {
@@ -29,18 +31,18 @@ class PersonProfiles extends CI_Controller {
     public function insert_person_profile() {
         
         $datas = $this->input->post();
-        
+
         $client_id = unserialize($this->session->userdata('client'))->Id;
-        //$client_id = 1;
-        
+
         try {
             $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id, 0);
+
+            $response = new ResponseInsertedObject($id);
+            $response->toJson();
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;
         }
-
-        Response::ResponseOK()->toJson();
     }
 
     public function delete_person_profile() {
@@ -61,11 +63,12 @@ class PersonProfiles extends CI_Controller {
         $datas = $this->input->post();
 
         try {
-            $client_id = 1; //$this->session->userdata('client_id');
+            //            $client_id = $this->session->userdata('client_id');
+            $client_id = 1;
 
             $Client = new BusinessClient($client_id);
             $status = 1; // ACTIVE
-            $type = -1;   // Person Profile
+            $type = 0;   // Person Profile
             $Client->load_insta_reference_profiles_data($status, $type);
 
             $Response = new ResponseReferenceProfiles($Client->ReferenceProfiles);

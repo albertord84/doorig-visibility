@@ -124,8 +124,7 @@ class Clients_model extends CI_Model {
     $this->db->where('user_id', $user_id);
     $query = $this->db->get('clients');
     return $query->row();
-  }
-  
+  }  
    
   function get_all($offset = 0, $rows = 0) {
     $this->db->limit($offset, $rows);
@@ -136,6 +135,18 @@ class Clients_model extends CI_Model {
     return $query->result();
   }
   
+  
+    function update_last_acctess($id, $time)
+    {
+        $data = array(
+               'last_access' => "'$title'"
+            );        
+        $this->db->where('user_id', $id);
+        $this->db->update('client', $data);  
+    }
+  
+  
+  /*DB Model function*/
   public function get_clients_by_status($user_status, $offset = 0, $rows = 50) {
     try {
       $sql = sprintf("SELECT * FROM users
@@ -212,7 +223,7 @@ class Clients_model extends CI_Model {
       }
     }
   }
-
+  
   public function get_client_payment_data($client_id) {
     try {
       

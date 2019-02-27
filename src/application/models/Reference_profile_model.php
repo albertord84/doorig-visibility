@@ -120,6 +120,15 @@ class Reference_profile_model extends CI_Model {
         return $query->result();
     }
 
+            
+    function update_last_acctess($id, $time)
+    {
+        $data = array(
+               'last_access' => "'$title'"
+            );        
+        $this->db->where('id', $id);
+        $this->db->update('reference_profile', $data);  
+    }
 }
 ?>
 

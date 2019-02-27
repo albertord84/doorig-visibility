@@ -180,7 +180,11 @@ namespace business {
             try {
                 $RP = new ReferenceProfile();
                 $RP->load_data_by_insta_id($insta_id, $client_id);
-                return ($RP->Id) && $RP->Status_id ? $RP->Status_id == $status : FALSE;
+
+                $exist = $RP->Id > 0;
+                if ($exist && $status)
+                    $exist = $RP->Status_id == $status;
+                return $exist;
             } catch (\Exception $exc) {
                 //echo $exc->getTraceAsString();
             }

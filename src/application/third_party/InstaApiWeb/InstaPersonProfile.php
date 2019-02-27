@@ -6,11 +6,13 @@ namespace InstaApiWeb {
     require_once config_item('thirdparty-insta_ref_profile-resource');
     require_once config_item('thirdparty-insta_profile-resource');
     require_once config_item('thirdparty-followers-response-class');
+    require_once config_item('insta-exception-class');
 
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
     use InstaApiWeb\Responses\FollowersResponse;
     use InstaApiWeb\InstaProfile;
+    use InstaApiWeb\Exceptions\InstaException;
 
     /**
      * Description of PersonProfile
@@ -78,7 +80,8 @@ namespace InstaApiWeb {
                 return new FollowersResponse(array(), '', false, 1, $message);
             }
 
-            throw new \InstaException("unknown exception response $json_response");
+            // JOSE REVISAR!!!!
+            throw new InstaException("unknown exception response $json_response", -1);
         }
 
         public function get_insta_followers_list(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {

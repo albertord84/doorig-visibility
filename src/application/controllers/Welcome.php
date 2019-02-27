@@ -20,7 +20,7 @@ class Welcome extends CI_Controller {
         require_once config_item('business-insta_commands-class');
         require_once config_item('business-user_status-class');
     }
-    
+
     public function index($access_token, $client_id) {
         //1. check correct access_token
         $ClientModule = $this->check_access_token($access_token, $client_id);        
@@ -60,8 +60,7 @@ class Welcome extends CI_Controller {
                         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
                         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                         break;
-                }
-                
+                }   
                 $this->load->view('visibility_client', $param);
             } else {                
                 $this->load->view('visibility_home', $param);
@@ -146,7 +145,7 @@ class Welcome extends CI_Controller {
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "welcome/confirm_access_token";
             $GuzClient = new \GuzzleHttp\Client();
             $response = $GuzClient->post($url, [
-                GuzzleHttp\RequestOptions::FORM_PARAMS => [                    
+                GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'module_id' => $GLOBALS['sistem_config']->module_id,
                     'client_id' => $client_id,
                     'access_token' => $access_token
@@ -164,10 +163,10 @@ class Welcome extends CI_Controller {
         }
         return FALSE;
     }
-    
-    public function get_person_profile_datas(){
-        $profile_name = (string)$this->input->post()["profile"];
-        $profile_name="josergm86";
+
+    public function get_person_profile_datas() {
+        $profile_name = (string) $this->input->post()["profile"];
+        $profile_name = "josergm86";
         $result = InstaCommands::get_profile_public_data($profile_name);
         echo \GuzzleHttp\json_encode($result);
     }
