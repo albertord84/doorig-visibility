@@ -90,7 +90,7 @@ namespace InstaApiWeb {
         var_dump($e);
       }
     }
-    
+
     /*
       public function make_insta_friendships_command(string $resource_id, string $command = 'follow', string $objetive_url = 'web/friendships') {
       $insta = InstaURLs::Instagram;
@@ -354,26 +354,26 @@ namespace InstaApiWeb {
         $mngr->setChallengeCode($challenge);
         $mngr->setChoise($choice);
         $ch = $mngr->make_curl_obj($this->proxy);
-        
+
         $html = curl_exec($ch);
         var_dump($html);
         $info = curl_getinfo($ch);
-        
+
         $cookies = new Cookies();
         $cookies->CsrfToken = $mngr->get_cookies_value("csrftoken");
         $cookies->Mid = $mngr->get_cookies_value("mid");
         $cookies->Challenge = $challenge;
-        
+
         $ci = &get_instance();
         $ci->session->set_userdata(["cookies-challenge" => $cookies]);
         var_dump($cookies);
-        
+
         // LOGIN WITH CURL TO TEST
         // Parse html response
         curl_close($ch);
         $start = strpos($html, "200") != 0;
         $json_str = substr($html, $start);
-        
+
         return $json_response = json_decode($json_str);
       } catch (\Exception $exc) {
         var_dump($exc);
@@ -382,37 +382,41 @@ namespace InstaApiWeb {
 
     public function make_checkpoint(string $login, string $code) {
       $ci = &get_instance();
-      $cookies = new \InstaApiWeb\Cookies();
-      $cookies = $ci->session->userdata("cookies-challenge");
-      $csrftoken = $cookies->CsrfToken;
-      $challenge = $cookies->Challenge;
-      $mid = $cookies->Mid;
-      var_dump($challenge);
-      
+      $checkpoint_cookies = new \InstaApiWeb\Cookies();
+      $checkpoint_cookies = unserialize(serialize($ci->session->userdata("cookies-challenge")));
+      $csrftoken = $checkpoint_cookies->CsrfToken;
+      $challenge = $checkpoint_cookies->Challenge;
+      $mid = $checkpoint_cookies->Mid;
+
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_CHECKPOINT));
         $mngr->setChallengeCode($challenge);
         $mngr->setSecurityCode($code);
-        
-        $ch = $mngr->make_curl_obj($this->proxy, $cookies);
+
+        $ch = $mngr->make_curl_obj($this->proxy, $checkpoint_cookies);
+        global $cookies;
+        $cookies = array();
         $html = curl_exec($ch);
-        var_dump($html);
+        print_r($html);
         $info = curl_getinfo($ch);
-        
+
         $start = strpos($html, "200") != 0;
         $json_str = substr($html, $start);
         $json_response = json_decode($json_str);
 
+        var_dump($cookies);
+        var_dump($json_response);
+
         $login_data = new \stdClass();
         $login_data->json_response = $json_response;
-        if (count($cookies) >= 2 && $start) {
+        if (count($checkpoint_cookies) >= 2 && $start) {
           $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
 
           $login_data->csrftoken = $mngr->get_cookies_value("csrftoken");
           $login_data->sessionid = $mngr->get_cookies_value("sessionid");
           $login_data->ds_user_id = $mngr->get_cookies_value("ds_user_id");
           $login_data->mid = $mngr->get_cookies_value("mid");
-          
+
           if ($login_data->mid == NULL || $login_data->mid == "") {
             $login_data->mid = $mid;
           }
@@ -421,51 +425,51 @@ namespace InstaApiWeb {
           $login_data->json_response = json_decode('{"authenticated":false, "status":"fail"}');
         }
 
+        var_dump($login_data);
+
         curl_close($ch);
         $this->cookies = $login_data;
         return $login_data;
-      }
-      catch(\Exception $exc){
+      } catch (\Exception $exc) {
         
       }
-      
-      
-      /*$url = InstaURLs::Instagram . "/" . $cookies->checkpoint_url;
-      $ch = curl_init(InstaURLs::Instagram);
-      $headers = array();
 
-      $postinfo = "security_code=$code";
-      $headers[] = "Origin: https://www.instagram.com";
-      $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
-//            $headers[] = "Accept: application/json";
-      $headers[] = "Accept: **";
-      $headers[] = "Accept-Language: en-US,en;q=0.5, ";
-      $headers[] = "Accept-Encoding: gzip, deflate, br";
-      $headers[] = "Referer: $url";
-      $headers[] = "X-CSRFToken: $csrftoken";
-      $headers[] = "X-Instagram-AJAX: 1";
-      $headers[] = "Content-Type: application/x-www-form-urlencoded";
-//            $headers[] = "Content-Type: application/json";
-      $headers[] = "X-Requested-With: XMLHttpRequest";
-      $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
 
-      curl_setopt($ch, CURLOPT_URL, $url);
-      curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-//curl_setopt($ch, CURLOPT_POST, true);
-//            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
-//            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
-      curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
-      curl_setopt($ch, CURLOPT_HEADER, 1);
-      curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-      curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
-      global $cookies;
-      $cookies = array();
-      $html = curl_exec($ch);
-      $info = curl_getinfo($ch);*/
-      
+      /* $url = InstaURLs::Instagram . "/" . $cookies->checkpoint_url;
+        $ch = curl_init(InstaURLs::Instagram);
+        $headers = array();
+
+        $postinfo = "security_code=$code";
+        $headers[] = "Origin: https://www.instagram.com";
+        $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
+        //            $headers[] = "Accept: application/json";
+        $headers[] = "Accept: **";
+        $headers[] = "Accept-Language: en-US,en;q=0.5, ";
+        $headers[] = "Accept-Encoding: gzip, deflate, br";
+        $headers[] = "Referer: $url";
+        $headers[] = "X-CSRFToken: $csrftoken";
+        $headers[] = "X-Instagram-AJAX: 1";
+        $headers[] = "Content-Type: application/x-www-form-urlencoded";
+        //            $headers[] = "Content-Type: application/json";
+        $headers[] = "X-Requested-With: XMLHttpRequest";
+        $headers[] = "Cookie: mid=$mid; csrftoken=$csrftoken";
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        //curl_setopt($ch, CURLOPT_POST, true);
+        //            curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+        //            curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
+        curl_setopt($ch, CURLOPT_HEADER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
+        global $cookies;
+        $cookies = array();
+        $html = curl_exec($ch);
+        $info = curl_getinfo($ch); */
+
 // LOGIN WITH CURL TO TEST
 // Parse html response
-
     }
 
     public function TurnOn_Logs() {
