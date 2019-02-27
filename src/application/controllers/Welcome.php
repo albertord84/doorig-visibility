@@ -21,9 +21,20 @@ class Welcome extends CI_Controller {
         require_once config_item('business-user_status-class');
     }
 
+    public function object_to_array($data) {
+        if (is_array($data) || is_object($data)) {
+            $result = array();
+            foreach ($data as $key => $value) {
+                $result[$key] = object_to_array($value);
+            }
+            return $result;
+        }
+        return $data;
+    }
+
     public function index($access_token, $client_id) {
         //1. check correct access_token
-        $ClientModule = $this->check_access_token($access_token, $client_id);        
+        $ClientModule = $this->check_access_token($access_token, $client_id);
         if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
             $this->session->set_userdata('client_module', serialize($ClientModule));
@@ -33,16 +44,24 @@ class Welcome extends CI_Controller {
                 //3. load Mark datas from DB and set in session 
                 $Client = new Client($ClientModule->Id);
                 $Client->load_data();
-                $Client->ReferenceProfiles->load_data();                
+                $Client->ReferenceProfiles->load_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. set Mark datas as params to be used in visibility_client view
-                $param["client_as_json"] = json_encode(serialize($Client));
+
+
+
+                $param["client_as_json"] = $this->object_to_array($Client);
+                var_dump($param["client_as_json"]);
+                die;
+
+
+
                 //5. set painel_person_profile as params to be display in visibility_client view
-                $param["painel_person_profile"]=NULL;
-                $param["painel_reference_profiles"]=NULL;
+                $param["painel_person_profile"] = NULL;
+                $param["painel_reference_profiles"] = NULL;
                 $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
                 //6. load painel_by_status as params to be display in visibility_client view
-                $param["painel_by_status"]=NULL;
+                $param["painel_by_status"] = NULL;
                 switch ($Client->Status) {
                     case UserStatus::VERIFY_ACCOUNT:
                         $param["painel_by_status"] = $this->load->view('client_views/block_by_time_view', '', TRUE);
@@ -60,9 +79,9 @@ class Welcome extends CI_Controller {
                         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
                         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                         break;
-                }   
+                }
                 $this->load->view('visibility_client', $param);
-            } else {                
+            } else {
                 $this->load->view('visibility_home', $param);
             }
         } else {
@@ -80,7 +99,7 @@ class Welcome extends CI_Controller {
         $datas["passwordrep"];
         //2. save mark in DB using client_id as follow:
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
-        
+
         //3. return response
         return Response::ResponseOK()->toJson();
     }
@@ -90,24 +109,19 @@ class Welcome extends CI_Controller {
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
         //1. set plane in la DB
         $datas["plane"];  //midle, fast, very_fast
-        
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
-        
         //3. return response
         return Response::ResponseOK()->toJson();
     }
-    
+
     public function contrated_module() { //is called in onclick event of FINALIZAR button
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
         //1. force login with Intagram
-        
         //2. set status of profile in doorig_visibility_db
         //(ACTIVE, BLOQ_PASS, VERIFY_ACCOUNT)
-        
         //3. redirect to index
-        header("Location:" . base_url()."index.php/welcome/index/ok/".$client_id);
+        header("Location:" . base_url() . "index.php/welcome/index/ok/" . $client_id);
     }
-    
 
     //---------------SECUNDARY FUNCTIONS-----------------------------
     public function call_to_generate_access_token() {

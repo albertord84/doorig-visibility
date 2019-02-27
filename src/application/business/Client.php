@@ -20,6 +20,7 @@ namespace business {
     public $InstaCurlInfo;
     public $InstaContactInfo;       // Client intagram general information Class
     public $ReferenceProfiles;      // Client referent profiles Class
+    public $DailyReport;            // Client daily report Class
 
     public function __construct(int $id) {
       parent::__construct($id);
@@ -27,6 +28,7 @@ namespace business {
       $this->InstaCurlInfo = new InstaCurlInfo($this);
       //$this->InstaContactInfo = new InstaContactInfo($this);
       $this->ReferenceProfiles = new ReferenceProfiles($this);
+      //$this->DailyReport = new DailyReport($this);
     }
 
     public function load_data() {
