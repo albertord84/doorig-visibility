@@ -62,7 +62,8 @@ class PersonProfiles extends CI_Controller {
         $datas = $this->input->post();
 
         try {
-            $client_id = 1; //$this->session->userdata('client_id');
+            //            $client_id = $this->session->userdata('client_id');
+            $client_id = 1;
 
             $Client = new BusinessClient($client_id);
             $status = 1; // ACTIVE
