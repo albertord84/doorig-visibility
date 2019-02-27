@@ -68,7 +68,7 @@ class PersonProfiles extends CI_Controller {
 
             $Client = new BusinessClient($client_id);
             $status = 1; // ACTIVE
-            $type = -1;   // Person Profile
+            $type = 0;   // Person Profile
             $Client->load_insta_reference_profiles_data($status, $type);
 
             $Response = new ResponseReferenceProfiles($Client->ReferenceProfiles);
