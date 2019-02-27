@@ -366,6 +366,7 @@ namespace InstaApiWeb {
         
         $ci = &get_instance();
         $ci->session->set_userdata(["cookies-challenge" => $cookies]);
+        var_dump($cookies);
         
         // LOGIN WITH CURL TO TEST
         // Parse html response
@@ -384,11 +385,13 @@ namespace InstaApiWeb {
       $cookies = new \InstaApiWeb\Cookies();
       $cookies = $ci->session->userdata("cookies-challenge");
       $csrftoken = $cookies->CsrfToken;
+      $challenge = $cookies->Challenge;
       $mid = $cookies->Mid;
+      var_dump($challenge);
       
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_CHECKPOINT));
-        $mngr->setChallengeCode($cookies->Challenge);
+        $mngr->setChallengeCode($challenge);
         $mngr->setSecurityCode($code);
         
         $ch = $mngr->make_curl_obj($this->proxy, $cookies);
