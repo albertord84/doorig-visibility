@@ -213,9 +213,9 @@
                                                                     <div class="stepwizard-step">
                                                                         <a href="#step-2" type="button" class="btn btn-secondary btn-circle" disabled="disabled">2</a>
                                                                     </div>
-                                                                    <div class="stepwizard-step">
+                                                                    <!--<div class="stepwizard-step">
                                                                         <a href="#step-3" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
-                                                                    </div>                                                                    
+                                                                    </div> -->                                                                   
                                                                 </div>
                                                                 <br>
                                                             </div>
@@ -281,9 +281,9 @@
                                                                     <div class="stepwizard-step">
                                                                         <a href="#step-2" type="button" class="btn btn-info btn-circle">2</a>
                                                                     </div>
-                                                                    <div class="stepwizard-step">
+                                                                    <!--<div class="stepwizard-step">
                                                                         <a href="#step-3" type="button" class="btn btn-secondary btn-circle" disabled="disabled">3</a>
-                                                                    </div>
+                                                                    </div>-->
                                                                 </div>
                                                                 <br>
                                                             </div>                                                            
@@ -355,7 +355,7 @@
                                                                     <div class="col-md-8 text-right" style="margin-top:40px">
                                                                         <button id="btn-contract-steep-2" type="button" class="btn btn-info" style="padding:10px 30px 10px 30px">
                                                                             <i class="fa fa-spinner fa-spin myspinner"></i>
-                                                                            Seguinte
+                                                                            Finalizar
                                                                         </button>                                                                    
                                                                     </div>
                                                                     <div class="col-md-2"></div>
@@ -367,9 +367,9 @@
                                                 </section>
                                                                 
                                             <!-- Steep 3 -->         
-                                                <section class="sigin-painel-steep-3" style="display:none;">
+                                                <!--<section class="sigin-painel-steep-3" style="display:none;">-->
                                                     <!-- Wizzard 3 -->
-                                                    <div class="row">
+                                                    <!--<div class="row">
                                                         <div class="col-md-2"></div>
                                                         <div class="col-md-8">
                                                             <div class="stepwizard" style="width: 100%">
@@ -388,9 +388,9 @@
                                                             </div>                                                            
                                                         </div>
                                                         <div class="col-md-2"></div>                                                        
-                                                    </div>
+                                                    </div>-->
                                                     <!-- Form 3 -->
-                                                    <div id="container-add-reference-profile">
+                                                    <!--<div id="container-add-reference-profile">
                                                         <div class="row">
                                                             <div class="col-md-2"></div>
                                                             <div class="col-md-8">
@@ -415,7 +415,7 @@
                                                             <div class="col-md-10">
                                                                 <div class="container container-profiles">
                                                                     <div id="container-reference-profiles" class="row">
-                                                                        <!-- PROFILES HERE AS A col-md-4 ELEMENT ADDED OR LOADED IN REAL TIME -->
+                                                                        
                                                                     </div>                                                                    
                                                                 </div>
                                                                 <div class="row">
@@ -431,8 +431,8 @@
                                                             </div>
                                                             <div class="col-md-1"></div>
                                                         </div> 
-                                                    </div>
-                                                </section>
+                                                    </div>-->
+                                                <!--</section>-->
                                         </div>
                                     </div>
                                 </div>
@@ -487,6 +487,7 @@
         <script src="<?php echo base_url()?>assets/js/visibility/mask.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/basics.js"></script>        
         <script src="<?php echo base_url()?>assets/js/visibility/dasboard.js"></script>        
+        <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"></script>
         
     </body>
