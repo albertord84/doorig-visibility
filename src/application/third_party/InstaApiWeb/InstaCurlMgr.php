@@ -226,7 +226,7 @@ namespace InstaApiWeb {
     private $ResourceId;
     private $ProfileType;
     private $SecurityCode;
-    private $CheckpointUrl;
+    //private $CheckpointUrl;
     private $ReferenceUser;
     private $ReferencePost;
     private $Headers = array(array());
@@ -248,7 +248,7 @@ namespace InstaApiWeb {
       $this->SecurityCode = null;
       $this->ReferencePost = null;
       $this->ReferenceUser = null;
-      $this->CheckpointUrl = null;
+      //$this->CheckpointUrl = null;
       $this->ProfileType = $profile;
       $this->ActionType = $action;
 
@@ -332,7 +332,7 @@ namespace InstaApiWeb {
      * 
      * @param string $challenge
      */
-    public function setChallengeData(string $challenge) {
+    public function setChallengeCode(string $challenge) {
       $this->Challenge = $challenge;
     }
 
@@ -346,11 +346,11 @@ namespace InstaApiWeb {
 
     /**
      * 
-     * @param string $checkpoint
+     * @param string $checkpoint_url
      */
-    public function setCheckpointUrl(string $checkpoint) {
-      $this->CheckpointUrl = $checkpoint;
-    }
+    /*public function setCheckpointUrl(string $checkpoint_url) {
+      $this->CheckpointUrl = $checkpoint_url;
+    }*/
 
     /**
      * 
@@ -441,13 +441,13 @@ namespace InstaApiWeb {
 
       switch ($profile + $action) {
         case EnumEntity::CLIENT + EnumAction::CMD_CHECKPOINT:
-          if ($this->CheckpointUrl == null) {
-            throw new InstaCurlArgumentException("The parameter (checkpoint_url) was not given!!!. Use: setCheckpointUrl(string).");
+          if ($this->Challenge == null) {
+            throw new InstaCurlArgumentException("The parameter (challenge) was not given!!!. Use: setChallenge(string).");
           }
           if ($this->SecurityCode == null) {
             throw new InstaCurlArgumentException("The parameter (security_code) was not given!!!. Use: setSecurityCode(string).");
           }
-          $obj_curl = $this->cmd_checkpoint($cookies, $this->CheckpointUrl, $this->SecurityCode);
+          $obj_curl = $this->cmd_checkpoint($cookies, $this->Challenge, $this->SecurityCode);
           break;
 
         case EnumEntity::CLIENT + EnumAction::GET_CHALLENGE_CODE:
@@ -482,10 +482,10 @@ namespace InstaApiWeb {
 
       return $obj_curl;
     }
-    
-     
+   
+ 
     public function get_insta_csrftoken($ch) {
-      curl_setopt($ch, CURLOPT_URL, $this->Headers['RefererBase']);
+      curl_setopt($ch, CURLOPT_URL, $this->InstaURL['Base']);
       curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
       curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
@@ -647,7 +647,7 @@ namespace InstaApiWeb {
      * 
      */
     private function get_challenge(string $challenge, string $choice) {
-      $url = $ch = curl_init($this->InstaURL['Base']);
+      $ch = curl_init($this->InstaURL['Base']);
       $csrftoken = $this->get_insta_csrftoken($ch);
       $mid = $this->get_cookies_value('mid');
 
@@ -760,9 +760,9 @@ namespace InstaApiWeb {
      * Funcion de Utileria.
      * 
      */
-    private function cmd_checkpoint(Cookies $cookies = null, string $checkpoint, string $code) {
+    private function cmd_checkpoint(Cookies $cookies = null, string $challenge, string $code) {
       $postinfo = sprintf("security_code=%s", $code);
-      $url = sprintf("%s/%s", $this->InstaURL['Base'], $checkpoint);
+      $url = sprintf("%s%s", $this->InstaURL['Base'], $challenge);
 
       $headers = array();
       $headers[] = $this->Headers['Origin'];
