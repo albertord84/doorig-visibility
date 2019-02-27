@@ -403,16 +403,10 @@ namespace InstaApiWeb {
         if (count($cookies) >= 2 && $start) {
           $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
 
-          $login_data->csrftoken = $this->get_cookies_value("csrftoken");
-          
-          // Get sessionid from cookies
-          $login_data->sessionid = $this->get_cookies_value("sessionid");
-          
-           // Get ds_user_id from cookies
-          $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
-
-          // Get mid from cookies
-          $login_data->mid = $this->get_cookies_value("mid");
+          $login_data->csrftoken = $mngr->get_cookies_value("csrftoken");
+          $login_data->sessionid = $mngr->get_cookies_value("sessionid");
+          $login_data->ds_user_id = $mngr->get_cookies_value("ds_user_id");
+          $login_data->mid = $mngr->get_cookies_value("mid");
           
           if ($login_data->mid == NULL || $login_data->mid == "") {
             $login_data->mid = $mid;

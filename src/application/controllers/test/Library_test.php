@@ -330,6 +330,7 @@ class Library_test extends CI_Controller {
   
   public function curl()
   {
+    /*
     echo "<pre>";
     echo "<h2>Test PersonProfile Library</h2>";
     echo "[load] PersonProfile_lib ==> ";
@@ -338,11 +339,9 @@ class Library_test extends CI_Controller {
     $result = $this->InstaProfile_lib->get_user_data("leticiajural", $cookies, null);
     var_dump($result);
     echo "(<b>ok</b>)<br>";
+    */
     
-    
-    
-    
-    
+       
     echo "<pre>";
     echo "<h2>Test GeoProfile Library</h2>";
     echo "[load] GeoProfile_lib ==> ";

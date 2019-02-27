@@ -398,7 +398,7 @@ namespace InstaApiWeb {
           if ($this->ReferencePost == null) {
             throw new InstaCurlArgumentException("The parameter (reference_post) was not given!!!. Use: setReferencePost(string).");
           }
-          $str_curl = $this->get_user_info_post($proxy, $cookies, $this->ReferencePost);
+          $str_curl = $this->get_owner_post($proxy, $cookies, $this->ReferencePost);
           break;
 
         case EnumEntity::GEO + EnumAction::GET_OWNER_POST_DATA:
