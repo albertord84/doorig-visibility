@@ -336,10 +336,12 @@ namespace InstaApiWeb {
 
     public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
       try {
+
         $result = $this->make_login($login, $pass);
         return $result;
       } catch (InstaCheckpointException $exc) {
         $res = $exc->GetChallange();
+
         $response = $this->get_challenge_data($res, $login, $choise);
         return $response;
       }
@@ -349,7 +351,7 @@ namespace InstaApiWeb {
       try {
         $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::GET_CHALLENGE_CODE));
 
-        $mngr->setChallengeData($challenge);
+        $mngr->setChallengeCode($challenge);
         $mngr->setChoise($choice);
         $ch = $mngr->make_curl_obj($this->proxy);
         
@@ -358,29 +360,74 @@ namespace InstaApiWeb {
         $info = curl_getinfo($ch);
         
         $cookies = new Cookies();
-        $cookies->Csrf_Token = $mngr->get_cookies_value("csrftoken");
+        $cookies->CsrfToken = $mngr->get_cookies_value("csrftoken");
         $cookies->Mid = $mngr->get_cookies_value("mid");
+        $cookies->Challenge = $challenge;
         
         $ci = &get_instance();
         $ci->session->set_userdata(["cookies-challenge" => $cookies]);
         
         // LOGIN WITH CURL TO TEST
         // Parse html response
+        curl_close($ch);
         $start = strpos($html, "200") != 0;
         $json_str = substr($html, $start);
-        $json_response = json_decode($json_str);
-        var_dump($output);
+        
+        return $json_response = json_decode($json_str);
       } catch (\Exception $exc) {
         var_dump($exc);
       }
-      
-      return $response;
     }
 
     public function make_checkpoint(string $login, string $code) {
-      $csrftoken = $this->cookies->csrftoken;
-      $mid = $this->cookies->mid;
-      $url = InstaURLs::Instagram . "/" . $this->cookies->checkpoint_url;
+      $ci = &get_instance();
+      $cookies = new \InstaApiWeb\Cookies();
+      $cookies = $ci->session->userdata("cookies-challenge");
+      $csrftoken = $cookies->CsrfToken;
+      $mid = $cookies->Mid;
+      
+      try {
+        $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_CHECKPOINT));
+        $mngr->setChallengeCode($cookies->Challenge);
+        $mngr->setSecurityCode($code);
+        
+        $ch = $mngr->make_curl_obj($this->proxy, $cookies);
+        $html = curl_exec($ch);
+        var_dump($html);
+        $info = curl_getinfo($ch);
+        
+        $start = strpos($html, "200") != 0;
+        $json_str = substr($html, $start);
+        $json_response = json_decode($json_str);
+
+        $login_data = new \stdClass();
+        $login_data->json_response = $json_response;
+        if (count($cookies) >= 2 && $start) {
+          $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
+
+          $login_data->csrftoken = $mngr->get_cookies_value("csrftoken");
+          $login_data->sessionid = $mngr->get_cookies_value("sessionid");
+          $login_data->ds_user_id = $mngr->get_cookies_value("ds_user_id");
+          $login_data->mid = $mngr->get_cookies_value("mid");
+          
+          if ($login_data->mid == NULL || $login_data->mid == "") {
+            $login_data->mid = $mid;
+          }
+          //(new \follows\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
+        } else {
+          $login_data->json_response = json_decode('{"authenticated":false, "status":"fail"}');
+        }
+
+        curl_close($ch);
+        $this->cookies = $login_data;
+        return $login_data;
+      }
+      catch(\Exception $exc){
+        
+      }
+      
+      
+      /*$url = InstaURLs::Instagram . "/" . $cookies->checkpoint_url;
       $ch = curl_init(InstaURLs::Instagram);
       $headers = array();
 
@@ -388,7 +435,7 @@ namespace InstaApiWeb {
       $headers[] = "Origin: https://www.instagram.com";
       $headers[] = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:49.0) Gecko/20100101 Firefox/49.0";
 //            $headers[] = "Accept: application/json";
-      $headers[] = "Accept: */*";
+      $headers[] = "Accept: **";
       $headers[] = "Accept-Language: en-US,en;q=0.5, ";
       $headers[] = "Accept-Encoding: gzip, deflate, br";
       $headers[] = "Referer: $url";
@@ -411,39 +458,11 @@ namespace InstaApiWeb {
       global $cookies;
       $cookies = array();
       $html = curl_exec($ch);
-      $info = curl_getinfo($ch);
+      $info = curl_getinfo($ch);*/
+      
 // LOGIN WITH CURL TO TEST
 // Parse html response
-      $start = strpos($html, "200") != 0;
-      $json_str = substr($html, $start);
-      $json_response = json_decode($json_str);
-//
-      $login_data = new \stdClass();
-      $login_data->json_response = $json_response;
-      if (count($cookies) >= 2 && $start) {
 
-        $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
-
-        $login_data->csrftoken = $this->get_cookies_value("csrftoken");
-// Get sessionid from cookies
-
-        $login_data->sessionid = $this->get_cookies_value("sessionid");
-// Get ds_user_id from cookies
-        $login_data->ds_user_id = $this->get_cookies_value("ds_user_id");
-
-// Get mid from cookies
-        $login_data->mid = $this->get_cookies_value("mid");
-        if ($login_data->mid == NULL || $login_data->mid == "") {
-          $login_data->mid = $mid;
-        }
-        (new \follows\cls\Client())->set_client_cookies($Client->id, json_encode($login_data));
-      } else {
-        $login_data->json_response = json_decode('{"authenticated":false, "status":"fail"}');
-      }
-
-      curl_close($ch);
-      $this->cookies = $login_data;
-      return $login_data;
     }
 
     public function TurnOn_Logs() {

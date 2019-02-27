@@ -97,3 +97,27 @@ $db['default'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
+
+$db['followed'] = array(
+    'dsn' => '',
+    'hostname' => $config["database"]["host"],
+    'username' => $config["database"]["user"],
+    'password' => $config["database"]["pass"],
+    'database' => $config["database"]["db"],
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'develop'),
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
+
+

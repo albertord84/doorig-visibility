@@ -7,7 +7,7 @@ use InstaApiWeb\Cookies;
 use InstaApiWeb\InstaURLs;
 use InstaApiWeb\InstaClient;
 use InstaApiWeb\VerificationChoice;
-use InstaApiWeb\Responses\LoginResponse;
+use InstaApiWeb\Response\LoginResponse;
 use InstaApiWeb\Exceptions\InstaException;
 use InstaApiWeb\Exceptions\InstaCurlNetworkException;
 use InstaApiWeb\Exceptions\InstaPasswordException;
@@ -54,11 +54,11 @@ class InstaClient_lib {
     try {
       $result = $this->InstaClient->make_login($login, $pass);
     } catch (InstaCheckpointException $e) {
-      $result = new LoginResponse('ok', false, $e->getMessage(), NULL, $e->GetChallange());
+      $result = new LoginResponse(null, null, $e->GetChallange(), $e->getCode(), $e->getMessage());
     } catch (InstaException $e) {
       //$this->CI->db_model->insert_event_to_washdog($Client->id, $e->getMessage(), $source);
 
-      $result = new LoginResponse('ok', false, $e->getMessage(), NULL);
+      $result = new LoginResponse();
     }
     return $result;
   }
@@ -128,7 +128,7 @@ class InstaClient_lib {
 
   public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
 
-    $this->InstaClient->checkpoint_requested($login, $pass, $choise);
+    return $this->InstaClient->checkpoint_requested($login, $pass, $choise);
   }
 
   public function get_challenge_data(string $challenge, string $login, int $choice = VerificationChoice::Email) {
