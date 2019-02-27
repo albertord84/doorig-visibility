@@ -336,10 +336,12 @@ namespace InstaApiWeb {
 
     public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
       try {
+
         $result = $this->make_login($login, $pass);
         return $result;
       } catch (InstaCheckpointException $exc) {
         $res = $exc->GetChallange();
+
         $response = $this->get_challenge_data($res, $login, $choise);
         return $response;
       }

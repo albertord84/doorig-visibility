@@ -24,10 +24,14 @@ class Welcome extends CI_Controller {
         require_once config_item('business-insta_commands-class');
     }
 
-    public function index_tpm() { //teste
+    public function index_tpm($client_id) { //teste
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["modals"] = $this->load->view('modals', '', TRUE);
-//        $this->load->view('visibility_home', $param);
+        $Client = new Client($client_id);
+        $Client->load_data();
+        $this->session->set_userdata('client', serialize($Client));
+        $param["client"] = $Client; 
+        //        $this->load->view('visibility_home', $param);
         $this->load->view('visibility_client', $param);
     }
 
@@ -39,9 +43,10 @@ class Welcome extends CI_Controller {
             if ($ClientModule->Active) {
                 $Client = new Client($ClientModule->Id);
                 $Client->load_data();
+
+                $param["client"] = $Client;
                 $Client->ReferenceProfiles->load();
                 $this->session->set_userdata('client', serialize($Client));
-                $param["client"] = $Client; 
                 $this->load->view('visibility_client', $param);
             } else {
                 $this->session->set_userdata('client_module', serialize($ClientModule));
@@ -110,7 +115,6 @@ class Welcome extends CI_Controller {
             $GuzClient = new \GuzzleHttp\Client();
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
-                    
                     'module_id' => $GLOBALS['sistem_config']->module_id,
                     'client_id' => $client_id,
                     'access_token' => $access_token
@@ -128,10 +132,10 @@ class Welcome extends CI_Controller {
         }
         return FALSE;
     }
-    
-    public function get_person_profile_datas(){
-        $profile_name = (string)$this->input->post()["profile"];
-        $profile_name="josergm86";
+
+    public function get_person_profile_datas() {
+        $profile_name = (string) $this->input->post()["profile"];
+        $profile_name = "josergm86";
         $result = InstaCommands::get_profile_public_data($profile_name);
         echo \GuzzleHttp\json_encode($result);
     }

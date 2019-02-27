@@ -45,7 +45,7 @@ class Daily_work_model extends CI_Model {
     return $query->row();
   }
 
-  function get_next_work() {
+  function get_next_work(bool $block = true) {
     $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) AND reference_profile.deleted <> TRUE";    
     $this->db->select( "reference_id, to_follow, to_unfollow, clients.user_id as client_id ");
     $this->db->join('reference_profile', 'reference_profile.id = daily_work.reference_id');
@@ -53,7 +53,25 @@ class Daily_work_model extends CI_Model {
     $this->db->where($where);
     $this->db->order_by("clients.last_access asc","reference_profile.last_access asc");
     $query = $this->db->get('daily_work');
-    return $query->row();
+    $result = $query->row();
+    
+    $this->block_work($result->reference_id, $result->client_id);    
+    return $result;
+  }
+  
+  private function block_work($reference_id, $client_id)
+  {
+        $time = time();
+        $data = array(
+               'last_access' => "'$title'"
+            );
+
+        $this->db->where('user_id', $id);
+        $this->db->update('clients', $data); 
+        
+        $this->db->where('id', $id);
+        $this->db->update('reference_profile', $data);                     
+                    
   }
 
   function get_all($offset = 0, $rows = 0) {
