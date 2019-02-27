@@ -386,20 +386,28 @@ class Library_test extends CI_Controller {
     $param = array("insta_id"=>"3445996566", "cookies" => new Cookies(json_encode($ck)));
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
     
-    echo "<h3>result login</h3>";
-    $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
+    echo "<h2>result login</h2>";
+    $r = $this->InstaClient_lib->make_login("riveauxmerino", "notredame");
+//    $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
+//    $r = $this->InstaClient_lib->make_login("alberto_test", "alberto2");        
     var_dump($r);
     
-    //$str = "curl 'https://www.instagram.com/graphql/query/?query_hash=0f318e8cfff9cc9ef09f88479ff571fb&variables=%7B%22id%22%3A%2211148782713%22%7D' -H 'cookie: mid=XCTI8gAEAAEVVYLYNcpS_G1J9l2Y; mcd=3; shbid=487; shbts=1550777997.8902974; rur=FTW; csrftoken=cszNLDehRcW4b5Z7P3gzSY9Cb7wBbJv8; ds_user_id=11148782713; sessionid=11148782713%3AHaTAVUlNWvHyUM%3A0; urlgen=\"{\"177.41.230.161\": 18881\054 \"177.19.35.84\": 10429}:1gwuEF:X_eM2qibUYKy211lpfWA2OEok0o\"' -H 'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' -H 'x-requested-with: XMLHttpRequest' -H 'x-instagram-gis: b623ba4eb3f9a4aa43dd6319c52f6ca8' --compressed";
-    $str = "curl 'https://www.instagram.com/graphql/query/?query_hash=ae21d996d1918b725a934c0ed7f59a74&variables=%7B%22fetch_media_count%22%3A0%2C%22fetch_suggested_count%22%3A30%2C%22ignore_cache%22%3Atrue%2C%22filter_followed_friends%22%3Atrue%2C%22seen_ids%22%3A%5B%5D%2C%22include_reel%22%3Atrue%7D' -H 'cookie: mid=XCTI8gAEAAEVVYLYNcpS_G1J9l2Y; mcd=3; shbid=487; shbts=1550777997.8902974; rur=FTW; csrftoken=cszNLDehRcW4b5Z7P3gzSY9Cb7wBbJv8; ds_user_id=11148782713; sessionid=11148782713%3AHaTAVUlNWvHyUM%3A0; urlgen=\"{\"177.41.230.161\": 18881\054 \"177.19.35.84\": 10429}:1gwuEF:X_eM2qibUYKy211lpfWA2OEok0o\"' -H 'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' -H 'x-requested-with: XMLHttpRequest' -H 'x-instagram-gis: 78d695c40d26a8af17cc358144786042' --compressed";
-    exec($str, $output, $status);
-    
-    echo "<h3>output</h3>";
-    var_dump($output);
-    echo "<h3>status</h3>";
-    var_dump($status);
-    
-    //$this->InstaClient_lib->Msg();
+    if (strstr($r->Message, "Challenge required") != false){
+      echo "<h3>Cuenta bloqueada!!!. Challenge required<h3>";
+      $r = $this->InstaClient_lib->checkpoint_requested("riveauxmerino", "notredame");
+    }
+    else{
+      //$str = "curl 'https://www.instagram.com/graphql/query/?query_hash=0f318e8cfff9cc9ef09f88479ff571fb&variables=%7B%22id%22%3A%2211148782713%22%7D' -H 'cookie: mid=XCTI8gAEAAEVVYLYNcpS_G1J9l2Y; mcd=3; shbid=487; shbts=1550777997.8902974; rur=FTW; csrftoken=cszNLDehRcW4b5Z7P3gzSY9Cb7wBbJv8; ds_user_id=11148782713; sessionid=11148782713%3AHaTAVUlNWvHyUM%3A0; urlgen=\"{\"177.41.230.161\": 18881\054 \"177.19.35.84\": 10429}:1gwuEF:X_eM2qibUYKy211lpfWA2OEok0o\"' -H 'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' -H 'x-requested-with: XMLHttpRequest' -H 'x-instagram-gis: b623ba4eb3f9a4aa43dd6319c52f6ca8' --compressed";
+      $str = "curl 'https://www.instagram.com/graphql/query/?query_hash=ae21d996d1918b725a934c0ed7f59a74&variables=%7B%22fetch_media_count%22%3A0%2C%22fetch_suggested_count%22%3A30%2C%22ignore_cache%22%3Atrue%2C%22filter_followed_friends%22%3Atrue%2C%22seen_ids%22%3A%5B%5D%2C%22include_reel%22%3Atrue%7D' -H 'cookie: mid=XCTI8gAEAAEVVYLYNcpS_G1J9l2Y; mcd=3; shbid=487; shbts=1550777997.8902974; rur=FTW; csrftoken=cszNLDehRcW4b5Z7P3gzSY9Cb7wBbJv8; ds_user_id=11148782713; sessionid=11148782713%3AHaTAVUlNWvHyUM%3A0; urlgen=\"{\"177.41.230.161\": 18881\054 \"177.19.35.84\": 10429}:1gwuEF:X_eM2qibUYKy211lpfWA2OEok0o\"' -H 'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' -H 'x-requested-with: XMLHttpRequest' -H 'x-instagram-gis: 78d695c40d26a8af17cc358144786042' --compressed";
+      exec($str, $output, $status);
+
+      echo "<h2>output</h2>";
+      var_dump($output);
+      echo "<h2>status</h2>";
+      var_dump($status);
+
+      //$this->InstaClient_lib->Msg();
+    }    
   }
   
   public function checkpoint (){
@@ -413,13 +421,18 @@ class Library_test extends CI_Controller {
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
     
     echo "<h3>result login</h3>";
-    $r = $this->InstaClient_lib->checkpoint_requested("carlosh_test", "Servidor19");        
-    var_dump($r);
+    //$r = $this->InstaClient_lib->checkpoint_requested("carlosh_test", "Servidor19");        
+    //var_dump($r);
     
-    $r = $this->InstaClient_lib->get_challenge_data("carlosh_test", "Servidor19");
+    //exec("curl 'https://www.instagram.com/challenge/3445996566/iDF1GfIeqT/' -H 'cookie: mid=XD3OzgAEAAHUu2xvm6meNNMo-BgB;csrftoken=5OLjdNXobyLR8Cyqq0O3NdcIDPscdzbq' -H 'origin: https://www.instagram.com' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9,es;q=0.8,pt;q=0.7' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36' -H 'x-requested-with: XMLHttpRequest' -H 'x-csrftoken: 5OLjdNXobyLR8Cyqq0O3NdcIDPscdzbq' -H 'x-ig-app-id: 936619743392459' -H 'x-instagram-ajax: 871c83538bd0' -H 'content-type: application/x-www-form-urlencoded' -H 'accept: */*' -H 'referer: https://www.instagram.com/challenge/3445996566/iDF1GfIeqT/' --data 'choice=0' --compressed", $output);
+    //var_dump($output); exit;
+    
+    
+    $r = $this->InstaClient_lib->checkpoint_requested("riveauxmerino", "notredame");
+    //$r = $this->InstaClient_lib->get_challenge_data("carlosh_test", "Servidor19");
     var_dump($r);  
       
-    $r = $this->InstaClient_lib->make_checkpoint();
+    //$r = $this->InstaClient_lib->make_checkpoint();
   }
   
 }
