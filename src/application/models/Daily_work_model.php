@@ -63,7 +63,7 @@ class Daily_work_model extends CI_Model {
   {
         $time = time();
         $data = array(
-               'last_access' => "'$title'"
+               'last_access' => "'$time'"
             );
 
         $this->db->where('user_id', $id);

@@ -6,6 +6,7 @@ namespace business {
     require_once config_item('thirdparty-cookies-resource');
 
     use InstaApiWeb\Cookies;
+    use \InstaApiWeb\Response\FollowersResponse;
 
     /**
      * Description of HashtagProfile
@@ -173,7 +174,12 @@ namespace business {
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
-            return $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
+            $response = new FollowersResponse();
+            $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
+            if(get_insta_followers_reponse())
+            {
+                return $response;
+            }
         }
 
         static function exist(string $insta_id, int $client_id, int $status = 0) {
@@ -189,7 +195,18 @@ namespace business {
                 //echo $exc->getTraceAsString();
             }
         }
-
+        
+        static function  get_insta_followers_reponse(FollowersResponse $response)
+        {
+            if($response->code == 0)
+            {
+                $this->Cursor = $response->Cursor;
+                return true;
+            }
+            else if ($response->code != 0)
+            {}
+            return false;
+        }
     }
 
 }    
