@@ -58,24 +58,6 @@ namespace business {
             return true;
         }
 
-        static function toArray($object, int $level = 0) {
-            if ($level < 10) {
-                $level++;
-                if (is_object($object))
-                    $object = (array) $object;
-                if (is_array($object)) {
-                    $new = array();
-                    foreach ($object as $key => $val) {
-                        $x = self::toArray($val, ++$level);
-                        $new[$key] = $x;
-                    }
-                } else {
-                    $new = $object;
-                }
-                return $new;
-            }
-        }
-
     }
 
 }
