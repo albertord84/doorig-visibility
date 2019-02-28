@@ -32,7 +32,8 @@ class Business_test extends CI_Controller {
     public function run() {
         //======= INSTA-COMMANDS =======//
         echo "<h2>Test get_profile_public_data </h2>";
-        $profile_name = "leticiajural";
+        //$profile_name = "ma.ietto";
+            $profile_name = "leticiajural";
         //    $profile_name = "carinamacedosoaresoficial";
         $obj = InstaCommands::get_profile_public_data($profile_name);
         var_dump($obj);
