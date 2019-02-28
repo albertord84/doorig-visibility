@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace InstaApiWeb\Responses{    
+namespace InstaApiWeb\Response{    
   
   require_once config_item('thirdparty-response-class');
 
@@ -34,7 +34,7 @@ namespace InstaApiWeb\Responses{
             $this->HasNextPage = $hasNextPage;
 
             $this->output_array = array(
-                'Verify_link' => $followersCollection,
+                'FollowersCollection' => $followersCollection,
                 'Cursor' => $cursor,
                 'Has_Next_Page' => $hasNextPage
             );

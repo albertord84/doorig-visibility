@@ -10,7 +10,7 @@ namespace InstaApiWeb {
 
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
-    use InstaApiWeb\Responses\FollowersResponse;
+    use InstaApiWeb\Response\FollowersResponse;
     use InstaApiWeb\InstaProfile;
     use InstaApiWeb\Exceptions\InstaException;
 

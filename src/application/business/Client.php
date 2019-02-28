@@ -40,7 +40,7 @@ namespace business {
             if ($data) {
                 $this->fill_data($data);
             }
-        }
+        }       
 
         protected function fill_data(\stdClass $data) {
             parent::fill_data($data);
@@ -57,6 +57,9 @@ namespace business {
         public function login() {
             return true;
         }
+        
+        public function SaveFollowed()
+        {}
 
     }
 
