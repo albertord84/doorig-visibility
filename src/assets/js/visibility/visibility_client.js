@@ -94,6 +94,28 @@ $(document).ready(function () {
         }
         //spinner_stop(btn);
     });
+    
+    function display_person_profile_datas(){
+        var pp = all_datas['person_profile'];        
+        $("#container-reference-profiles", rp[i]['Insta_name']);
+        
+    }
+    
+    function display_reference_profile_datas(){
+        var rp = all_datas['reference_profile'];        
+        for(i=0;i<rp.length;i++){
+            if(rp[i]['Type']==0)
+                show_profile_in_view("#container-reference-profiles", rp[i]['Insta_name']);
+            else
+            if(rp[i]['Type']==1)
+                show_geolocation_in_view("#container-geolocations", rp[i]['Insta_name']);
+            else
+            if(rp[i]['Type']==2)
+                show_hashtag_in_view("#container-hashtags", rp[i]['Insta_name']);
+        }
+    }
+    
+    display_reference_profile_datas();
 });
 
 
@@ -205,29 +227,31 @@ function show_profile_in_view(container, profile) {
             datas = find_match_profile_in_list(response['users'], profile);
             datas = datas.user;
             cnt_name = profile.replace(/./g, "_");
-            var str = "<div id='container-" + cnt_name + "' class='col-md-4 col-sm-12 col-xs-12'>" +
-                    "<div class='card'>" +
-                    "<div class='profile card-body card-body-profile'>" +
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_person_profile\", \"" + profile + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
-                    "<br>" +
-                    "<div class='text-center'>" +
-                    "<a id='name-profile' href='https://instagram.com/" + profile + "' target='_blank'>" +
-                    "<img class='img-profile' src='" + datas.profile_pic_url + "'>" +
-                    "<h5 class='card-title'>" +
-                    "@" + profile +
-                    "</h5>" +
-                    "</a>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>" +
-                    "<p class='m-b-0 label-profile'>Seguidores</p>" +
-                    "<h6 id='amount-folowers-profile' class='text-muted'>" + datas.follower_count + "</h6>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-            $(container).append(str);
+            if(datas){                
+                var str = "<div id='container-" + cnt_name + "' class='col-md-4 col-sm-12 col-xs-12'>" +
+                        "<div class='card'>" +
+                        "<div class='profile card-body card-body-profile'>" +
+                        "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_person_profile\", \"" + profile + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
+                        "<br>" +
+                        "<div class='text-center'>" +
+                        "<a id='name-profile' href='https://instagram.com/" + profile + "' target='_blank'>" +
+                        "<img class='img-profile' src='" + datas.profile_pic_url + "'>" +
+                        "<h5 class='card-title'>" +
+                        "@" + profile +
+                        "</h5>" +
+                        "</a>" +
+                        "</div>" +
+                        "<div class='row'>" +
+                        "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>" +
+                        "<p class='m-b-0 label-profile'>Seguidores</p>" +
+                        "<h6 id='amount-folowers-profile' class='text-muted'>" + datas.follower_count + "</h6>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>";
+                $(container).append(str);
+            }
         },
         error: function (xhr, status) {
             modal_alert_message('Não foi possível conectar com o Instagram');
@@ -363,32 +387,34 @@ function show_geolocation_in_view(container, geolocation) {
         success: function (response) {
             datas = find_match_geolocation_in_list(response['places'], geolocation);
             datas = datas.place;
-            var str = "<div id='container-" + geolocation + "' class='col-md-4 col-sm-12 col-xs-12'>" +
-                    "<div class='card'>" +
-                    "<div class='geolocation card-body card-body-profile'>" +
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação dessa gelocalização?\", \"delete_geolocation\", \"" + geolocation + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
-                    "<br>" +
-                    "<div class='text-center'>" +
-                    "<a  href='https://www.instagram.com/explore/locations/" + datas.location.pk + "/" + datas.location.slug + "/" + "' target='_blank'>" +                    
-                    "<h5 id='name-profile' class='card-title'>" +
-                        "<i class='sl-icon-location-pin' style='font-size: 30px;color:#20aee3'></i><br> " + geolocation +
-                    "</h5>" +
-                    "</a>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>" +
-                    datas.title +
-                    "</div>" +
-                    "</div>" +
-                    "<div class='row'>" +
-                    "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>" +
-                    datas.location.city +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-            $(container).append(str);
+            if(datas){                
+                var str = "<div id='container-" + geolocation + "' class='col-md-4 col-sm-12 col-xs-12'>" +
+                        "<div class='card'>" +
+                        "<div class='geolocation card-body card-body-profile'>" +
+                        "<button onclick='modal_confirm_message(\"Confirma a eliminação dessa gelocalização?\", \"delete_geolocation\", \"" + geolocation + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
+                        "<br>" +
+                        "<div class='text-center'>" +
+                        "<a  href='https://www.instagram.com/explore/locations/" + datas.location.pk + "/" + datas.location.slug + "/" + "' target='_blank'>" +                    
+                        "<h5 id='name-profile' class='card-title'>" +
+                            "<i class='sl-icon-location-pin' style='font-size: 30px;color:#20aee3'></i><br> " + geolocation +
+                        "</h5>" +
+                        "</a>" +
+                        "</div>" +
+                        "<div class='row'>" +
+                        "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>" +
+                        datas.title +
+                        "</div>" +
+                        "</div>" +
+                        "<div class='row'>" +
+                        "<div class='col-md-12 col-sm-12 col-xs-12 text-center p-0'>" +
+                        datas.location.city +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>";
+                $(container).append(str);
+            }
         },
         error: function (xhr, status) {
             modal_alert_message('Não foi possível conectar com o Instagram');
@@ -518,8 +544,8 @@ function show_hashtag_in_view(container, hashtag) {
         success: function (response) {
             datas = find_match_hashtag_in_list(response['hashtags'], hashtag);
             datas = datas.hashtag;
-            console.log(datas);
-            var str = "<div id='container-" + hashtag + "' class='col-md-4 col-sm-12 col-xs-12'>" +
+            if(datas){                
+                var str = "<div id='container-" + hashtag + "' class='col-md-4 col-sm-12 col-xs-12'>" +
                             "<div class='card'>" +
                                 "<div class='hastag card-body card-body-profile'>" +
                                     "<button onclick='modal_confirm_message(\"Confirma a eliminação desse hashtag?\", \"delete_hashtag\", \"" + hashtag + "\");' class='profile-delete close' type='button' title='Eliminar'><span aria-hidden='true'>&times;</span></button>" +
@@ -548,7 +574,8 @@ function show_hashtag_in_view(container, hashtag) {
                             "</div>" +
                         "</div>" +
                     "</div>";
-        $(container).append(str);
+                $(container).append(str);
+            }
         },
         error: function (xhr, status) {
             modal_alert_message('Não foi possível conectar com o Instagram');
@@ -665,20 +692,22 @@ function show_profile_wl_in_view(container, profile_wl){
             datas = find_match_profile_in_list(response['users'], profile_wl);
             datas = datas.user;
             cnt_name = profile_wl.replace(/./g, "_");
-            var str = "<a id='container-" + cnt_name + "' class='item-white-list'>" +
-                "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \"" + profile_wl + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
-                    "<span aria-hidden='true'>&times;</span>" +
-                "</button>" +
-                "<div class='user-img'>" +
-                    "<img src='" + datas.profile_pic_url + "' alt='photo' class='img-circle'>" +
-                        "<!--<span class='profile-status online pull-right'></span>-->" +
+            if(datas){                
+                var str = "<a id='container-" + cnt_name + "' class='item-white-list'>" +
+                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \"" + profile_wl + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+                        "<span aria-hidden='true'>&times;</span>" +
+                    "</button>" +
+                    "<div class='user-img'>" +
+                        "<img src='" + datas.profile_pic_url + "' alt='photo' class='img-circle'>" +
+                            "<!--<span class='profile-status online pull-right'></span>-->" +
+                        "</div>" +
+                        "<div class='mail-contnet'>" +
+                            "<h5>" + profile_wl + "</h5>" +
+                        "<span class='time'>" + datas.follower_count + " seguidores</span>" +
                     "</div>" +
-                    "<div class='mail-contnet'>" +
-                        "<h5>" + profile_wl + "</h5>" +
-                    "<span class='time'>" + datas.follower_count + " seguidores</span>" +
-                "</div>" +
-            "</a>";
-            $(container).append(str);
+                "</a>";
+                $(container).append(str);
+            }
         },
         error: function (xhr, status) {
             modal_alert_message('Não foi possível conectar com o Instagram');
@@ -710,10 +739,6 @@ function delete_profile_wl(profile_wl) {
         }
     });
 }
-
-
-
-
 
 //BLACK LIST FUNCTIONS--------------------------------------------------------------------
 function add_profile_bl(container, profile_bl) {
@@ -753,27 +778,28 @@ function show_profile_bl_in_view(container, profile_bl){
             datas = find_match_profile_in_list(response['users'], profile_bl);
             datas = datas.user;
             cnt_name = profile_bl.replace(/./g, "_");
-            var str = "<a id='container-" + cnt_name + "' class='item-white-list'>" +
-                "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \"" + profile_bl + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
-                    "<span aria-hidden='true'>&times;</span>" +
-                "</button>" +
-                "<div class='user-img'>" +
-                    "<img src='" + datas.profile_pic_url + "' alt='photo' class='img-circle'>" +
-                        "<!--<span class='profile-status online pull-right'></span>-->" +
+            if(datas){                
+                var str = "<a id='container-" + cnt_name + "' class='item-white-list'>" +
+                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \"" + profile_bl + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+                        "<span aria-hidden='true'>&times;</span>" +
+                    "</button>" +
+                    "<div class='user-img'>" +
+                        "<img src='" + datas.profile_pic_url + "' alt='photo' class='img-circle'>" +
+                            "<!--<span class='profile-status online pull-right'></span>-->" +
+                        "</div>" +
+                        "<div class='mail-contnet'>" +
+                            "<h5>" + profile_bl + "</h5>" +
+                        "<span class='time'>" + datas.follower_count + " seguidores</span>" +
                     "</div>" +
-                    "<div class='mail-contnet'>" +
-                        "<h5>" + profile_bl + "</h5>" +
-                    "<span class='time'>" + datas.follower_count + " seguidores</span>" +
-                "</div>" +
-            "</a>";
-            $(container).append(str);
+                "</a>";
+                $(container).append(str);
+            }
         },
         error: function (xhr, status) {
             modal_alert_message('Não foi possível conectar com o Instagram');
         }
     });  
 }
-
 
 function delete_profile_bl(profile_bl) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
