@@ -35,8 +35,8 @@ class Business_test extends CI_Controller {
         $profile_name = "leticiajural";
         //    $profile_name = "carinamacedosoaresoficial";
         $obj = InstaCommands::get_profile_public_data($profile_name);
-        //var_dump($obj);
-        var_dump(json_encode(object_to_array($obj)));
+        var_dump($obj);
+        //var_dump(json_encode(object_to_array($obj)));
         echo "[get] StatusProfiles_business ==> (<b>ok</b>)";
 
         //======= CLIENT =======//
@@ -54,7 +54,9 @@ class Business_test extends CI_Controller {
         $array = $obj->load_insta_reference_profiles_data(1, 2); //var_dump($array);
         echo "[get] get_reference_profiles() => result: " . count($array) . " ==> (<b>ok</b>)<br>";
 
-        var_dump(json_decode(json_encode(object_to_array($obj)), true));
+        //var_dump($obj);
+        //var_dump(json_encode(object_to_array($obj)));
+        //var_dump(json_decode(json_encode(object_to_array($obj)), true));
         die;
 
         $obj->update_client_cookies('{"json_response":{"status":"ok","authenticated":true,"user":"ohhhYESSSS"}');

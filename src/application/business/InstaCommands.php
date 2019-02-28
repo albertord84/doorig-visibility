@@ -21,17 +21,18 @@ namespace business {
 
         static function get_profile_public_data(string $profile_name) {
             try {
-                $meta_content = @get_meta_tags("https://www.instagram.com/$profile_name/");
+                //$meta_content = @get_meta_tags("https://www.instagram.com/$profile_name/");
                 //var_dump($meta_content); // exit;
 
                 $content = @file_get_contents("https://www.instagram.com/$profile_name/", false);
                 $doc = new \DOMDocument();
                 $loaded = @$doc->loadHTML('<?xml encoding="UTF-8">' . $content);
+                //print_r($content);die;
                 if ($loaded) {
                     $json_str_reference = '@context';
                     $json = self::search_by_profile_json_info($doc->textContent, $json_str_reference);
 
-                    $json->description = $meta_content['description'];
+                    //$json->by_line = $meta_content['description'];
 
                     //$json_str_reference = 'meta content';
                     //$json = self::search_by_beeline_info($doc->textContent, $json_str_reference);
