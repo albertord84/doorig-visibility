@@ -763,20 +763,21 @@ namespace InstaApiWeb {
     private function cmd_checkpoint(Cookies $cookies = null, string $challenge, string $code) {
       $postinfo = sprintf("security_code=%s", $code);
       $url = sprintf("%s%s", $this->InstaURL['Base'], $challenge);
-
+      var_dump($url);
+      
       $headers = array();
       $headers[] = $this->Headers['Origin'];
       $headers[] = $this->Headers['UserAgent'];
+      $headers[] = $this->Headers['AcceptLanguage'];      
+      $ref = sprintf("%s", $this->Headers['RefererVar']);
+      $headers[] = sprintf($ref, $url);
+
       $headers[] = $this->Headers['AcceptAll'];
-      $headers[] = $this->Headers['AcceptLanguage'];
       $headers[] = $this->Headers['AcceptEncodingGzip'];
       $headers[] = $this->Headers['ContentTypeForm'];
       $headers[] = $this->Headers['X-Requested'];
       $ajax = sprintf("%s", $this->Headers['X-Instagram-Ajax-Var']);
       $headers[] = sprintf($ajax, "1");
-      $ref = sprintf("%s", $this->Headers['RefererVar']);
-      $headers[] = sprintf($ref, $url);
-
       if ($cookies != null) {
         $hdr = sprintf("%s", $this->Headers['Cookie-small']);
         $headers[] = sprintf($hdr, $cookies->Mid, $cookies->CsrfToken);
@@ -791,14 +792,13 @@ namespace InstaApiWeb {
       curl_setopt($ch, CURLOPT_POSTFIELDS, $postinfo);
       curl_setopt($ch, CURLOPT_HEADER, 1);
       curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+      curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
       //curl_setopt($ch, CURLOPT_POST, true);
       //curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
       //curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);      
-      //curl_setopt($ch, CURLOPT_HEADERFUNCTION, array($this, "curlResponseHeaderCallback"));
 
       return $ch;
     }
-
   }
 
 }
