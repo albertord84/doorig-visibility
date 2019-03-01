@@ -35,7 +35,7 @@ require_once config_item('business-class');
             $ci = &get_instance();
 
             $followers = $work->Ref_profile->get_followers($cookies, 5/* ,proxy */);
-            if ($followers->Status == "ok") {
+            if ($followers->code == 0) {
                 foreach ($followers->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil
                     if ($this->validate_profile($profile)) {
@@ -48,6 +48,7 @@ require_once config_item('business-class');
                     }
                 }
             }
+            return $profile_list;
         }
 
         public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
@@ -60,6 +61,7 @@ require_once config_item('business-class');
                     break;
                 }
             }
+            return $profile_list;
         }
 
         public function validate_profile($profile) {
@@ -67,7 +69,7 @@ require_once config_item('business-class');
         }
 
         public function process_response($response) {
-            if ($response - status == 'ok') {
+            if ($response->status == 'ok') {
                 return true;
             }
             return false;

@@ -40,7 +40,7 @@ namespace business {
             if ($data) {
                 $this->fill_data($data);
             }
-        }
+        }       
 
         protected function fill_data(\stdClass $data) {
             parent::fill_data($data);
@@ -57,24 +57,9 @@ namespace business {
         public function login() {
             return true;
         }
-
-        static function toArray($object, int $level = 0) {
-            if ($level < 10) {
-                $level++;
-                if (is_object($object))
-                    $object = (array) $object;
-                if (is_array($object)) {
-                    $new = array();
-                    foreach ($object as $key => $val) {
-                        $x = self::toArray($val, ++$level);
-                        $new[$key] = $x;
-                    }
-                } else {
-                    $new = $object;
-                }
-                return $new;
-            }
-        }
+        
+        public function SaveFollowed()
+        {}
 
     }
 

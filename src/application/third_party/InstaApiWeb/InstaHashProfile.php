@@ -12,7 +12,7 @@ namespace InstaApiWeb {
     use InstaApiWeb\Cookies;
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
-    use InstaApiWeb\Responses\FollowersResponse;
+    use InstaApiWeb\Response\FollowersResponse;
     use function config_item;
     use function GuzzleHttp\json_decode;
 
