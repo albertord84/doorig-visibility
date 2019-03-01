@@ -22,11 +22,16 @@ class Welcome extends CI_Controller {
     }
 
     public function index($access_token, $client_id) {
-        //1. check correct access_token
-        $ClientModule = $this->check_access_token($access_token, $client_id);
-        if ($ClientModule) {
+        //1. check correct access_token or active session
+        if($this->session->userdata('client_module')){
+            $ClientModule = unserialize($this->session->userdata('client_module'));            
+        }
+        else
+            $ClientModule = $this->check_access_token($access_token, $client_id);            
+        if ($ClientModule){
             //2. set $ClientModule in session and lateral_menu and modals views
             $this->session->set_userdata('client_module', serialize($ClientModule));
+            
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals', '', TRUE);
             $param["client_datas"]= $this->prepare_client_datas_to_display($ClientModule,$Client);
@@ -51,22 +56,22 @@ class Welcome extends CI_Controller {
                 $param["painel_by_status"] = NULL;
                 switch ($Client->Status) {
                     case UserStatus::VERIFY_ACCOUNT:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_time_view', '', TRUE);
+                        $param["painel_by_status"] = $this->load->view('client_views/verify_account_painel', '', TRUE);
                         break;
                     case UserStatus::BLOCKED_BY_PAYMENT:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_payment_view', '', TRUE);
+                        $param["painel_by_status"] = $this->load->view('client_views/block_by_payment_painel', '', TRUE);
                         break;
                     case UserStatus::BLOCKED_BY_INSTA:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_insta_view', '', TRUE);
+                        $param["painel_by_status"] = $this->load->view('client_views/block_by_insta_painel', '', TRUE);
                         break;
-                    case UserStatus::BLOCKED_BY_TIME:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_time_view', '', TRUE);
-                        break;
+                    case UserStatus::PENDING:
+                        $param["painel_by_status"] = $this->load->view('client_views/pendent_by_payment_painel', '', TRUE);
+                        break;                    
                     default:
-                        $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
-                        $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                         break;
                 }
+                $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
+                $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                 $this->load->view('visibility_client', $param);
             } else {
                 $this->load->view('visibility_home', $param);
@@ -92,11 +97,12 @@ class Welcome extends CI_Controller {
     }
 
     public function contract_visibility_steep_2() { //setting plane
-        $datas = $this->input->post();
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
         //1. set plane in la DB
+        $datas = $this->input->post();
         $datas["plane"];  //midle, fast, very_fast
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
+        
         //3. return response
         return Response::ResponseOK()->toJson();
     }

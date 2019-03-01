@@ -1,7 +1,7 @@
 <!-- REFERENCE PROFILES -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card sensitive_painel">
             <div class="card-body">
                 <!-- REFERENCE PROFILE DETAILS -->
                 <div class="col-md-12">
@@ -65,7 +65,7 @@
 <!-- GEOLOCALIZAÇÕES -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card sensitive_painel">
             <div class="card-body">
                 <div class="col-md-12">
                     <div class="text-right">
@@ -127,7 +127,7 @@
 <!-- HASHTAG -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card sensitive_painel">
             <div class="card-body">
                 <div class="col-md-12">
                     <div class="text-right">
@@ -189,7 +189,7 @@
 <!-- BLACK AND WHITE LIST -->
 <div class="row">
     <div class="col-12">
-        <div class="card">
+        <div class="card sensitive_painel">
             <div class="card-body">
                 <div class="col-md-12">
                     <div class="text-right">
