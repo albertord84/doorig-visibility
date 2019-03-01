@@ -23,13 +23,19 @@ namespace business {
             try {
                 $content = @file_get_contents("https://www.instagram.com/$profile_name/", false);
                 preg_match_all('/<[\s]*meta[\s]*(name|property)="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $content, $match);
-                var_dump($match); // exit;
+                //var_dump($match); // exit;
                 
                 $profile_data = new \stdClass;
                 $profile_data->description = self::get_metadata_value($match, "og:description");
                 $profile_data->image = self::get_metadata_value($match, "og:image");
                 $profile_data->title = self::get_metadata_value($match, "og:title");
                 $profile_data->url = self::get_metadata_value($match, "og:url");
+                
+                $cad = substr($profile_data->description,0,strpos($profile_data->description, "-"));
+                $cad= explode(" ", $cad);
+                $profile_data->followers = $cad[0];
+                $profile_data->following = $cad[2];
+                $profile_data->post = $cad[4];
                 
                 $doc = new \DOMDocument();
                 $loaded = @$doc->loadHTML('<?xml encoding="UTF-8">' . $content);
@@ -43,7 +49,7 @@ namespace business {
                     //$json = self::search_by_beeline_info($doc->textContent, $json_str_reference);
                 } else {
                     print "<br>\nProblem parsing document:<br>\n";
-                    var_dump($doc);
+                    //var_dump($doc);
                 }
                 return $profile_data;
             } catch (Exception $exc) {

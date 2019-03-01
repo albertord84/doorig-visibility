@@ -58,7 +58,7 @@
                                                     <li class="p-l-0">Logo depois!</li>
                                                 </ul>
                                                 <i class="sl-icon-lock-open" style="font-size:3em; color:#24d2b5"></i>
-                                                <p class="m-b-0 m-t-10">Módulo ativo <br> logo depois de registrar <br> o pagamento.</p>
+                                                <p class="m-b-0 m-t-10">Módulo ficará ativo <br> logo depois de registrar <br> o pagamento.</p>
                                             </div>
                                         </div>
                                     </div>

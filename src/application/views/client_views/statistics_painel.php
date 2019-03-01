@@ -24,10 +24,10 @@
                                                 <div class="soc-content">
                                                     <div class="col-6 b-r">
                                                         <h3 class="font-medium">456</h3>
-                                                        <h5 class="text-muted">Seguidores</h5></div>
+                                                        <h6 class="text-muted">Seguidores</h6></div>
                                                     <div class="col-6">
                                                         <h3 class="font-medium">456</h3>
-                                                        <h5 class="text-muted">Seguindo</h5></div>
+                                                        <h6 class="text-muted">Seguindo</h6></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -44,10 +44,10 @@
                                                 <div class="soc-content">
                                                     <div class="col-6 b-r">
                                                         <h3 class="font-medium">456</h3>
-                                                        <h5 class="text-muted">Seguidores</h5></div>
+                                                        <h6 class="text-muted">Seguidores</h6></div>
                                                     <div class="col-6">
                                                         <h3 class="font-medium">456</h3>
-                                                        <h5 class="text-muted">Seguindo</h5></div>
+                                                        <h6 class="text-muted">Seguindo</h6></div>
                                                 </div>
                                             </div>
                                         </div>

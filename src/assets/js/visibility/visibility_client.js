@@ -213,26 +213,42 @@ $(document).ready(function () {
     });
     
     //DISPLAYING DATAS FUNCTIONS-----------------------------------------------------
-    function display_person_profile_datas(){
-        var pp = all_datas['person_profile'];        
-        $("#container-reference-profiles", rp[i]['Insta_name']);
-        
+    function display_person_profile_datas(){        
+        $("#ig-profile-name").text("@"+person_profile['Login']);        
+        $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile['Login']);
+        $.ajax({
+            url: base_url+"index.php/welcome/get_person_profile_datas/"+person_profile['Login'],
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $("#ig-profile-description").text(response.json.description);
+                $("#ig-profile-picture-url").prop("src",response.image);
+                $("#ig-profile-amount-followers").text(response.followers);
+                $("#ig-profile-amount-following").text(response.following);
+                $("#ig-profile-amount-post").text(response.post);
+            },
+            error: function (xhr, status) {
+                modal_alert_message('Não foi possível conectar com o Instagram');
+            }
+        });
     }
     
     function display_reference_profile_datas(){
-        var rp = all_datas['reference_profile'];        
-        for(i=0;i<rp.length;i++){
-            if(rp[i]['Type']==0)
-                show_profile_in_view("#container-reference-profiles", rp[i]['Insta_name']);
+        var rp = person_profile.ReferenceProfiles.ReferenceProfiles;
+        $.each( rp, function( key, value ) {
+            if(value.Type==0)
+                show_profile_in_view("#container-reference-profiles", value.Insta_name);
             else
-            if(rp[i]['Type']==1)
-                show_geolocation_in_view("#container-geolocations", rp[i]['Insta_name']);
+            if(value.Type==1)
+                show_geolocation_in_view("#container-geolocations", value.Insta_name);
             else
-            if(rp[i]['Type']==2)
-                show_hashtag_in_view("#container-hashtags", rp[i]['Insta_name']);
-        }
+            if(value.Type==2)
+                show_hashtag_in_view("#container-hashtags", value.Insta_name);
+        })
+            
     }
     
+    display_person_profile_datas();
     display_reference_profile_datas();
 });
 
@@ -944,13 +960,12 @@ function delete_profile_bl(profile_bl) {
     });
 }
 
-    mark_status = 1;    
-    if(mark_status ==2 || mark_status ==3 || mark_status ==6 || mark_status ==9){               
-        $(".profile-delete").off("click");
-        $(".sensitive_painel *").addClass('sensitive_painel_disabled');        
-        $(".sensitive_painel_disabled *").off();                   
-        $(".sensitive_painel_disabled").click(function (e) {
-            modal_alert_message("Você deve resolver os problemas notificados.");
-            return false;
-        });
-    }
+if(person_profile.Status ==2 || person_profile.Status ==3 || person_profile.Status ==6 || person_profile.Status ==9){               
+    $(".profile-delete").off("click");
+    $(".sensitive_painel *").addClass('sensitive_painel_disabled');        
+    $(".sensitive_painel_disabled *").off();                   
+    $(".sensitive_painel_disabled").click(function (e) {
+        modal_alert_message("Você deve resolver os problemas notificados.");
+        return false;
+    });
+}
