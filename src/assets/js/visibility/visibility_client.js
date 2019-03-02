@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     $("#container-add-reference-profile").keypress(function (e) {
         if (e.which == 13) {
             $("#add-reference-profile").click();
@@ -234,6 +235,22 @@ $(document).ready(function () {
     }
     
     function display_reference_profile_datas(){
+        var rp = person_profile.ReferenceProfiles.ReferenceProfiles;
+        $.each( rp, function( key, value ) {
+            if(value.Type==0)
+                show_profile_in_view("#container-reference-profiles", value.Insta_name);
+            else
+            if(value.Type==1)
+                show_geolocation_in_view("#container-geolocations", value.Insta_name);
+            else
+            if(value.Type==2)
+                show_hashtag_in_view("#container-hashtags", value.Insta_name);
+        })
+            
+    }
+    
+    function display_chart_datas(){
+        //mygraphic.data.series[0][0]=7
         var rp = person_profile.ReferenceProfiles.ReferenceProfiles;
         $.each( rp, function( key, value ) {
             if(value.Type==0)

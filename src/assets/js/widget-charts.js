@@ -4,16 +4,19 @@ Author: Wrappixel
 Email: niravjoshi87@gmail.com
 File: js
 */
+var mygraphic;
+
 $(function () {
     "use strict";
     // ============================================================== 
     // Total revenue chart
     // ============================================================== 
-    new Chartist.Line('.total-revenue4', {
+     mygraphic = new Chartist.Line('.total-revenue4', {
         labels: ['0', '4', '8', '12', '16', '20', '24', '30']
         , series: [
         [0, 2, 3.5, 0, 13, 1, 4, 1]
         , [0, 4, 0, 4, 0, 4, 0, 4]
+        
       ]
     }, {
         high: 15

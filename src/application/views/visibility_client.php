@@ -3,48 +3,52 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">        
-        <!-- Tell the browser to be responsive to screen width -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
         <meta name="author" content="">        
-        <!-- Favicon icon -->
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo base_url()?>assets/images/favicon.png">
         <title>Maior visibilidade no Instagram</title>        
+        
         <!-- Bootstrap Core CSS -->
         <link href="<?php echo base_url()?>assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?php echo base_url()?>assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">        
+        <link href="<?php echo base_url()?>assets/node_modules/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">                
+        
         <!-- This page CSS -->        
-        <!--c3 CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/c3-master/c3.min.css" rel="stylesheet">        
+        <!--<link href="<?php echo base_url()?>assets/node_modules/c3-master/c3.min.css" rel="stylesheet">-->        
         <!--Toaster Popup message CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">        
+        <!--<link href="<?php echo base_url()?>assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">-->        
+        
         <!-- Custom CSS -->
         <link href="<?php echo base_url()?>assets/css/style.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/style-doorig.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/pages/pricing-page.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/timeline.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/wizard/steps.css" rel="stylesheet">        
+        
         <!-- chartist CSS -->
         <link href="<?php echo base_url()?>assets/node_modules/chartist-js/dist/chartist.min.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/chartist-js/dist/chartist-init.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/css-chart/css-chart.css" rel="stylesheet">
-        <!--This page css - Morris CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/morrisjs/morris.css" rel="stylesheet">       
-        <!--alerts CSS -->
-        <link href="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">        
-        <!-- Dashboard 1 Page CSS -->
-        <link href="<?php echo base_url()?>assets/css/pages/dashboard1.css" rel="stylesheet">        
-        <!-- You can change the theme colors from here -->
-        <link href="<?php echo base_url()?>assets/css/colors/default.css" id="theme" rel="stylesheet">        
-        <!-- page css -->
         <link href="<?php echo base_url()?>assets/css/pages/widget-page.css" rel="stylesheet">
-                
-        <!--<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">-->
-        <link href="<?php echo base_url()?>assets/css/bootstrap-toggle.min.css" rel="stylesheet">
         
-        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
+        <!--This page css - Morris CSS -->
+        <!--<link href="<?php echo base_url()?>assets/node_modules/morrisjs/morris.css" rel="stylesheet">-->       
+        <!--alerts CSS -->
+        <!--<link href="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">-->        
+        
+        <!-- Dashboard menu -->
+        <link href="<?php echo base_url()?>assets/css/pages/dashboard1.css" rel="stylesheet">        
+        
+        <!-- Theme colors -->
+        <link href="<?php echo base_url()?>assets/css/colors/default.css" id="theme" rel="stylesheet">        
+        
+        <!-- Wizzard -->
+        <link href="<?php echo base_url()?>assets/css/bootstrap-toggle.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/wizard.css">
+        
+        <!-- My CSS -->
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
 
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
@@ -113,7 +117,7 @@
         <!-- slimscrollbar scrollbar JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/ps/perfect-scrollbar.jquery.min.js"></script>
         <!--Wave Effects -->
-        <script src="<?php echo base_url()?>assets/js/waves.js"></script>
+        <!--<script src="<?php echo base_url()?>assets/js/waves.js"></script>-->
         <!--Menu sidebar -->
         <script src="<?php echo base_url()?>assets/js/sidebarmenu.js"></script>
         <!-- This page plugins -->
@@ -131,22 +135,26 @@
         <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>        
         <!--Custom JavaScript -->
         <script src="<?php echo base_url()?>assets/js/custom.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
-        <script type="text/javascript">$('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();</script>        
+        
+<!--        <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+        <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>-->        
+        <!--<script type="text/javascript">$('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();</script>-->                
         <!--Wizard JavaScript -->
-        <script src="<?php echo base_url()?>assets/node_modules/moment/min/moment.min.html"></script>
+<!--        <script src="<?php echo base_url()?>assets/node_modules/moment/min/moment.min.html"></script>
         <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.steps.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.validate.min.js"></script>
+        <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.validate.min.js"></script>-->
+        
         <!-- Sweet-Alert  -->
-        <script src="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/steps.js"></script>        
+<!--        <script src="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.min.js"></script>
+        <script src="<?php echo base_url()?>assets/node_modules/wizard/steps.js"></script>        -->
+        
+        
         <!-- Chart JS -->
         <script src="<?php echo base_url()?>assets/node_modules/chartist-js/dist/chartist.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
-        <!-- Chart JS -->
         <script src="<?php echo base_url()?>assets/node_modules/echarts/echarts-all.js"></script>
+        
         <!-- Flot Charts JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/flot/excanvas.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/flot/jquery.flot.js"></script>
