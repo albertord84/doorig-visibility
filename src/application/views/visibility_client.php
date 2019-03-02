@@ -44,12 +44,13 @@
         <link href="<?php echo base_url()?>assets/css/bootstrap-toggle.min.css" rel="stylesheet">
         
         <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
-        
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/wizard.css">
+
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
             var module = "visibility";
             var client_datas = <?php echo $client_datas;?>;
-            var all_datas = <?php echo $person_profile_datas;?>;            
+            var person_profile = <?php echo $person_profile_datas;?>;            
         </script>
     </head>
 

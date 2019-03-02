@@ -21,6 +21,12 @@ class Welcome extends CI_Controller {
         require_once config_item('business-user_status-class');
     }
 
+    public function aaa($client = 1) {
+        $datas = unserialize($this->session->userdata('client'));
+        unset($datas->Pass);
+        var_dump ((object_to_array($datas)));
+    }
+    
     public function index_tmp($client = 1) {
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
@@ -30,11 +36,15 @@ class Welcome extends CI_Controller {
     }
 
     public function index($access_token, $client_id) {
-        //1. check correct access_token
-        $ClientModule = $this->check_access_token($access_token, $client_id);
-        if ($ClientModule) {
+        //1. check correct access_token or active session
+        if($this->session->userdata('client_module')){
+            $ClientModule = unserialize($this->session->userdata('client_module'));            
+        }
+        else
+            $ClientModule = $this->check_access_token($access_token, $client_id);            
+        if ($ClientModule){
             //2. set $ClientModule in session and lateral_menu and modals views
-            $this->session->set_userdata('client_module', serialize($ClientModule));
+            $this->session->set_userdata('client_module', serialize($ClientModule));            
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals', '', TRUE);
             $param["client_datas"] = $this->prepare_client_datas_to_display($ClientModule, $Client);
@@ -45,36 +55,38 @@ class Welcome extends CI_Controller {
                 $Client->ReferenceProfiles->load_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. load datas as params to be used in visibility_client view                
-                $datas["person_profile"] = json_encode($this->prepare_person_profile_datas_to_display($Client));
+                /*$datas["person_profile"] = json_encode($this->prepare_person_profile_datas_to_display($Client));
                 $datas["reference_profile"] = $this->prepare_reference_profile_datas_to_display($Client);
                 $datas["black_white_list"] = $this->prepare_black_white_list_datas_to_display($Client);
                 $datas["daily_report"] = $this->prepare_daily_report_to_display($Client);
                 $datas["statistics"] = $this->prepare_statistics_to_display($Client);
-                $param["person_profile_datas"] = json_encode($datas);
-                //5. set painel_person_profile as params to be display in visibility_client view
-                $param["painel_person_profile"] = NULL;
-                $param["painel_reference_profiles"] = NULL;
-                $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
-                //6. load painel_by_status as params to be display in visibility_client view
+                $param["person_profile_datas"] = json_encode($datas);*/
+                $tmpClient = unserialize($this->session->userdata('client'));
+                unset($tmpClient->Pass);
+                $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
+                
+                //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
                 switch ($Client->Status) {
                     case UserStatus::VERIFY_ACCOUNT:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_time_view', '', TRUE);
+                        $param["painel_by_status"] = $this->load->view('client_views/verify_account_painel', '', TRUE);
                         break;
                     case UserStatus::BLOCKED_BY_PAYMENT:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_payment_view', '', TRUE);
+                        $param["painel_by_status"] = $this->load->view('client_views/block_by_payment_painel', '', TRUE);
                         break;
                     case UserStatus::BLOCKED_BY_INSTA:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_insta_view', '', TRUE);
+                        $param["painel_by_status"] = $this->load->view('client_views/block_by_insta_painel', '', TRUE);
                         break;
-                    case UserStatus::BLOCKED_BY_TIME:
-                        $param["painel_by_status"] = $this->load->view('client_views/block_by_time_view', '', TRUE);
-                        break;
+                    case UserStatus::PENDING:
+                        $param["painel_by_status"] = $this->load->view('client_views/pendent_by_payment_painel', '', TRUE);
+                        break;                    
                     default:
-                        $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
-                        $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                         break;
                 }
+                //6. set painel_person_profile as params to be display in visibility_client view
+                $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
+                $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
+                $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                 $this->load->view('visibility_client', $param);
             } else {
                 $this->load->view('visibility_home', $param);
@@ -100,11 +112,12 @@ class Welcome extends CI_Controller {
     }
 
     public function contract_visibility_steep_2() { //setting plane
-        $datas = $this->input->post();
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
         //1. set plane in la DB
+        $datas = $this->input->post();
         $datas["plane"];  //midle, fast, very_fast
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
+        
         //3. return response
         return Response::ResponseOK()->toJson();
     }
@@ -118,9 +131,9 @@ class Welcome extends CI_Controller {
         header("Location:" . base_url() . "index.php/welcome/index/ok/" . $client_id);
     }
 
-    public function get_person_profile_datas($profile_name = NULL) {
+    public function get_person_profile_datas($profile_name) {
         $result = InstaCommands::get_profile_public_data($profile_name);
-        echo var_dump($result);
+        echo json_encode($result);
     }
 
     //---------------SECUNDARY FUNCTIONS-----------------------------

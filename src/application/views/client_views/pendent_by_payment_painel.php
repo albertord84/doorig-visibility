@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="sec-title text-center">
-                        <h2 style="color:red">PAGAMENTO NÃO ENCONTRADO!!</h2>
+                        <h2 style="color:orange">PAGAMENTO PENDENTE!!</h2>
                         <span class="border"></span>
                     </div>
                 </div>                                        
@@ -30,8 +30,8 @@
                                                 <ul class="list-inline font-14">
                                                     <li class="p-l-0"><?php echo date("d/m/Y",(strtotime("- 7 days",time())))?></li>
                                                 </ul>
-                                                <i class="sl-icon-lock" style="font-size:3em; color:red"></i>
-                                                <p class="m-b-0 m-t-10">Serviço <b>BLOQUEADO</b> por pagamento não encontrado.</p>
+                                                <i class="sl-icon-lock-open" style="font-size:3em; color:orange"></i>
+                                                <p class="m-b-0 m-t-10">Módulo <b>ATIVO</b>, mas poderia ser bloqueado em poucos dias.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                                                     <li class="p-l-0">Logo depois!</li>
                                                 </ul>
                                                 <i class="sl-icon-lock-open" style="font-size:3em; color:#24d2b5"></i>
-                                                <p class="m-b-0 m-t-10">Módulo ficará ativo <br> logo depois de registrar <br> o pagamento.</p>
+                                                <p class="m-b-0 m-t-10">Módulo continuará <b>ATIVO</b> <br> logo depois de registrar <br> o pagamento.</p>
                                             </div>
                                         </div>
                                     </div>

@@ -94,27 +94,161 @@ $(document).ready(function () {
         }
         //spinner_stop(btn);
     });
+
     
-    function display_person_profile_datas(){
-        var pp = all_datas['person_profile'];        
-        $("#container-reference-profiles", rp[i]['Insta_name']);
-        
+    
+    //UPDATE MARK CREDENTIAL FUNCTIONS-----------------------------------------------------
+    $("#container-update-mark-credentials").keypress(function (e) {
+        if (e.which == 13) {
+            $("#btn-update-mark-credentials").click();
+            return false;
+        }
+    });
+    
+    $('#btn-update-mark-credentials').click(function(){ 
+        var profile = validate_element("#login_profile",ig_profile_regular_expression);
+        var password = validate_not_empty("#password");
+        var password_rep = validate_equals("#password","#password-rep");
+        if(!selected_profile)
+            modal_alert_message("Deve selecionar um perfil válido");
+        else
+        if(!profile || !password)
+            modal_alert_message("Alguns dados incorretos, confira.");
+        else
+            if(!password_rep)
+                modal_alert_message("As senhas não coincidem");
+            else{
+                var btn =this; spinner_start(btn);
+                $.ajax({
+                    url : base_url+'index.php/Client/update_mark_credentials',
+                    data :{
+                        "insta_name":$("#login_profile").val(),
+                        "insta_id":selected_profile['user']['pk'],
+                        "password":$("#password").val(),
+                        "passwordrep":$("#password-rep").val(),
+                    },
+                    type : 'POST',
+                    dataType : 'json',
+                    success : function(response){
+                        spinner_stop(btn);
+                        if(response.code===0){                            
+                            $(location).attr('href', base_url+"index.php/welcome/");
+                        } else
+                            modal_alert_message(response.message);                    
+                    },
+                    error : function(xhr, status) {
+                        spinner_stop(btn);
+                        modal_alert_message('Erro enviando dados, tente depois...');                    
+                    }
+                });  
+            }
+    });  
+            
+    //VERIFY ACCOUNT FUNCTIONS-----------------------------------------------------
+    $("#verify-account-by-email").click(function () {
+        var btn =this; spinner_start(btn);
+        request_checkpoint_required_code("phone",btn);
+    });
+    
+    $("#verify-account-by-sms").click(function () {
+        var btn =this; spinner_start(btn);
+        request_checkpoint_required_code("sms",btn);
+    });
+    
+    function request_checkpoint_required_code(device,btn){        
+        $('#verify-account-by-email').addClass("disabled");  
+        $('#verify-account-by-sms').addClass("disabled");  
+        $.ajax({
+            url: base_url + 'index.php/Client/request_checkpoint_required_code',
+            data: {
+                "device": device
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                spinner_stop(btn);
+                if (response.code === 0) {
+                    $('.verify-account-steep1').css({'display':'none','visibility': 'hidden','opacity': '0','transition':'visibility 0s, opacity 0.5s linear'});  
+                    $('.verify-account-steep2').css({'display':'block','visibility': 'visible', 'opacity': '1'});                                        
+                } else
+                    modal_alert_message(response.message);
+            },
+            error: function (xhr, status) {                
+                spinner_stop(btn);
+                $('#verify-account-by-email').removeClass("disabled");  
+                $('#verify-account-by-sms').remooveClass("disabled");  
+                $('#verify-account-by-email').addClass("active");  
+                $('#verify-account-by-sms').addClass("active");  
+                modal_alert_message(T('Erro enviando a mensagem, tente depois...'));
+            }
+        });
+    }
+    
+    $("#btn-send-verification-code").click(function () {
+        code_validation = validate_element("#input-checkpoint-required-code",checkpoint_required_code_regular_expression)
+        if(!code_validation){
+            modal_alert_message("Código de validação errado");
+        }else{
+            var btn =this; spinner_start(btn);
+            $.ajax({
+                url: base_url + 'index.php/Client/verifify_checkpoint_required_code',
+                data: {
+                    "code": $("#input-checkpoint-required-code").val()
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    spinner_stop(btn);
+                    if (response.code === 0) {
+                        $(location).attr('href', base_url+"index.php/welcome/");
+                    } else
+                        modal_alert_message(response.message);
+                },
+                error: function (xhr, status) {                
+                    spinner_stop(btn); 
+                    modal_alert_message(T('Erro enviando a mensagem, tente depois...'));
+                }
+            });            
+        }
+    });
+    
+    //DISPLAYING DATAS FUNCTIONS-----------------------------------------------------
+    function display_person_profile_datas(){        
+        $("#ig-profile-name").text("@"+person_profile['Login']);        
+        $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile['Login']);
+        $.ajax({
+            url: base_url+"index.php/welcome/get_person_profile_datas/"+person_profile['Login'],
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                $("#ig-profile-description").text(response.json.description);
+                $("#ig-profile-picture-url").prop("src",response.image);
+                $("#ig-profile-amount-followers").text(response.followers);
+                $("#ig-profile-amount-following").text(response.following);
+                $("#ig-profile-amount-post").text(response.post);
+            },
+            error: function (xhr, status) {
+                modal_alert_message('Não foi possível conectar com o Instagram');
+            }
+        });
     }
     
     function display_reference_profile_datas(){
-        var rp = all_datas['reference_profile'];        
-        for(i=0;i<rp.length;i++){
-            if(rp[i]['Type']==0)
-                show_profile_in_view("#container-reference-profiles", rp[i]['Insta_name']);
+        var rp = person_profile.ReferenceProfiles.ReferenceProfiles;
+        $.each( rp, function( key, value ) {
+            if(value.Type==0)
+                show_profile_in_view("#container-reference-profiles", value.Insta_name);
             else
-            if(rp[i]['Type']==1)
-                show_geolocation_in_view("#container-geolocations", rp[i]['Insta_name']);
+            if(value.Type==1)
+                show_geolocation_in_view("#container-geolocations", value.Insta_name);
             else
-            if(rp[i]['Type']==2)
-                show_hashtag_in_view("#container-hashtags", rp[i]['Insta_name']);
-        }
+            if(value.Type==2)
+                show_hashtag_in_view("#container-hashtags", value.Insta_name);
+        })
+            
     }
     
+    display_person_profile_datas();
     display_reference_profile_datas();
 });
 
@@ -826,3 +960,12 @@ function delete_profile_bl(profile_bl) {
     });
 }
 
+if(person_profile.Status ==2 || person_profile.Status ==3 || person_profile.Status ==6 || person_profile.Status ==9){               
+    $(".profile-delete").off("click");
+    $(".sensitive_painel *").addClass('sensitive_painel_disabled');        
+    $(".sensitive_painel_disabled *").off();                   
+    $(".sensitive_painel_disabled").click(function (e) {
+        modal_alert_message("Você deve resolver os problemas notificados.");
+        return false;
+    });
+}
