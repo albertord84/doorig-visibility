@@ -194,6 +194,7 @@ class ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f
         'SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.smtp.php',
         'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
         'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
+        'yidas\\Model' => __DIR__ . '/..' . '/yidas/codeigniter-model/src/Model.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

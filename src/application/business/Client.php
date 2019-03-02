@@ -3,6 +3,7 @@
 namespace business {
 
     require_once config_item('business-user-class');
+    require_once config_item('business-daily_report-class');
     require_once config_item('business-insta-curl-info-class');
     require_once config_item('business-ref_profile-class');
     require_once config_item('business-reference-profiles-class');
@@ -28,7 +29,7 @@ namespace business {
             $this->InstaCurlInfo = new InstaCurlInfo($this);
             //$this->InstaContactInfo = new InstaContactInfo($this);
             $this->ReferenceProfiles = new ReferenceProfiles($this);
-            //$this->DailyReport = new DailyReport($this);
+            $this->DailyReport = new DailyReport($this);
         }
 
         public function load_data() {
@@ -48,6 +49,10 @@ namespace business {
 
         public function load_insta_data() {
             $this->InstaCurlInfo->load_data();
+        }
+
+        public function load_daily_report_data() {
+            $this->DailyReport->load_data();
         }
 
         public function load_insta_reference_profiles_data(int $status = 0, int $type = -1) {

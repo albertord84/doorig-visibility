@@ -25,7 +25,8 @@ class Welcome extends CI_Controller {
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
-        $this->load->view('visibility_client', $param);
+        $this->load->view('visibility_home', $param);
+        //$this->load->view('visibility_client', $param);
     }
 
     public function index($access_token, $client_id) {
