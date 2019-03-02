@@ -33,6 +33,11 @@ class Client_test extends CI_Controller {
         
         echo "<pre>";
         echo "<h2>Test Insta Curl Info Business</h2>";
+        $obj->load_daily_report_data(); var_dump($obj); die();
+        echo "[load] Client Reference Profiles Business ==> (<b>ok</b>)<br>";
+        
+        echo "<pre>";
+        echo "<h2>Test Insta Curl Info Business</h2>";
         $obj->load_insta_data(); //var_dump($obj);
         echo "[load] Client Reference Profiles Business ==> (<b>ok</b>)<br>";
         
