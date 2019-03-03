@@ -19,21 +19,25 @@ $(function () {
         
       ]
     }, {
-        high: 15
+        high: 100
         , low: 0
         , showArea: true
         , fullWidth: true
         , plugins: [
         Chartist.plugins.tooltip()
       ], // As this is axis specific we need to tell Chartist to use whole numbers only on the concerned axis
-        axisY: {
-            onlyInteger: true
-            , offset: 20
-            , labelInterpolationFnc: function (value) {
-                return (value / 1) + 'k';
-            }
-        }
+//        axisY: {
+//            onlyInteger: true
+//            , offset: 20
+//            , labelInterpolationFnc: function (value) {
+//                return (value / 1) + 'k';
+//            }
+//        }
     });
+    
+    
+    
+    
     // ============================================================== 
     // User analytics
     // ============================================================== 

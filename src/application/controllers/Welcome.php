@@ -53,6 +53,7 @@ class Welcome extends CI_Controller {
                 $Client = new Client($ClientModule->Id);
                 $Client->load_data();
                 $Client->ReferenceProfiles->load_data();
+                $Client->load_daily_report_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. load datas as params to be used in visibility_client view                
                 /*$datas["person_profile"] = json_encode($this->prepare_person_profile_datas_to_display($Client));

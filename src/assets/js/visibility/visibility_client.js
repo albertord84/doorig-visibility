@@ -250,23 +250,33 @@ $(document).ready(function () {
     }
     
     function display_chart_datas(){
-        //mygraphic.data.series[0][0]=7
-        var rp = person_profile.ReferenceProfiles.ReferenceProfiles;
-        $.each( rp, function( key, value ) {
-            if(value.Type==0)
-                show_profile_in_view("#container-reference-profiles", value.Insta_name);
-            else
-            if(value.Type==1)
-                show_geolocation_in_view("#container-geolocations", value.Insta_name);
-            else
-            if(value.Type==2)
-                show_hashtag_in_view("#container-hashtags", value.Insta_name);
-        })
+        var datas = person_profile.DailyReport.data;
+        followings_serie={};
+        followers_serie={};
+        labels_serie={};
+        
+        i=0;
+        $.each( datas, function( key, value ) {
+//            followings_serie[i]=value.followings;
+//            followers_serie[i]=value.followers;
+//            labels_serie[i]=i;
             
+            mygraphic.data.series[0][i]=value.followings/1000;
+            mygraphic.data.series[1][i]=value.followers/1000;
+            mygraphic.data.labels[i]=i;
+            
+            i++;
+            if(i>20)
+                return false;
+        })
+//        mygraphic.data.labels=labels_serie;
+//        mygraphic.data.series[0]=followings_serie;
+//        mygraphic.data.series[1]=followers_serie;               
     }
     
     display_person_profile_datas();
     display_reference_profile_datas();
+    display_chart_datas();
 });
 
 
