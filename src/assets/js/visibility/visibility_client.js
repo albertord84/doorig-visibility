@@ -330,7 +330,7 @@ function add_person_profile(container, profile) {
         modal_alert_message("Deve selecionar um perfil da lista.");
     } else {
         $.ajax({
-            url: base_url + 'index.php/PersonProfiles/insert_person_profile',
+            url: base_url + 'index.php/PersonProfiles/insert_profile',
             data: {
                 "insta_name": profile,
                 "insta_id": selected_profile['user']['pk'],
@@ -365,7 +365,7 @@ function show_profile_in_view(container, profile) {
                 var str = "<div id='container-" + cnt_name + "' class='col-md-4 col-sm-12 col-xs-12'>" +
                         "<div class='card'>" +
                         "<div class='profile card-body card-body-profile'>" +
-                        "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_person_profile\", \"" + profile + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
+                        "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_profile\", \"" + profile + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
                         "<br>" +
                         "<div class='text-center'>" +
                         "<a id='name-profile' href='https://instagram.com/" + profile + "' target='_blank'>" +
@@ -396,7 +396,7 @@ function show_profile_in_view(container, profile) {
 function delete_person_profile(profile) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
-        url: base_url + 'index.php/PersonProfiles/delete_person_profile',
+        url: base_url + 'index.php/PersonProfiles/delete_profile',
         data: {
             "reference_profile_id": profile
         },

@@ -18,6 +18,14 @@ class Your_mark_model extends yidas\Model
     {
         return $this->db->get_where('your_mark',array('id'=>$id))->row_array();
     }
+    
+    /*
+     * Get your_mark by id
+     */
+    function get_your_mark_by_client_id($client_id)
+    {
+        return $this->db->get_where('your_mark',array('client_id'=>$client_id))->row_array();
+    }
         
     /*
      * Get all your_marks

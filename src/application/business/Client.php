@@ -16,12 +16,13 @@ namespace business {
      * @todo Define an Client business class.
      * 
      */
-    class Client extends User {
+    class Client extends Business {
 
         public $InstaCurlInfo;
         public $InstaContactInfo;       // Client intagram general information Class
         public $ReferenceProfiles;      // Client referent profiles Class
         public $DailyReport;            // Client daily report Class
+        public $BasicInfo;              // Client daily report Class
 
         public function __construct(int $id) {
             parent::__construct($id);

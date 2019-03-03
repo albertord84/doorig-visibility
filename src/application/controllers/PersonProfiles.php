@@ -28,7 +28,7 @@ class PersonProfiles extends CI_Controller {
         // $this->load->view('personProfiles_view');
     }
 
-    public function insert_person_profile() {
+    public function insert_profile() {
         
         $datas = $this->input->post();
 
@@ -59,7 +59,7 @@ class PersonProfiles extends CI_Controller {
         Response::ResponseOK()->toJson();
     }
 
-    public function get_person_profiles() {
+    public function get_profiles() {
         $datas = $this->input->post();
 
         try {
