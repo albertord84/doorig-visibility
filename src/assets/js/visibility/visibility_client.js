@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     $("#container-add-reference-profile").keypress(function (e) {
         if (e.which == 13) {
             $("#add-reference-profile").click();
@@ -94,8 +95,6 @@ $(document).ready(function () {
         }
         //spinner_stop(btn);
     });
-
-    
     
     //UPDATE MARK CREDENTIAL FUNCTIONS-----------------------------------------------------
     $("#container-update-mark-credentials").keypress(function (e) {
@@ -213,7 +212,7 @@ $(document).ready(function () {
     });
     
     //DISPLAYING DATAS FUNCTIONS-----------------------------------------------------
-    function display_person_profile_datas(){        
+   function display_person_profile_datas(){        
         $("#ig-profile-name").text("@"+person_profile['Login']);        
         $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile['Login']);
         $.ajax({
@@ -237,19 +236,50 @@ $(document).ready(function () {
         var rp = person_profile.ReferenceProfiles.ReferenceProfiles;
         $.each( rp, function( key, value ) {
             if(value.Type==0)
-                show_profile_in_view("#container-reference-profiles", value.Insta_name);
+                show_profile_in_view("#container-reference-profiles", value.Insta_name,value.Id);
             else
             if(value.Type==1)
-                show_geolocation_in_view("#container-geolocations", value.Insta_name);
+                show_geolocation_in_view("#container-geolocations", value.Insta_name,value.Id);
             else
             if(value.Type==2)
-                show_hashtag_in_view("#container-hashtags", value.Insta_name);
+                show_hashtag_in_view("#container-hashtags", value.Insta_name,value.Id);
         })
             
     }
     
+    function display_chart_datas(){ //taken of morris-data.js
+        var datas = person_profile.DailyReport.data;
+        i=0; var statistics=[];
+        $.each( datas, function( key, value ) {
+            statistics[i]={
+                period: timeConverter(value.date),
+                followed: value.followings,
+                followers: value.followers
+            };
+            i++;
+        })
+        Morris.Area({
+            element: 'morris-area-chart',
+            data:statistics,
+            xkey: 'period',
+            ykeys: [ 'followed', 'followers'],
+            labels: [ 'Seguidos', 'Seguidores'],
+            pointSize: 2,
+            fillOpacity: 0.05,
+            pointStrokeColors:[ '#009efb', '#55ce63'],
+            behaveLikeLine: true,
+            gridLineColor: '#e0e0e0',
+            lineWidth: 1,
+            hideHover: 'auto',
+            lineColors: [ '#009efb', '#55ce63'],
+            resize: true
+        });
+        
+    }
+            
     display_person_profile_datas();
     display_reference_profile_datas();
+    display_chart_datas();
 });
 
 
@@ -339,8 +369,9 @@ function add_person_profile(container, profile) {
             dataType: 'json',
             success: function (response) {
                 //spinner_stop(btn);
+                console.log(response);
                 if (response.code === 0) {
-                    show_profile_in_view(container, profile);
+                    show_profile_in_view(container, profile,response.InsertedId);
                 } else
                     modal_alert_message(response.message);
             },
@@ -352,7 +383,7 @@ function add_person_profile(container, profile) {
     }
 }
 
-function show_profile_in_view(container, profile) {
+function show_profile_in_view(container, profile, id) {
     $.ajax({
         url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + profile,
         type: 'GET',
@@ -360,12 +391,11 @@ function show_profile_in_view(container, profile) {
         success: function (response) {
             datas = find_match_profile_in_list(response['users'], profile);
             datas = datas.user;
-            cnt_name = profile.replace(/./g, "_");
             if(datas){                
-                var str = "<div id='container-" + cnt_name + "' class='col-md-4 col-sm-12 col-xs-12'>" +
+                var str = "<div id='container-" + id + "' class='col-md-4 col-sm-12 col-xs-12'>" +
                         "<div class='card'>" +
                         "<div class='profile card-body card-body-profile'>" +
-                        "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_profile\", \"" + profile + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
+                        "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil de referência?\", \"delete_profile\", \"" + id + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
                         "<br>" +
                         "<div class='text-center'>" +
                         "<a id='name-profile' href='https://instagram.com/" + profile + "' target='_blank'>" +
@@ -393,20 +423,19 @@ function show_profile_in_view(container, profile) {
     });
 }
 
-function delete_person_profile(profile) {
+function delete_person_profile(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/PersonProfiles/delete_profile',
         data: {
-            "reference_profile_id": profile
+            "reference_profile_id": id
         },
         type: 'POST',
         dataType: 'json',
         success: function (response) {
             //spinner_stop(btn);
             if (response.code === 0) {
-                profile = profile.replace(/./g, "_");
-                cnt = "#container-" + profile;
+                cnt = "#container-" + id;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);
@@ -501,7 +530,7 @@ function add_geolocation(container, geolocation) {
             success: function (response) {
                 //spinner_stop(btn);
                 if (response.code === 0) {
-                    show_geolocation_in_view(container, geolocation);
+                    show_geolocation_in_view(container, geolocation, response.InsertedId);
                 } else
                     modal_alert_message(response.message);
             },
@@ -513,7 +542,7 @@ function add_geolocation(container, geolocation) {
     }
 }
 
-function show_geolocation_in_view(container, geolocation) {
+function show_geolocation_in_view(container, geolocation, id) {
     $.ajax({
         url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + geolocation,
         type: 'GET',
@@ -522,10 +551,10 @@ function show_geolocation_in_view(container, geolocation) {
             datas = find_match_geolocation_in_list(response['places'], geolocation);
             datas = datas.place;
             if(datas){                
-                var str = "<div id='container-" + geolocation + "' class='col-md-4 col-sm-12 col-xs-12'>" +
+                var str = "<div id='container-" + id + "' class='col-md-4 col-sm-12 col-xs-12'>" +
                         "<div class='card'>" +
                         "<div class='geolocation card-body card-body-profile'>" +
-                        "<button onclick='modal_confirm_message(\"Confirma a eliminação dessa gelocalização?\", \"delete_geolocation\", \"" + geolocation + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
+                        "<button onclick='modal_confirm_message(\"Confirma a eliminação dessa gelocalização?\", \"delete_geolocation\", \"" + id + "\");' class='profile-delete close' type='button' title='Fechar'><span aria-hidden='true'>&times;</span></button> " +
                         "<br>" +
                         "<div class='text-center'>" +
                         "<a  href='https://www.instagram.com/explore/locations/" + datas.location.pk + "/" + datas.location.slug + "/" + "' target='_blank'>" +                    
@@ -556,19 +585,19 @@ function show_geolocation_in_view(container, geolocation) {
     });
 }
 
-function delete_geolocation(geolocation) {
+function delete_geolocation(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/GeolocationProfiles/delete_geolocation',
         data: {
-            "geolocation": geolocation
+            "geolocation": id
         },
         type: 'POST',
         dataType: 'json',
         success: function (response) {
             //spinner_stop(btn);
             if (response.code === 0) {
-                cnt = "#container-" + geolocation;
+                cnt = "#container-" + id;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);
@@ -658,7 +687,7 @@ function add_hashtag(container, hashtag) {
             success: function (response) {
                 //spinner_stop(btn);
                 if (response.code === 0) {
-                    show_hashtag_in_view(container, hashtag);                    
+                    show_hashtag_in_view(container, hashtag, response.InsertedId);                    
                 } else
                     modal_alert_message(response.message);
             },
@@ -670,7 +699,7 @@ function add_hashtag(container, hashtag) {
     }
 }
 
-function show_hashtag_in_view(container, hashtag) {
+function show_hashtag_in_view(container, hashtag, id) {
     $.ajax({
         url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + hashtag,
         type: 'GET',
@@ -679,10 +708,10 @@ function show_hashtag_in_view(container, hashtag) {
             datas = find_match_hashtag_in_list(response['hashtags'], hashtag);
             datas = datas.hashtag;
             if(datas){                
-                var str = "<div id='container-" + hashtag + "' class='col-md-4 col-sm-12 col-xs-12'>" +
+                var str = "<div id='container-" + id + "' class='col-md-4 col-sm-12 col-xs-12'>" +
                             "<div class='card'>" +
                                 "<div class='hastag card-body card-body-profile'>" +
-                                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse hashtag?\", \"delete_hashtag\", \"" + hashtag + "\");' class='profile-delete close' type='button' title='Eliminar'><span aria-hidden='true'>&times;</span></button>" +
+                                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse hashtag?\", \"delete_hashtag\", \"" + id + "\");' class='profile-delete close' type='button' title='Eliminar'><span aria-hidden='true'>&times;</span></button>" +
                                     "<br>" +
                                     "<div class='text-center'>" +
                                             "<a href='https://www.instagram.com/explore/tags/" + hashtag + "/' target='_blank'>" +
@@ -717,19 +746,19 @@ function show_hashtag_in_view(container, hashtag) {
     });
 }
 
-function delete_hashtag(hashtag) {
+function delete_hashtag(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/HashtagProfiles/delete_hashtag',
         data: {
-            "hashtag": hashtag
+            "hashtag": id
         },
         type: 'POST',
         dataType: 'json',
         success: function (response) {
             //spinner_stop(btn);
             if (response.code === 0) {
-                cnt = "#container-" + hashtag;
+                cnt = "#container-" + id;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);
@@ -805,7 +834,7 @@ function add_profile_wl(container, profile_wl) {
             success: function (response) {
                 //spinner_stop(btn);
                 if (response.code === 0) {
-                    show_profile_wl_in_view(container, profile_wl);
+                    show_profile_wl_in_view(container, profile_wl, response.InsertedId);
                 } else
                     modal_alert_message(response.message);
             },
@@ -817,7 +846,7 @@ function add_profile_wl(container, profile_wl) {
     }
 }
 
-function show_profile_wl_in_view(container, profile_wl){
+function show_profile_wl_in_view(container, profile_wl, id){
     $.ajax({
         url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + profile_wl,
         type: 'GET',
@@ -827,8 +856,8 @@ function show_profile_wl_in_view(container, profile_wl){
             datas = datas.user;
             cnt_name = profile_wl.replace(/./g, "_");
             if(datas){                
-                var str = "<a id='container-" + cnt_name + "' class='item-white-list'>" +
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \"" + profile_wl + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+                var str = "<a id='container-"+id+"-"+cnt_name+"' class='item-white-list'>" +
+                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \"" + profile_wl + "\", \"" + id + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
                         "<span aria-hidden='true'>&times;</span>" +
                     "</button>" +
                     "<div class='user-img'>" +
@@ -849,12 +878,12 @@ function show_profile_wl_in_view(container, profile_wl){
     });  
 }
 
-function delete_profile_wl(profile_wl) {
+function delete_profile_wl(profile_wl,id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/BlackWhiteList/delete_profile_in_white_list',
         data: {
-            "profile": profile_wl
+            "profile": id
         },
         type: 'POST',
         dataType: 'json',
@@ -862,7 +891,7 @@ function delete_profile_wl(profile_wl) {
             //spinner_stop(btn);
             if (response.code === 0) {
                 cnt_name = profile_wl.replace(/./g, "_");
-                cnt = "#container-" + cnt_name;
+                cnt = "#container-"+id+"-"+cnt_name;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);
@@ -891,7 +920,7 @@ function add_profile_bl(container, profile_bl) {
             success: function (response) {
                 //spinner_stop(btn);
                 if (response.code === 0) {
-                    show_profile_bl_in_view(container, profile_bl);
+                    show_profile_bl_in_view(container, profile_bl, response.InsertedId);
                 } else
                     modal_alert_message(response.message);
             },
@@ -903,7 +932,7 @@ function add_profile_bl(container, profile_bl) {
     }
 }
 
-function show_profile_bl_in_view(container, profile_bl){
+function show_profile_bl_in_view(container, profile_bl, id){
     $.ajax({
         url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + profile_bl,
         type: 'GET',
@@ -913,8 +942,8 @@ function show_profile_bl_in_view(container, profile_bl){
             datas = datas.user;
             cnt_name = profile_bl.replace(/./g, "_");
             if(datas){                
-                var str = "<a id='container-" + cnt_name + "' class='item-white-list'>" +
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \"" + profile_bl + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+                var str = "<a id='container-"+id+"-"+cnt_name+"' class='item-white-list'>" +
+                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \"" + profile_bl + "\", \"" + id + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
                         "<span aria-hidden='true'>&times;</span>" +
                     "</button>" +
                     "<div class='user-img'>" +
@@ -935,12 +964,12 @@ function show_profile_bl_in_view(container, profile_bl){
     });  
 }
 
-function delete_profile_bl(profile_bl) {
+function delete_profile_bl(profile_bl,id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/BlackWhiteList/delete_profile_in_black_list',
         data: {
-            "profile": profile_bl
+            "profile": id
         },
         type: 'POST',
         dataType: 'json',
@@ -948,7 +977,7 @@ function delete_profile_bl(profile_bl) {
             //spinner_stop(btn);
             if (response.code === 0) {
                 cnt_name = profile_bl.replace(/./g, "_");
-                cnt = "#container-" + cnt_name;
+                cnt = "#container-"+id+"-"+cnt_name;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);

@@ -36,7 +36,7 @@
             <ul class="navbar-nav my-lg-0" >
                 <!-- Comment -->
                 <li class="nav-item dropdown">
-                    <a style="padding-top:15px; margin-top:10px; height:50px" class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-Bell"></i>
+                    <a style="padding-top:15px; margin-top:0px; height:50px" class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="icon-Bell"></i>
                         <div class="notify" > 
                             <span class="heartbit" style="margin-top: 12px"></span> 
                             <span class="point" style="margin-top: 12px"></span> 
@@ -79,40 +79,46 @@
                 </li>                            
                 <!-- Language -->
                 <li class="nav-item dropdown">
-                    <a style="padding-top:15px; margin-top:10px; height:50px" class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+                    <a style="padding-top:15px; margin-top:0px; height:50px" class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
                         <i class="flag-icon flag-icon-us"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animated bounceInDown"> 
-                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-pt"></i> Portugês</a> 
-                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-en"></i> English</a>
-                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-sp"></i> Español</a>
+                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-br"></i> Portugês</a> 
+                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-us"></i> English</a>
+                        <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-es"></i> Español</a>
                     </div>
                 </li>                            
                 <!-- Profile -->
                 <li class="nav-item dropdown u-pro">
-                    <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?php echo base_url()?>assets/images/users/1.jpg" alt="user" class="" /> <span class="hidden-md-down">Mark Sanders &nbsp;<i class="fa fa-angle-down"></i></span> </a>
+                    <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img class="client_photo" src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/profile_images/default-user.png" alt="user"  /> 
+                        <span class="hidden-md-down">
+                            <i class="client_email">-----</i>
+                            &nbsp;
+                            <i class="fa fa-angle-down"></i>
+                        </span> 
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right animated flipInY">
                         <ul class="dropdown-user">
                             <li>
                                 <div class="dw-user-box">
                                     <div class="u-img">
-                                        <img src="<?php echo base_url()?>assets/images/users/1.jpg" alt="user">
+                                        <img class="client_photo"  src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/profile_images/default-user.png" alt="user">
                                     </div>
                                     <div class="u-text">
-                                        <h4>Steave Jobs</h4>
-                                        <p class="text-muted">varun@gmail.com</p>
+                                        <!--<h4>Steave Jobs</h4>-->
+                                        <p class="text-muted client_email">----</p>
                                         <!--<a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>-->
-                                    </div> 
+                                        <a id="lnk_loguot" href=""><i class="fa fa-power-off"></i> Logout</a>
+                                    </div>
+                                    <div>
+                                    </div>
                                 </div>
                             </li>
-                            <li role="separator" class="divider"></li>
-                            <!--<li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-                            <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-                            <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-                            <li role="separator" class="divider"></li>-->
+                            <!--<li role="separator" class="divider"></li>
                             <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+                            <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>-->
                         </ul>
                     </div>
                 </li>

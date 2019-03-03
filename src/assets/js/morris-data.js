@@ -2,7 +2,7 @@
 $(function () {
     "use strict";
 Morris.Area({
-        element: 'morris-area-chart',
+        element: 'morris-area-chart-kkkk',
         data: [{
             period: '2010',
             iphone: 50,

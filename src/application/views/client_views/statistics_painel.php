@@ -93,35 +93,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7 col-sm-8 col-xs-12">                                            
-                    <div class="row">
-                        <!-- Column -->
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h3>Histórico</h3>
-                                    <div class="row">
-                                            <ul class="list-inline pull-right">
-                                                <li>
-                                                    <h6 class="text-muted">
-                                                        <i class="fa fa-circle m-r-5 text-success"></i>
-                                                        Perfis seguidos
-                                                    </h6>
-                                                </li>
-                                                <li>
-                                                    <h6 class="text-muted">
-                                                        <i class="fa fa-circle m-r-5 text-info"></i>
-                                                        Seguidores ganhos
-                                                    </h6> 
-                                                </li>
-                                            </ul>                                                                    
-                                            <div class="total-revenue4" style="height: 350px;"></div>
-                                    </div>
+                
+                <div class="col-md-7 col-sm-8 col-xs-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex no-block align-items-center">
+                                <h4 class="card-title">Histórico</h4>
+                                <div class="ml-auto">
+                                    <ul class="list-inline text-right">
+<!--                                        <li>
+                                            <h5><i class="fa fa-circle m-r-5 text-inverse"></i>iPhone</h5>
+                                        </li>-->
+                                        <li>
+                                            <h5><i class="fa fa-circle m-r-5 text-info"></i>Seguidos</h5>
+                                        </li>
+                                        <li>
+                                            <h5><i class="fa fa-circle m-r-5 text-success"></i>Seguidores</h5>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
+                            <div id="morris-area-chart"></div>
                         </div>
                     </div>
-                </div>                             
+                </div>
             </div>
         </div>
     </div>

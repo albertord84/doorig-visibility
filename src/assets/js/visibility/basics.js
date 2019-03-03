@@ -155,6 +155,15 @@ function modal_confirm_message(text_message,function_name,param){
     $('#modal_confirm_message').modal('show');
 }
 
+function timeConverter(UNIX_timestamp){
+    var a = new Date(UNIX_timestamp * 1000);
+    var year = a.getFullYear();
+    var month = a.getMonth();
+    var date = a.getDate();
+    var time = year+'-'+month+'-'+date;
+    return time;
+}
+
 $(document).ready(function(){  
     
     $("#accept_modal_alert_message").click(function () {
@@ -164,6 +173,18 @@ $(document).ready(function(){
     $("#accept_modal_success_message").click(function () {
         $('#modal_success_message').modal('hide');
     });
+    
+    $("#lnk_loguot").click(function () {
+        $(location).attr('href', base_url+'index.php/welcome/log_out')
+        return false;
+    });
+    
+    function display_client_datas(){        
+        $(".client_email").text(client_datas.ClientEmail);        
+        $(".client_photo").prop("src",client_datas.ClientPhotoUrl);        
+    }
+    
+    display_client_datas();
     
  }); 
  
