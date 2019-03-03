@@ -33,7 +33,7 @@
         <link href="<?php echo base_url()?>assets/css/pages/widget-page.css" rel="stylesheet">
         
         <!--This page css - Morris CSS -->
-        <!--<link href="<?php echo base_url()?>assets/node_modules/morrisjs/morris.css" rel="stylesheet">-->       
+        <link href="<?php echo base_url()?>assets/node_modules/morrisjs/morris.css" rel="stylesheet">       
         <!--alerts CSS -->
         <!--<link href="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">-->        
         
@@ -109,21 +109,23 @@
         </div>        
         <!-- End Wrapper -->
         
-        <!-- All Jquery -->
         <script src="<?php echo base_url()?>assets/node_modules/jquery/jquery.min.js"></script>
-        <!-- Bootstrap popper Core JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/bootstrap/js/popper.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/bootstrap/js/bootstrap.min.js"></script>
-        <!-- slimscrollbar scrollbar JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/ps/perfect-scrollbar.jquery.min.js"></script>
-        <!--Wave Effects -->
-        <!--<script src="<?php echo base_url()?>assets/js/waves.js"></script>-->
-        <!--Menu sidebar -->
+        <script src="<?php echo base_url()?>assets/js/waves.js"></script>
         <script src="<?php echo base_url()?>assets/js/sidebarmenu.js"></script>
+        <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+        <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+        <script src="<?php echo base_url()?>assets/js/custom.min.js"></script>
+        
         <!-- This page plugins -->
+        
         <!--morris JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/raphael/raphael-min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/morrisjs/morris.min.js"></script>
+        <script src="<?php echo base_url()?>assets/js/morris-data.js"></script>
+        
         <!--c3 JavaScript -->
         <script src="<?php echo base_url()?>assets/node_modules/d3/d3.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/c3-master/c3.min.js"></script>
@@ -133,8 +135,11 @@
         <script src="<?php echo base_url()?>assets/js/dashboard1.js"></script>
         <!-- Style switcher -->
         <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>        
-        <!--Custom JavaScript -->
-        <script src="<?php echo base_url()?>assets/js/custom.min.js"></script>
+        
+        
+        
+        
+        
         
 <!--        <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>-->        
@@ -149,18 +154,18 @@
         <script src="<?php echo base_url()?>assets/node_modules/wizard/steps.js"></script>        -->
         
         
-        <!-- Chart JS -->
+<!--         Chart JS 
         <script src="<?php echo base_url()?>assets/node_modules/chartist-js/dist/chartist.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/echarts/echarts-all.js"></script>
         
-        <!-- Flot Charts JavaScript -->
+         Flot Charts JavaScript 
         <script src="<?php echo base_url()?>assets/node_modules/flot/excanvas.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/flot/jquery.flot.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/flot/jquery.flot.time.js"></script>
         <script src="<?php echo base_url()?>assets/node_modules/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-        <script src="<?php echo base_url()?>assets/js/widget-charts.js"></script>        
+        <script src="<?php echo base_url()?>assets/js/widget-charts.js"></script>        -->
                 
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>        
         

@@ -58,9 +58,14 @@ class Daily_report_model extends CI_Model {
         
         $this->db->select('*')->from('daily_report');
         //$this->db->order_by('<field>', '<type>'); ==> asc/desc
-        $query = $this->db->get();
-
-        $result = $query->result_array();
+        $query = $this->db->get();        
+        $result_org = $query->result_array();
+        $N = count($result_org);
+        $steep = (int)($N/$GLOBALS["sistem_config"]->SAMPLES_IN_CHART)-1;
+        $k=0;
+        for($i=0;$i<$N;$i=$i+$steep){
+            $result[$k++]=$result_org[$i];
+        }
         return $result;
     }
 

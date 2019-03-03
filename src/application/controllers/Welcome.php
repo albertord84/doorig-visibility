@@ -56,12 +56,6 @@ class Welcome extends CI_Controller {
                 $Client->load_daily_report_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. load datas as params to be used in visibility_client view                
-                /*$datas["person_profile"] = json_encode($this->prepare_person_profile_datas_to_display($Client));
-                $datas["reference_profile"] = $this->prepare_reference_profile_datas_to_display($Client);
-                $datas["black_white_list"] = $this->prepare_black_white_list_datas_to_display($Client);
-                $datas["daily_report"] = $this->prepare_daily_report_to_display($Client);
-                $datas["statistics"] = $this->prepare_statistics_to_display($Client);
-                $param["person_profile_datas"] = json_encode($datas);*/
                 $tmpClient = unserialize($this->session->userdata('client'));
                 unset($tmpClient->Pass);
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
@@ -192,6 +186,8 @@ class Welcome extends CI_Controller {
         return FALSE;
     }
 
+    
+    
     private function prepare_client_datas_to_display($ClientModule) {
         //1. call by Guzzle a funtion in doorig for get the client informations to be displyed in all views
         $ClientDatas = array(); //Guzzle
@@ -200,76 +196,6 @@ class Welcome extends CI_Controller {
                 /* "ClientName"=>$ClientDatas->Id,
                   "ClientEmail"=>$ClientDatas->Id,
                   "ClientPhotoPath"=>$ClientDatas->Id, */
-        );
-        return $datas;
-    }
-
-    private function prepare_person_profile_datas_to_display($Client) {
-        $ig_datas = InstaCommands::get_profile_public_data($Client->Login);
-        $datas = array(
-            "PersonProfileId" => $Client->Id,
-            "Name" => $Client->Name,
-            "Login" => $Client->Login,
-            "Status" => $Client->Status,
-//            ""=>$Client->$ig_datas,
-//            ""=>$Client->$ig_datas,
-//            ""=>$Client->$ig_datas,
-//            ""=>$Client->$ig_datas,
-//            ""=>$Client->$ig_datas,
-        );
-        return $datas;
-    }
-
-    private function prepare_reference_profile_datas_to_display($Client) {
-        $datas = array();
-        $a = $Client->ReferenceProfiles;
-        $b = $Client->ReferenceProfiles->ReferenceProfiles;
-        foreach ($Client->ReferenceProfiles->ReferenceProfiles as $rp) {
-            array_push(
-                    $datas,
-                    array(
-                        'Id' => $rp->Id,
-                        'Insta_name' => $rp->Insta_name,
-                        'Insta_id' => $rp->Insta_id,
-                        'Status_id' => $rp->Status_id,
-                        'Follows' => $rp->Follows,
-                        'Type' => $rp->Type,
-            ));
-        }
-        return $datas;
-    }
-
-    private function prepare_black_white_list_datas_to_display($Client) {
-        $datas = array();
-        foreach ($Client->ReferenceProfiles->ReferenceProfiles as $rp) {
-//            array_push(
-//                $datas['reference_profile'],
-//                array(
-//                    'Id'=>$rp->Id,
-//                    'Insta_name'=>$rp->Insta_name,
-//                    'Insta_id'=>$rp->Insta_id,
-//                    'Status_id'=>$rp->Status_id,
-//                    'Follows'=>$rp->Follows,
-//                    'Type'=>$rp->Type,
-//                ));
-        }
-        return $datas;
-    }
-
-    private function prepare_daily_report_to_display($Client) {
-        $datas = array(
-        );
-        return $datas;
-    }
-
-    private function prepare_statistics_to_display($Client) {
-        $datas = array(
-            "ReferenceProfilesUsed" => $Client->Id,
-            "ProfilesByReferenceProfilesFollowed" => $Client->Id,
-            "GeolocationUsed" => $Client->Id,
-            "ProfilesByGeolocationFollowed" => $Client->Id,
-            "HastagsUsed" => $Client->Id,
-            "ProfilesByHastagsFollowed" => $Client->Id,
         );
         return $datas;
     }
