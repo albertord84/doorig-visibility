@@ -152,10 +152,13 @@ namespace business {
         /**
          *  
          */
-        static public function remove($Id) {
+        public function remove() {
             $ci = &get_instance();
             $ci->load->model('reference_profile_model');
-            $ci->reference_profile_model->remove($Id);
+            if ($this->Id)
+                $ci->reference_profile_model->remove($this->Id);
+            else
+                throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
         }
 
         /**
@@ -176,8 +179,7 @@ namespace business {
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
             $response = new FollowersResponse();
             $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
-            if(get_insta_followers_reponse())
-            {
+            if (get_insta_followers_reponse()) {
                 return $response;
             }
         }
@@ -195,18 +197,17 @@ namespace business {
                 //echo $exc->getTraceAsString();
             }
         }
-        
-        static function  get_insta_followers_reponse(FollowersResponse $response)
-        {
-            if($response->code == 0)
-            {
+
+        static function get_insta_followers_reponse(FollowersResponse $response) {
+            if ($response->code == 0) {
                 $this->Cursor = $response->Cursor;
                 return true;
+            } else if ($response->code != 0) {
+                
             }
-            else if ($response->code != 0)
-            {}
             return false;
         }
+
     }
 
 }    
