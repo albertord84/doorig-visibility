@@ -54,7 +54,7 @@
             var base_url = "<?php echo base_url()?>";
             var module = "visibility";
             var client_datas = <?php echo $client_datas;?>;
-            var person_profile = <?php echo $person_profile_datas;?>;            
+            var person_profile = <?php echo $person_profile_datas;?>;         
         </script>
     </head>
 

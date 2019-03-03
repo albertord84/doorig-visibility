@@ -91,9 +91,9 @@
                 <!-- Profile -->
                 <li class="nav-item dropdown u-pro">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="<?php echo base_url()?>assets/images/users/default-user.png" alt="user" class="" /> 
+                        <img class="client_photo" src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/profile_images/default-user.png" alt="user"  /> 
                         <span class="hidden-md-down">
-                            josergm86@gmail.com
+                            <i class="client_email">-----</i>
                             &nbsp;
                             <i class="fa fa-angle-down"></i>
                         </span> 
@@ -103,13 +103,13 @@
                             <li>
                                 <div class="dw-user-box">
                                     <div class="u-img">
-                                        <img src="<?php echo base_url()?>assets/images/users/default-user.png" alt="user">
+                                        <img class="client_photo"  src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/profile_images/default-user.png" alt="user">
                                     </div>
                                     <div class="u-text">
                                         <!--<h4>Steave Jobs</h4>-->
-                                        <p class="text-muted">josergm86@gmail.com</p>
+                                        <p class="text-muted client_email">----</p>
                                         <!--<a href="pages-profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a>-->
-                                        <a href="#"><i class="fa fa-power-off"></i> Logout</a>
+                                        <a id="lnk_loguot" href=""><i class="fa fa-power-off"></i> Logout</a>
                                     </div>
                                     <div>
                                     </div>

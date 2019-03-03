@@ -20,13 +20,7 @@ class Welcome extends CI_Controller {
         require_once config_item('business-insta_commands-class');
         require_once config_item('business-user_status-class');
     }
-
-    public function aaa($client = 1) {
-        $datas = unserialize($this->session->userdata('client'));
-        unset($datas->Pass);
-        var_dump ((object_to_array($datas)));
-    }
-    
+       
     public function index_tmp($client = 1) {
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
@@ -44,10 +38,17 @@ class Welcome extends CI_Controller {
             $ClientModule = $this->check_access_token($access_token, $client_id);            
         if ($ClientModule){
             //2. set $ClientModule in session and lateral_menu and modals views
+            //2.1. TODO: call by Guzzle a funtion in dashboard for get the client informations to be displyed in all views
+            $ClientDatas =(object) array(
+                "ClientId" => $ClientModule->Id,
+                "ClientEmail"=>"josergm86@gmail.com",
+                "ClientPhotoUrl"=> $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL."../assets/profile_images/".$ClientModule->Id.".jpg",
+            );
+            $this->session->set_userdata('client_datas', serialize($ClientDatas));    
             $this->session->set_userdata('client_module', serialize($ClientModule));            
+            $param["client_datas"] = json_encode($ClientDatas);
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
             $param["modals"] = $this->load->view('modals', '', TRUE);
-            $param["client_datas"] = $this->prepare_client_datas_to_display($ClientModule, $Client);
             if ($ClientModule->Active) {
                 //3. load Mark datas from DB and set in session 
                 $Client = new Client($ClientModule->Id);
@@ -56,10 +57,8 @@ class Welcome extends CI_Controller {
                 $Client->load_daily_report_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. load datas as params to be used in visibility_client view                
-                $tmpClient = unserialize($this->session->userdata('client'));
-                unset($tmpClient->Pass);
+                $tmpClient = $Client; unset($tmpClient->Pass);
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
-                
                 //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
                 switch ($Client->Status) {
@@ -90,6 +89,14 @@ class Welcome extends CI_Controller {
             header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
         }
     }
+    
+    public function log_out() {
+        //$this->load->model('class/user_model');
+        //$this->user_model->insert_washdog($this->session->userdata('id'), 'CLOSING SESSION');
+        $this->session->sess_destroy();
+        header('Location: ' . $GLOBALS['sistem_config']->BASE_SITE_URL);
+    }
+
 
     //---------------HOME FUNCTIONS-----------------------------
     public function contract_visibility_steep_1() { //setting proper profile
@@ -184,20 +191,6 @@ class Welcome extends CI_Controller {
             echo $exc->getMessage();
         }
         return FALSE;
-    }
-
-    
-    
-    private function prepare_client_datas_to_display($ClientModule) {
-        //1. call by Guzzle a funtion in doorig for get the client informations to be displyed in all views
-        $ClientDatas = array(); //Guzzle
-        $datas = array(
-            "ClientId" => $ClientModule->Id,
-                /* "ClientName"=>$ClientDatas->Id,
-                  "ClientEmail"=>$ClientDatas->Id,
-                  "ClientPhotoPath"=>$ClientDatas->Id, */
-        );
-        return $datas;
     }
 
 }

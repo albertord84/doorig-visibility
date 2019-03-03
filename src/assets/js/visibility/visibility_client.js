@@ -95,8 +95,6 @@ $(document).ready(function () {
         }
         //spinner_stop(btn);
     });
-
-    
     
     //UPDATE MARK CREDENTIAL FUNCTIONS-----------------------------------------------------
     $("#container-update-mark-credentials").keypress(function (e) {
@@ -214,7 +212,7 @@ $(document).ready(function () {
     });
     
     //DISPLAYING DATAS FUNCTIONS-----------------------------------------------------
-    function display_person_profile_datas(){        
+   function display_person_profile_datas(){        
         $("#ig-profile-name").text("@"+person_profile['Login']);        
         $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile['Login']);
         $.ajax({
@@ -249,9 +247,6 @@ $(document).ready(function () {
             
     }
     
-    
-    
-    
     function display_chart_datas(){ //taken of morris-data.js
         var datas = person_profile.DailyReport.data;
         i=0; var statistics=[];
@@ -262,8 +257,6 @@ $(document).ready(function () {
                 followers: value.followers
             };
             i++;
-            if(i>10)
-                return false;
         })
         Morris.Area({
             element: 'morris-area-chart',
@@ -283,16 +276,7 @@ $(document).ready(function () {
         });
         
     }
-    
-    function timeConverter(UNIX_timestamp){
-        var a = new Date(UNIX_timestamp * 1000);
-        var year = a.getFullYear();
-        var month = a.getMonth();
-        var date = a.getDate();
-        var time = year+'-'+month+'-'+date;
-        return time;
-    }
-    
+            
     display_person_profile_datas();
     display_reference_profile_datas();
     display_chart_datas();
