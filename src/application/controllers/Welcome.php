@@ -90,6 +90,8 @@ class Welcome extends CI_Controller {
                 $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
                 $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
                 $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
+                $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
+                $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
                 $this->load->view('visibility_client', $param);
             } else {
                 $this->load->view('visibility_home', $param);
