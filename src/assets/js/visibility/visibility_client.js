@@ -243,8 +243,17 @@ $(document).ready(function () {
             else
             if(value.Type==2)
                 show_hashtag_in_view("#container-hashtags", value.Insta_name,value.Id);
+        })            
+    }
+    
+    function display_black_and_white_list_datas(){       
+        var rp = person_profile.BlackAndWhiteList.BlackAndWhiteList;        
+        $.each( rp, function( key, value ) {
+            if(value.black_or_white==0)
+                show_profile_wl_in_view("#container-profile-wl", value.profile, value.Id);
+            else
+                show_profile_bl_in_view("#container-profile-bl", value.profile, value.Id);
         })
-            
     }
     
     function display_chart_datas(){ //taken of morris-data.js
@@ -279,6 +288,7 @@ $(document).ready(function () {
             
     display_person_profile_datas();
     display_reference_profile_datas();
+    display_black_and_white_list_datas();
     display_chart_datas();
 });
 

@@ -62,7 +62,7 @@ class Black_and_white_list_model extends CI_Model {
     }
 
     function get_all($ClientId, $offset = 0, $rows = 0) {
-        $this->db->limit($offset, $rows);
+        //$this->db->limit($offset, $rows); //solo usar si esas variables fueran diferentes de 0
         
         $this->db->where('client_id', $ClientId);
         $this->db->where('deleted', 0);

@@ -33,6 +33,10 @@ class Welcome extends CI_Controller {
         $this->load->view('visibility_client', $param);
     }
 
+    public function aa() {
+        var_dump(unserialize($this->session->userdata('client')));
+    }
+    
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
         if ($this->session->userdata('client_module')) {
@@ -58,6 +62,7 @@ class Welcome extends CI_Controller {
                 $Client->load_data();
                 $Client->ReferenceProfiles->load_data();
                 $Client->load_daily_report_data();
+                $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
