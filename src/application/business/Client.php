@@ -28,7 +28,7 @@ namespace business {
         public $BlackAndWhiteList;      // Client Black and White List Class
 
         public function __construct(int $id) {
-            parent::__construct($id);
+            parent::__construct();
 
             $this->Id = $id;
             $this->InstaCurlInfo = new InstaCurlInfo($this);
@@ -39,8 +39,6 @@ namespace business {
         }
 
         public function load_data() {
-            parent::load_data();
-
             $ci = &get_instance();
             $data = $ci->users_model->get_user_base_info($this->Id);
 
