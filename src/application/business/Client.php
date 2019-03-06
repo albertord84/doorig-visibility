@@ -40,6 +40,7 @@ namespace business {
 
         public function load_data() {
             $ci = &get_instance();
+            $ci->load->model('users_model');
             $data = $ci->users_model->get_user_base_info($this->Id);
 
             if ($data) {
@@ -48,7 +49,7 @@ namespace business {
         }
 
         protected function fill_data(\stdClass $data) {
-            parent::fill_data($data);
+            //parent::fill_data($data);
         }
 
         public function load_insta_data() {
