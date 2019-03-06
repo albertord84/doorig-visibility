@@ -2,7 +2,8 @@
     "require": {
         "vindi/vindi-php": "^1.2",
         "mgp25/instagram-php": "^4.1",
-        "phpmailer/phpmailer": "~5.2",
-        "yidas/codeigniter-model": "^2.15"
+        "phpmailer/phpmailer": "^6.0",
+        "yidas/codeigniter-model": "^2.15",
+        "league/oauth2-google": "^3.0"
     }
 }

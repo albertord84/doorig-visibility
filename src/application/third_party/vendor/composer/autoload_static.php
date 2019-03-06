@@ -44,9 +44,11 @@ class ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'L' => 
         array (
+            'League\\OAuth2\\Client\\' => 21,
             'LazyJsonMapper\\' => 15,
         ),
         'I' => 
@@ -129,6 +131,15 @@ class ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'League\\OAuth2\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-google/src',
+        ),
         'LazyJsonMapper\\' => 
         array (
             0 => __DIR__ . '/..' . '/lazyjsonmapper/lazyjsonmapper/src',
@@ -186,14 +197,6 @@ class ComposerStaticInitf0ab76f5b5f777c92ccc2a8625285b3f
     );
 
     public static $classMap = array (
-        'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
-        'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
-        'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
-        'PHPMailerOAuthGoogle' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauthgoogle.php',
-        'POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.pop3.php',
-        'SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.smtp.php',
-        'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
-        'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'yidas\\Model' => __DIR__ . '/..' . '/yidas/codeigniter-model/src/Model.php',
     );
 

@@ -17,6 +17,8 @@ if (!defined('BASEPATH'))
 $config['business-class'] = getcwd() . '/application/business/Business.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
 $config['business-daily_report-class'] = getcwd() . '/application/business/DailyReport.php';
+$config['business-black_and_white_list-class'] = getcwd() . '/application/business/BlackAndWhiteList.php';
+$config['business-black_and_white_item-class'] = getcwd() . '/application/business/BlackAndWhiteItem.php';
 $config['business-user-class'] = getcwd() . '/application/business/User.php';
 $config['business-admin-class'] = getcwd() . '/application/business/Admin.php';
 $config['business-attendent-class'] = getcwd() . '/application/business/Attendent.php';
@@ -57,6 +59,7 @@ $config['business-reference_profile_response-class'] = getcwd() . '/application/
 $config['business-response-class'] = getcwd() . '/application/business/Response/Response.php';
 $config['business-response_inserted_object-class'] = getcwd() . '/application/business/Response/ResponseInsertedObject.php';
 $config['business-response-reference-profiles-class'] = getcwd() . '/application/business/Response/ResponseReferenceProfiles.php';
+$config['business-response_black_and_white_list-class'] = getcwd() . '/application/business/Response/ResponseBlackAndWhiteList.php';
 
 /*
   |--------------------------------------------------------------------------
