@@ -22,10 +22,10 @@ namespace business {
         public $Id;
         public $InstaCurlInfo;
         public $InstaContactInfo;       // Client intagram general information Class
-        public $ReferenceProfiles;      // Client referent profiles Class
-        public $DailyReport;            // Client daily report Class
-        public $BasicInfo;              // Client daily report Class
-        public $BlackAndWhiteList;      // Client Black and White List Class
+        public $ReferenceProfiles;      // Client referent profiles Class: Alberto
+        public $DailyReport;            // Client daily report Class: Alberto
+        public $BasicInfo;              // Client Mark Class: Alberto
+        public $BlackAndWhiteList;      // Client Black and White List Class: Alberto
 
         public function __construct(int $id) {
             parent::__construct();

@@ -23,8 +23,9 @@ class Welcome extends CI_Controller {
 
     public function index_tmp($client = 1) {
         $Client = new Client($client);
-        $Client->load_data();//die;
-        //var_dump($Client);
+        $Client->load_data();
+        var_dump($Client);
+        return;//die;
         
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
