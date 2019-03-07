@@ -95,7 +95,13 @@
                         <?php echo $painel_statistics;?>
                         
                         <!-- REFERENCE PROFILES -->
-                        <?php echo $painel_reference_profiles;?>
+                        <?php echo $painel_reference_profiles;?>                        
+                        
+                        <!-- AUTO LIKE AND UNFOLLOW TOTAL -->
+                        <?php echo $configuration;?>
+                        
+                        <!-- BLACK AND WHITE LIST PROFILES -->
+                        <?php echo $black_and_white_list;?>
                         
                     </div>
                 </div>

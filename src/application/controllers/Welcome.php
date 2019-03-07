@@ -34,6 +34,10 @@ class Welcome extends CI_Controller {
         $this->load->view('visibility_client', $param);
     }
 
+    public function aa() {
+        var_dump(unserialize($this->session->userdata('client')));
+    }
+    
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
         if ($this->session->userdata('client_module')) {
@@ -59,6 +63,7 @@ class Welcome extends CI_Controller {
                 $Client->load_data();
                 $Client->ReferenceProfiles->load_data();
                 $Client->load_daily_report_data();
+                $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
@@ -86,6 +91,8 @@ class Welcome extends CI_Controller {
                 $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
                 $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
                 $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
+                $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
+                $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
                 $this->load->view('visibility_client', $param);
             } else {
                 $this->load->view('visibility_home', $param);
