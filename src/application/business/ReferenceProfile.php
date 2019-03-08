@@ -176,7 +176,7 @@ namespace business {
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
             $response = new FollowersResponse();
             $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
-            if(get_insta_followers_reponse())
+            if(get_insta_followers_reponse($response))
             {
                 return $response;
             }

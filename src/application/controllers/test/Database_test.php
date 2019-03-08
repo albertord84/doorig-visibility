@@ -560,7 +560,12 @@ class Database_test extends CI_Controller {
     } else if ($action == 'next') {
       $items = $this->daily_work_model->get_next_work();
       print_r($items);
-    } else {
+    }
+     else if ($action == 'unfollow_lst') {
+      $items = $this->daily_work_model->get_unfollowed_list($id,15);
+      print_r($items);
+    }
+    else {
       echo "action wrong!!!";
     }
   }
