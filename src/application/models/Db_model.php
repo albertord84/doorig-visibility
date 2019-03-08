@@ -518,8 +518,8 @@ class Db_model extends CI_Model {
     }
   }
   
-  //FUNC 18 TO CHECK ?
-  public function get_unfollow_work($client_id) {
+  //FUNC 18 TO CHECK DayliWork_model
+  /*public function get_unfollow_work($client_id) {
     try {
       // Get profiles to unfollow today for this Client...(i.e the last followed)
       $Limit = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
@@ -542,7 +542,7 @@ class Db_model extends CI_Model {
       }
     }
   }
-  
+  */
   //FUNC 19 move to dumbu_system_config_model
   public function get_system_config_vars() {
     try {
