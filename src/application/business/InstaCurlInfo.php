@@ -19,16 +19,27 @@ namespace business {
    *
    * @author jose
    */
-  class InstaCurlInfo extends Loader{
+  class MarkInfo extends Loader{
     //put your code here
     public $Insta_Id;
     public $Cookies;
+    
+    
+    /**
+     * 
+     * Client Mark
+     * 
+     * 
+     */
+    
+    
+    
+    
     public $Client;
     
     function __construct(Client &$client) {
       $ci = &get_instance();
-      $ci->load->model('clients_model');
-      $ci->load->model('db_model');
+      $ci->load->model('client_mark_model');
       $this->Client = $client;     
     }   
     
@@ -40,7 +51,7 @@ namespace business {
      */
     public function load_data() {     
       $ci = &get_instance();
-      $data = $ci->clients_model->get_insta_client_by_id($this->Client->Id);
+      $data = $ci->client_mark_model->get_insta_client_by_id($this->Client->Id);
       
       $this->fill_data($data);
     }

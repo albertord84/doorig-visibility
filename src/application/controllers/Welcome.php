@@ -24,20 +24,23 @@ class Welcome extends CI_Controller {
     public function index_tmp($client = 1) {
         $Client = new Client($client);
         $Client->load_data();
-        var_dump($Client);
-        return;//die;
-        
+        //var_dump($Client);
+        //return;//die;
+
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
+        $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
-//        $this->load->view('visibility_home', $param);
+        $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
+        $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
+        //        $this->load->view('visibility_home', $param);
         $this->load->view('visibility_client', $param);
     }
 
     public function aa() {
         var_dump(unserialize($this->session->userdata('client')));
     }
-    
+
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
         if ($this->session->userdata('client_module')) {

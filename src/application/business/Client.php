@@ -20,18 +20,17 @@ namespace business {
     class Client extends Business {
 
         public $Id;
-        public $InstaCurlInfo;
-        public $InstaContactInfo;       // Client intagram general information Class
+        public $DoorigInfo;             // Client DOORIG general information Class
         public $ReferenceProfiles;      // Client referent profiles Class: Alberto
         public $DailyReport;            // Client daily report Class: Alberto
-        public $BasicInfo;              // Client Mark Class: Alberto
+        public $MarkInfo;               // Client Mark Class: Alberto
         public $BlackAndWhiteList;      // Client Black and White List Class: Alberto
 
         public function __construct(int $id) {
             parent::__construct();
 
             $this->Id = $id;
-            $this->InstaCurlInfo = new InstaCurlInfo($this);
+            $this->MarkInfo = new InstaCurlInfo($this);
             //$this->InstaContactInfo = new InstaContactInfo($this);
             $this->ReferenceProfiles = new ReferenceProfiles($this);
             $this->DailyReport = new DailyReport($this);
