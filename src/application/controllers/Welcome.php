@@ -24,7 +24,11 @@ class Welcome extends CI_Controller {
     public function index_tmp($client = 1) {
         $Client = new Client($client);
         $Client->load_mark_info_data();
+        
+        if ($Client->MarkInfo->Status->hasStatus(UserStatus::ACTIVE))
+            var_dump('Thanks GOD!!!');
         var_dump($Client);
+        
         return;//die;
 
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);

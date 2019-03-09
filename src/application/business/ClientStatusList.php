@@ -76,6 +76,15 @@ namespace business {
                 echo $exc->getTraceAsString();
             }
         }
+        
+        function hasStatus(int $status_id, int $active = 1) {
+            $client_status_item = new ClientStatusItem();
+            foreach ($this->ClientStatusList as $key => $client_status_item) {
+                if ($client_status_item->client_status_id == $status_id)
+                    return TRUE;
+            }
+            return FALSE;
+        }
 
     }
 

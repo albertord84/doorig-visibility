@@ -79,7 +79,10 @@ class Client_status_list_model extends CI_Model {
         return $query->row();
     }
 
-    function get_all() {
+    function get_all($client_id, $client_status_id = 1) {
+
+        $this->db->where('client_id', $client_id);
+        $this->db->where('client_status_id', $client_status_id);
 
         $this->db->select('*')->from('client_status_list');
 
