@@ -23,9 +23,9 @@ class Welcome extends CI_Controller {
 
     public function index_tmp($client = 1) {
         $Client = new Client($client);
-        $Client->load_data();
-        //var_dump($Client);
-        //return;//die;
+        $Client->load_mark_info_data();
+        var_dump($Client);
+        return;//die;
 
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
@@ -49,6 +49,7 @@ class Welcome extends CI_Controller {
             $ClientModule = $this->check_access_token($access_token, $client_id);
         if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
+            
             //2.1. TODO: call by Guzzle a funtion in dashboard for get the client informations to be displyed in all views
             $ClientDatas = (object) array(
                         "ClientId" => $ClientModule->Id,
@@ -56,6 +57,7 @@ class Welcome extends CI_Controller {
                         "ClientPhotoUrl" => $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "../assets/profile_images/" . $ClientModule->Id . ".jpg",
             );
             $this->session->set_userdata('client_datas', serialize($ClientDatas));
+            
             $this->session->set_userdata('client_module', serialize($ClientModule));
             $param["client_datas"] = json_encode($ClientDatas);
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);

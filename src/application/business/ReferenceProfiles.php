@@ -42,7 +42,7 @@ namespace business {
             $data = $CI->Reference_profile_model->get_all_id($this->Client->Id, $status, $type);
 
             $this->ReferenceProfiles = array();
-            
+
             $this->fill_data($data);
         }
 
@@ -65,6 +65,17 @@ namespace business {
         public function remove_reference_profile(int $reference_profile_id) {
             $this->ReferenceProfiles[$reference_profile_id]->remove($reference_profile_id);
             unset($this->ReferenceProfiles[$reference_profile_id]);
+        }
+
+        public function add_item(string $insta_id, int $client_id, string $init_date = NULL, int $type = NULL) {
+            try {
+                $reference_profile = new ReferenceProfile();
+                $id = $reference_profile->save($insta_id, $client_id, null, $type);
+                $this->ReferenceProfiles[$id] = $reference_profile;
+                return $id;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
         }
 
     }

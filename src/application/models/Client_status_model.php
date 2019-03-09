@@ -8,7 +8,7 @@
  * @todo <description>
  * 
  */
-class User_status_model extends CI_Model {
+class Client_status_model extends CI_Model {
   function construct() {
     parent::construct();
   }
