@@ -23,20 +23,28 @@ class Welcome extends CI_Controller {
 
     public function index_tmp($client = 1) {
         $Client = new Client($client);
-        $Client->load_data();//die;
-        //var_dump($Client);
+        $Client->load_mark_info_data();
         
+        if ($Client->MarkInfo->Status->hasStatus(UserStatus::ACTIVE))
+            var_dump('Thanks GOD!!!');
+        var_dump($Client);
+        
+        return;//die;
+
         $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
         $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
+        $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
-//        $this->load->view('visibility_home', $param);
+        $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
+        $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
+        //        $this->load->view('visibility_home', $param);
         $this->load->view('visibility_client', $param);
     }
 
     public function aa() {
         var_dump(unserialize($this->session->userdata('client')));
     }
-    
+
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
         if ($this->session->userdata('client_module')) {
@@ -45,6 +53,7 @@ class Welcome extends CI_Controller {
             $ClientModule = $this->check_access_token($access_token, $client_id);
         if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
+            
             //2.1. TODO: call by Guzzle a funtion in dashboard for get the client informations to be displyed in all views
             $ClientDatas = (object) array(
                         "ClientId" => $ClientModule->Id,
@@ -52,6 +61,7 @@ class Welcome extends CI_Controller {
                         "ClientPhotoUrl" => $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "../assets/profile_images/" . $ClientModule->Id . ".jpg",
             );
             $this->session->set_userdata('client_datas', serialize($ClientDatas));
+            
             $this->session->set_userdata('client_module', serialize($ClientModule));
             $param["client_datas"] = json_encode($ClientDatas);
             $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);

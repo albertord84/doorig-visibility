@@ -73,35 +73,44 @@ namespace business {
         public function remove() {
             $ci = &get_instance();
             $ci->load->model('black_and_white_list_model');
-            if ($this->Id)
+            if ($this->id)
                 $ci->black_and_white_list_model->remove($this->Id);
             else
                 throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
         }
 
         /**
-         *  
+         * 
+         * @param int $client_id
+         * @param string $insta_id
+         * @param string $profile
+         * @param string $init_date
+         * @param type $black_or_white
+         * @return int New inserted Id
+         * @throws ErrorCodes DATA_ALREADY_EXIST exception
          */
-        static function save(string $insta_id, string $instaname = NULL, int $client_id = NULL, int $type = NULL) {
+        static function save(int $client_id, string $insta_id, string $profile, string $init_date = NULL, $black_or_white = NULL) {
+            $init_date = $init_date ? $init_date : time();
             $ci = &get_instance();
             $ci->load->model('black_and_white_list_model');
-            if (ReferenceProfile::exist($insta_id, $client_id, 1 /* ACTIVE */)) {
+            if (BlackAndWhiteItem::exist($insta_id, $client_id)) {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
-                $client_id = $ci->black_and_white_list_model->save($insta_id, $instaname, $client_id, 1 /* ACTIVE */, $type);
+                $id = $ci->black_and_white_list_model->save($client_id, $insta_id, $profile, $init_date, null, null, $black_or_white);
             }
-            return $client_id;
+
+            return $id;
         }
 
-        static function exist(string $insta_id, int $client_id, int $status = 0) {
+        static function exist(string $insta_id, int $client_id) {
             try {
-                $RP = new ReferenceProfile();
+                $RP = new BlackAndWhiteItem();
                 $RP->load_data_by_insta_id($insta_id, $client_id);
 
                 $exist = $RP->Id > 0;
                 if ($exist && $status)
-                    $exist = $RP->Status_id == $status;
+                    $exist = $RP->deleted == false;
                 return $exist;
             } catch (\Exception $exc) {
                 //echo $exc->getTraceAsString();

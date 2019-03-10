@@ -28,14 +28,31 @@ class BlackAndWhiteList extends CI_Controller {
         // $this->load->view('personProfiles_view');
     }
 
-    public function insert() {
+    public function insert_black() {
         
         $datas = $this->input->post();
 
         $client_id = unserialize($this->session->userdata('client'))->Id;
 
         try {
-            $id = BlackAndWhiteList::save($datas['insta_id'], $datas['insta_name'], $client_id, 0);
+            $id = BlackAndWhiteList::add_item($datas['insta_id'], $datas['insta_name'], $client_id, 0);
+
+            $response = new ResponseInsertedObject($id);
+            $response->toJson();
+        } catch (Exception $exc) {
+            Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return;
+        }
+    }
+
+    public function insert_white() {
+        
+        $datas = $this->input->post();
+
+        $client_id = unserialize($this->session->userdata('client'))->Id;
+
+        try {
+            $id = BlackAndWhiteList::add_item($datas['insta_id'], $datas['insta_name'], $client_id, 1);
 
             $response = new ResponseInsertedObject($id);
             $response->toJson();

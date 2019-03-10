@@ -70,35 +70,32 @@ namespace business\worker {
         }
 
         public function get_unfollow_list() {
-            // Get profiles to unfollow today for this Client...(i.e the last followed)
-            /*  $unfollow_data = $this->db_model->get_unfollow_data($client_id);
-              while ($Followed = $unfollow_data->fetch_object()) {
-              $To_Unfollow = new \follows\cls\Followed();
-              // Update Ref Prof Data
-              $To_Unfollow->id = $Followed->id;
-              $To_Unfollow->followed_id = $Followed->followed_id;
-              array_push($this->Followeds_to_unfollow, $To_Unfollow);
-              } */
+            $ci = &get_instance();
+            $ci->load->model('daily_work_model');
+            return $ci->daily_work_model->get_unfollowed_list($this->Client->id);
         }
 
-        public static function delete_dailywork(Client $client) {
+        public function delete_dailywork() {
             
         }
         
-        public function save_work()
-        {
-           /* try {
-                //$DB = new \follows\cls\DB();
-                //$this->DB->save_unfollow_work($Followeds_to_unfollow);
-                $this->DB->save_unfollow_work_db2($Followeds_to_unfollow, $daily_work->client_id);
-                $this->DB->save_follow_work($Ref_profile_follows, $daily_work);
-                return TRUE;
-            } catch (\Exception $exc) {
-                echo $exc->getTraceAsString();
-                return FALSE;
-            }*/
-            
+        public function save_follow_work(string $profile_name, string $insta_id)
+        {           
+            $ci = &get_instance();
+            $ci->load->model('daily_work_model');
+            $ci->daily_work_model->save_follow($this->Client->Id,$this->Ref_profile->Id, $prfile_name,$insta_id);
+            $ci->daily_work_model->update_follow(1);
+
         }
+        
+        public function save_unfollow_work(string $insta_id)
+        {     
+            $ci = &get_instance();
+            $ci->load->model('daily_work_model');            
+            $ci->daily_work_model->save_unfollow($this->Client->Id,$insta_id);
+            $ci->daily_work_model->update_unfollow(1);             
+        }
+
 
     }
 

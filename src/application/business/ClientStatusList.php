@@ -4,7 +4,7 @@ namespace business {
 
     require_once config_item('business-class');
     require_once config_item('business-client-class');
-    require_once config_item('business-black_and_white_item-class');
+    require_once config_item('business-client_status_item-class');
     require_once config_item('business-error-codes-class');
 
     /**
@@ -15,9 +15,9 @@ namespace business {
      * @todo Define an Client business class.
      * 
      */
-    class BlackAndWhiteList extends Business {
+    class ClientStatusList extends Business {
 
-        public $BlackAndWhiteList;
+        public $ClientStatusList;
         private $Client; // Client Reference
 
         /**
@@ -29,7 +29,7 @@ namespace business {
             parent::__construct();
 
             $this->Client = $client;
-            $this->BlackAndWhiteList = array();
+            $this->ClientStatusList = array();
         }
 
         /**
@@ -38,10 +38,10 @@ namespace business {
          */
         public function load_data() {
             $CI = &get_instance();
-            $CI->load->model("Black_and_white_list_model");
-            $data = $CI->Black_and_white_list_model->get_all($this->Client->Id);
+            $CI->load->model("Client_status_list_model");
+            $data = $CI->Client_status_list_model->get_all($this->Client->Id);
 
-            $this->BlackAndWhiteList = array();
+            $this->ClientStatusList = array();
 
             $this->fill_data($data);
         }
@@ -49,10 +49,9 @@ namespace business {
         private function fill_data(array $items = NULL) {
             if (count($items)) {
                 foreach ($items as $key => $item) {
-                    $BlackAndWhiteItem = new BlackAndWhiteItem($item->id);
+                    $ClientStatusItem = new ClientStatusItem($item->id);
 
-                    $this->BlackAndWhiteList[$item->id] = $BlackAndWhiteItem;
-                    //$this->BlackAndWhiteList[$ReferenceProfile->id] = $ReferenceProfile;
+                    $this->ClientStatusList[$item->id] = $ClientStatusItem;
                 }
             } else {
                 //throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
@@ -63,19 +62,28 @@ namespace business {
          *  
          */
         public function remove_item(int $id) {
-            $this->BlackAndWhiteList[$id]->remove($id);
-            unset($this->BlackAndWhiteList[$id]);
+            $this->ClientStatusList[$id]->remove($id);
+            unset($this->ClientStatusList[$id]);
         }
 
-        public function add_item(int $client_id, string $insta_id, string $profile, string $init_date = NULL, $black_or_white = NULL) {
+        public function add_item(string $insta_id, int $client_id, string $init_date = NULL, int $type = NULL) {
             try {
-                $black_and_white_item = new BlackAndWhiteItem();
-                $id = $black_and_white_item->save($client_id, $insta_id, $profile, NULL, $black_or_white);
-                $this->BlackAndWhiteList[$id] = $black_and_white_item;
+                $client_status_item = new ClientStatusItem();
+                $id = $client_status_item->save($insta_id, $client_id, null, $type);
+                $this->ClientStatusList[$id] = $client_status_item;
                 return $id;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
+        }
+        
+        function hasStatus(int $status_id, int $active = 1) {
+            $client_status_item = new ClientStatusItem();
+            foreach ($this->ClientStatusList as $key => $client_status_item) {
+                if ($client_status_item->client_status_id == $status_id)
+                    return TRUE;
+            }
+            return FALSE;
         }
 
     }

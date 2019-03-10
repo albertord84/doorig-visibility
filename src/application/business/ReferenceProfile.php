@@ -171,15 +171,17 @@ namespace business {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
-                $client_id = $ci->reference_profile_model->save($insta_id, $instaname, $client_id, 1 /* ACTIVE */, $type);
+                $id = $ci->reference_profile_model->save($insta_id, $instaname, $client_id, 1 /* ACTIVE */, $type);
             }
-            return $client_id;
+            return $id;
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
             $response = new FollowersResponse();
             $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
-            if (get_insta_followers_reponse()) {
+
+            if(get_insta_followers_reponse($response))
+            {
                 return $response;
             }
         }
