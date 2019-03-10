@@ -166,9 +166,9 @@
                 </li>
                 
                 <li> 
-                    <a class="has-arrow waves-effect waves-dark deep-analisys-access disabled1" aria-expanded="false">
+                    <a class="has-arrow waves-effect waves-dark deep-analysis-access disabled1" aria-expanded="false">
                         <i class="icon-Brain-2"></i>
-                        <span class="hide-menu">Deep-Analisys</span>
+                        <span class="hide-menu">Deep-Analysis</span>
                     </a>
                 </li>  
                 

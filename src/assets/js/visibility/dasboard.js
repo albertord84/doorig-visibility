@@ -3,7 +3,6 @@ $(document).ready(function(){
     $(".dashboard-access").click(function(){
         if(module=="dashboard")
             return;
-        alert(module);
         var final_url = base_url.replace(module,"dashboard");
         //var btn =this;
         $.ajax({ 
@@ -52,16 +51,17 @@ $(document).ready(function(){
         });       
     });
     
-    $(".post-stories-access").click(function(){        
-        modal_alert_message("acessando post-stories"); return false;
+    $(".post-stories-access").click(function(){
+        var final_url = base_url.replace(module,"posting");
+        $(location).attr('href', final_url+"index.php/welcome/index/");        
     });
     
     $(".directs-access").click(function(){        
         modal_alert_message("acessando directs"); return false;
     });
     
-    $(".deep-analisys-access").click(function(){        
-        modal_alert_message("acessando deep-analisys"); return false;
+    $(".deep-analysis-access").click(function(){        
+        modal_alert_message("acessando deep-analysis"); return false;
     });
     
     $(".payment-access").click(function(){        
