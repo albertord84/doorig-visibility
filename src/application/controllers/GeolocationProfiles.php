@@ -28,7 +28,7 @@ class GeolocationProfiles extends CI_Controller {
         // $this->load->view('personProfiles_view');
     }
 
-    public function insert_profile() {
+    public function insert() {
         
         $datas = $this->input->post();
 
@@ -45,9 +45,8 @@ class GeolocationProfiles extends CI_Controller {
         }
     }
 
-    public function delete_profile() {
+    public function delete() {
         $datas = $this->input->post();
-        //$datas['reference_profile_id'] = 24307;        
         try {
             $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
             $ReferenceProfile->remove();
@@ -59,12 +58,11 @@ class GeolocationProfiles extends CI_Controller {
         Response::ResponseOK()->toJson();
     }
 
-    public function get_profiles() {
+    public function get() {
         $datas = $this->input->post();
 
         try {
             $client_id = $this->session->userdata('client_id');
-            //$client_id = 1;
 
             $Client = new BusinessClient($client_id);
             $status = 1; // ACTIVE

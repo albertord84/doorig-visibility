@@ -20,7 +20,6 @@ namespace business {
     class Client extends Business {
 
         public $Id;
-        public $DoorigInfo;             // Client DOORIG general information Class
         public $ReferenceProfiles;      // Client referent profiles Class: Alberto
         public $DailyReport;            // Client daily report Class: Alberto
         public $MarkInfo;               // Client Mark Class: Alberto
@@ -32,24 +31,9 @@ namespace business {
 
             $this->Id = $id;
             $this->MarkInfo = new MarkInfo($this);
-            //$this->InstaContactInfo = new InstaContactInfo($this);
             $this->ReferenceProfiles = new ReferenceProfiles($this);
             $this->DailyReport = new DailyReport($this);
             $this->BlackAndWhiteList = new BlackAndWhiteList($this);
-        }
-
-        public function load_data() {
-            $ci = &get_instance();
-            $ci->load->model('users_model');
-            $data = $ci->users_model->get_user_base_info($this->Id);
-
-            if ($data) {
-                $this->fill_data($data);
-            }
-        }
-
-        protected function fill_data(\stdClass $data) {
-            //parent::fill_data($data);
         }
 
         public function load_insta_data() {
