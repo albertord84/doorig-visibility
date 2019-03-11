@@ -28,7 +28,7 @@ class PersonProfiles extends CI_Controller {
         // $this->load->view('personProfiles_view');
     }
 
-    public function insert_profile() {
+    public function insert() {
         
         $datas = $this->input->post();
 
@@ -45,7 +45,7 @@ class PersonProfiles extends CI_Controller {
         }
     }
 
-    public function delete_profile() {
+    public function delete() {
         $datas = $this->input->post();
         try {
             $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
@@ -58,7 +58,7 @@ class PersonProfiles extends CI_Controller {
         Response::ResponseOK()->toJson();
     }
 
-    public function get_profiles() {
+    public function get() {
         $datas = $this->input->post();
 
         try {
