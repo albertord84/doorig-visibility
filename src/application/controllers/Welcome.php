@@ -21,6 +21,11 @@ class Welcome extends CI_Controller {
         require_once config_item('business-user_status-class');
     }
 
+    public function a() {
+        $param["lateral_menu"] = $this->request_lateral_menu(1);
+        $this->load->view('visibility_client', $param);
+    }
+    
     public function index_tmp($client = 1) {
         $Client = new Client($client);
         $Client->load_mark_info_data();
@@ -47,25 +52,17 @@ class Welcome extends CI_Controller {
 
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
+        $ClientModule=NULL;
         if ($this->session->userdata('client_module')) {
             $ClientModule = unserialize($this->session->userdata('client_module'));
-        } else
-            $ClientModule = $this->check_access_token($access_token, $client_id);
+        } else{
+            $ClientModule = $this->check_access_token($access_token, $client_id);            
+        }
         if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
-            
-            //2.1. TODO: call by Guzzle a funtion in dashboard for get the client informations to be displyed in all views
-            $ClientDatas = (object) array(
-                        "ClientId" => $ClientModule->Id,
-                        "ClientEmail" => "josergm86@gmail.com",
-                        "ClientPhotoUrl" => $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "../assets/profile_images/" . $ClientModule->Id . ".jpg",
-            );
-            $this->session->set_userdata('client_datas', serialize($ClientDatas));
-            
             $this->session->set_userdata('client_module', serialize($ClientModule));
-            $param["client_datas"] = json_encode($ClientDatas);
-            $param["lateral_menu"] = $this->load->view('lateral_menu', '', TRUE);
-            $param["modals"] = $this->load->view('modals', '', TRUE);
+            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Id);
+            $param["modals"] = $this->request_modals();
             if ($ClientModule->Active) {
                 //3. load Mark datas from DB and set in session 
                 $Client = new Client($ClientModule->Id);
@@ -212,4 +209,28 @@ class Welcome extends CI_Controller {
         return FALSE;
     }
 
+    public function request_lateral_menu($client_id) {
+        $GuzClient = new \GuzzleHttp\Client();
+        $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL."Clients/get_lateral_menu/";
+        $response = $GuzClient->post($url, [
+            GuzzleHttp\RequestOptions::FORM_PARAMS => [
+                'client_id' => $client_id
+        ]]);
+        $StatusCode = $response->getStatusCode();
+        $content = $response->getBody()->getContents();
+        if ($StatusCode == 200) {
+            return $content;
+        }
+    }
+    
+    public function request_modals() {
+        $GuzClient = new \GuzzleHttp\Client();
+        $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL."Clients/get_modals";
+        $response = $GuzClient->get($url);
+        $StatusCode = $response->getStatusCode();
+        $content = $response->getBody()->getContents();
+        if ($StatusCode == 200) {
+            return $content;
+        }
+    }
 }

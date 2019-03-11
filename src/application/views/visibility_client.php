@@ -53,7 +53,6 @@
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
             var module = "visibility";
-            var client_datas = <?php echo $client_datas;?>;
             var person_profile = <?php echo $person_profile_datas;?>;         
         </script>
     </head>
@@ -178,9 +177,11 @@
         <!-- system scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/mask.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/basics.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/dasboard.js"></script>
+        
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"></script>
+        
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"></script>
         
     </body>
