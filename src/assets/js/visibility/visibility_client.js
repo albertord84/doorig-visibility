@@ -212,11 +212,11 @@ $(document).ready(function () {
     });
     
     //DISPLAYING DATAS FUNCTIONS-----------------------------------------------------
-   function display_person_profile_datas(){        
-        $("#ig-profile-name").text("@"+person_profile['Login']);        
-        $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile['Login']);
+   function display_person_profile_datas(){ 
+        $("#ig-profile-name").text("@"+person_profile.MarkInfo.login);        
+        $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile.MarkInfo.login);
         $.ajax({
-            url: base_url+"index.php/welcome/get_person_profile_datas/"+person_profile['Login'],
+            url: base_url+"index.php/welcome/get_person_profile_datas/"+person_profile.MarkInfo.login,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
@@ -370,7 +370,7 @@ function add_person_profile(container, profile) {
         modal_alert_message("Deve selecionar um perfil da lista.");
     } else {
         $.ajax({
-            url: base_url + 'index.php/PersonProfiles/insert_profile',
+            url: base_url + 'index.php/PersonProfiles/insert',
             data: {
                 "insta_name": profile,
                 "insta_id": selected_profile['user']['pk'],
@@ -379,7 +379,6 @@ function add_person_profile(container, profile) {
             dataType: 'json',
             success: function (response) {
                 //spinner_stop(btn);
-                console.log(response);
                 if (response.code === 0) {
                     show_profile_in_view(container, profile,response.InsertedId);
                 } else
@@ -433,10 +432,10 @@ function show_profile_in_view(container, profile, id) {
     });
 }
 
-function delete_person_profile(id) {
+function delete_profile(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
-        url: base_url + 'index.php/PersonProfiles/delete_profile',
+        url: base_url + 'index.php/PersonProfiles/delete',
         data: {
             "reference_profile_id": id
         },
@@ -530,7 +529,7 @@ function add_geolocation(container, geolocation) {
         modal_alert_message("Deve selecionar uma geolocalização.");
     } else {
         $.ajax({
-            url: base_url + 'index.php/GeolocationProfiles/insert_geolocation',
+            url: base_url + 'index.php/GeolocationProfiles/insert',
             data: {
                 "insta_name": geolocation,
                 "insta_id": selected_geolocation['place']['location']['pk']
@@ -598,7 +597,7 @@ function show_geolocation_in_view(container, geolocation, id) {
 function delete_geolocation(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
-        url: base_url + 'index.php/GeolocationProfiles/delete_geolocation',
+        url: base_url + 'index.php/GeolocationProfiles/delete',
         data: {
             "geolocation": id
         },
@@ -687,7 +686,7 @@ function add_hashtag(container, hashtag) {
         modal_alert_message("Deve selecionar um hastag da lista");
     } else {
         $.ajax({
-            url: base_url + 'index.php/HashtagProfiles/insert_hashtag',
+            url: base_url + 'index.php/HashtagProfiles/insert',
             data: {
                 "insta_name": hashtag,
                 "insta_id": selected_hashtag['hashtag']['id']
@@ -759,7 +758,7 @@ function show_hashtag_in_view(container, hashtag, id) {
 function delete_hashtag(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
-        url: base_url + 'index.php/HashtagProfiles/delete_hashtag',
+        url: base_url + 'index.php/HashtagProfiles/delete',
         data: {
             "hashtag": id
         },

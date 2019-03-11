@@ -140,42 +140,11 @@
         <script src="<?php echo base_url()?>assets/js/dashboard1.js"></script>
         <!-- Style switcher -->
         <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>        
-        
-        
-        
-        
-        
-        
-<!--        <script src="<?php echo base_url()?>assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>-->        
-        <!--<script type="text/javascript">$('#slimtest1, #slimtest2, #slimtest3, #slimtest4').perfectScrollbar();</script>-->                
-        <!--Wizard JavaScript -->
-<!--        <script src="<?php echo base_url()?>assets/node_modules/moment/min/moment.min.html"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.steps.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/jquery.validate.min.js"></script>-->
-        
-        <!-- Sweet-Alert  -->
-<!--        <script src="<?php echo base_url()?>assets/node_modules/sweetalert/sweetalert.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/wizard/steps.js"></script>        -->
-        
-        
-<!--         Chart JS 
-        <script src="<?php echo base_url()?>assets/node_modules/chartist-js/dist/chartist.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/echarts/echarts-all.js"></script>
-        
-         Flot Charts JavaScript 
-        <script src="<?php echo base_url()?>assets/node_modules/flot/excanvas.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/flot/jquery.flot.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/flot/jquery.flot.time.js"></script>
-        <script src="<?php echo base_url()?>assets/node_modules/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-        <script src="<?php echo base_url()?>assets/js/widget-charts.js"></script>        -->
                 
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>        
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/jquery.mask.js"></script>
         
         <!-- system scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
         
         <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"></script>

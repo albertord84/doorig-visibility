@@ -47,7 +47,6 @@ class PersonProfiles extends CI_Controller {
 
     public function delete_profile() {
         $datas = $this->input->post();
-        $datas['reference_profile_id'] = 17;        
         try {
             $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
             $ReferenceProfile->remove();

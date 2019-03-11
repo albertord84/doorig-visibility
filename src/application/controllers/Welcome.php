@@ -66,7 +66,7 @@ class Welcome extends CI_Controller {
             if ($ClientModule->Active) {
                 //3. load Mark datas from DB and set in session 
                 $Client = new Client($ClientModule->Id);
-                $Client->load_data();
+                $Client->load_mark_info_data();
                 $Client->ReferenceProfiles->load_data();
                 $Client->load_daily_report_data();
                 $Client->load_black_and_white_list_data();
