@@ -82,6 +82,7 @@ namespace business {
         static function save(int $client_id, int $client_status_id, bool $active = TRUE, string $start_date = NULL, string $end_date = NULL) {
             $ci = &get_instance();
             $ci->load->model('Client_status_list_model');
+            
             $id = $ci->Client_status_list_model->save($client_id, $client_status_id, $active, $start_date, $end_date);
 
             return $id;
