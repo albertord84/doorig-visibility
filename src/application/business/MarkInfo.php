@@ -51,6 +51,10 @@ namespace business {
             $this->Client = $client;
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
+//            $this->Payment = new Payment($this->pay_id);
+//            $this->Payment->load_data();
+            $this->Proxy = new Proxy($this->proxy_id);
+            $this->Proxy->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
         }
@@ -65,6 +69,24 @@ namespace business {
             
             $ci = &get_instance();
             $data = $ci->client_mark_model->get_by_id($this->Client->Id);
+
+            if ($data)
+                $this->fill_data($data);
+            return $data;
+        }
+
+        /**
+         * Get client data
+         * @param int $client_id
+         * @return DataSet  
+         */
+        public function load_data_by_insta_id(string $insta_id = NULL) {
+            parent::load_data();
+            
+            $this->insta_id = $insta_id ? $insta_id : $this->insta_id;
+            
+            $ci = &get_instance();
+            $data = $ci->client_mark_model->get_by_insta_id($this->Client->Id);
 
             if ($data)
                 $this->fill_data($data);

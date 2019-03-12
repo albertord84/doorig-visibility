@@ -104,6 +104,17 @@ class Client_mark_model extends CI_Model {
         return $query->row();
     }
 
+    function get_by_insta_id($insta_id) {
+
+        $this->db->where('insta_id', $insta_id);
+
+        $query = $this->db->get('client_mark');
+
+
+
+        return $query->row();
+    }
+
     function get_all_id() {
 
         $this->db->select('client_id')->from('client_mark');

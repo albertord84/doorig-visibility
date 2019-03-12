@@ -4,8 +4,6 @@ namespace business {
 
     require_once config_item('business-loader-class');
 
-    use InstaApiWeb\Cookies;
-
     /**
      * Description of HashtagProfile
      *

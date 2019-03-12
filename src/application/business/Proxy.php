@@ -2,52 +2,59 @@
 
 namespace business {
 
-  require_once config_item('business-user-class');
-
-  /**
-   * @category Business class
-   * 
-   * @access public
-   *
-   * @todo Define an Proxy business class.
-   * 
-   */
-  class Proxy extends Business {
-    public $Id;
-    public $Ip;
-    public $Port;
-    public $User;
-    public $Password;
-    public $IsReserved;
-
-    function __construct() {      
-      $ci = &get_instance();
-      $ci->load->model('proxy_model');
-    }
-
-    public function load_data(int $id) {
-      $ci = &get_instance();
-      $proxy_data = $ci->proxy_model->get_by_id($id);
-
-      $this->Id = $proxy_data->idProxy;
-      $this->Ip = $proxy_data->proxy;
-      $this->Port = $proxy_data->port;
-      $this->User = $proxy_data->proxy_user;
-      $this->Password = $proxy_data->proxy_password;
-      $this->IsReserved = $proxy_data->isReserved;
-    }
-
-    private function fill_data(\stdClass $data){
-      
-    }
+    require_once config_item('business-loader-class');
     
-    public function save_data() {
-      
+    /**x
+     * @category Business class
+     * 
+     * @access public
+     *
+     * @todo Define an Proxy business class.
+     * 
+     */
+    class Proxy extends Loader {
+
+        public $Id;
+        public $Ip;
+        public $Port;
+        public $User;
+        public $Password;
+        public $IsReserved;
+
+        function __construct(int $id = NULL) {
+            $ci = &get_instance();
+            $ci->load->model('proxy_model');
+            
+            $this->Id = $id;
+        }
+
+        public function load_data(int $id) {
+            $this->Id = $id ? $id : $this->Id;
+            
+            $ci = &get_instance();
+            $data = $ci->proxy_model->get_by_id($this->Id);
+
+            if ($data)
+                $this->fill_data($data);
+        }
+
+        private function fill_data(\stdClass $data) {
+            $this->Id = $data->idProxy;
+            $this->Ip = $data->proxy;
+            $this->Port = $data->port;
+            $this->User = $data->proxy_user;
+            $this->Password = $data->proxy_password;
+            $this->IsReserved = $data->isReserved;
+        }
+
+        public function save_data() {
+            
+        }
+
+        public function ToString() {
+            return "--proxy '$this->User:$this->Password@$this->Ip:$this->Port'";
+        }
+
     }
-    
-    public function ToString() {
-      return "--proxy '$this->User:$this->Password@$this->Ip:$this->Port'";
-    }
-  }
 
 }    
