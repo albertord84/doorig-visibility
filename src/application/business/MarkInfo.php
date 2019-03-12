@@ -10,6 +10,8 @@ namespace business {
 
     require_once config_item('business-loader-class');
     require_once config_item('business-plane-class');
+    require_once config_item('business-proxy-class');
+    require_once config_item('business-payment-class');
     require_once config_item('business-client-class');
     require_once config_item('business-user_status-class');
     require_once config_item('business-client_status_list-class');
@@ -49,10 +51,11 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $this->Client = $client;
+            $this->load_data();
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
-//            $this->Payment = new Payment($this->pay_id);
-//            $this->Payment->load_data();
+            $this->Payment = new Payment($this->pay_id);
+            $this->Payment->load_data();
             $this->Proxy = new Proxy($this->proxy_id);
             $this->Proxy->load_data();
             $this->Status = new ClientStatusList($this->Client);

@@ -28,8 +28,8 @@ namespace business {
             $this->Id = $id;
         }
 
-        public function load_data(int $id) {
-            $this->Id = $id ? $id : $this->Id;
+        public function load_data() {
+            //$this->Id = $id ? $id : $this->Id;
             
             $ci = &get_instance();
             $data = $ci->proxy_model->get_by_id($this->Id);
@@ -38,7 +38,7 @@ namespace business {
                 $this->fill_data($data);
         }
 
-        private function fill_data(\stdClass $data) {
+        public function fill_data(\stdClass $data) {
             $this->Id = $data->idProxy;
             $this->Ip = $data->proxy;
             $this->Port = $data->port;

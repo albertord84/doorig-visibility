@@ -18,6 +18,7 @@ $config['business-class'] = getcwd() . '/application/business/Business.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
 $config['business-mark_info-class'] = getcwd() . '/application/business/MarkInfo.php';
 $config['business-plane-class'] = getcwd() . '/application/business/Plane.php';
+$config['business-payment-class'] = getcwd() . '/application/business/Payment.php';
 $config['business-proxy-class'] = getcwd() . '/application/business/Proxy.php';
 $config['business-daily_report-class'] = getcwd() . '/application/business/DailyReport.php';
 $config['business-black_and_white_list-class'] = getcwd() . '/application/business/BlackAndWhiteList.php';
