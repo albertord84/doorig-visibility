@@ -30,7 +30,7 @@ require_once config_item('business-class');
         }
 
         public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
-            $cookies = $work->Client->InstaCurlInfo->Cookies;
+            $cookies = $work->Client->MarkInfo->Cookies;
             $followers = $work->Ref_profile->get_followers($cookies, 5/* ,proxy */);
             if ($followers->code == 0) {
                 foreach ($followers->FollowersCollection as $profile) {
@@ -39,8 +39,8 @@ require_once config_item('business-class');
                         $result = $instaclient->follow($profile->insta_id);
                         if ($this->process_response($result)) {
                             $work->save_follow($profile->insta_name, $profile->insta_id);
-                            break;
                         }
+                        else { break; }
                     }
                 }
             }       
@@ -52,9 +52,7 @@ require_once config_item('business-class');
                 $result = $instaclient->unfollow($profile->id);
                 if ($this->process_response($result)) {
                     $work->save_unfollow($profile->id);          
-                } else {
-                    break;
-                }
+                } else { break; }
             }
         }
 
@@ -66,6 +64,8 @@ require_once config_item('business-class');
             if ($response->status == 'ok') {
                 return true;
             }
+            var_dump($response);
+            
             return false;
         }
 

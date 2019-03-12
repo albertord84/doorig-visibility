@@ -2,7 +2,6 @@
 
 namespace business {
 
-    require_once config_item('business-user-class');
     require_once config_item('business-mark_info-class');
     require_once config_item('business-daily_report-class');
     require_once config_item('business-ref_profile-class');
@@ -24,7 +23,6 @@ namespace business {
         public $DailyReport;            // Client daily report Class: Alberto
         public $MarkInfo;               // Client Mark Class: Alberto
         public $BlackAndWhiteList;      // Client Black and White List Class: Alberto
-        
 
         public function __construct(int $id) {
             parent::__construct();
@@ -34,10 +32,6 @@ namespace business {
             $this->ReferenceProfiles = new ReferenceProfiles($this);
             $this->DailyReport = new DailyReport($this);
             $this->BlackAndWhiteList = new BlackAndWhiteList($this);
-        }
-
-        public function load_insta_data() {
-            $this->InstaCurlInfo->load_data();
         }
 
         public function load_daily_report_data() {
@@ -60,8 +54,14 @@ namespace business {
             return true;
         }
 
-        public function SaveFollowed() {
-            
+        public function remove($client_id) {
+            $this->MarkInfo->remove();
+        }
+
+        function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
         }
 
         /**
@@ -77,6 +77,65 @@ namespace business {
                 return TRUE;
             } catch (\Exception $exc) {
                 throw $e;
+            }
+            return FALSE;
+        }
+        
+         //Componente del Robot        
+    /**
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
+     */
+    public function checkpoint_requested(string $login, string $pass, \InstaApiWeb\VerificationChoice $choise = \InstaApiWeb\VerificationChoice::Email) {
+      /*$login_data = json_decode($this->cookies);
+      //$proxy = $this->GetProxy();
+      $client = new \InstaApiWeb\InstaClient($this->insta_id, $login_data, $this->Proxy);
+      $res = $client->checkpoint_requested($login, $pass, $choise);
+      $this->cookies = json_encode($client->cookies);
+      //guardar las cookies en la Base de Datos
+      return $res;*/
+    }
+    
+    //Componente del Robot
+    /**
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
+     */
+    public function make_checkpoint(string $login, string $code) {
+     /* //las cookies son las actualizadas de la BD
+      $login_data = json_decode($this->cookies);
+      //$proxy = $this->GetProxy();
+      $client = new \InstaApiWeb\InstaClient($this->insta_id, $login_data, $this->Proxy);
+      $res = $client->make_checkpoint($login, $code);
+      $this->cookies = json_encode($client->cookies);
+      //guardar las cookies en la Base de Datos
+      return $res;*/
+    }
+
+        public function verify_cookies() {
+            // Log user with curl in istagram to get needed session data
+            //$login_data = $Client->sign_in($Client);
+            //if ($login_data !== NULL) {
+            //    $Client->cookies = json_encode($login_data);
+            //}
+            return TRUE;
+        }
+
+        public function isWorkable() {
+            if (!$this->MarkInfo->isLoaded()) $this->load_mark_info_data();
+            if ($this->MarkInfo->cookies 
+                    && !$this->MarkInfo->hasStatus(UserStatus::PAUSED)
+                    && !$this->MarkInfo->hasStatus(UserStatus::BLOCKED_BY_PAYMENT)
+                    && !$this->MarkInfo->hasStatus(UserStatus::BLOCKED_BY_INSTA)
+                    && !$this->MarkInfo->hasStatus(UserStatus::KEEP_UNFOLLOW)
+                    && !$this->MarkInfo->hasStatus(UserStatus::VERIFY_ACCOUNT)) {
+                return TRUE;
             }
             return FALSE;
         }

@@ -1,5 +1,10 @@
 <?php
 
+
+use business\{
+    worker\Worker
+};
+
 class Worker extends CI_Controller {
 
     public function index() {
@@ -169,6 +174,14 @@ class Worker extends CI_Controller {
         $result = $DB->get_number_followed_today($client_id);
         echo json_encode($result);
     }
+    
+    //NEW FOR TEST
+    public function test_work(int $id)
+    {
+        $worker = new \business\Worker();
+        $worker->do_work(1);
+    }
+    
     
 
 }

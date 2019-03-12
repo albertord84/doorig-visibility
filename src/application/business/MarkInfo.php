@@ -9,7 +9,9 @@
 namespace business {
 
     require_once config_item('business-loader-class');
+    require_once config_item('business-plane-class');
     require_once config_item('business-client-class');
+    require_once config_item('business-user_status-class');
     require_once config_item('business-client_status_list-class');
     require_once config_item('thirdparty-cookies-resource');
 
@@ -29,7 +31,7 @@ namespace business {
         public $proxy_id = NULL;
         public $login = NULL;
         public $pass = NULL;
-        public $init_date = NULL; 
+        public $init_date = NULL;
         public $end_date = NULL;
         public $cookies = NULL;
         public $observation = NULL;
@@ -37,16 +39,16 @@ namespace business {
         public $last_access = NULL;
         public $insta_followers_ini = NULL;
         public $insta_following = NULL;
-        
+        public $Plane;
         public $Status;
-
-
         public $Client;
 
         function __construct(Client &$client) {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $this->Client = $client;
+            $this->Plane = new Plane($this->Client);
+            $this->Plane->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
         }
@@ -57,6 +59,8 @@ namespace business {
          * @return DataSet  
          */
         public function load_data() {
+            parent::load_data();
+            
             $ci = &get_instance();
             $data = $ci->client_mark_model->get_by_id($this->Client->Id);
 
@@ -81,8 +85,12 @@ namespace business {
             $this->last_access = $data->last_access;
             $this->insta_followers_ini = $data->insta_followers_ini;
             $this->insta_following = $data->insta_following;
-            
+
             $this->Cookies = new Cookies($data->cookies);
+        }
+
+        public function remove() {
+            $this->Status->add_item($this->insta_id, $this->client_id, time(), UserStatus::DELETED);
         }
 
     }

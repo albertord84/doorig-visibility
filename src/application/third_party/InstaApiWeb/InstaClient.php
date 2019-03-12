@@ -338,7 +338,8 @@ namespace InstaApiWeb {
       try {
 
         $result = $this->make_login($login, $pass);
-        return $result;
+        $response = new Response\LoginResponse(true,$login_data,null,0,"authenticated true");
+        return $response;
       } catch (InstaCheckpointException $exc) {
         $res = $exc->GetChallange();
 
@@ -372,9 +373,13 @@ namespace InstaApiWeb {
         // Parse html response
         curl_close($ch);
         $start = strpos($html, "200") != 0;
-        $json_str = substr($html, $start);
-
-        return $json_response = json_decode($json_str);
+        if($start)
+        {
+         $json_str = substr($html, "{");
+         $json_response = json_decode($json_str);
+         $response = new Response\LoginResponse(false,$cookies,$challenge,1,"checkpoint requiered");
+          return response;
+        }
       } catch (\Exception $exc) {
         var_dump($exc);
       }
@@ -411,7 +416,7 @@ namespace InstaApiWeb {
         $login_data->json_response = $json_response;
         if (count($checkpoint_cookies) >= 2 && $start) {
           $login_data->json_response = json_decode('{"authenticated":true,"user":true,"status":"ok"}');
-
+          // CONVERTIR ESTO A cookies de thridparty
           $login_data->csrftoken = $mngr->get_cookies_value("csrftoken");
           $login_data->sessionid = $mngr->get_cookies_value("sessionid");
           $login_data->ds_user_id = $mngr->get_cookies_value("ds_user_id");
@@ -429,7 +434,9 @@ namespace InstaApiWeb {
 
         curl_close($ch);
         $this->cookies = $login_data;
-        return $login_data;
+        //verificar el codigo de error que debe ser un enum con el codigo de checkpoint requiered
+        $response = new Response\LoginResponse(false,$login_data,$challenge,1,"checkpoint requiered");
+        return $response;
       } catch (\Exception $exc) {
         
       }

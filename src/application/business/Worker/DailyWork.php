@@ -49,15 +49,15 @@ namespace business\worker {
             $ci->load->model('daily_work_model');
         }
 
-        public static function get_next_work() {
+        public static function get_next_work(int $id = NULL) {
             $dailywork = new DailyWork();
             $ci = &get_instance();
             $ci->load->model('daily_work_model');
-            $work_data = $ci->daily_work_model->get_next_work();
+            $work_data = $ci->daily_work_model->get_next_work($id);
 
             $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id);
             $dailywork->Client = new \business\Client($work_data->client_id);
-            $dailywork->Client->load_insta_data();
+            $dailywork->Client->load_mark_info_data();
             return $dailywork;
         }
 

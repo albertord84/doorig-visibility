@@ -101,6 +101,19 @@ class Client_mark_model extends CI_Model {
         return $query->row();
     }
 
+    function get_all_id() {
+
+        $this->db->select('client_id')->from('client_mark');
+
+        //$this->db->order_by('<field>', '<type>'); ==> asc/desc
+
+        $query = $this->db->get();
+
+
+
+        return $query->result();
+    }
+
     function get_all() {
 
         $this->db->select('*')->from('client_mark');
@@ -114,6 +127,21 @@ class Client_mark_model extends CI_Model {
         return $query->result();
     }
 
+    function get_all_by_status($status_id) {
+
+        $this->db->join('client_status_list', "client_status_list.status_id = $status_id");
+        $this->db->where('client_status_list.active', 1);
+
+        $this->db->select('client_mark.*')->from('client_mark')->distinct();
+
+        //$this->db->order_by('<field>', '<type>'); ==> asc/desc
+
+        $query = $this->db->get();
+
+
+
+        return $query->result();
+    }
 }
 ?>
 

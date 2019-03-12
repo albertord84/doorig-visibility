@@ -17,10 +17,11 @@ class Daily_work_model extends CI_Model {
     parent::construct();
   }
 
-  function save($to_follow, $to_unfollow, $cookies) {
+  function save($reference_id, $to_follow, $to_unfollow, $cookies) {
     $this->to_follow = $to_follow;
     $this->to_unfollow = $to_unfollow;
     $this->cookies = $cookies;
+    $this->reference_id =  $reference_id;
     $this->db->insert('daily_work', $this);
 
     return $this->db->insert_id();
@@ -57,8 +58,12 @@ class Daily_work_model extends CI_Model {
     return $query->row();
   }
 
-  function get_next_work(bool $block = true) {
+  function get_next_work(int $id = NULL, bool $block = true) {
     $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) AND reference_profile.deleted <> TRUE";    
+    if($id !==  NULL)
+    {
+        $where .= " AND clients.user_id = $id";
+    }
     $this->db->select( "reference_id, to_follow, to_unfollow, clients.user_id as client_id ");
     $this->db->join('reference_profile', 'reference_profile.id = daily_work.reference_id');
     $this->db->join('clients', 'clients.user_id = reference_profile.client_id');
