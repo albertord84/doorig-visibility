@@ -78,7 +78,7 @@ namespace business {
         /**
          *  
          */
-        static function update(int $id, int $client_id = TRUE, int $client_status_id = TRUE, bool $active = TRUE, string $start_date = NULL, string $end_date = NULL) {
+        static function update(int $id, int $client_id = NULL, int $client_status_id = NULL, bool $active = TRUE, string $start_date = NULL, string $end_date = NULL) {
             $ci = &get_instance();
             $ci->load->model('Client_status_list_model');
             $id = $ci->Client_status_list_model->update($id, $client_id, $client_status_id, $active, $start_date, $end_date);
