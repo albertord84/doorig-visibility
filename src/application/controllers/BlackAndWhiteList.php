@@ -33,9 +33,11 @@ class BlackAndWhiteList extends CI_Controller {
         $datas = $this->input->post();
 
         $client_id = unserialize($this->session->userdata('client'))->Id;
-
+        $BlackAndWhiteList = new \business\BlackAndWhiteList();
+        $BlackAndWhiteList->get($client_id);
+        
         try {
-            $id = BlackAndWhiteList::add_item($datas['insta_id'], $datas['insta_name'], $client_id, 0);
+            $id = $BlackAndWhiteList->add_item($datas['insta_id'], $datas['insta_name'], $client_id, 0);
 
             $response = new ResponseInsertedObject($id);
             $response->toJson();
@@ -50,9 +52,11 @@ class BlackAndWhiteList extends CI_Controller {
         $datas = $this->input->post();
 
         $client_id = unserialize($this->session->userdata('client'))->Id;
+        $BlackAndWhiteList = new \business\BlackAndWhiteList();
+        $BlackAndWhiteList->get($client_id);
 
         try {
-            $id = BlackAndWhiteList::add_item($datas['insta_id'], $datas['insta_name'], $client_id, 1);
+            $id = $BlackAndWhiteList->add_item($datas['insta_id'], $datas['insta_name'], $client_id, 1);
 
             $response = new ResponseInsertedObject($id);
             $response->toJson();
@@ -66,8 +70,8 @@ class BlackAndWhiteList extends CI_Controller {
         $datas = $this->input->post();
         $datas['black_and_white_id'] = $datas['black_and_white_id'] ? $datas['black_and_white_id'] : $black_and_white_id;        
         try {
-            $BlackAndWhiteList = new BlackAndWhiteList($datas['black_and_white_id']);
-            $BlackAndWhiteList->remove();
+            $BlackAndWhiteItem = new \business\BlackAndWhiteItem($datas['black_and_white_id']);
+            $BlackAndWhiteItem->remove();
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;
