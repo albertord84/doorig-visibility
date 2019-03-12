@@ -123,13 +123,20 @@ class Client extends CI_Controller {
     
     public function request_checkpoint_required_code() {        
         $datas = $this->input->post();
+        //1.
         $datas["device"]; //device = phone ou sms
+        
+        //2. call robot function
+        
+        
+        //3. return response
         return Response::ResponseOK()->toJson();
     }
     
     public function verifify_checkpoint_required_code() {        
         $datas = $this->input->post();
         $datas["code"]; // code of 6 digits of IG
+        //2. 
         return Response::ResponseOK()->toJson();
     }
 
