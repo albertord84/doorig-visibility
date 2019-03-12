@@ -23,7 +23,7 @@ class Client_mark_model extends CI_Model {
         parent::construct();
     }
 
-    function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
+    function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
 
         $this->client_id = $client_id;
         $this->plane_id = $plane_id;
@@ -40,6 +40,7 @@ class Client_mark_model extends CI_Model {
         $this->last_access = $last_access;
         $this->insta_followers_ini = $insta_followers_ini;
         $this->insta_following = $insta_following;
+        $this->like_first = $like_first;
 
 
         $this->db->insert('client_mark', $this);
@@ -54,7 +55,7 @@ class Client_mark_model extends CI_Model {
         $this->db->delete('client_mark', array('id' => $id));
     }
 
-    function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
+    function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
 
         $this->client_id = $client_id;
         if ($plane_id)
@@ -85,9 +86,11 @@ class Client_mark_model extends CI_Model {
             $this->insta_followers_ini = $insta_followers_ini;
         if ($insta_following)
             $this->insta_following = $insta_following;
+        if ($like_first)
+            $this->like_first = $like_first;
 
 
-        $this->db->update('client_mark', $this, array('id' => $id));
+        $this->db->update('client_mark', $this, array('client_id' => $client_id));
     }
 
     function get_by_id($client_id) {
