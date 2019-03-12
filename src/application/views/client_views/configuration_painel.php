@@ -21,11 +21,12 @@
                                     <div class="message-box">
                                         <div id="" class="message-widget message-scroll text-center">
                                             <i class="icon-Like" style="color:#20aee3;font-size:3em;"></i>
-                                            <p class="text-justify m-b-30 m-t-30">Ao ativar o recurso AUTOLIKE
-                                                sua conta dará like 
-                                                automaticamente na primeira foto de todos os 
-                                                perfis que seguir, esse processo pode aumentar
-                                                sua conversão de seguidores. </p>
+                                            <p class="text-justify m-b-20 m-t-20">
+                                                Ao ativar esse recurso
+                                                sua conta curtira 
+                                                automaticamente a primeira foto de todos os 
+                                                perfis que seguir, aumentando
+                                                sua conversão. </p>
                                             <input id="activate-account" type="checkbox" checked data-toggle="toggle" 
                                                 data-on="<i class='fa fa-play'></i> Ativar" 
                                                 data-off="<i class='fa fa-pause'></i> Pausar">                                              
@@ -42,8 +43,8 @@
                                     <div class="message-box">
                                         <div id="" class="message-widget message-scroll text-center">
                                             <i class="sl-icon-user-unfollow" style="color:#20aee3;font-size:3em;font-weight:lighter"></i>
-                                            <p class="text-justify m-b-30 m-t-30">
-                                                Ao ativar o recurso UNFOLLOW TOTAL sua conta
+                                            <p class="text-justify m-b-20 m-t-20">
+                                                Ao ativar esse recurso sua conta
                                                 iniciará um processo onde deixará de seguir
                                                 "TODOS" os perfis que segue no momento. </p>
                                             <input id="activate-account" type="checkbox" checked data-toggle="toggle" 

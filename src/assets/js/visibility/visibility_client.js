@@ -599,7 +599,7 @@ function delete_geolocation(id) {
     $.ajax({
         url: base_url + 'index.php/GeolocationProfiles/delete',
         data: {
-            "geolocation": id
+            "reference_profile_id": id
         },
         type: 'POST',
         dataType: 'json',
@@ -760,7 +760,7 @@ function delete_hashtag(id) {
     $.ajax({
         url: base_url + 'index.php/HashtagProfiles/delete',
         data: {
-            "hashtag": id
+            "reference_profile_id": id
         },
         type: 'POST',
         dataType: 'json',
@@ -833,7 +833,7 @@ function add_profile_wl(container, profile_wl) {
         modal_alert_message("Deve selecionar um perfil para adicionar");
     } else {
         $.ajax({
-            url: base_url + 'index.php/BlackWhiteList/insert_profile_in_white_list',
+            url: base_url + 'index.php/BlackAndWhiteList/insert_white',
             data: {
                 "insta_name": profile_wl,
                 "insta_id": selected_profile['user']['pk']
@@ -890,7 +890,7 @@ function show_profile_wl_in_view(container, profile_wl, id){
 function delete_profile_wl(profile_wl,id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
-        url: base_url + 'index.php/BlackWhiteList/delete_profile_in_white_list',
+        url: base_url + 'index.php/BlackAndWhiteList/delete',
         data: {
             "profile": id
         },
@@ -919,7 +919,7 @@ function add_profile_bl(container, profile_bl) {
         modal_alert_message("Deve selecionar um perfil para adicionar");
     } else {
         $.ajax({
-            url: base_url + 'index.php/BlackWhiteList/insert_profile_in_black_list',
+            url: base_url + 'index.php/BlackAndWhiteList/insert_black',
             data: {
                 "insta_name": profile_bl,
                 "insta_id": selected_profile['user']['pk']
@@ -976,7 +976,7 @@ function show_profile_bl_in_view(container, profile_bl, id){
 function delete_profile_bl(profile_bl,id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
-        url: base_url + 'index.php/BlackWhiteList/delete_profile_in_black_list',
+        url: base_url + 'index.php/BlackAndWhiteList/delete',
         data: {
             "profile": id
         },
