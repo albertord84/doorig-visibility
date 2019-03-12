@@ -863,10 +863,9 @@ function show_profile_wl_in_view(container, profile_wl, id){
         success: function (response) {
             datas = find_match_profile_in_list(response['users'], profile_wl);
             datas = datas.user;
-            cnt_name = profile_wl.replace(/./g, "_");
             if(datas){                
-                var str = "<a id='container-"+id+"-"+cnt_name+"' class='item-white-list'>" +
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \"" + profile_wl + "\", \"" + id + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+                var str = "<a id='container-wl-"+id+"'"+ " class='item-white-list'>" +
+                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista branca?\", \"delete_profile_wl\", \"" + id + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
                         "<span aria-hidden='true'>&times;</span>" +
                     "</button>" +
                     "<div class='user-img'>" +
@@ -887,20 +886,19 @@ function show_profile_wl_in_view(container, profile_wl, id){
     });  
 }
 
-function delete_profile_wl(profile_wl,id) {
+function delete_profile_wl(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/BlackAndWhiteList/delete',
         data: {
-            "profile": id
+            "black_and_white_id": id
         },
         type: 'POST',
         dataType: 'json',
         success: function (response) {
             //spinner_stop(btn);
             if (response.code === 0) {
-                cnt_name = profile_wl.replace(/./g, "_");
-                cnt = "#container-"+id+"-"+cnt_name;
+                cnt = "#container-wl-"+id;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);
@@ -949,10 +947,9 @@ function show_profile_bl_in_view(container, profile_bl, id){
         success: function (response) {
             datas = find_match_profile_in_list(response['users'], profile_bl);
             datas = datas.user;
-            cnt_name = profile_bl.replace(/./g, "_");
             if(datas){                
-                var str = "<a id='container-"+id+"-"+cnt_name+"' class='item-white-list'>" +
-                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \"" + profile_bl + "\", \"" + id + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
+                var str = "<a id='container-bl-"+id+"' class='item-white-list'>" +
+                    "<button onclick='modal_confirm_message(\"Confirma a eliminação desse perfil da lista negra?\", \"delete_profile_bl\", \"" + id + "\");' type='button' class='close' data-dismiss='modal' aria-label='Close'>" +
                         "<span aria-hidden='true'>&times;</span>" +
                     "</button>" +
                     "<div class='user-img'>" +
@@ -973,20 +970,19 @@ function show_profile_bl_in_view(container, profile_bl, id){
     });  
 }
 
-function delete_profile_bl(profile_bl,id) {
+function delete_profile_bl(id) {
     //1. eliminar profile do banco de dados com ajax en el success del ajax remover el container del profile
     $.ajax({
         url: base_url + 'index.php/BlackAndWhiteList/delete',
         data: {
-            "profile": id
+            "black_and_white_id": id
         },
         type: 'POST',
         dataType: 'json',
         success: function (response) {
             //spinner_stop(btn);
             if (response.code === 0) {
-                cnt_name = profile_bl.replace(/./g, "_");
-                cnt = "#container-"+id+"-"+cnt_name;
+                cnt = "#container-bl-"+id;
                 $(cnt).remove();
             } else
                 modal_alert_message(response.message);

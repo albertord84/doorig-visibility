@@ -47,7 +47,13 @@ class Welcome extends CI_Controller {
     }
 
     public function aa() {
-        var_dump(unserialize($this->session->userdata('client')));
+        $Client = new Client(1);
+        $Client->load_mark_info_data();
+        $Client->ReferenceProfiles->load_data();
+        $Client->load_daily_report_data();
+        $Client->load_black_and_white_list_data();
+        $Client->load_mark_info_data();
+        var_dump($Client);
     }
 
     public function index($access_token, $client_id) {
@@ -77,6 +83,7 @@ class Welcome extends CI_Controller {
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
                 //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
+                $Status_list = $Client->MarkInfo->Status->ClientStatusList;
                 switch ($Client->Status) {
                     case UserStatus::VERIFY_ACCOUNT:
                         $param["painel_by_status"] = $this->load->view('client_views/verify_account_painel', '', TRUE);

@@ -61,7 +61,7 @@ class Black_and_white_list_model extends CI_Model {
     function get_by_insta_id($insta_id, $client_id) {
         $this->db->where('client_id', $client_id);
         $this->db->where('insta_id', $insta_id);
-        $query = $this->db->get('reference_profile');
+        $query = $this->db->get('black_and_white_list');
 
         return $query->last_row();
     }
@@ -70,7 +70,7 @@ class Black_and_white_list_model extends CI_Model {
         //$this->db->limit($offset, $rows); //solo usar si esas variables fueran diferentes de 0
 
         $this->db->where('client_id', $ClientId);
-        $this->db->where('deleted', 0);
+        $this->db->where('deleted is NULL');
 
         $this->db->select('*')->from('black_and_white_list');
         $query = $this->db->get();
