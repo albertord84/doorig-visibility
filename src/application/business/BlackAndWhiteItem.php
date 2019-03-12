@@ -28,7 +28,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('black_and_white_list_model');
 
-            $this->Id = $id;
+            $this->id = $id;
             if ($id) {
                 $this->load_data();
             }
@@ -58,6 +58,7 @@ namespace business {
         }
 
         protected function fill_data(\stdClass $data) {
+            $this->id = $data->id;
             $this->client_id = $data->client_id;
             $this->insta_id = $data->insta_id;
             $this->profile = $data->profile;
@@ -74,7 +75,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('black_and_white_list_model');
             if ($this->id)
-                $ci->black_and_white_list_model->remove($this->Id);
+                $ci->black_and_white_list_model->remove($this->id);
             else
                 throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
         }
@@ -108,7 +109,7 @@ namespace business {
                 $RP = new BlackAndWhiteItem();
                 $RP->load_data_by_insta_id($insta_id, $client_id);
 
-                $exist = $RP->Id > 0;
+                $exist = $RP->id > 0;
                 if ($exist)
                     $exist = $RP->deleted == false;
                 return $exist;
