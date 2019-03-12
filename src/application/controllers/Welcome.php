@@ -29,7 +29,7 @@ class Welcome extends CI_Controller {
         $param["lateral_menu"] = $this->request_lateral_menu(1);
         $this->load->view('visibility_client', $param);
     }
-    
+
     // deprecated
     public function index_tmp($client = 1) {
         $Client = new Client($client);
@@ -42,7 +42,6 @@ class Welcome extends CI_Controller {
         $Client->MarkInfo->Status->add_item(UserStatus::PAUSED);
         var_dump($Client);
         return; //die;
-        
         //3. load Mark datas from DB and set in session 
         $Client = new Client($client_id);
         $Client->load_mark_info_data();
@@ -156,11 +155,34 @@ class Welcome extends CI_Controller {
         $datas["insta_id"];
         $datas["password"];
         $datas["passwordrep"];
-        //2. save mark in DB using client_id as follow:
-        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+        try {
 
-        //3. return response
-        return Response::ResponseOK()->toJson();
+            //2. save mark in DB using client_id as follow:
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+            $Client = new Client($client_id);
+            $Client->save(
+                    $client_id,
+                    $plane_id = null,
+                    $pay_id = null,
+                    $proxy_id = null,
+                    $login = $datas["insta_name"],
+                    $pass = $datas["password"],
+                    $insta_id = $datas["insta_id"],
+                    $init_date = time(),
+                    $end_date = null,
+                    $cookies = null,
+                    $observation = null,
+                    $purchase_counter = 1,
+                    $last_access = null,
+                    $insta_followers_ini = null,
+                    $insta_following = null
+            );
+
+            //3. return response
+            return Response::ResponseOK()->toJson();
+        } catch (Exception $exc) {
+            echo $exc->getTraceAsString();
+        }
     }
 
     public function contract_visibility_steep_2() { //setting plane
@@ -168,6 +190,29 @@ class Welcome extends CI_Controller {
         //1. set plane in la DB
         $datas = $this->input->post();
         $datas["plane"];  //midle, fast, very_fast
+        $plane_id = 1;
+        $plane_id = $datas["plane"] == 'midle'     ? 1 : $plane_id;
+        $plane_id = $datas["plane"] == 'fast'      ? 2 : $plane_id;
+        $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
+        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+        $Client = new Client($client_id);
+        $Client->save(
+            $client_id,
+            $plane_id,
+            $pay_id = null,
+            $proxy_id = null,
+            $login = null,
+            $pass = null,
+            $insta_id = null,
+            $init_date = null,
+            $end_date = null,
+            $cookies = null,
+            $observation = null,
+            $purchase_counter = null,
+            $last_access = null,
+            $insta_followers_ini = null,
+            $insta_following = null
+        );
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
         //3. return response
         return Response::ResponseOK()->toJson();
@@ -176,11 +221,9 @@ class Welcome extends CI_Controller {
     public function contrated_module() { //is called in onclick event of FINALIZAR button
         $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
         //1. force login with Intagram
-        //2. set status of profile in doorig_visibility_db
-        //
-        //(ACTIVE, BLOQ_PASS, VERIFY_ACCOUNT)
-        
-        //3. redirect to index
+        //2. set $insta_followers_ini $insta_following
+        //3. set contrated module
+        //4. redirect to index
         header("Location:" . base_url() . "index.php/welcome/index/");
     }
 
