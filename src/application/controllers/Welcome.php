@@ -20,12 +20,7 @@ class Welcome extends CI_Controller {
         require_once config_item('business-insta_commands-class');
         require_once config_item('business-user_status-class');
     }
-
-    public function a() {
-        $param["lateral_menu"] = $this->request_lateral_menu(1);
-        $this->load->view('visibility_client', $param);
-    }
-    
+        
     public function index_tmp($client = 1) {
         $Client = new Client($client);
         $Client->load_mark_info_data();
@@ -45,17 +40,7 @@ class Welcome extends CI_Controller {
         //        $this->load->view('visibility_home', $param);
         $this->load->view('visibility_client', $param);
     }
-
-    public function aa() {
-        $Client = new Client(1);
-        $Client->load_mark_info_data();
-        $Client->ReferenceProfiles->load_data();
-        $Client->load_daily_report_data();
-        $Client->load_black_and_white_list_data();
-        $Client->load_mark_info_data();
-        var_dump($Client);
-    }
-
+  
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
         $ClientModule=NULL;
@@ -67,11 +52,11 @@ class Welcome extends CI_Controller {
         if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
             $this->session->set_userdata('client_module', serialize($ClientModule));
-            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Id);
+            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
             $param["modals"] = $this->request_modals();
             if ($ClientModule->Active) {
                 //3. load Mark datas from DB and set in session 
-                $Client = new Client($ClientModule->Id);
+                $Client = new Client($ClientModule->Client->Id);
                 $Client->load_mark_info_data();
                 $Client->ReferenceProfiles->load_data();
                 $Client->load_daily_report_data();
@@ -131,14 +116,14 @@ class Welcome extends CI_Controller {
         $datas["password"];
         $datas["passwordrep"];
         //2. save mark in DB using client_id as follow:
-        $client_id = unserialize($this->session->userdata('client_module'))->Id;
+        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
 
         //3. return response
         return Response::ResponseOK()->toJson();
     }
 
     public function contract_visibility_steep_2() { //setting plane
-        $client_id = unserialize($this->session->userdata('client_module'))->Id;
+        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
         //1. set plane in la DB
         $datas = $this->input->post();
         $datas["plane"];  //midle, fast, very_fast
@@ -148,12 +133,15 @@ class Welcome extends CI_Controller {
     }
 
     public function contrated_module() { //is called in onclick event of FINALIZAR button
-        $client_id = unserialize($this->session->userdata('client_module'))->Id;
+        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
         //1. force login with Intagram
+        //
         //2. set status of profile in doorig_visibility_db
+        //
         //(ACTIVE, BLOQ_PASS, VERIFY_ACCOUNT)
+        
         //3. redirect to index
-        header("Location:" . base_url() . "index.php/welcome/index/ok/" . $client_id);
+        header("Location:" . base_url() . "index.php/welcome/index/");
     }
 
     public function get_person_profile_datas($profile_name) {
@@ -166,7 +154,7 @@ class Welcome extends CI_Controller {
         //esta funcion deve estar en todfos los módulos
         $datas = $this->input->post();
         try {
-            $client_id = unserialize($this->session->userdata('client'))->Id;
+            $client_id = unserialize($this->session->userdata('client'))->Client->Id;
 
             //1. llamar a la funcion generate_access_token que esta en el dasboard por Guzle
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "/welcome/generate_access_token";
