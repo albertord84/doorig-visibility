@@ -39,6 +39,8 @@ namespace business {
         public $last_access = NULL;
         public $insta_followers_ini = NULL;
         public $insta_following = NULL;
+        public $like_first = NULL;
+        
         public $Plane;
         public $Status;
         public $Client;
@@ -85,8 +87,16 @@ namespace business {
             $this->last_access = $data->last_access;
             $this->insta_followers_ini = $data->insta_followers_ini;
             $this->insta_following = $data->insta_following;
-
+            $this->like_first = $data->like_first;
+            
             $this->Cookies = new Cookies($data->cookies);
+        }
+
+        public function setLikeFirst(bool $like_first = TRUE) {
+            $ci = &get_instance();
+            $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first);
+            
+            $this->like_first = $like_first;
         }
 
         public function remove() {
