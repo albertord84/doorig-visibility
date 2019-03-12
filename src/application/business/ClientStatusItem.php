@@ -70,7 +70,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('Client_status_list_model');
             if ($this->Id)
-                $ci->Client_status_list_model->update($this->id, $client_id = NULL, $client_status_id = NULL, $active = 0, $start_date = NULL, $end_date = time);
+                $ci->Client_status_list_model->update($this->id, $client_id = NULL, $client_status_id = NULL, $active = 0, $start_date = NULL, $end_date = (string)time());
             else
                 throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
         }
@@ -81,6 +81,7 @@ namespace business {
         static function update(int $id, int $client_id = NULL, int $client_status_id = NULL, bool $active = TRUE, string $start_date = NULL, string $end_date = NULL) {
             $ci = &get_instance();
             $ci->load->model('Client_status_list_model');
+            
             $id = $ci->Client_status_list_model->update($id, $client_id, $client_status_id, $active, $start_date, $end_date);
 
             return $id;
