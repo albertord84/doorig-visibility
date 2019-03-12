@@ -109,7 +109,7 @@ namespace business {
                 $RP->load_data_by_insta_id($insta_id, $client_id);
 
                 $exist = $RP->Id > 0;
-                if ($exist && $status)
+                if ($exist)
                     $exist = $RP->deleted == false;
                 return $exist;
             } catch (\Exception $exc) {
