@@ -47,7 +47,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $this->Client = $client;
-            $this->Plane = new Plane($this->Client);
+            $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();

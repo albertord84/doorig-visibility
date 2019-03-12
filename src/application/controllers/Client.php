@@ -28,11 +28,10 @@ class Client extends CI_Controller {
         // $this->load->view('client_view');
     }
 
-    public function client_play_tool() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
+    public function client_play_tool() {        
         $datas = $this->input->post();
-
+        $Client = $this->session->userdata('client');
+        $Client->MarkInfo->setLikeFirst();
         return Response::ResponseOK()->toJson();
     }
 
