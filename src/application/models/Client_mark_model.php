@@ -86,7 +86,7 @@ class Client_mark_model extends CI_Model {
             $this->insta_followers_ini = $insta_followers_ini;
         if ($insta_following)
             $this->insta_following = $insta_following;
-        if ($like_first)
+        if ($like_first !== NULL)
             $this->like_first = $like_first;
 
 

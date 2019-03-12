@@ -94,6 +94,7 @@ namespace business {
 
         public function setLikeFirst(bool $like_first = TRUE) {
             $ci = &get_instance();
+            $ci->load->model('client_mark_model');
             $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first);
             
             $this->like_first = $like_first;

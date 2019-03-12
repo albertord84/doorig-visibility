@@ -96,6 +96,38 @@ $(document).ready(function () {
         //spinner_stop(btn);
     });
     
+    $("#auto-like").change(function () {
+        if($(this).is(":checked")){
+            //setting to unactive
+            $.get({
+                url : base_url+'index.php/Client/client_unactive_autolike',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }else{            
+            //setting to active
+            $.get({
+                url : base_url+'index.php/Client/client_active_autolike',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }
+    });
+    
+    $("#unfollow-total").change(function () {
+        if($(this).is(":checked")){
+            //setting to unactive
+            $.get({
+                url : base_url+'index.php/Client/client_unactive_total_unfollow',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }else{            
+            //setting to active
+            $.get({
+                url : base_url+'index.php/Client/client_active_total_unfollow',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }
+    });
+    
     //UPDATE MARK CREDENTIAL FUNCTIONS-----------------------------------------------------
     $("#container-update-mark-credentials").keypress(function (e) {
         if (e.which == 13) {

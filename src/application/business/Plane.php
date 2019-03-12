@@ -3,7 +3,6 @@
 namespace business {
 
     require_once config_item('business-loader-class');
-    require_once config_item('business-client_status_item-class');
 
     use InstaApiWeb\Cookies;
 

@@ -3,7 +3,6 @@
 namespace business {
 
     require_once config_item('business-loader-class');
-    require_once config_item('business-client_status_item-class');
 
     use InstaApiWeb\Cookies;
 
@@ -71,7 +70,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('Client_status_list_model');
             if ($this->Id)
-                $ci->Client_status_list_model->remove($this->id);
+                $ci->Client_status_list_model->update($this->id, $client_id = NULL, $client_status_id = NULL, $active = 0, $start_date = NULL, $end_date = time);
             else
                 throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
         }
@@ -79,10 +78,10 @@ namespace business {
         /**
          *  
          */
-        static function save(int $client_id, int $client_status_id, bool $active = TRUE, string $start_date = NULL, string $end_date = NULL) {
+        static function update(int $id, int $client_id = TRUE, int $client_status_id = TRUE, bool $active = TRUE, string $start_date = NULL, string $end_date = NULL) {
             $ci = &get_instance();
             $ci->load->model('Client_status_list_model');
-            $id = $ci->Client_status_list_model->save($client_id, $client_status_id, $active, $start_date, $end_date);
+            $id = $ci->Client_status_list_model->update($id, $client_id, $client_status_id, $active, $start_date, $end_date);
 
             return $id;
         }
