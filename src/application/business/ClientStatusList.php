@@ -66,8 +66,10 @@ namespace business {
             try {
                 $end_date = $end_date ? $end_date : time();
                 $key = $this->hasStatus($status_id);
-                $this->ClientStatusList[$key]->update($key, NULL, NULL, $active = FALSE, $start_date = NULL, $end_date);
-                unset($this->ClientStatusList[$key]);
+                if ($key) {
+                    $this->ClientStatusList[$key]->update($key, NULL, NULL, $active = FALSE, $start_date = NULL, $end_date);
+                    unset($this->ClientStatusList[$key]);
+                }
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
@@ -77,7 +79,7 @@ namespace business {
             try {
                 if ($this->hasStatus($client_status_id))
                     return;
-                $init_date = $init_date ? $init_date : (string)time();
+                $init_date = $init_date ? $init_date : (string) time();
                 $client_status_item = new ClientStatusItem();
                 $id = $client_status_item->save($this->Client->Id, $client_status_id, $active, $init_date, $end_date);
                 $client_status_item->load_data_by_id($id);
