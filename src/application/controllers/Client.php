@@ -13,14 +13,15 @@ if (!defined('BASEPATH'))
 
  */
 use business\Response\Response;
+use business\UserStatus;
 
 class Client extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-
         require_once config_item('business-client-class');
         require_once config_item('business-response-class');
+        require_once config_item('business-user_status-class');
     }
 
     public function index() {
@@ -28,11 +29,8 @@ class Client extends CI_Controller {
         // $this->load->view('client_view');
     }
 
-    public function client_play_tool() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
+    public function client_play_tool() {        
+        $datas = $this->input->post();        
         return Response::ResponseOK()->toJson();
     }
 
@@ -44,35 +42,27 @@ class Client extends CI_Controller {
         return Response::ResponseOK()->toJson();
     }
 
-    public function client_active_autolike() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
+    public function client_active_autolike() {        
+        $Client = unserialize($this->session->userdata('client'));
+        $Client->MarkInfo->setLikeFirst(TRUE);
         return Response::ResponseOK()->toJson();
     }
 
     public function client_unactive_autolike() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
+        $Client = unserialize($this->session->userdata('client'));
+        $Client->MarkInfo->setLikeFirst(FALSE);
         return Response::ResponseOK()->toJson();
     }
 
     public function client_active_total_unfollow() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
+        $Client = unserialize($this->session->userdata('client'));
+        $Client->MarkInfo->Status->add_item(UserStatus::KEEP_UNFOLLOW);
         return Response::ResponseOK()->toJson();
     }
 
     public function client_unactive_total_unfollow() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-        //1. cONFERIR QUE CLIENTE ESTA ACTIVOS Y QUE NOT TIENE DFGDFGB
+        $Client = unserialize($this->session->userdata('client'));
+        $Client->MarkInfo->Status->remove_item(UserStatus::KEEP_UNFOLLOW);
         return Response::ResponseOK()->toJson();
     }
 
