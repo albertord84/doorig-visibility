@@ -80,6 +80,43 @@ namespace business {
             }
             return FALSE;
         }
+        
+         //Componente del Robot        
+    /**
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
+     */
+    public function checkpoint_requested(string $login, string $pass, \InstaApiWeb\VerificationChoice $choise = \InstaApiWeb\VerificationChoice::Email) {
+      /*$login_data = json_decode($this->cookies);
+      //$proxy = $this->GetProxy();
+      $client = new \InstaApiWeb\InstaClient($this->insta_id, $login_data, $this->Proxy);
+      $res = $client->checkpoint_requested($login, $pass, $choise);
+      $this->cookies = json_encode($client->cookies);
+      //guardar las cookies en la Base de Datos
+      return $res;*/
+    }
+    
+    //Componente del Robot
+    /**
+     * 
+     * @todo
+     * @param type
+     * @return
+     * 
+     */
+    public function make_checkpoint(string $login, string $code) {
+     /* //las cookies son las actualizadas de la BD
+      $login_data = json_decode($this->cookies);
+      //$proxy = $this->GetProxy();
+      $client = new \InstaApiWeb\InstaClient($this->insta_id, $login_data, $this->Proxy);
+      $res = $client->make_checkpoint($login, $code);
+      $this->cookies = json_encode($client->cookies);
+      //guardar las cookies en la Base de Datos
+      return $res;*/
+    }
 
         public function verify_cookies() {
             // Log user with curl in istagram to get needed session data

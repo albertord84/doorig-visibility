@@ -21,11 +21,13 @@ class Welcome extends CI_Controller {
         require_once config_item('business-user_status-class');
     }
 
+    // deprecated
     public function a() {
         $param["lateral_menu"] = $this->request_lateral_menu(1);
         $this->load->view('visibility_client', $param);
     }
     
+    // deprecated
     public function index_tmp($client = 1) {
         $Client = new Client($client);
         $Client->load_mark_info_data();
@@ -46,6 +48,7 @@ class Welcome extends CI_Controller {
         $this->load->view('visibility_client', $param);
     }
 
+    // deprecated
     public function aa() {
         $Client = new Client(1);
         $Client->load_mark_info_data();
@@ -149,9 +152,12 @@ class Welcome extends CI_Controller {
 
     public function contrated_module() { //is called in onclick event of FINALIZAR button
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
+        
         //1. force login with Intagram
+        
         //2. set status of profile in doorig_visibility_db
         //(ACTIVE, BLOQ_PASS, VERIFY_ACCOUNT)
+        
         //3. redirect to index
         header("Location:" . base_url() . "index.php/welcome/index/ok/" . $client_id);
     }
