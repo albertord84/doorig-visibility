@@ -25,6 +25,7 @@ namespace business {
     const DONT_DISTURB = 11;
     const DUMBU_UNFOLLOW = 12;
     const KEEP_UNFOLLOW = 13;
+    const PAUSED = 14;
 
     static public function Defines($const) {
       $cls = new ReflectionClass(__CLASS__);

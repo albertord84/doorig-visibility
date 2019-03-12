@@ -180,7 +180,7 @@ namespace business {
             $response = new FollowersResponse();
             $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
 
-            if(get_insta_followers_reponse($response))
+            if($this->get_insta_followers_reponse($response))
             {
                 return $response;
             }
@@ -200,12 +200,12 @@ namespace business {
             }
         }
 
-        static function get_insta_followers_reponse(FollowersResponse $response) {
+        function get_insta_followers_reponse(FollowersResponse $response) {
             if ($response->code == 0) {
                 $this->Cursor = $response->Cursor;
                 return true;
-            } else if ($response->code != 0) {
-                
+            } else if ($response->code != 0) {                
+                 var_dump($response);
             }
             return false;
         }

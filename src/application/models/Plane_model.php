@@ -29,6 +29,7 @@ class Plane_model extends CI_Model {
   }
 
   function update($id, $initial_val, $normal_val, $to_follow, $gateway_prod_id, $gateway_plane_id) {
+    $this->id = $id;
     $this->initial_val = $initial_val;
     $this->normal_val = $normal_val;
     $this->to_follow = $to_follow;
