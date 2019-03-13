@@ -11,8 +11,8 @@ namespace InstaApiWeb\Exceptions {
   class InstaPasswordException extends InstaException {
 
     //put your code here
-    public function __construct(string $message = "", Throwable $previous = null) {
-      parent::__construct($message, ExceptionCode::InstaPassword, $previous);
+    public function __construct(string $message = "", \Throwable $previous = null) {
+      parent::__construct($message, ExceptionCode::IncorrectPassword, $previous);
     }
 
     public function Code() {

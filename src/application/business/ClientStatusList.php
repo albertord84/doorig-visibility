@@ -25,6 +25,7 @@ namespace business {
          * @todo Class constructor.
          * 
          */
+
         function __construct(Client &$client) {
             parent::__construct();
 
@@ -61,27 +62,39 @@ namespace business {
         /**
          *  
          */
-        public function remove_item(int $id) {
-            $this->ClientStatusList[$id]->remove($id);
-            unset($this->ClientStatusList[$id]);
+        public function remove_item(int $status_id) {
+            try {
+                $end_date = $end_date ? $end_date : time();
+                $key = $this->hasStatus($status_id);
+                if ($key) {
+                    $this->ClientStatusList[$key]->update($key, NULL, NULL, $active = FALSE, $start_date = NULL, $end_date);
+                    unset($this->ClientStatusList[$key]);
+                }
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+            }
         }
 
-        public function add_item(string $insta_id, int $client_id, string $init_date = NULL, int $type = NULL) {
+        public function add_item(int $client_status_id, bool $active = TRUE, string $init_date = NULL, string $end_date = NULL) {
             try {
+                if ($this->hasStatus($client_status_id))
+                    return;
+                $init_date = $init_date ? $init_date : (string) time();
                 $client_status_item = new ClientStatusItem();
-                $id = $client_status_item->save($insta_id, $client_id, null, $type);
+                $id = $client_status_item->save($this->Client->Id, $client_status_id, $active, $init_date, $end_date);
+                $client_status_item->load_data_by_id($id);
                 $this->ClientStatusList[$id] = $client_status_item;
                 return $id;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
         }
-        
-        function hasStatus(int $status_id, int $active = 1) {
+
+        public function hasStatus(int $status_id, int $active = 1) {
             $client_status_item = new ClientStatusItem();
             foreach ($this->ClientStatusList as $key => $client_status_item) {
                 if ($client_status_item->client_status_id == $status_id)
-                    return TRUE;
+                    return $key;
             }
             return FALSE;
         }

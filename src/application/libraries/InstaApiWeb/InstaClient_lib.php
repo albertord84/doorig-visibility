@@ -23,6 +23,7 @@ use InstaApiWeb\Exceptions\InstaCheckpointException;
  */
 class InstaClient_lib {
 
+
   public function __construct(array $params) {
 
     require_once config_item('thirdparty-proxy-resource');
@@ -36,7 +37,7 @@ class InstaClient_lib {
     $this->CI = &get_instance();
     $this->CI->load->model("db_model");
 
-    if (!array_key_exists("insta_id", $params )) {
+    if (!array_key_exists("insta_id", $params)) {
       throw new Exception("The params insta_id was not found");
     }
     if (!array_key_exists("cookies", $params)) {
@@ -45,7 +46,7 @@ class InstaClient_lib {
     $insta_id = $params["insta_id"];
     $cookies = $params["cookies"];
     $proxy = NULL;
-    if (array_key_exists( "proxy",$params))
+    if (array_key_exists("proxy", $params))
       $proxy = $params["proxy"];
     $this->InstaClient = new InstaClient($insta_id, $cookies, $proxy);
   }

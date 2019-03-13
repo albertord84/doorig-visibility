@@ -96,6 +96,58 @@ $(document).ready(function () {
         //spinner_stop(btn);
     });
     
+    $("#auto-like").change(function () {
+        if($(this).is(":checked")){
+            //setting to unactive
+            $.get({
+                url : base_url+'index.php/Client/client_unactive_autolike',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }else{            
+            //setting to active
+            $.get({
+                url : base_url+'index.php/Client/client_active_autolike',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }
+    });
+    
+    $("#unfollow-total").change(function () {
+        if($(this).is(":checked")){
+            //setting to unactive
+            $.get({
+                url : base_url+'index.php/Client/client_unactive_total_unfollow',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }else{            
+            //setting to active
+            $.get({
+                url : base_url+'index.php/Client/client_active_total_unfollow',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }
+    });
+    
+    $("#activate-account").click(function () {
+        alert(123);
+    });
+    
+    $("#activate-account").change(function () {
+        if($(this).is(":checked")){
+            //setting to unactive
+            $.get({
+                url : base_url+'index.php/Client/client_pause_tool',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }else{            
+            //setting to active
+            $.get({
+                url : base_url+'index.php/Client/client_play_tool',
+                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+            }); 
+        }
+    });
+    
     //UPDATE MARK CREDENTIAL FUNCTIONS-----------------------------------------------------
     $("#container-update-mark-credentials").keypress(function (e) {
         if (e.which == 13) {
@@ -146,7 +198,7 @@ $(document).ready(function () {
     //VERIFY ACCOUNT FUNCTIONS-----------------------------------------------------
     $("#verify-account-by-email").click(function () {
         var btn =this; spinner_start(btn);
-        request_checkpoint_required_code("phone",btn);
+        request_checkpoint_required_code("email",btn);
     });
     
     $("#verify-account-by-sms").click(function () {
@@ -175,7 +227,7 @@ $(document).ready(function () {
             error: function (xhr, status) {                
                 spinner_stop(btn);
                 $('#verify-account-by-email').removeClass("disabled");  
-                $('#verify-account-by-sms').remooveClass("disabled");  
+                $('#verify-account-by-sms').removeClass("disabled");  
                 $('#verify-account-by-email').addClass("active");  
                 $('#verify-account-by-sms').addClass("active");  
                 modal_alert_message(T('Erro enviando a mensagem, tente depois...'));
