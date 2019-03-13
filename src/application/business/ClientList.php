@@ -47,8 +47,8 @@ namespace business {
         private function fill_data(array $clients = NULL) {
             if (count($clients)) {
                 foreach ($clients as $client) {
-                    $Client = new Client($client->Clients);
-
+                    $Client = new Client($client->client_id);
+                    $client->$MarkInfo->fill_data($clients);
                     $this->Clients[$Client->Id] = $Client;
                 }
             } else {

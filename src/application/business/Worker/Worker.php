@@ -6,7 +6,8 @@ namespace business\worker {
     use business\Client;
 
 require_once config_item('business-class');
-    require_once config_item('business-client-class');
+require_once config_item('business-client-class');
+require_once config_item('business-client-list-class'); 
 
     /**
      * @category Business class
@@ -36,15 +37,22 @@ require_once config_item('business-class');
         public function get_worker_config() {
             return $config;
         }
+        
+        public function truncate_daily_work() {
+           // $ci = &get_instance();    
+            if(!isset($this->ci->Daily_work_model)) 
+                $this->ci->load->model('Daily_work_model');
+            $this->ci->Daily_work_model->truncate();
+        }
 
         // LISTA!!!
         public function prepare_daily_work(bool $not_mail = false) {
             // Get Clients Info
             $Clients = new \business\ClientList();
             $Clients->load_data();
-            $this->ci = &get_instance();
 
-            $this->ci->load->model('Daily_work_model');
+            if(!isset($this->ci->Daily_work_model)) 
+                $this->ci->load->model('Daily_work_model');
             $Client = new Client();
             foreach ($Clients->Clients as $Client) { // for each CLient
                 if ($Client->isWorkable()) {
@@ -67,7 +75,7 @@ require_once config_item('business-class');
                                 $valid_hastag = ($Ref_Prof->Type == 2 && ($Client->MarkInfo->plane_id == 1 || $Client->MarkInfo->plane_id > 3));
                                 if ($Ref_Prof->Type == 0 || $valid_geo || $valid_hastag) { // Nivel de permisos dependendo do plano, solo para quem tem permissao para geo ou hastag
                                     
-                                    $ci->dayli_work_model->save($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
+                                    $ci->Daily_work_model->save($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
                                 }
                             }
                         }
@@ -103,7 +111,6 @@ require_once config_item('business-class');
 
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
-            $ci = &get_instance();
             ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
             while (DailyWork::exist_work()) {
                 $daily_work = DailyWork::get_next_work($client_id);

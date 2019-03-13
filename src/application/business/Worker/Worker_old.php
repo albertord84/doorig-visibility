@@ -19,7 +19,7 @@ require_once config_item('business-client-class');
     * @todo Define an Worker worker class.
     * 
     */
-   class Worker extends Business {
+   class Worker_old extends Business {
 
       //put your code here
       /*

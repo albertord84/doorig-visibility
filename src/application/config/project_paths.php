@@ -16,6 +16,7 @@ if (!defined('BASEPATH'))
 
 $config['business-class'] = getcwd() . '/application/business/Business.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
+$config['business-client-list-class'] = getcwd() . '/application/business/ClientList.php';
 $config['business-mark_info-class'] = getcwd() . '/application/business/MarkInfo.php';
 $config['business-plane-class'] = getcwd() . '/application/business/Plane.php';
 $config['business-daily_report-class'] = getcwd() . '/application/business/DailyReport.php';

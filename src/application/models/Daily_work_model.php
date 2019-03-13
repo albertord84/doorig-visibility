@@ -131,6 +131,11 @@ class Daily_work_model extends CI_Model {
       $data = array('unfollowed' => 1);
       $followed_db->update("`$client_id`",$data);
   }
+  
+  function truncate()
+  {
+      $this->db->truncate('daily_work');
+  }
 
 }
 ?>

@@ -42,18 +42,18 @@ namespace business\worker {
          * @access public
          */
         public $Foults;
+        
+        
 
         function __construct() {
-            $ci = &get_instance();
+            $this->ci = &get_instance();
 
-            $ci->load->model('daily_work_model');
+            $this->ci->load->model('daily_work_model');
         }
 
         public static function get_next_work(int $id = NULL) {
-            $dailywork = new DailyWork();
-            $ci = &get_instance();
-            $ci->load->model('daily_work_model');
-            $work_data = $ci->daily_work_model->get_next_work($id);
+            $dailywork = new DailyWork();     
+            $work_data = $dailywork->ci->daily_work_model->get_next_work($id);
 
             $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id);
             $dailywork->Client = new \business\Client($work_data->client_id);
@@ -70,9 +70,7 @@ namespace business\worker {
         }
 
         public function get_unfollow_list() {
-            $ci = &get_instance();
-            $ci->load->model('daily_work_model');
-            return $ci->daily_work_model->get_unfollowed_list($this->Client->id);
+            return $this->ci->daily_work_model->get_unfollowed_list($this->Client->id);
         }
 
         public function delete_dailywork() {
@@ -81,19 +79,15 @@ namespace business\worker {
         
         public function save_follow_work(string $profile_name, string $insta_id)
         {           
-            $ci = &get_instance();
-            $ci->load->model('daily_work_model');
-            $ci->daily_work_model->save_follow($this->Client->Id,$this->Ref_profile->Id, $prfile_name,$insta_id);
-            $ci->daily_work_model->update_follow(1);
+            $this->ci->daily_work_model->save_follow($this->Client->Id,$this->Ref_profile->Id, $prfile_name,$insta_id);
+            $this->ci->daily_work_model->update_follow(1);
 
         }
         
         public function save_unfollow_work(string $insta_id)
-        {     
-            $ci = &get_instance();
-            $ci->load->model('daily_work_model');            
-            $ci->daily_work_model->save_unfollow($this->Client->Id,$insta_id);
-            $ci->daily_work_model->update_unfollow(1);             
+        {               
+            $this->ci->daily_work_model->save_unfollow($this->Client->Id,$insta_id);
+            $this->ci->daily_work_model->update_unfollow(1);             
         }
 
 
