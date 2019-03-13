@@ -93,7 +93,7 @@ class My_model extends yidas\Model
             
             $this->getBuilder()->where(
                 $this->_field($this->companyAttribute), 
-                $this->user->getCompanyID();
+                $this->user->getCompanyID()
                 );
         }
         
@@ -101,7 +101,7 @@ class My_model extends yidas\Model
             
             $this->getBuilder()->where(
                 $this->_field($this->userAttribute), 
-                $this->user->getID();
+                $this->user->getID()
                 );
         }
         return parent::_globalScopes();

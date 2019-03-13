@@ -29,16 +29,15 @@ class Client extends CI_Controller {
         // $this->load->view('client_view');
     }
 
-    public function client_play_tool() {        
-        $datas = $this->input->post();        
+    public function client_play_tool() {                
+        $Client = unserialize($this->session->userdata('client'));
+        $Client->MarkInfo->Status->add_item(UserStatus::PAUSED);
         return Response::ResponseOK()->toJson();
     }
 
     public function client_pause_tool() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
+        $Client = unserialize($this->session->userdata('client'));
+        $Client->MarkInfo->Status->remove_item(UserStatus::PAUSED);
         return Response::ResponseOK()->toJson();
     }
 

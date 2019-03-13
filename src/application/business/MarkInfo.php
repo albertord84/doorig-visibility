@@ -13,6 +13,7 @@ namespace business {
     require_once config_item('business-proxy-class');
     require_once config_item('business-payment-class');
     require_once config_item('business-client-class');
+    //require_once config_item('business-proxy-class');
     require_once config_item('business-user_status-class');
     require_once config_item('business-client_status_list-class');
     require_once config_item('thirdparty-cookies-resource');

@@ -54,27 +54,6 @@
                             data-off="<i class='fa fa-pause'></i> Ativar ferramenta">     
                         </div>                                                
                     </div>
-<!--                    <div class="row">
-                        <div class="col-md-4 col-sm-12 col-xs-12  m-top-20 text-center">
-                            Ferramenta:<br>
-                            <input id="activate-account" type="checkbox" checked data-toggle="toggle" 
-                                data-on="<i class='fa fa-play'></i> Ativar" 
-                                data-off="<i class='fa fa-pause'></i> Pausar">                                              
-                        </div>                        
-                        <div class="col-md-4 col-sm-12 col-xs-12  m-top-20 text-center">
-                            Like First:<br>
-                            <input id="activate-account" type="checkbox" checked data-toggle="toggle" 
-                                data-on="<i class='fa fa-play'></i> Ativar" 
-                                data-off="<i class='fa fa-pause'></i> Pausar">                                              
-                        </div>                        
-                        <div class="col-md-4 col-sm-12 col-xs-12  m-top-20 text-center">
-                            Unfollow Total:<br>
-                            <input id="activate-account" class="active-pause-checkbox" type="checkbox" checked data-toggle="toggle" 
-                                data-on="<i class='fa fa-play'></i> Ativar" 
-                                data-off="<i class='fa fa-pause'></i> Pausar">                                              
-                        </div>                        
-                    </div>-->
-
                 </div>
                 <div class="col-md-1 col-sm-6 col-xs-12"></div>                                    
             </div>
