@@ -7,7 +7,7 @@ namespace InstaApiWeb {
   use InstaApiWeb\Cookies;
   use InstaApiWeb\Exceptions\InstaCheckpointException;
   use InstaApiWeb\Exceptions\InstaCookiesException;
-  use InstaApiWeb\Exceptions\InstaCurlException;
+  use InstaApiWeb\Exceptions\InstaCurlNetworkException;
   use InstaApiWeb\Exceptions\InstaException;
   use InstaApiWeb\Exceptions\InstaPasswordException;
   use InstaApiWeb\InstaCurlMgr;
@@ -34,7 +34,6 @@ namespace InstaApiWeb {
       require_once config_item('composer_autoload');
       require_once config_item('insta-exception-class');
       require_once config_item('insta-cookies-exception-class');
-      require_once config_item('insta-curl-exception-class');
       require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-password-exception-class');
       require_once config_item('thirdparty-login_response-class');
@@ -224,8 +223,8 @@ namespace InstaApiWeb {
 
         //$ig->setOutputInterface("191.252.110.140");
         //$ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
-        if ($this->proxy)
-          $ig->setProxy("http://" . $this->proxy->ToString());
+//        if ($this->proxy)
+//          $ig->setProxy("http://" . $this->proxy->ToString());
         //$ig->setProxy("http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316");
 
         $loginIGResponse = $ig->login($username, $password, $force_login);
@@ -246,7 +245,7 @@ namespace InstaApiWeb {
         $loginResponse = new LoginResponse('ok', $Cookies);
 
         return $loginResponse;
-      } catch (\Exception $e) {
+      } catch (\Throwable $e) {
         //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
         //echo $e->getTraceAsString();                
         $source = 0;
@@ -257,8 +256,8 @@ namespace InstaApiWeb {
           $res = $e->getResponse()->getChallenge()->getApiPath();
           throw new InstaCheckpointException($e->getMessage(), $e->getPrevious(), $res);
         } else if (strpos($e->getMessage(), 'Network: CURL error 28') !== FALSE) { // Time out by bad proxy
-          throw new InstaCurlException($e->getMessage(), $e);
-        } else if (strpos($e->getMessage(), 'password you entered is incorrect') !== FALSE) {
+          throw new InstaCurlNetworkException($e->getMessage(), $e);
+        } else if (strpos($e->getMessage(), 'InstaPasswordException') !== FALSE) {
           throw new InstaPasswordException($e->getMessage(), $e);
         } else if (strpos($e->getMessage(), 'there was a problem with your request') !== FALSE) {
           throw new InstaException('problem_with_your_request', $e->getCode());
@@ -344,7 +343,7 @@ namespace InstaApiWeb {
         $response = $this->get_challenge_data($res, $login, $choise);
         return $response;
       } catch (\Exception $exc) {
-        return new LoginResponse(FALSE, NULL, NULL, -2, $exc->getMessage());
+        return new LoginResponse(FALSE, NULL, "", -2, $exc->getMessage());
       }
     }
 

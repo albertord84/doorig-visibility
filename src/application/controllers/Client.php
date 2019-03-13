@@ -128,22 +128,24 @@ class Client extends CI_Controller {
       $login_response = new \InstaApiWeb\Response\LoginResponse();
       $login_response = $this->InstaClient_lib->checkpoint_requested($Client->MarkInfo->login, $Client->MarkInfo->pass, $choice);
 
-      switch ($login_response->code) {
-        case 0: // Login ok
-          //3. Poner el Cliente como activo, y guardar las cookies
-          $Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
-          $Client->MarkInfo->update_cookies(json_encode($login_response->Cookies));
-          $this->session->set_userdata("client", serialize($Client));
-          header("Location:" . base_url());
+      if ($login_response) {
+        switch ($login_response->code) {
+          case 0: // Login ok
+            //3. Poner el Cliente como activo, y guardar las cookies
+            $Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
+            $Client->MarkInfo->update_cookies(json_encode($login_response->Cookies));
+            $this->session->set_userdata("client", serialize($Client));
+            header("Location:" . base_url());
 
-        case -1: // Check Point Required
-          return Response::ResponseOK()->toJson();
+          case -1: // Check Point Required
+            return Response::ResponseOK()->toJson();
 
-        case -2: // Other exception
-          return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+          case -2: // Other exception
+            return Response::ResponseFAIL($login_response->message, $login_response->code)->toJson();
 
-        default:
-          break;
+          default:
+            break;
+        }
       }
     } catch (Exception $exc) {
       return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
