@@ -12,7 +12,7 @@ namespace InstaApiWeb {
   use InstaApiWeb\Exceptions\InstaPasswordException;
   use InstaApiWeb\InstaCurlMgr;
   use InstaApiWeb\Proxy;
-  use InstaApiWeb\Responses\LoginResponse;
+  use InstaApiWeb\Response\LoginResponse;
   use InstagramAPI\Instagram;
 
   /**
@@ -243,7 +243,7 @@ namespace InstaApiWeb {
             "ds_user_id" => $ig->client->getCookie('ds_user_id')->getValue(),
             "mid" => $ig->client->getCookie('mid')->getValue());
         $Cookies = new Cookies(json_encode($ck));
-        $loginResponse = new LoginResponse('ok', true, "", $Cookies);
+        $loginResponse = new LoginResponse('ok', $Cookies);
 
         return $loginResponse;
       } catch (\Exception $e) {
@@ -336,9 +336,7 @@ namespace InstaApiWeb {
 
     public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
       try {
-
-        $result = $this->make_login($login, $pass);
-        $response = new Response\LoginResponse(true,$login_data,null,0,"authenticated true");
+        $response = $this->make_login($login, $pass);        
         return $response;
       } catch (InstaCheckpointException $exc) {
         $res = $exc->GetChallange();
