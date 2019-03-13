@@ -125,18 +125,22 @@ class Client extends CI_Controller {
     public function verifify_checkpoint_required_code() {        
         $datas = $this->input->post();
         $datas["code"]; // code of 6 digits of IG
+        
         //2. 
         return Response::ResponseOK()->toJson();
     }
 
     public function update_mark_credentials() {        
         $datas = $this->input->post();
+        
         //1. forze login with IG
         $datas["insta_name"];
         $datas["insta_id"];
         $datas["password"];
         $datas["passwordrep"];
+        
         //2. get mark status from forced login
+        $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
         
         //3. save mark and status in DB using client_id as follow:
         $client_id = unserialize($this->session->userdata('client_module'))->Id;
