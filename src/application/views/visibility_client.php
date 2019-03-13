@@ -84,10 +84,19 @@
                             </div>
                         </div>
                         
-                        <!-- PERSON PROFILE DATAS -->
-                        <?php echo $painel_by_status;?>
+                        <!-- PAINEL BY STATUS verify_account--> 
+                        <?php if ($painel_verify_account) echo $painel_verify_account;?>
+                        
+                        <!-- PAINEL BY STATUS blocked_by_payment-->
+                        <?php if ($painel_blocked_by_payment) echo $painel_blocked_by_payment;;?>
+                        
+                        <!-- PAINEL BY STATUS pending-->
+                        <?php if ($painel_pending) echo $painel_pending;?>
+                        
+                        <!-- PAINEL BY STATUS blocked_by_insta-->
+                        <?php if ($painel_blocked_by_insta) echo $painel_blocked_by_insta;?>
 
-                        <!-- PAINEL BY STATUS -->
+                        <!-- PERSON PROFILE DATAS -->
                         <?php echo $painel_person_profile;?>
 
                         <!-- STATISTICS -->
