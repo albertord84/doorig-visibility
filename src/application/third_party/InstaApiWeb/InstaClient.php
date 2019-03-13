@@ -336,13 +336,15 @@ namespace InstaApiWeb {
 
     public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
       try {
-        $response = $this->make_login($login, $pass);        
+        $response = $this->make_login($login, $pass);
         return $response;
       } catch (InstaCheckpointException $exc) {
         $res = $exc->GetChallange();
 
         $response = $this->get_challenge_data($res, $login, $choise);
         return $response;
+      } catch (\Exception $exc) {
+        return new LoginResponse(FALSE, NULL, NULL, -2, $exc->getMessage());
       }
     }
 
@@ -371,11 +373,10 @@ namespace InstaApiWeb {
         // Parse html response
         curl_close($ch);
         $start = strpos($html, "200") != 0;
-        if($start)
-        {
-         $json_str = substr($html, "{");
-         $json_response = json_decode($json_str);
-         $response = new Response\LoginResponse(false,$cookies,$challenge,1,"checkpoint requiered");
+        if ($start) {
+          $json_str = substr($html, "{");
+          $json_response = json_decode($json_str);
+          $response = new Response\LoginResponse(false, $cookies, $challenge, -1, "checkpoint requiered");
           return response;
         }
       } catch (\Exception $exc) {
@@ -433,7 +434,7 @@ namespace InstaApiWeb {
         curl_close($ch);
         $this->cookies = $login_data;
         //verificar el codigo de error que debe ser un enum con el codigo de checkpoint requiered
-        $response = new Response\LoginResponse(false,$login_data,$challenge,1,"checkpoint requiered");
+        $response = new Response\LoginResponse(false, $login_data, $challenge, 1, "checkpoint requiered");
         return $response;
       } catch (\Exception $exc) {
         

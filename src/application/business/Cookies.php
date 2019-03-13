@@ -40,6 +40,13 @@ namespace business {
      */
     public $Mid;
     
+    /**
+     * 
+     * @access public
+     * 
+     */
+    public $json_str;
+    
     
     public function __construct(string $session_id, string $csrf_token, string $dsuser_id, string $mid) {          
       $this->SessionId = $session_id;
@@ -60,6 +67,7 @@ namespace business {
     public function decode() {
       return "";
     }
+
   }
 
 }
