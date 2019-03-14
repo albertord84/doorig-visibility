@@ -132,7 +132,14 @@ class Client extends CI_Controller {
         switch ($login_response->code) {
           case 0: // Login ok
             //3. Poner el Cliente como activo, y guardar las cookies
-            $Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
+            //
+            //
+            //
+            //$Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
+              
+              
+              
+              
             $Client->MarkInfo->update_cookies(json_encode($login_response->Cookies));
             $this->session->set_userdata("client", serialize($Client));
             header("Location:" . base_url());

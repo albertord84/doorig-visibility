@@ -355,8 +355,9 @@ namespace InstaApiWeb {
         $mngr->setChoise($choice);
         $ch = $mngr->make_curl_obj($this->proxy);
 
+        global $cookies;
+        $cookies = array();
         $html = curl_exec($ch);
-        var_dump($html);
         $info = curl_getinfo($ch);
 
         $cookies = new Cookies();
@@ -366,17 +367,14 @@ namespace InstaApiWeb {
 
         $ci = &get_instance();
         $ci->session->set_userdata(["cookies-challenge" => $cookies]);
-        var_dump($cookies);
 
         // LOGIN WITH CURL TO TEST
         // Parse html response
         curl_close($ch);
         $start = strpos($html, "200") != 0;
         if ($start) {
-          $json_str = substr($html, "{");
-          $json_response = json_decode($json_str);
           $response = new Response\LoginResponse(false, $cookies, $challenge, -1, "checkpoint requiered");
-          return response;
+          return $response;
         }
       } catch (\Exception $exc) {
         var_dump($exc);
