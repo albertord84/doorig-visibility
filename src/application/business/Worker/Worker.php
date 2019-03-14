@@ -28,9 +28,7 @@ require_once config_item('business-client-list-class');
         private $ci;
 
         function __construct() {
-            $this->ci = &get_instance();
 
-            $this->ci->load->model('db_model');
         }
 
         // LISTA!!!
@@ -39,10 +37,9 @@ require_once config_item('business-client-list-class');
         }
         
         public function truncate_daily_work() {
-           // $ci = &get_instance();    
-            if(!isset($this->ci->Daily_work_model)) 
-                $this->ci->load->model('Daily_work_model');
-            $this->ci->Daily_work_model->truncate();
+            $ci = &get_instance();    
+            $ci->load->model('Daily_work_model');
+            $ci->Daily_work_model->truncate();
         }
 
         // LISTA!!!
@@ -51,11 +48,13 @@ require_once config_item('business-client-list-class');
             $Clients = new \business\ClientList();
             $Clients->load_data();
 
-            if(!isset($this->ci->Daily_work_model)) 
-                $this->ci->load->model('Daily_work_model');
+            $ci = &get_instance();               
+            $ci->load->model('Daily_work_model');
             $Client = new Client(0);
+            
             foreach ($Clients->Clients as $Client) { // for each CLient
                 if ($Client->isWorkable()) {
+                    $Client->load_insta_reference_profiles_data(1);
                     // Distribute work between clients RPs 
                     $reference_profiles = $Client->ReferenceProfiles->workable();
                     print("<br>\nWorkable Referenc Profile: " . count($reference_profiles) . " <br>\n<br>\n");

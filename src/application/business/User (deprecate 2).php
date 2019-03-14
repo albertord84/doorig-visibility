@@ -104,6 +104,7 @@ namespace business {
 
         public function load_data() {
             $ci = &get_instance();
+            $ci->load('users_model');
             $data = $ci->users_model->get_user_extra_info($User->Id);
 
             $this->fill_data($data);

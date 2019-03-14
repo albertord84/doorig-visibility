@@ -48,8 +48,6 @@ namespace business {
         public $Client;
 
         function __construct(Client &$client) {
-            $ci = &get_instance();
-            $ci->load->model('client_mark_model');
             $this->Client = $client;
         }
 
@@ -62,6 +60,7 @@ namespace business {
             parent::load_data();
 
             $ci = &get_instance();
+            $ci->load->model('client_mark_model');
             $data = $ci->client_mark_model->get_by_id($this->Client->Id);
 
             if ($data)
@@ -88,6 +87,7 @@ namespace business {
             $this->insta_id = $insta_id ? $insta_id : $this->insta_id;
 
             $ci = &get_instance();
+            $ci->load->model('client_mark_model');
             $data = $ci->client_mark_model->get_by_insta_id($this->Client->Id);
 
             if ($data)
