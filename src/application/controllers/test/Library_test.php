@@ -379,8 +379,8 @@ class Library_test extends CI_Controller {
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
 
     echo "<h2>login result</h2>";
-    $r = $this->InstaClient_lib->make_login("riveauxmerino", "notredame");
-//    $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
+    //$r = $this->InstaClient_lib->make_login("riveauxmerino", "notredame");
+    $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
 //    $r = $this->InstaClient_lib->make_login("alberto_test", "alberto2");        
     var_dump($r);
 

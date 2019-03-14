@@ -5,8 +5,9 @@ namespace InstaApiWeb\Response {
     require_once config_item('thirdparty-cookies-resource');
     require_once config_item('thirdparty-response-class');
 
+    use InstaApiWeb\Cookies;
     use InstaApiWeb\Response\Response;
-
+    
     /**
      * @category InstaApiWeb Third-Party Class
      * 
@@ -45,7 +46,7 @@ namespace InstaApiWeb\Response {
          */
         public $Cookies;
 
-        public function __construct($authenticated = NULL, Cookies $cookies = NULL, $verify_link = NULL, int $code = 0, string $message = NULL) {
+        public function __construct($authenticated = NULL, Cookies $cookies = NULL, string $verify_link = "", int $code = 0, string $message = "") {
             parent::__construct($code, $message);
 
             $this->Verify_link = $verify_link;

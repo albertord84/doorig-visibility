@@ -14,7 +14,7 @@ namespace InstaApiWeb\Exceptions {
    */
   class InstaCurlArgumentException extends InstaException {
 
-    public function __construct(string $message, int $code = 0, Throwable $previous = null) {
+    public function __construct(string $message, int $code = 0, \Throwable $previous = null) {
       parent::__construct("[InstaCurlArgumentException]: ".$message, $code, $previous);
     }
     
@@ -30,7 +30,7 @@ namespace InstaApiWeb\Exceptions {
    */
   class InstaCurlActionException extends InstaException {
 
-    public function __construct(string $message, int $code = 0, Throwable $previous = null) {
+    public function __construct(string $message, int $code = 0, \Throwable $previous = null) {
       parent::__construct("[InstaCurlActionException]: ".$message, $code, $previous);
     }
     
@@ -46,7 +46,7 @@ namespace InstaApiWeb\Exceptions {
    */
   class InstaCurlMediaException extends InstaException {
 
-    public function __construct(string $message, int $code = 0, Throwable $previous = null) {
+    public function __construct(string $message, int $code = 0, \Throwable $previous = null) {
       parent::__construct("[InstaCurlMediaException]: ".$message, $code, $previous);
     }
     
@@ -62,7 +62,7 @@ namespace InstaApiWeb\Exceptions {
    */
   class InstaCurlChallengeException extends InstaException {
 
-    public function __construct(string $message, int $code = 0, Throwable $previous = null) {
+    public function __construct(string $message, int $code = 0, \Throwable $previous = null) {
       parent::__construct("[InstaCurlChallengeException]: ".$message, $code, $previous);
     }
     
@@ -78,7 +78,7 @@ namespace InstaApiWeb\Exceptions {
    */
   class InstaCurlNetworkException extends InstaException {
 
-    public function __construct(string $message = "", Throwable $previous = null) {
+    public function __construct(string $message = "", \Throwable $previous = null) {
       parent::__construct("[InstaCurlNetworkException]: ".$message, ExceptionCode::CurlNertworkError, $previous);
     }
 

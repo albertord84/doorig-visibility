@@ -4,6 +4,7 @@ namespace business {
 
     require_once config_item('business-loader-class');
     require_once config_item('thirdparty-cookies-resource');
+    require_once config_item('business-status_profiles-class');
 
     use InstaApiWeb\Cookies;
     use \InstaApiWeb\Response\FollowersResponse;
@@ -208,6 +209,10 @@ namespace business {
                  var_dump($response);
             }
             return false;
+        }
+        
+        function isWorkable() {
+            return $this->Status_id == StatusProfiles::ACTIVE && $this->End_date == NULL;
         }
 
     }

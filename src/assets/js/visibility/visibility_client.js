@@ -198,7 +198,7 @@ $(document).ready(function () {
     //VERIFY ACCOUNT FUNCTIONS-----------------------------------------------------
     $("#verify-account-by-email").click(function () {
         var btn =this; spinner_start(btn);
-        request_checkpoint_required_code("phone",btn);
+        request_checkpoint_required_code("email",btn);
     });
     
     $("#verify-account-by-sms").click(function () {
@@ -227,7 +227,7 @@ $(document).ready(function () {
             error: function (xhr, status) {                
                 spinner_stop(btn);
                 $('#verify-account-by-email').removeClass("disabled");  
-                $('#verify-account-by-sms').remooveClass("disabled");  
+                $('#verify-account-by-sms').removeClass("disabled");  
                 $('#verify-account-by-email').addClass("active");  
                 $('#verify-account-by-sms').addClass("active");  
                 modal_alert_message(T('Erro enviando a mensagem, tente depois...'));

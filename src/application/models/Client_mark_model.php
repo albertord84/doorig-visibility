@@ -143,7 +143,7 @@ class Client_mark_model extends CI_Model {
 
     function get_all_by_status($status_id) {
 
-        $this->db->join('client_status_list', "client_status_list.status_id = $status_id");
+        $this->db->join('client_status_list', "client_status_list.client_id = client_mark.client_id");
         $this->db->where('client_status_list.active', 1);
 
         $this->db->select('client_mark.*')->from('client_mark')->distinct();

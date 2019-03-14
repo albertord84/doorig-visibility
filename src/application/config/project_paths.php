@@ -16,6 +16,7 @@ if (!defined('BASEPATH'))
 
 $config['business-class'] = getcwd() . '/application/business/Business.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
+$config['business-client-list-class'] = getcwd() . '/application/business/ClientList.php';
 $config['business-mark_info-class'] = getcwd() . '/application/business/MarkInfo.php';
 $config['business-plane-class'] = getcwd() . '/application/business/Plane.php';
 $config['business-payment-class'] = getcwd() . '/application/business/Payment.php';
@@ -41,7 +42,7 @@ $config['business-loader-class'] = getcwd() . '/application/business/Loader.php'
 $config['business-insta_commands-class'] = getcwd() . '/application/business/InstaCommands.php';
 $config['business-insta-curl-info-class'] = getcwd() . '/application/business/InstaCurlInfo.php';
 $config['business-client-class'] = getcwd() . '/application/business/Client.php';
-$config['business-cookies_request-class'] = getcwd() . '/application/business/CookiesRequest.php';
+$config['business-cookies-class'] = getcwd() . '/application/business/Cookies.php';
 $config['business-own_exception-class'] = getcwd() . '/application/business/OwnException.php';
 $config['business-proxy-class'] = getcwd() . '/application/business/Proxy.php';
 $config['business-proxy_manager-class'] = getcwd() . '/application/business/ProxyManager.php';

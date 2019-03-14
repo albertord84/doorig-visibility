@@ -28,7 +28,7 @@ namespace business {
         }
 
         public function isLoaded(): bool {
-            return $this->loaded;
+            return $this->loaded ? true : false;
         }
 
         protected abstract function fill_data(\stdClass $data);

@@ -2,8 +2,6 @@
 
 namespace business {
 
-  require_once config_item('business-user-class');
-
   /**
    * @category Business class
    * 
@@ -15,12 +13,12 @@ namespace business {
   class StatusProfiles extends Business {
 
     public function __construct() {
-      $ci = &get_instance();
-      $ci->load->model('db_model');
+      $this->ci = &get_instance();
+      $this->ci->load->model('reference_profiles_status_model');
 
-        $result = $ci->db_model->get_reference_profile_status();
+        $result = $this->ci->reference_profiles_status->get_all();
       
-            if (count($result) != 0) {
+        if (count($result) != 0) {
         foreach ($result as $item) {
           $this->{$item->status} = $item->id;
         }

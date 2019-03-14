@@ -3,6 +3,7 @@
 namespace business {
 
     require_once config_item('business-mark_info-class');
+    require_once config_item('business-cookies-class');
     require_once config_item('business-daily_report-class');
     require_once config_item('business-ref_profile-class');
     require_once config_item('business-reference-profiles-class');
@@ -62,7 +63,7 @@ namespace business {
             $this->MarkInfo->remove();
         }
 
-        function save($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
+        static function save($plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
             $init_date = $init_date ? $init_date : time();
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
@@ -70,27 +71,24 @@ namespace business {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
-                $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
+                $ci->client_mark_model->save($plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
             }
 
             return $id;
         }
 
-        function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
+        static function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
-            if (self::exist($insta_id)) {
-                throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
-            } else {
-                $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
-            }
+
+            $ci->client_mark_model->update($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
         }
 
         static function exist(string $insta_id) {
             try {
                 $Client = new Client();
                 $Client->MarkInfo->load_data_by_insta_id($insta_id);
-                
+
                 $exist = $Client->MarkInfo->client_id > 0;
                 if ($exist)
                     $exist = !$Client->MarkInfo->Status->hasStatus(UserStatus::DELETED);
@@ -126,14 +124,23 @@ namespace business {
          * @return
          * 
          */
-        public function checkpoint_requested(string $login, string $pass, \InstaApiWeb\VerificationChoice $choise = \InstaApiWeb\VerificationChoice::Email) {
-            /* $login_data = json_decode($this->cookies);
-              //$proxy = $this->GetProxy();
-              $client = new \InstaApiWeb\InstaClient($this->insta_id, $login_data, $this->Proxy);
-              $res = $client->checkpoint_requested($login, $pass, $choise);
-              $this->cookies = json_encode($client->cookies);
-              //guardar las cookies en la Base de Datos
-              return $res; */
+        public function checkpoint_requested(\InstaApiWeb\VerificationChoice $choice = \InstaApiWeb\VerificationChoice::Email) {
+            if (!$this->MarkInfo->isLoaded())
+                $this->MarkInfo->load_data();
+
+            $ci = &get_instance();
+            $ci->load->library('InstaApiWeb/InstaClient_lib', self::get_gost_insta_client_lib_params(), 'InstaClient_lib');
+
+            $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $$this->MarkInfo->pass, $choice);
+
+            // Guardar las cookies en la Base de Datos
+            if ($login_response && ($login_response->Cookies)) {
+                $$this->MarkInfo->Cookies = $login_response->Cookies;
+                $cookies_str = json_decode($login_response->Cookies);
+                self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
+            }
+
+            return $login_response;
         }
 
         //Componente del Robot
@@ -145,15 +152,49 @@ namespace business {
          * @return
          * 
          */
-        public function make_checkpoint(string $login, string $code) {
-            /* //las cookies son las actualizadas de la BD
-              $login_data = json_decode($this->cookies);
-              //$proxy = $this->GetProxy();
-              $client = new \InstaApiWeb\InstaClient($this->insta_id, $login_data, $this->Proxy);
-              $res = $client->make_checkpoint($login, $code);
-              $this->cookies = json_encode($client->cookies);
-              //guardar las cookies en la Base de Datos
-              return $res; */
+        public function make_checkpoint(string $code) {
+            if (!$this->MarkInfo->isLoaded())
+                $this->MarkInfo->load_data();
+
+            $ci = &get_instance();
+            $ci->load->library('InstaApiWeb/InstaClient_lib', $param = array("insta_id" => "3445996566", "cookies" => $this->MarkInfo->Cookies), 'InstaClient_lib');
+            $login_response = $ci->InstaClient_lib->make_checkpoint($this->MarkInfo->login, $code);
+
+            // Guardar las cookies en la Base de Datos
+            if ($login_response && ($login_response->Cookies)) {
+                $this->MarkInfo->Cookies = $login_response->Cookies;
+                $cookies_str = json_decode($login_response->Cookies);
+                self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
+            }
+
+            return $login_response;
+        }
+
+        //Componente del Robot
+
+        /**
+         * 
+         * @todo
+         * @param type
+         * @return
+         * 
+         */
+        public function do_login() {
+            if (!$this->MarkInfo->isLoaded())
+                $this->MarkInfo->load_data();
+
+            $ci = &get_instance();
+            $ci->load->library('InstaApiWeb/InstaClient_lib', $param = array("insta_id" => "3445996566", "cookies" => $this->MarkInfo->Cookies), 'InstaClient_lib');
+            $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
+
+            // Guardar las cookies en la Base de Datos
+            if ($login_response && ($login_response->Cookies)) {
+                $this->MarkInfo->Cookies = $login_response->Cookies;
+                $cookies_str = json_encode($login_response->Cookies);
+                self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
+            }
+
+            return $login_response;
         }
 
         public function verify_cookies() {
@@ -168,10 +209,21 @@ namespace business {
         public function isWorkable() {
             if (!$this->MarkInfo->isLoaded())
                 $this->load_mark_info_data();
-            if ($this->MarkInfo->cookies && !$this->MarkInfo->hasStatus(UserStatus::PAUSED) && !$this->MarkInfo->hasStatus(UserStatus::BLOCKED_BY_PAYMENT) && !$this->MarkInfo->hasStatus(UserStatus::BLOCKED_BY_INSTA) && !$this->MarkInfo->hasStatus(UserStatus::KEEP_UNFOLLOW) && !$this->MarkInfo->hasStatus(UserStatus::VERIFY_ACCOUNT)) {
+            if ($this->MarkInfo->cookies && !$this->MarkInfo->Status->hasStatus(UserStatus::PAUSED) && !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_PAYMENT) && !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA) && !$this->MarkInfo->Status->hasStatus(UserStatus::KEEP_UNFOLLOW) && !$this->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)) {
                 return TRUE;
             }
             return FALSE;
+        }
+
+        static function get_gost_insta_client_lib_params() {
+            $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
+                "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0",
+                "ds_user_id" => "3445996566",
+                "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
+            require_once config_item('thirdparty-cookies-resource');
+            $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
+
+            return $param;
         }
 
     }
