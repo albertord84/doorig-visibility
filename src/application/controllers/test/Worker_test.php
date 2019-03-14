@@ -61,4 +61,18 @@ class Worker_test extends CI_Controller {
     var_dump($daily_work);
     echo "[new] get_next_work ==> (<b>ok</b>)<br>";
   }
+  
+  public function prapreDailyWork()
+  {
+     echo "<h2>Test Dailywork</h2>";
+    $worker = new Worker();
+    $worker->truncate_daily_work();
+    echo "[new] truncate_daily_work ==> (<b>ok</b>)<br>";
+    
+    $worker = new Worker();
+    $worker->prepare_daily_work(false);
+    echo "[new] prepare_daily_work ==> (<b>ok</b>)<br>";
+  }
+  
+  
 }

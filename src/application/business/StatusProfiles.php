@@ -16,11 +16,11 @@ namespace business {
 
     public function __construct() {
       $ci = &get_instance();
-      $ci->load->model('db_model');
+      $ci->load->model('reference_profiles_status_model');
 
-        $result = $ci->db_model->get_reference_profile_status();
+        $result = $ci->reference_profiles_status->get_all();
       
-            if (count($result) != 0) {
+        if (count($result) != 0) {
         foreach ($result as $item) {
           $this->{$item->status} = $item->id;
         }
