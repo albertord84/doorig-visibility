@@ -61,6 +61,11 @@ namespace business {
         public function load_data() {
             parent::load_data();
 
+            $ci = &get_instance();
+            $data = $ci->client_mark_model->get_by_id($this->Client->Id);
+
+            if ($data)
+                $this->fill_data($data);            
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
             $this->Payment = new Payment($this->pay_id);
@@ -69,12 +74,6 @@ namespace business {
             $this->Proxy->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
-
-            $ci = &get_instance();
-            $data = $ci->client_mark_model->get_by_id($this->Client->Id);
-
-            if ($data)
-                $this->fill_data($data);
             return $data;
         }
 
