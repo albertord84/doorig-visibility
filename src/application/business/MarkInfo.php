@@ -43,13 +43,12 @@ namespace business {
         public $insta_followers_ini = NULL;
         public $insta_following = NULL;
         public $like_first = NULL;
+        public $Cookies;
         public $Plane;
         public $Status;
         public $Client;
 
         function __construct(Client &$client) {
-            $ci = &get_instance();
-            $ci->load->model('client_mark_model');
             $this->Client = $client;
         }
 
@@ -61,6 +60,12 @@ namespace business {
         public function load_data() {
             parent::load_data();
 
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            $data = $ci->client_mark_model->get_by_id($this->Client->Id);
+
+            if ($data)
+                $this->fill_data($data);            
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
             $this->Payment = new Payment($this->pay_id);
@@ -69,12 +74,9 @@ namespace business {
             $this->Proxy->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
-
-            $ci = &get_instance();
-            $data = $ci->client_mark_model->get_by_id($this->Client->Id);
-
-            if ($data)
-                $this->fill_data($data);
+            
+            $this->Cookies = new Cookies($this->cookies);
+                    
             return $data;
         }
 
@@ -89,6 +91,7 @@ namespace business {
             $this->insta_id = $insta_id ? $insta_id : $this->insta_id;
 
             $ci = &get_instance();
+            $ci->load->model('client_mark_model');
             $data = $ci->client_mark_model->get_by_insta_id($this->Client->Id);
 
             if ($data)

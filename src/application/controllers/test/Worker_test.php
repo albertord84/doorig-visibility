@@ -51,6 +51,7 @@ class Worker_test extends CI_Controller {
     public function test() {
         echo "hola mundo";
         $obj = new Worker();
+        $obj->do_work();
     }
 
     public function testDailyWork() {
@@ -65,12 +66,8 @@ class Worker_test extends CI_Controller {
         $worker = new Worker();
         $worker->truncate_daily_work();
         echo "[new] truncate_daily_work ==> (<b>ok</b>)<br>";
-
-        $worker = new Worker();
-        $worker->prepare_daily_work(false);
-        echo "[new] prepare_daily_work ==> (<b>ok</b>)<br>";
     }
-    
+
     public function do_work_by_id($reference_id) {
         echo "<h2>Test Worker do_work_by_id</h2>";
         $worker = new Worker();

@@ -1,5 +1,30 @@
 <?php
 
+
+
+
+
+
+
+
+
+
+
+
+
+// Deprecated: Use InstaAPIWeb/Cookies instead
+
+
+
+
+
+
+
+
+
+
+
+
 namespace business {
 
   /**
