@@ -209,6 +209,10 @@ namespace business {
             }
             return false;
         }
+        
+        function isWorkable() {
+            return $this->Status_id == StatusProfiles::ACTIVE && $this->End_date == NULL;
+        }
 
     }
 

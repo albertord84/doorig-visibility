@@ -48,7 +48,7 @@ namespace business {
             if (count($clients)) {
                 foreach ($clients as $client) {
                     $Client = new Client($client->client_id);
-                    $client->$MarkInfo->fill_data($clients);
+                    $Client->MarkInfo->fill_data($client);
                     $this->Clients[$Client->Id] = $Client;
                 }
             } else {

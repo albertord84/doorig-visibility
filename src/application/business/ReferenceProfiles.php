@@ -25,6 +25,7 @@ namespace business {
          * @todo Class constructor.
          * 
          */
+
         function __construct(Client &$client) {
             parent::__construct();
 
@@ -76,6 +77,16 @@ namespace business {
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
+        }
+
+        public function workable() {
+            $rps = array();
+            foreach ($this->ReferenceProfiles as $reference_profile) {
+                if ($reference_profile->isWorkable()) {
+                    $rps[] = $reference_profile;
+                }
+            }
+            return $rps;
         }
 
     }

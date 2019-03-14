@@ -53,7 +53,7 @@ require_once config_item('business-client-list-class');
 
             if(!isset($this->ci->Daily_work_model)) 
                 $this->ci->load->model('Daily_work_model');
-            $Client = new Client();
+            $Client = new Client(0);
             foreach ($Clients->Clients as $Client) { // for each CLient
                 if ($Client->isWorkable()) {
                     // Distribute work between clients RPs 
