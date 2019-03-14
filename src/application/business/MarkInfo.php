@@ -55,17 +55,10 @@ namespace business {
             $this->load_data();
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
-<<<<<<< HEAD
-//            $this->Payment = new Payment($this->pay_id);
-//            $this->Payment->load_data();
-//            $this->Proxy = new Proxy($this->proxy_id);
-//            $this->Proxy->load_data();
-=======
             $this->Payment = new Payment($this->pay_id);
             $this->Payment->load_data();
             $this->Proxy = new Proxy($this->proxy_id);
             $this->Proxy->load_data();
->>>>>>> a5c4c689d6e0009258402be26d2ccfbeb878a8ad
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
         }
