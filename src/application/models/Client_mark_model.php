@@ -156,6 +156,36 @@ class Client_mark_model extends CI_Model {
 
         return $query->result();
     }
+    
+    function create_followed_table($client_id)
+    {
+        $followed_db = $this->load->database('followed', TRUE);        
+        $dbforge = $this->load->dbforge($followed_db,TRUE);
+        $fields = array(
+        'followed_id' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '20',
+        ),
+        'reference_id' => array(
+                'type' =>'INT',
+                'constraint' => '6'
+        ),
+        'date' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '20',
+        ),
+        'unfollowed' => array(
+             'type' => 'TINYINT',
+             'constraint' => '1',
+        ),
+        'followed_login' => array(
+             'type' => 'VARCHAR',
+             'constraint' => '100',
+        ));
+        $dbforge->add_field($fields);
+        $dbforge->add_field('id');
+        $dbforge->create_table("`$client_id`", TRUE);
+    }
 }
 ?>
 

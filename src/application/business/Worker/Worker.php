@@ -106,6 +106,7 @@ require_once config_item('business-class');
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
             ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
+            $ci = &get_instance();  
             while (DailyWork::exist_work()) {
                 $daily_work = DailyWork::get_next_work($client_id);
 

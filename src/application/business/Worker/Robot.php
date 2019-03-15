@@ -38,7 +38,7 @@ require_once config_item('business-class');
                     if ($this->validate_profile($profile)) {
                         $result = $instaclient->follow($profile->insta_id);
                         if ($this->process_response($result)) {
-                            $work->save_follow($profile->insta_name, $profile->insta_id);
+                            $work->save_follow_work($profile->insta_name, $profile->insta_id);
                         }
                         else { break; }
                     }
@@ -51,7 +51,7 @@ require_once config_item('business-class');
             foreach ($work->get_unfollow_list() as $profile) {
                 $result = $instaclient->unfollow($profile->id);
                 if ($this->process_response($result)) {
-                    $work->save_unfollow($profile->id);          
+                    $work->save_unfollow_work($profile->id);          
                 } else { break; }
             }
         }
@@ -184,8 +184,7 @@ require_once config_item('business-class');
                     print "<br>\n Client (id: $client_id) not error code found ($error)!!! <br>\n";
 //                    $result = $this->DB->delete_daily_work_client($client_id);
 //                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-//                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);
-                    $error = FALSE;
+//                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);                    
                     break;
             }            
             var_dump($response);            

@@ -78,10 +78,10 @@ namespace InstaApiWeb {
                 $message = isset($json_response->message) ? $json_response->message :
                         "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
                 return new FollowersResponse(array(), '', false, 1, $message);
+            }else{
+                // JOSE REVISAR!!!!
+                throw new InstaException("unknown exception response $json_response", -1);
             }
-
-            // JOSE REVISAR!!!!
-            throw new InstaException("unknown exception response $json_response", -1);
         }
 
         public function get_insta_followers_list(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {

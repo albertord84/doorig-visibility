@@ -13,6 +13,7 @@ namespace InstaApiWeb {
   use InstaApiWeb\InstaCurlMgr;
   use InstaApiWeb\Proxy;
   use InstaApiWeb\Response\LoginResponse;
+  use InstaApiWeb\Response\PostInstaResponse;
   use InstagramAPI\Instagram;
 
   /**
@@ -36,7 +37,8 @@ namespace InstaApiWeb {
       require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-cookies-exception-class');
       require_once config_item('insta-password-exception-class');
-      require_once config_item('thirdparty-login_response-class');
+      require_once config_item('thirdparty-login_response-class');      
+      require_once config_item('thirdparty-post_response-class');
       require_once config_item('insta-checkpoint-exception-class');
       require_once config_item('thirdparty-cookies-resource');
       require_once config_item('thirdparty-insta_curl_mgr-resource');
@@ -58,9 +60,15 @@ namespace InstaApiWeb {
         $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
         //var_dump($curl_str);
         exec($curl_str, $output, $status);
-        $code = $this->parse_insta_response($output[0]);
-        $message = count($output) > 0 && isset($output[0]->message)? $output[0]->message : "";
-        return new Response\PostInstaResponse($output[0],$code,"");
+        $obj = null;
+        $code = -1;
+        if(count($output) > 0)
+        {
+            $obj = json_decode($output[0]);
+            $code = $this->parse_insta_response($obj);
+            $message = count($output) > 0 && isset($output[0]->message)? $output[0]->message : "";
+        }       
+        return new Response\PostInstaResponse($obj,$code,$message);
       } catch (Exception $e) {
         var_dump($e);
       }
@@ -73,10 +81,17 @@ namespace InstaApiWeb {
         $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
         var_dump($curl_str);
         exec($curl_str, $output, $status);        
-        $code = $this->parse_insta_response($output[0]);
-        $message = count($output) > 0 && isset($output[0]->message)? $output[0]->message : "";
-        return new Response\PostInstaResponse($output[0],$code,"");
-      } catch (Exception $e) {
+         $obj = null;
+        $code = -1;
+        if(count($output) > 0)
+        {
+            $obj = json_decode($output[0]);
+            $code = $this->parse_insta_response($obj);
+            $message = count($output) > 0 && isset($output[0]->message)? $output[0]->message : "";
+        }
+        return new Response\PostInstaResponse($obj,$code,$message);
+      }
+       catch (Exception $e) {
         var_dump($e);
       }
     }
@@ -88,9 +103,15 @@ namespace InstaApiWeb {
         $curl_str = $mngr->make_curl_str($proxy, $cookies);
         var_dump($curl_str);
         exec($curl_str, $output, $status);        
-        $code = $this->parse_insta_response($output[0]);
-        $message = count($output) > 0 && isset($output[0]->message)? $output[0]->message : "";
-        return new Response\PostInstaResponse($output[0],$code,"");
+        $obj = null;
+        $code = -1;
+        if(count($output) > 0)
+        {
+            $obj = json_decode($output[0]);
+            $code = $this->parse_insta_response($obj);
+            $message = count($output) > 0 && isset($output[0]->message)? $output[0]->message : "";
+        }
+        return new Response\PostInstaResponse($obj,$code,$message);       
       } catch (Exception $e) {
         var_dump($e);
       }
@@ -493,39 +514,48 @@ namespace InstaApiWeb {
         private function parse_insta_response($insta_response)
         {            
 //            var_dump($response->message);
+            if(is_object($insta_response) && $insta_response->status == "ok") return 0;
             if (is_object($insta_response) && isset($insta_response->message)) {
+                if($insta_response->status == "ok") return 0;
                 if ((strpos($insta_response->message, 'Com base no uso anterior deste recurso') !== FALSE)
                     || (strpos($insta_response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
                     return 1;
-                } else if ((strpos($insta_response->message, 'Você atingiux o limite máximo de contas para seguir.') !== FALSE) 
+                } 
+                if ((strpos($insta_response->message, 'Você atingiux o limite máximo de contas para seguir.') !== FALSE) 
                        ||  (strpos($insta_response->message, "Sorry, you're following the max limit of accounts.") !== FALSE)) {
                     return 2;
-                } else if (strpos($insta_response->message, 'unauthorized') !== FALSE) {
+                }
+                if (strpos($insta_response->message, 'unauthorized') !== FALSE) {
                     return 3;                         
-                } else if (strpos($insta_response->message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE) {
+                } 
+                if (strpos($insta_response->message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE) {
                     return 4;
-                } else if (strpos($insta_response->message, 'checkpoint_required') !== FALSE) {
+                } 
+                if (strpos($insta_response->message, 'checkpoint_required') !== FALSE) {
                     return 5;
-                } else if ((strpos($insta_response->message, 'Tente novamente mais tarde') !== FALSE) 
+                } 
+                if ((strpos($insta_response->message, 'Tente novamente mais tarde') !== FALSE) 
                        ||  (strpos($insta_response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)
                         || (strpos($insta_response->message, 'orbidden') !== FALSE)) { 
                     return 7;
-                } else if (strpos($insta_response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
+                } 
+                if (strpos($insta_response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
                     return 8;
-                } else if (strpos($insta_response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
+                } 
+                if (strpos($insta_response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
                     return 9;
-                } else if (strpos($insta_response->message, 'se ha bloqueado. Vuelve a intentarlo') !== FALSE) {
+                } 
+                if (strpos($insta_response->message, 'se ha bloqueado. Vuelve a intentarlo') !== FALSE) {
                     return 11;
-                } else if ($insta_response->message === '') {
+                } 
+                if ($insta_response->message === '') {
                     return 6; // Empty message
-                }
-                else if (strpos($insta_response->message,'execution error') !== FALSE || strpos($insta_response->message,'execution failure') !== FALSE)
+                }                
+                if (strpos($insta_response->message,'execution error') !== FALSE || strpos($insta_response->message,'execution failure') !== FALSE)
                 {
                     return 12;
                 }
-                else{
-                    return -1;
-                }
+                
             } // If array
             else if (is_array($insta_response) && count($insta_response) >= 1 && is_string($insta_response[0]) && 
                     ((strpos($insta_response[0], 'Tente novamente mais tarde') !== FALSE) || strpos($insta_response[0], 'Aguarde alguns minutos antes de tentar novamente') !== FALSE)) {
@@ -534,10 +564,7 @@ namespace InstaApiWeb {
             else if (is_array($insta_response) && count($insta_response) == 0) {
                 return  10; // Tente novamente mais tarde
             }
-            else {
-                return  -1;
-                
-            }
+            return  -1;            
         }
 
   }
