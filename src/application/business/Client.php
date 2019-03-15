@@ -55,10 +55,6 @@ namespace business {
             $this->MarkInfo->load_data_by_insta_id($insta_id);
         }
 
-        public function login() {
-            return true;
-        }
-
         public function remove($client_id) {
             $this->MarkInfo->remove();
         }
@@ -124,19 +120,20 @@ namespace business {
          * @return
          * 
          */
-        public function checkpoint_requested(\InstaApiWeb\VerificationChoice $choice = \InstaApiWeb\VerificationChoice::Email) {
+        public function checkpoint_requested(int $choice = \InstaApiWeb\VerificationChoice::Email) {
             if (!$this->MarkInfo->isLoaded())
                 $this->MarkInfo->load_data();
 
             $ci = &get_instance();
             $ci->load->library('InstaApiWeb/InstaClient_lib', self::get_gost_insta_client_lib_params(), 'InstaClient_lib');
 
-            $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $$this->MarkInfo->pass, $choice);
+            $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $this->MarkInfo->pass, $choice);
 
             // Guardar las cookies en la Base de Datos
             if ($login_response && ($login_response->Cookies)) {
-                $$this->MarkInfo->Cookies = $login_response->Cookies;
-                $cookies_str = json_decode($login_response->Cookies);
+                $this->MarkInfo->Cookies = $login_response->Cookies;
+                $ci->session->set_userdata('client', serialize($this));
+                $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
 
@@ -163,7 +160,7 @@ namespace business {
             // Guardar las cookies en la Base de Datos
             if ($login_response && ($login_response->Cookies)) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
-                $cookies_str = json_decode($login_response->Cookies);
+                $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
 

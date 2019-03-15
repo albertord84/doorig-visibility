@@ -764,7 +764,6 @@ namespace InstaApiWeb {
     private function cmd_checkpoint(Cookies $cookies = null, string $challenge, string $code) {
       $postinfo = sprintf("security_code=%s", $code);
       $url = sprintf("%s%s", $this->InstaURL['Base'], $challenge);
-      var_dump($url);
       
       $headers = array();
       $headers[] = $this->Headers['Origin'];

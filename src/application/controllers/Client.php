@@ -115,7 +115,7 @@ class Client extends CI_Controller {
     public function request_checkpoint_required_code() {
         $datas = $this->input->post();
 
-        $Client = new BusinessClient();
+        $Client = new BusinessClient(0);
         $Client = unserialize($this->session->userdata('client'));
 
         //1.
@@ -153,6 +153,7 @@ class Client extends CI_Controller {
                         break;
                 }
             }
+            return Response::ResponseFAIL(T('Empty login response'), -3)->toJson();
         } catch (Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
@@ -160,9 +161,9 @@ class Client extends CI_Controller {
 
     public function verifify_checkpoint_required_code() {
         $datas = $this->input->post();
-        $datas["code"]; // code of 6 digits of IG
+        //$datas["code"]; // code of 6 digits of IG
         //2. 
-        $Client = new BusinessClient();
+        $Client = new BusinessClient(0);
         $Client = unserialize($this->session->userdata('client'));
 
         try {
@@ -178,7 +179,7 @@ class Client extends CI_Controller {
                 return Response::ResponseOK()->toJson();
             }
             else {
-                return Response::ResponseFAIL('Login Fail!', 1)->toJson();
+                return Response::ResponseFAIL($login_response->message, $login_response->code)->toJson();
             }
         } catch (Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
