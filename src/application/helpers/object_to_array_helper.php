@@ -8,7 +8,7 @@ if (!function_exists('object_to_array')) {
     function object_to_array($object, int $level = 0) {
         static $mark;
         if ($level == 0) $mark = array();
-        if ($level <= 4) {
+        if ($level <= 6) {
             if (is_object($object)) {
                 $reflect = new \ReflectionClass($object);
                 if (isset($mark[$reflect->getName()]) && isset($object->Id) && $mark[$reflect->getName()] == $object->Id)

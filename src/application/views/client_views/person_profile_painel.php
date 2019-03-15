@@ -49,9 +49,10 @@
                     </div>
                     <div class="row m-top-20">                                                
                         <div class="col-md-12 col-sm-12 col-xs-12 text-center p-0">
-                            <input id="activate-account" style="border: 1px solid #e2e6ea" type="checkbox" checked data-toggle="toggle" 
-                            data-on="<i class='fa fa-play'></i> Pausar ferramenta" 
-                            data-off="<i class='fa fa-pause'></i> Ativar ferramenta">     
+                            <input id="activate-account" style="border: 1px solid #e2e6ea" type="checkbox"
+                            data-toggle="toggle" 
+                            data-on="<i class='fa fa-play'></i> Ativar ferramenta" 
+                            data-off="<i class='fa fa-pause'></i> Pausar ferramenta">     
                         </div>                                                
                     </div>
                 </div>

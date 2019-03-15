@@ -59,7 +59,7 @@ $(document).ready(function () {
             success : function(response){
                 spinner_stop(btn);
                 if(response.code===0){
-                    $(location).attr('href', base_url+"index.php/welcome/contrated_module/");                    
+                    $(location).attr('href', base_url+"index.php/welcome/index/");                    
                 } else
                     modal_alert_message(response.message);                    
             },
@@ -109,7 +109,7 @@ $(document).ready(function () {
         $("#midle_plane").removeClass("active");
         $("#fast_plane").removeClass("active");
         $("#very_fast_plane").addClass("active");
-        plane_id = "very_fast";
+        plane = "very_fast";
     });
     
     }); 

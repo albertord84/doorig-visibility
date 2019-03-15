@@ -27,7 +27,7 @@
                                                 automaticamente a primeira foto de todos os 
                                                 perfis que seguir, aumentando
                                                 sua conversão. </p>
-                                            <input id="auto-like" type="checkbox" checked data-toggle="toggle" 
+                                            <input id="auto-like" type="checkbox" data-toggle="toggle" 
                                                 data-on="<i class='fa fa-play'></i> Ativar" 
                                                 data-off="<i class='fa fa-pause'></i> Desativar">                                              
                                         </div>
@@ -47,7 +47,7 @@
                                                 Ao ativar esse recurso sua conta
                                                 iniciará um processo onde deixará de seguir
                                                 "TODOS" os perfis que segue no momento. </p>
-                                            <input id="unfollow-total" type="checkbox" checked data-toggle="toggle" 
+                                            <input id="unfollow-total" type="checkbox" data-toggle="toggle" 
                                                 data-on="<i class='fa fa-play'></i> Ativar" 
                                                 data-off="<i class='fa fa-pause'></i> Desativar">                                              
                                         </div>

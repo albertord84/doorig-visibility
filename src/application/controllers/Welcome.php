@@ -98,6 +98,7 @@ class Welcome extends CI_Controller {
                 $Client->load_daily_report_data();
                 $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
+                
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
                 unset($tmpClient->Pass);
@@ -120,7 +121,7 @@ class Welcome extends CI_Controller {
 
                 $param["painel_blocked_by_insta"] = null;
                 if ($Client->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA))
-                    $param["painel_blocked_by_insta"] = $this->load->view('client_views/block_by_insta_painel', '', TRUE);
+                    $param["painel_blocked_by_insta"] = $this->load->view('client_views/block_by_insta_painel', array("mark_login"=>$Client->MarkInfo->login), TRUE);
 
                 //6. set painel_person_profile as params to be display in visibility_client view
                 $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
@@ -138,7 +139,6 @@ class Welcome extends CI_Controller {
     }
 
     public function log_out() {
-        //$this->load->model('class/user_model');
         //$this->user_model->insert_washdog($this->session->userdata('id'), 'CLOSING SESSION');
         $this->session->sess_destroy();
         header('Location: ' . $GLOBALS['sistem_config']->BASE_SITE_URL);
@@ -146,6 +146,7 @@ class Welcome extends CI_Controller {
 
     //---------------HOME FUNCTIONS-----------------------------
     public function contract_visibility_steep_1() { //setting proper profile
+        return Response::ResponseOK()->toJson();
         $datas = $this->input->post();
         //1. check if exist this profile in IG
         $datas["insta_name"];
@@ -183,6 +184,7 @@ class Welcome extends CI_Controller {
     }
 
     public function contract_visibility_steep_2() { //setting plane
+        return Response::ResponseOK()->toJson();
         $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
         //1. set plane in la DB
         $datas = $this->input->post();

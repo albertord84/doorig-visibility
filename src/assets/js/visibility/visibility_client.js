@@ -128,10 +128,6 @@ $(document).ready(function () {
         }
     });
     
-    $("#activate-account").click(function () {
-        alert(123);
-    });
-    
     $("#activate-account").change(function () {
         if($(this).is(":checked")){
             //setting to unactive
@@ -264,9 +260,10 @@ $(document).ready(function () {
     });
     
     //DISPLAYING DATAS FUNCTIONS-----------------------------------------------------
-   function display_person_profile_datas(){ 
+    function display_person_profile_datas(){ 
         $("#ig-profile-name").text("@"+person_profile.MarkInfo.login);        
         $("#ig-profile-url").prop("href","https://www.instagram.com/"+person_profile.MarkInfo.login);
+        DisplayPlayAndPauseButtons();        
         $.ajax({
             url: base_url+"index.php/welcome/get_person_profile_datas/"+person_profile.MarkInfo.login,
             type: 'GET',
@@ -282,6 +279,41 @@ $(document).ready(function () {
                 modal_alert_message('Não foi possível conectar com o Instagram');
             }
         });
+    }
+    
+    function hasStatus(StatusList,st){
+        var has =false;
+        $.each( StatusList, function( key, value ) {
+            if(value.client_status_id==st){
+                has = true;
+                return;
+            }
+        })
+        return has;
+    }
+    
+    function DisplayPlayAndPauseButtons(){
+        StatusList = person_profile.MarkInfo.Status.ClientStatusList;
+        if(hasStatus(StatusList,14)){ //PAUSED
+            $("#activate-account").parent().removeClass("btn-default off");
+            $("#activate-account").parent().addClass("btn-info");
+        }
+        
+        if(person_profile.MarkInfo.like_first){ //Paused
+            $("#auto-like").parent().removeClass("btn-primary");
+            $("#auto-like").parent().addClass("btn-default off");
+        } else{
+            $("#auto-like").parent().removeClass("btn-default off");
+            $("#auto-like").parent().addClass("btn-info");
+        }
+        
+        if(!hasStatus(StatusList,13)){ //KEEP_UNFOLLOW
+            $("#unfollow-total").parent().removeClass("btn-primary");
+            $("#unfollow-total").parent().addClass("btn-default off");
+        } else{
+            $("#unfollow-total").parent().removeClass("btn-default off");
+            $("#unfollow-total").parent().addClass("btn-info");
+        }
     }
     
     function display_reference_profile_datas(){
