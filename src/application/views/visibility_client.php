@@ -68,10 +68,10 @@
             <div class="container-fluid">                
                 <div class="row page-titles">
                     <div class="col-md-8 align-self-center">
-                        <ol class="breadcrumb">
+<!--                        <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Dashboard</a></li>
                             <li class="breadcrumb-item active">Mais visibilidade</li>
-                        </ol>
+                        </ol>-->
                     </div>
                 </div>
                 <div class="row">

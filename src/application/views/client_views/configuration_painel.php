@@ -27,9 +27,19 @@
                                                 automaticamente a primeira foto de todos os 
                                                 perfis que seguir, aumentando
                                                 sua conversão. </p>
-                                            <input id="auto-like" type="checkbox" data-toggle="toggle" 
+<!--                                            <input id="auto-like" type="checkbox" data-toggle="toggle" 
                                                 data-on="<i class='fa fa-play'></i> Ativar" 
-                                                data-off="<i class='fa fa-pause'></i> Desativar">                                              
+                                                data-off="<i class='fa fa-pause'></i> Desativar">                                              -->
+                                            <div class="text-center">
+                                                <button id="active-auto-like" type="button" class="btn btn-info" >
+                                                    <i class="fas fa-play"></i>
+                                                    Ativar
+                                                </button>
+                                                <button id="unactive-auto-like" type="button" class="btn btn-secondary" >
+                                                    <i class="fas fa-pause"></i>
+                                                    Desativar
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -47,9 +57,19 @@
                                                 Ao ativar esse recurso sua conta
                                                 iniciará um processo onde deixará de seguir
                                                 "TODOS" os perfis que segue no momento. </p>
-                                            <input id="unfollow-total" type="checkbox" data-toggle="toggle" 
+<!--                                            <input id="unfollow-total" type="checkbox" data-toggle="toggle" 
                                                 data-on="<i class='fa fa-play'></i> Ativar" 
-                                                data-off="<i class='fa fa-pause'></i> Desativar">                                              
+                                                data-off="<i class='fa fa-pause'></i> Desativar">                                              -->
+                                            <div class="text-center">
+                                                <button id="active-unfollow-total" type="button" class="btn btn-info" >
+                                                    <i class="fas fa-play"></i>
+                                                    Ativar
+                                                </button>
+                                                <button id="unactive-unfollow-total" type="button" class="btn btn-secondary" >
+                                                    <i class="fas fa-pause"></i>
+                                                    Desativar
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -128,3 +128,17 @@
     /*background-color: #efefef;*/
 }
 
+.active-action{
+    margin-left:4px;
+    max-height:38px;
+    min-width:130px;
+    visibility: visible;
+    display: inline;
+}
+.unactive-action{
+    margin-left:4px;
+    max-height:38px;
+    min-width:130px;
+    visibility: hidden;
+    display: none;
+}

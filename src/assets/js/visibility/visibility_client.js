@@ -96,52 +96,65 @@ $(document).ready(function () {
         //spinner_stop(btn);
     });
     
-    $("#auto-like").change(function () {
-        if($(this).is(":checked")){
-            //setting to unactive
-            $.get({
-                url : base_url+'index.php/Client/client_unactive_autolike',
-                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
-            }); 
-        }else{            
-            //setting to active
-            $.get({
-                url : base_url+'index.php/Client/client_active_autolike',
-                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
-            }); 
-        }
+    $("#active-auto-like").click(function () {
+        $.get({
+            url : base_url+'index.php/Client/client_active_autolike',
+            success: function (response){
+                $("#active-auto-like").replaceClass("active-action","unactive-action");
+                $("#unactive-auto-like").replaceClass("unactive-action","active-action");
+            },
+            error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+        }); 
+    });    
+    $("#unactive-auto-like").click(function () {
+        $.get({
+            url : base_url+'index.php/Client/client_unactive_autolike',
+            success: function (response){
+                $("#unactive-auto-like").replaceClass("active-action","unactive-action");
+                $("#active-auto-like").replaceClass("unactive-action","active-action");
+            },
+            error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+        }); 
     });
-    
-    $("#unfollow-total").change(function () {
-        if($(this).is(":checked")){
-            //setting to unactive
-            $.get({
-                url : base_url+'index.php/Client/client_unactive_total_unfollow',
-                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
-            }); 
-        }else{            
-            //setting to active
-            $.get({
-                url : base_url+'index.php/Client/client_active_total_unfollow',
-                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
-            }); 
-        }
+    $("#active-unfollow-total").click(function () {
+        $.get({
+            url : base_url+'index.php/Client/client_active_total_unfollow',
+            success: function (response){
+                $("#active-unfollow-total").replaceClass("active-action","unactive-action");
+                $("#unactive-unfollow-total").replaceClass("unactive-action","active-action");
+            },
+            error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+        }); 
+    });    
+    $("#unactive-unfollow-total").click(function () {
+        $.get({
+            url : base_url+'index.php/Client/client_unactive_total_unfollow',
+            success: function (response){
+                $("#unactive-unfollow-total").replaceClass("active-action","unactive-action");
+                $("#active-unfollow-total").replaceClass("unactive-action","active-action");
+            },
+            error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+        }); 
     });
-    
-    $("#activate-account").change(function () {
-        if($(this).is(":checked")){
-            //setting to unactive
-            $.get({
-                url : base_url+'index.php/Client/client_pause_tool',
-                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
-            }); 
-        }else{            
-            //setting to active
-            $.get({
-                url : base_url+'index.php/Client/client_play_tool',
-                error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
-            }); 
-        }
+    $("#active-account").click(function () {
+        $.get({
+            url : base_url+'index.php/Client/client_play_tool',
+            success: function (response){
+                $("#active-account").replaceClass("active-action","unactive-action");
+                $("#unactive-account").replaceClass("unactive-action","active-action");
+            },
+            error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+        }); 
+    });    
+    $("#unactive-account").click(function () {
+        $.get({
+            url : base_url+'index.php/Client/client_pause_tool',
+            success: function (response){
+                $("#unactive-account").replaceClass("active-action","unactive-action");
+                $("#active-account").replaceClass("unactive-action","active-action");
+            },
+            error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
+        }); 
     });
     
     //UPDATE MARK CREDENTIAL FUNCTIONS-----------------------------------------------------
@@ -294,25 +307,51 @@ $(document).ready(function () {
     
     function DisplayPlayAndPauseButtons(){
         StatusList = person_profile.MarkInfo.Status.ClientStatusList;
+        text_by_status = false;
+        if(person_profile.MarkInfo.like_first){             
+            //is active
+            $("#active-auto-like").replaceClass("active-action","unactive-action");
+            $("#unactive-auto-like").replaceClass("unactive-action","active-action");
+        } else{
+            $("#unactive-auto-like").replaceClass("active-action","unactive-action");
+            $("#active-auto-like").replaceClass("unactive-action","active-action");
+        }
+        
+        if(hasStatus(StatusList,13)){ //TOTAL UNFOLLOW            
+            $("#active-unfollow-total").replaceClass("active-action","unactive-action");
+            $("#unactive-unfollow-total").replaceClass("unactive-action","active-action");            
+            $("#text_by_status").text("UNFOLLOW TOTAL");
+            text_by_status = true;
+        } else{
+            $("#unactive-unfollow-total").replaceClass("active-action","unactive-action");
+            $("#active-unfollow-total").replaceClass("unactive-action","active-action");       
+        }
+        
         if(hasStatus(StatusList,14)){ //PAUSED
-            $("#activate-account").parent().removeClass("btn-default off");
-            $("#activate-account").parent().addClass("btn-info");
+            $("#unactive-account").replaceClass("active-action","unactive-action");
+            $("#active-account").replaceClass("unactive-action","active-action");
+            $("#text_by_status").text("PAUSADO");
+            $("#text_by_status").removeClass("text-success");
+            $("#text_by_status").addClass("text-warning");
+            text_by_status = true;
+        }else{
+            $("#active-account").replaceClass("active-action","unactive-action");
+            $("#unactive-account").replaceClass("unactive-action","active-action");
         }
         
-        if(person_profile.MarkInfo.like_first){ //Paused
-            $("#auto-like").parent().removeClass("btn-primary");
-            $("#auto-like").parent().addClass("btn-default off");
-        } else{
-            $("#auto-like").parent().removeClass("btn-default off");
-            $("#auto-like").parent().addClass("btn-info");
+        if(hasStatus(StatusList,2) || hasStatus(StatusList,3) || hasStatus(StatusList,9)){ //PAUSED
+            $("#text_by_status").text("BLOQUEADO");
+            $("#text_by_status").removeClass("text-success");
+            $("#text_by_status").removeClass("text-warning");
+            $("#text_by_status").addClass("text-danger");
+            text_by_status = true;
         }
         
-        if(!hasStatus(StatusList,13)){ //KEEP_UNFOLLOW
-            $("#unfollow-total").parent().removeClass("btn-primary");
-            $("#unfollow-total").parent().addClass("btn-default off");
-        } else{
-            $("#unfollow-total").parent().removeClass("btn-default off");
-            $("#unfollow-total").parent().addClass("btn-info");
+        if(!text_by_status){
+            $("#text_by_status").removeClass("text-danger");
+            $("#text_by_status").removeClass("text-warning");
+            $("#text_by_status").addClass("text-success");
+            $("#text_by_status").text("ATIVO");
         }
     }
     
@@ -333,6 +372,7 @@ $(document).ready(function () {
     function display_black_and_white_list_datas(){       
         var rp = person_profile.BlackAndWhiteList.BlackAndWhiteList;        
         $.each( rp, function( key, value ) {
+            console.log(value);
             if(value.black_or_white==0)
                 show_profile_wl_in_view("#container-profile-wl", value.profile, value.Id);
             else
