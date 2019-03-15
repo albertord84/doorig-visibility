@@ -351,7 +351,7 @@ namespace InstaApiWeb {
                 $response = $this->get_challenge_data($res, $login, $choise);
                 return $response;
             } catch (\Exception $exc) {
-                return new LoginResponse(FALSE, NULL, "", -2, $exc->getMessage());
+                return new LoginResponse(FALSE, NULL, "", $exc->getCode(), $exc->getMessage());
             }
         }
 
@@ -378,7 +378,7 @@ namespace InstaApiWeb {
                 curl_close($ch);
                 $start = strpos($html, "200") != 0;
                 if ($start) {
-                    $response = new Response\LoginResponse(false, $cookies_response, $challenge, -1, "checkpoint requiered");
+                    $response = new Response\LoginResponse(false, $cookies_response, $challenge, 2, "checkpoint requiered");
                     return $response;
                 }
             } catch (\Exception $exc) {

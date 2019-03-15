@@ -127,33 +127,12 @@ class Client extends CI_Controller {
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $Client->checkpoint_requested($choice);
 
-            if ($login_response) {
-                switch ($login_response->code) {
-                    case 0: // Login ok
-                        //3. Poner el Cliente como activo, y guardar las cookies
-                        //
-                        //
-                        //
-//                        $Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
+            $Response = $this->process_login_response($login_response, $Client);
 
+            if ($login_response && $login_response->code === 0)
+                header("Location:" . base_url());
 
-
-
-                        $Client->MarkInfo->update_cookies(json_encode($login_response->Cookies));
-                        $this->session->set_userdata("client", serialize($Client));
-                        header("Location:" . base_url());
-
-                    case -1: // Check Point Required
-                        return Response::ResponseOK()->toJson();
-
-                    case -2: // Other exception
-                        return Response::ResponseFAIL($login_response->message, $login_response->code)->toJson();
-
-                    default:
-                        break;
-                }
-            }
-            return Response::ResponseFAIL(T('Empty login response'), -3)->toJson();
+            return $Response;
         } catch (Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
@@ -177,8 +156,7 @@ class Client extends CI_Controller {
                 $this->session->set_userdata("client", serialize($Client));
 
                 return Response::ResponseOK()->toJson();
-            }
-            else {
+            } else {
                 return Response::ResponseFAIL($login_response->message, $login_response->code)->toJson();
             }
         } catch (Exception $exc) {
@@ -197,11 +175,10 @@ class Client extends CI_Controller {
 
             if ($login_response && $login_response->code == 0) {
                 return Response::ResponseOK()->toJson();
-            }
-            else {
+            } else {
                 return Response::ResponseFAIL('Login Fail!', 1)->toJson();
             }
-        } catch (Exception $exc) {
+        } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
     }
@@ -209,20 +186,69 @@ class Client extends CI_Controller {
     public function update_mark_credentials() {
         $datas = $this->input->post();
 
-        //1. forze login with IG
-        $datas["insta_name"];
-        $datas["insta_id"];
-        $datas["password"];
-        $datas["passwordrep"];
+        try {
+            //1. forze login with IG
+            //$datas["insta_name"];
+            //$datas["insta_id"];
+            //$datas["password"];
+            //$datas["passwordrep"];
+            //2. get mark status from forced login
+            $Client = new BusinessClient(0);
+            $Client->MarkInfo = new \business\MarkInfo($Client);
+            $Client = unserialize($this->session->userdata('client'));
+            $Client->MarkInfo->login = $datas["insta_name"];
+            $Client->MarkInfo->pass = $datas["password"];
+            $Client->MarkInfo->insta_id = $datas["insta_id"];
+            $login_response = $Client->do_login();
 
-        //2. get mark status from forced login
-        $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
+            $Respose = $this->process_login_response($login_response, $Client);
 
-        //3. save mark and status in DB using client_id as follow:
-        $client_id = unserialize($this->session->userdata('client_module'))->Id;
+            if ($login_response && $login_response->code === 0) {
+                //3. save mark and status in DB using client_id as follow:
+                $insta_followers_ini = $insta_following = NULL;
+                if ($Client->MarkInfo->insta_id != $datas["insta_id"]) {
+                    $profile_info = \business\InstaCommands::get_profile_public_data($datas["insta_name"]);
+                    $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
+                    $Client->MarkInfo->insta_following = $profile_info->following;
+                }
+                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following);
+                $Client->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
 
-        //4. return response
-        return Response::ResponseOK()->toJson();
+                $this->session->set_userdata('client', $Client);
+            }
+            
+            return $Respose;
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+    }
+
+    private function process_login_response($login_response, BusinessClient &$Client) {
+        if ($login_response) {
+            switch ($login_response->code) {
+                case 0: // Login ok
+                    //3. Poner el Cliente como activo, y guardar las cookies
+                    $Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
+                    $Client->MarkInfo->update_cookies(json_encode($login_response->Cookies));
+                    $this->session->set_userdata("client", serialize($Client));
+                    return Response::ResponseOK()->toJson();
+
+                case 1: // Bloqued by password
+                    //$Client->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT);
+                    //return Response::ResponseOK()->toJson();
+
+                case 2: // Check Point Required
+                    $Client->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT);
+                    return Response::ResponseOK()->toJson();
+
+                case -2: // Other exception
+                    return Response::ResponseFAIL($login_response->message, $login_response->code)->toJson();
+
+                default:
+                    break;
+            }
+        }
+        return Response::ResponseFAIL(T('Empty login response'), -3)->toJson();
     }
 
 }
