@@ -11,6 +11,7 @@ use business\Response\Response;
 use business\Response\ResponseLoginToken;
 use business\InstaCommands;
 use business\UserStatus;
+use business\ErrorCodes;
 
 class Welcome extends CI_Controller {
 
@@ -22,6 +23,7 @@ class Welcome extends CI_Controller {
         require_once config_item('business-insta_commands-class');
         require_once config_item('business-user_status-class');
         require_once config_item('business-mark_info-class');
+        require_once config_item('business-error-codes-class');
     }
 
     // deprecated
@@ -148,11 +150,8 @@ class Welcome extends CI_Controller {
     public function contract_visibility_steep_1() { //setting proper profile
         return Response::ResponseOK()->toJson();
         $datas = $this->input->post();
+
         //1. check if exist this profile in IG
-        $datas["insta_name"];
-        $datas["insta_id"];
-        $datas["password"];
-        $datas["passwordrep"];
         try {
 
             //2. save mark in DB using client_id as follow:
@@ -184,46 +183,26 @@ class Welcome extends CI_Controller {
     }
 
     public function contract_visibility_steep_2() { //setting plane
-        return Response::ResponseOK()->toJson();
-        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
-        //1. set plane in la DB
-        $datas = $this->input->post();
-        $datas["plane"];  //midle, fast, very_fast
-        $plane_id = 1;
-        $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
-        $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
-        $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
-        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
-        $Client = new Client($client_id);
-        $Client->save(
-                $client_id,
-                $plane_id,
-                $pay_id = null,
-                $proxy_id = null,
-                $login = null,
-                $pass = null,
-                $insta_id = null,
-                $init_date = null,
-                $end_date = null,
-                $cookies = null,
-                $observation = null,
-                $purchase_counter = null,
-                $last_access = null,
-                $insta_followers_ini = null,
-                $insta_following = null
-        );
-        //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
-        //3. return response
-        return Response::ResponseOK()->toJson();
-    }
+        try {
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+            //1. set plane in la DB
+            $datas = $this->input->post();
+            $plane_id = 1;
+            $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
+            $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
+            $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
 
-    public function contrated_module() { //is called in onclick event of FINALIZAR button
-        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
-        //1. force login with Intagram
-        //2. set $insta_followers_ini $insta_following
-        //3. set contrated module
-        //4. redirect to index
-        header("Location:" . base_url() . "index.php/welcome/index/");
+            Client::update($client_id, $plane_id);
+
+            //2. Contratar modulo
+            $this->contrated_module();
+
+            //3. return response
+            return Response::ResponseOK()->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
     }
 
     public function get_person_profile_datas($profile_name) {
@@ -309,6 +288,51 @@ class Welcome extends CI_Controller {
         if ($StatusCode == 200) {
             return $content;
         }
+    }
+
+    private function contrated_module() { //is called in onclick event of FINALIZAR button
+        $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+        $Client = new Client($client_id);
+        $Client->load_mark_info_data();
+        //1. force login with Intagram
+        //
+        //
+        //$login_response = $Client->do_login();
+        //
+        //
+        //
+        //2. set $insta_followers_ini $insta_following
+        $profile_public_data = InstaCommands::get_profile_public_data($Client->MarkInfo->login);
+        Client::update(
+                $client_id, null, null, null, null, null, null, null, null, null, null, null, null,
+                $profile_public_data->followers,
+                $profile_public_data->following
+        );
+        //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
+        $ClientModule = unserialize($this->session->userdata('client_module'));
+        $this->dashboard_set_contrated_module($ClientModule);
+        //3. set contrated module active 
+        $ClientModule->Active = true;
+        $this->session->set_userdata('client_module', serialize($ClientModule));
+        //4. Save client in session
+        $this->session->set_userdata('client', serialize($Client));
+    }
+
+    private function dashboard_set_contrated_module(\stdClass $ClientModule) {
+        $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "clients/set_contrated_module";
+        $GuzClient = new \GuzzleHttp\Client();
+        $response = $GuzClient->post($url, [
+            GuzzleHttp\RequestOptions::FORM_PARAMS => [
+                'client_id' => $ClientModule->client_id,
+                'module_id' => $ClientModule->module_id
+        ]]);
+        $StatusCode = $response->getStatusCode();
+        $content = $response->getBody()->getContents();
+        $content = json_decode($content);
+        if ($StatusCode == 200 && $content->code == 0) {
+            return TRUE;
+        };
+        throw ErrorCodes::getException(ErrorCodes::DASHBOARD_CONNECTION_ERROR);
     }
 
 }

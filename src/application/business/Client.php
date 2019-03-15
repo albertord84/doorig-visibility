@@ -63,7 +63,7 @@ namespace business {
             $this->MarkInfo->remove();
         }
 
-        static function save($plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
+        static function save($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
             $init_date = $init_date ? $init_date : time();
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
@@ -71,10 +71,10 @@ namespace business {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
-                $ci->client_mark_model->save($plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
+                $client_id = $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
             }
 
-            return $id;
+            return $client_id;
         }
 
         static function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL) {
@@ -86,7 +86,7 @@ namespace business {
 
         static function exist(string $insta_id) {
             try {
-                $Client = new Client();
+                $Client = new Client(0);
                 $Client->MarkInfo->load_data_by_insta_id($insta_id);
 
                 $exist = $Client->MarkInfo->client_id > 0;
