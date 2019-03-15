@@ -49,13 +49,13 @@ namespace business {
         private function fill_data(array $items = NULL) {
             if (count($items)) {
                 foreach ($items as $key => $item) {
-                    $BlackAndWhiteItem = new BlackAndWhiteItem($item->id);
+                    $BlackAndWhiteItem = new BlackAndWhiteItem();
+                    $BlackAndWhiteItem->fill_data($item);
 
                     $this->BlackAndWhiteList[$item->id] = $BlackAndWhiteItem;
-                    //$this->BlackAndWhiteList[$ReferenceProfile->id] = $ReferenceProfile;
                 }
             } else {
-                //throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
+                throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
             }
         }
 

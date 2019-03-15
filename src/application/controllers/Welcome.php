@@ -148,7 +148,6 @@ class Welcome extends CI_Controller {
 
     //---------------HOME FUNCTIONS-----------------------------
     public function contract_visibility_steep_1() { //setting proper profile
-        return Response::ResponseOK()->toJson();
         $datas = $this->input->post();
 
         //1. check if exist this profile in IG

@@ -67,6 +67,10 @@ namespace business {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
+                
+                // Insert table with client id in DB followed
+                $ci->client_mark_model->create_followed_table($client_id);
+                
                 $client_id = $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
             }
 

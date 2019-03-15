@@ -34,36 +34,42 @@ class Client extends CI_Controller {
     public function client_play_tool() {
         $Client = unserialize($this->session->userdata('client'));
         $Client->MarkInfo->Status->add_item(UserStatus::PAUSED);
+        $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
     public function client_pause_tool() {
         $Client = unserialize($this->session->userdata('client'));
         $Client->MarkInfo->Status->remove_item(UserStatus::PAUSED);
+        $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
     public function client_active_autolike() {
         $Client = unserialize($this->session->userdata('client'));
         $Client->MarkInfo->setLikeFirst(TRUE);
+        $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
     public function client_unactive_autolike() {
         $Client = unserialize($this->session->userdata('client'));
         $Client->MarkInfo->setLikeFirst(FALSE);
+        $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
     public function client_active_total_unfollow() {
         $Client = unserialize($this->session->userdata('client'));
         $Client->MarkInfo->Status->add_item(UserStatus::KEEP_UNFOLLOW);
+        $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
     public function client_unactive_total_unfollow() {
         $Client = unserialize($this->session->userdata('client'));
         $Client->MarkInfo->Status->remove_item(UserStatus::KEEP_UNFOLLOW);
+        $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
