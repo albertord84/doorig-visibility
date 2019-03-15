@@ -666,6 +666,13 @@ class Database_test extends CI_Controller {
       echo "action wrong!!!";
     }
   }
+  
+  public function create_followed_table($client_id)
+  {
+      $this->load->model('Client_mark_model');
+      $this->Client_mark_model->create_followed_table($client_id);
+      echo '<br>function create_followed_table is ok<\br>';
+  }
 
   /* private function e_Payment_gateway_values($action, $id)
     {

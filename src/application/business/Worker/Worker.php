@@ -66,15 +66,11 @@ require_once config_item('business-class');
                     if (count($reference_profiles) > 0) {
                         $to_follow_unfollow = $DIALY_REQUESTS_BY_CLIENT / count($reference_profiles);
                         // If User status = UNFOLLOW he unfollow profile that the system followed
-                        $to_follow = !$this->MarkInfo->hasStatus(\business\UserStatus::UNFOLLOW) ? $to_follow_unfollow : 0;
+                        $to_follow = !$Client->MarkInfo->Status->hasStatus(\business\UserStatus::UNFOLLOW) ? $to_follow_unfollow : 0;
                         $to_unfollow = $to_follow_unfollow;
                         foreach ($reference_profiles as $Ref_Prof) { // For each reference profile
                             if (!$Ref_Prof->Deleted && $Ref_Prof->End_date == NULL) {
-                                $valid_geo = ($Ref_Prof->Type == 1 && ($Client->MarkInfo->plane_id == 1 || $Client->plane_id > 3));
-                                $valid_hastag = ($Ref_Prof->Type == 2 && ($Client->MarkInfo->plane_id == 1 || $Client->MarkInfo->plane_id > 3));
-                                if ($Ref_Prof->Type == 0 || $valid_geo || $valid_hastag) { // Nivel de permisos dependendo do plano, solo para quem tem permissao para geo ou hastag
-                                    $ci->Daily_work_model->save($Ref_Prof->id, $to_follow, $to_unfollow, $Client->cookies);
-                                }
+                               $ci->Daily_work_model->save($Ref_Prof->Id, $to_follow, $to_unfollow);   
                             }
                         }
                     } else {
@@ -110,6 +106,7 @@ require_once config_item('business-class');
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
             ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
+            $ci = &get_instance();  
             while (DailyWork::exist_work()) {
                 $daily_work = DailyWork::get_next_work($client_id);
 
