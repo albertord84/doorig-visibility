@@ -17,10 +17,9 @@ class Daily_work_model extends CI_Model {
     parent::construct();
   }
 
-  function save($reference_id, $to_follow, $to_unfollow, $cookies) {
+  function save($reference_id, $to_follow, $to_unfollow) {
     $this->to_follow = $to_follow;
     $this->to_unfollow = $to_unfollow;
-    $this->cookies = $cookies;
     $this->reference_id =  $reference_id;
     $this->db->insert('daily_work', $this);
 
@@ -34,7 +33,6 @@ class Daily_work_model extends CI_Model {
   function update($reference_id, $to_follow, $to_unfollow, $cookies) {
     $this->to_follow = $to_follow;
     $this->to_unfollow = $to_unfollow;
-    $this->cookies = $cookies;
 
     $this->db->update('daily_work', $this, array('reference_id' => $reference_id));
   }
