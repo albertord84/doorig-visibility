@@ -6,8 +6,8 @@ namespace business\worker {
     use business\Client;
 
 require_once config_item('business-class');
-require_once config_item('business-client-class');
-require_once config_item('business-client-list-class'); 
+    require_once config_item('business-client-class');
+    require_once config_item('business-client-list-class');
 
     /**
      * @category Business class
@@ -35,7 +35,7 @@ require_once config_item('business-client-list-class');
         public function get_worker_config() {
             return $config;
         }
-        
+
         public function truncate_daily_work() {
             $ci = &get_instance();    
             $ci->load->model('Daily_work_model');
@@ -118,6 +118,22 @@ require_once config_item('business-client-list-class');
                 } else {
                     DailyWork::delete_dailywork($daily_work->Client);
                 }
+            }
+        }
+
+        function do_work_by_id(int $reference_id) {
+            $daily_work = new DailyWork();
+            $daily_work = DailyWork::get_next_work($reference_id);
+            $daily_work->login_data = json_decode($daily_work->Client->MarkInfo->cookies);
+            $daily_work->login_data = json_decode($daily_work->Client->MarkInfo->cookies);
+            
+            if (Worker::verify_client($daily_work->Client)) {
+                $ci = &get_instance();
+                $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Ref_profile->Insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies), 'InstaClient_lib');
+                $robot = new Robot();
+                $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
+                $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
+                unset($ci->InstaClientBusiness_lib);
             }
         }
 

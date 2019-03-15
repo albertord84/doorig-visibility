@@ -55,10 +55,10 @@
                 <div class="row page-titles">
                     <div class="col-md-8 align-self-center">
                         <!--<h3 class="text-themecolor">Aumente sua visibilidade no Instagram!</h3>-->
-                        <ol class="breadcrumb">
+<!--                        <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="<?php echo base_url()?>">Dashboard</a></li>
                             <li class="breadcrumb-item active">Mais visibilidade</li>
-                        </ol>
+                        </ol>-->
                     </div>
                 </div>
                 
@@ -484,9 +484,11 @@
         <!-- system scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/mask.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/basics.js"></script>        
-        <script src="<?php echo base_url()?>assets/js/visibility/dasboard.js"></script>        
+        
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"></script>       
+        
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"></script>
         

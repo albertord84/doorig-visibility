@@ -53,10 +53,11 @@ namespace business\worker {
 
         public static function get_next_work(int $id = NULL) {
             $dailywork = new DailyWork();     
-            $work_data = $dailywork->ci->daily_work_model->get_next_work($id);
+            $work_data = $dailywork->ci->daily_work_model->get_by_id($id);
 
             $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id);
-            $dailywork->Client = new \business\Client($work_data->client_id);
+            $dailywork->Ref_profile->load_data();
+            $dailywork->Client = new \business\Client($dailywork->Ref_profile->Client_id);
             $dailywork->Client->load_mark_info_data();
             return $dailywork;
         }

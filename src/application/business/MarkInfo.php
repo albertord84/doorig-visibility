@@ -43,6 +43,7 @@ namespace business {
         public $insta_followers_ini = NULL;
         public $insta_following = NULL;
         public $like_first = NULL;
+        public $Cookies;
         public $Plane;
         public $Status;
         public $Client;
@@ -73,6 +74,9 @@ namespace business {
             $this->Proxy->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
+            
+            $this->Cookies = new Cookies($this->cookies);
+                    
             return $data;
         }
 

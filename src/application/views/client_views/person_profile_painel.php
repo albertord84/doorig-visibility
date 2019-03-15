@@ -19,8 +19,8 @@
                 <div class="col-md-1 col-sm-6 col-xs-12"></div>
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="text-center">
+                        <h4 id="text_by_status" class="m-b-20 text-success" style="font-weight:bold"></h4>
                         <a id="ig-profile-url" href="" target="_blank">
-                            <h4 class="m-b-20 text-success" style="font-weight:bold">ATIVO</h4>
                             <img id="ig-profile-picture-url" class="img-profile-client" src="<?php echo base_url()?>assets/images/users/default-user.png" alt="photo">
                             <p id="ig-profile-name" style="color:black;font-size:1.5em">@profile</p>                                                                     
                         </a>
@@ -49,9 +49,20 @@
                     </div>
                     <div class="row m-top-20">                                                
                         <div class="col-md-12 col-sm-12 col-xs-12 text-center p-0">
-                            <input id="activate-account" style="border: 1px solid #e2e6ea" type="checkbox" checked data-toggle="toggle" 
-                            data-on="<i class='fa fa-play'></i> Pausar ferramenta" 
-                            data-off="<i class='fa fa-pause'></i> Ativar ferramenta">     
+<!--                            <input id="activate-account" style="border: 1px solid #e2e6ea" type="checkbox"
+                                data-toggle="toggle" 
+                                data-on="<i class='fa fa-play'></i> Ativar ferramenta" 
+                                data-off="<i class='fa fa-pause'></i> Pausar ferramenta">-->
+                            <div class="text-center">
+                                <button id="active-account" type="button" class="btn btn-info" >
+                                    <i class="fas fa-play"></i>
+                                    Ativar ferramenta
+                                </button>
+                                <button id="unactive-account" type="button" class="btn btn-secondary" >
+                                    <i class="fas fa-pause"></i>
+                                    Pausar ferramenta
+                                </button>
+                            </div>
                         </div>                                                
                     </div>
                 </div>
