@@ -307,6 +307,8 @@ class Welcome extends CI_Controller {
                 $profile_public_data->followers,
                 $profile_public_data->following
         );
+        $Client->MarkInfo->Status->add_item(UserStatus::ACTIVE);
+        //$Client->MarkInfo->Status->add_item(UserStatus::PAUSED, FALSE);
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
         $ClientModule = unserialize($this->session->userdata('client_module'));
         $this->dashboard_set_contrated_module($ClientModule);

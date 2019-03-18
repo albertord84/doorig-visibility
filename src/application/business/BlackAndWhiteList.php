@@ -43,19 +43,16 @@ namespace business {
 
             $this->BlackAndWhiteList = array();
 
-            $this->fill_data($data);
+            if ($data)
+                $this->fill_data($data);
         }
 
         private function fill_data(array $items = NULL) {
-            if (count($items)) {
-                foreach ($items as $key => $item) {
-                    $BlackAndWhiteItem = new BlackAndWhiteItem();
-                    $BlackAndWhiteItem->fill_data($item);
+            foreach ($items as $key => $item) {
+                $BlackAndWhiteItem = new BlackAndWhiteItem();
+                $BlackAndWhiteItem->fill_data($item);
 
-                    $this->BlackAndWhiteList[$item->id] = $BlackAndWhiteItem;
-                }
-            } else {
-                throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
+                $this->BlackAndWhiteList[$item->id] = $BlackAndWhiteItem;
             }
         }
 
