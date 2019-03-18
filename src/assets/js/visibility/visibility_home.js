@@ -11,6 +11,7 @@ $(document).ready(function () {
         var profile = validate_element("#login_profile",ig_profile_regular_expression);
         var password = validate_not_empty("#password");
         var password_rep = validate_equals("#password","#password-rep");
+        selected_profile = true;
         if(!selected_profile)
             modal_alert_message("Deve selecionar um perfil válido");
         else
@@ -25,7 +26,7 @@ $(document).ready(function () {
                     url : base_url+'index.php/welcome/contract_visibility_steep_1',
                     data :{
                         "insta_name":$("#login_profile").val(),
-                        "insta_id":selected_profile['user']['pk'],
+                        //"insta_id":selected_profile['user']['pk'],
                         "password":$("#password").val(),
                         "passwordrep":$("#password-rep").val(),
                     },

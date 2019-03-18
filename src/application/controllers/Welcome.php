@@ -28,8 +28,7 @@ class Welcome extends CI_Controller {
 
     // deprecated
     public function a() {
-        $param["lateral_menu"] = $this->request_lateral_menu(1);
-        $this->load->view('visibility_client', $param);
+        $this->load->view('visibility_client_tmp');
     }
 
     // deprecated
