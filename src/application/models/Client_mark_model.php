@@ -128,6 +128,21 @@ class Client_mark_model extends CI_Model {
         return $query->result();
     }
 
+    function load_doorig_follows($client_id) {
+        
+        $this->db->where('client_id', $client_id);
+
+        $this->db->select('count(*) as Count')->from('daily_report');
+
+        //$this->db->order_by('<field>', '<type>'); ==> asc/desc
+
+        $query = $this->db->get();
+
+
+
+        return $query->result_array()[0]['Count'];
+    }
+
     function get_all() {
 
         $this->db->select('*')->from('client_mark');

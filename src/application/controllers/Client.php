@@ -33,14 +33,14 @@ class Client extends CI_Controller {
 
     public function client_play_tool() {
         $Client = unserialize($this->session->userdata('client'));
-        $Client->MarkInfo->Status->add_item(UserStatus::PAUSED);
+        $Client->MarkInfo->Status->remove_item(UserStatus::PAUSED);
         $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
 
     public function client_pause_tool() {
         $Client = unserialize($this->session->userdata('client'));
-        $Client->MarkInfo->Status->remove_item(UserStatus::PAUSED);
+        $Client->MarkInfo->Status->add_item(UserStatus::PAUSED);
         $this->session->set_userdata('client', serialize($Client));
         return Response::ResponseOK()->toJson();
     }
@@ -215,9 +215,9 @@ class Client extends CI_Controller {
                 if ($Client->MarkInfo->insta_id != $datas["insta_id"]) {
                     $profile_info = \business\InstaCommands::get_profile_public_data($datas["insta_name"]);
                     $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
-                    $Client->MarkInfo->insta_following = $profile_info->following;
+                    $Client->MarkInfo->insta_following_ini = $profile_info->following;
                 }
-                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following);
+                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
                 $Client->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
 
                 $this->session->set_userdata('client', $Client);

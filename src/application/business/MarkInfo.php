@@ -41,7 +41,8 @@ namespace business {
         public $purchase_counter = NULL;
         public $last_access = NULL;
         public $insta_followers_ini = NULL;
-        public $insta_following = NULL;
+        public $insta_following_ini = NULL;
+        public $doorig_follows = NULL;
         public $like_first = NULL;
         public $Cookies;
         public $Plane;
@@ -113,11 +114,15 @@ namespace business {
             $this->observation = $data->observation;
             $this->purchase_counter = $data->purchase_counter;
             $this->last_access = $data->last_access;
-            $this->insta_followers_ini = $data->insta_followers_ini;
-            $this->insta_following = $data->insta_following;
+            $this->insta_followers_ini = conver_instanumber_to_number($data->insta_followers_ini);
+            $this->insta_following_ini = conver_instanumber_to_number($data->insta_following);
             $this->like_first = $data->like_first;
 
             $this->Cookies = new Cookies($data->cookies);
+            
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            $this->total_followeds = $ci->client_mark_model->load_doorig_follows($this->client_id); 
         }
 
         public function setLikeFirst(bool $like_first = TRUE) {

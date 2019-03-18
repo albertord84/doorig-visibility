@@ -425,6 +425,9 @@ function search_match_profile(input_profile_id, table_match_id) {
         url: 'https://www.instagram.com/web/search/topsearch/?context=blended&query=' + $(input_profile_id).val(),
         type: 'GET',
         dataType: 'json',
+        xhrFields: {
+            "Set-Cookie": "sessionid=3916799608%3ADdoMg9LkUdDaMN%3A29"
+        },
         success: function (response) {
             $(table_match_id).empty();
             if (response['users'].length !== 0) {

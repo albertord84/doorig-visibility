@@ -48,6 +48,17 @@ namespace business {
             $this->data = $data;
         }
 
+        /**
+         *  
+         */
+        static function save($client_id, $followings = NULL, $followers = NULL, $date = NULL) {
+            $ci = &get_instance();
+            $ci->load->model('daily_report_model');
+
+            $id = $ci->daily_report_model->save($client_id, $followings, $followers, $date);
+            return $id;
+        }
+
     }
 
 }

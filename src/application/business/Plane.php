@@ -20,8 +20,8 @@ namespace business {
 
         public function __construct(int $id = NULL) {
             parent::__construct();
-            $this->ci = &get_instance();
-            $this->ci->load->model('Plane_model');
+            $ci = &get_instance();
+            $ci->load->model('Plane_model');
 
             $this->id = $id;
             if ($id) {
@@ -30,7 +30,8 @@ namespace business {
         }
 
         public function load_data() {
-            $data = $this->ci->Plane_model->get_by_id($this->id);
+            $ci = &get_instance();
+            $data = $ci->Plane_model->get_by_id($this->id);
 
             if ($data)
                 $this->fill_data($data);

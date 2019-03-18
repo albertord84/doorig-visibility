@@ -19,11 +19,11 @@ class Daily_report_model extends CI_Model {
         parent::construct();
     }
 
-    function save($client_id, $followings, $followers, $date) {
+    function save($client_id, $followings = NULL, $followers = NULL, $date = NULL) {
         $this->client_id = $client_id;
         $this->followings = $followings;
         $this->followers = $followers;
-        $this->date = $date;
+        $this->date = $this->date ? $date : time();
         $this->db->insert('daily_report', $this);
 
         return $this->db->insert_id();
@@ -33,7 +33,7 @@ class Daily_report_model extends CI_Model {
         $this->db->delete('daily_report', array('id' => $id));
     }
 
-    function update($id, $client_id, $followings, $followers, $date) {
+    function update($id, $client_id, $followings = NULL, $followers = NULL, $date = NULL) {
         $this->client_id = $client_id;
         $this->followings = $followings;
         $this->followers = $followers;
@@ -61,7 +61,7 @@ class Daily_report_model extends CI_Model {
         $query = $this->db->get();        
         $result_org = $query->result_array();
         $N = count($result_org);
-        $steep = (int)($N/$GLOBALS["sistem_config"]->SAMPLES_IN_CHART)-1;
+        $steep = ($N > $GLOBALS["sistem_config"]->SAMPLES_IN_CHART) ? (int)($N/$GLOBALS["sistem_config"]->SAMPLES_IN_CHART) - 1 : $N;
         $k=0;
         for($i=0;$i<$N;$i=$i+$steep){
             $result[$k++]=$result_org[$i];

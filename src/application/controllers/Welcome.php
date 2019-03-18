@@ -28,8 +28,15 @@ class Welcome extends CI_Controller {
 
     // deprecated
     public function a() {
-        $param["lateral_menu"] = $this->request_lateral_menu(1);
-        $this->load->view('visibility_client', $param);
+        $Client = new Client(15);
+        //$profile_public_data = InstaCommands::get_profile_public_data('alberto_dreyes');
+        // Inser First Daily Report Point
+        //$followes = conver_instanumber_to_number($profile_public_data->followers);
+        //$following = conver_instanumber_to_number($profile_public_data->following);
+        //$Client->DailyReport->save(15, $following, $followes);
+        $Client->load_mark_info_data();
+        $Client->load_black_and_white_list_data();
+        var_dump($Client);
     }
 
     // deprecated
@@ -101,6 +108,8 @@ class Welcome extends CI_Controller {
                 $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
                 
+                //var_dump($Client);                return;
+
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
                 unset($tmpClient->Pass);
@@ -123,7 +132,7 @@ class Welcome extends CI_Controller {
 
                 $param["painel_blocked_by_insta"] = null;
                 if ($Client->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA))
-                    $param["painel_blocked_by_insta"] = $this->load->view('client_views/block_by_insta_painel', array("mark_login"=>$Client->MarkInfo->login), TRUE);
+                    $param["painel_blocked_by_insta"] = $this->load->view('client_views/block_by_insta_painel', array("mark_login" => $Client->MarkInfo->login), TRUE);
 
                 //6. set painel_person_profile as params to be display in visibility_client view
                 $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
@@ -309,6 +318,10 @@ class Welcome extends CI_Controller {
         );
         $Client->MarkInfo->Status->add_item(UserStatus::ACTIVE);
         //$Client->MarkInfo->Status->add_item(UserStatus::PAUSED, FALSE);
+        // Inser First Daily Report Point
+        $followes = conver_instanumber_to_number($profile_public_data->followers);
+        $following = conver_instanumber_to_number($profile_public_data->following);
+        $Client->DailyReport->save($client_id, $following, $followes);
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
         $ClientModule = unserialize($this->session->userdata('client_module'));
         $this->dashboard_set_contrated_module($ClientModule);
