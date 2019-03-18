@@ -11,6 +11,13 @@ namespace business {
    * 
    */
   class StatusProfiles extends Business {
+      
+    const  ACTIVE = 1;
+    const  LOCKED = 2;
+    const  ENDED = 3;
+    const  DELETED = 4;
+    const MISSING = 5;
+    const PRIVATED = 6;
 
     public function __construct() {
       $this->ci = &get_instance();

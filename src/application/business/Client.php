@@ -55,10 +55,6 @@ namespace business {
             $this->MarkInfo->load_data_by_insta_id($insta_id);
         }
 
-        public function login() {
-            return true;
-        }
-
         public function remove($client_id) {
             $this->MarkInfo->remove();
         }
@@ -71,6 +67,10 @@ namespace business {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
+                
+                // Insert table with client id in DB followed
+                $ci->client_mark_model->create_followed_table($client_id);
+                
                 $client_id = $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
             }
 
@@ -124,19 +124,20 @@ namespace business {
          * @return
          * 
          */
-        public function checkpoint_requested(\InstaApiWeb\VerificationChoice $choice = \InstaApiWeb\VerificationChoice::Email) {
+        public function checkpoint_requested(int $choice = \InstaApiWeb\VerificationChoice::Email) {
             if (!$this->MarkInfo->isLoaded())
                 $this->MarkInfo->load_data();
 
             $ci = &get_instance();
             $ci->load->library('InstaApiWeb/InstaClient_lib', self::get_gost_insta_client_lib_params(), 'InstaClient_lib');
 
-            $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $$this->MarkInfo->pass, $choice);
+            $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $this->MarkInfo->pass, $choice);
 
             // Guardar las cookies en la Base de Datos
             if ($login_response && ($login_response->Cookies)) {
-                $$this->MarkInfo->Cookies = $login_response->Cookies;
-                $cookies_str = json_decode($login_response->Cookies);
+                $this->MarkInfo->Cookies = $login_response->Cookies;
+                $ci->session->set_userdata('client', serialize($this));
+                $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
 
@@ -163,7 +164,7 @@ namespace business {
             // Guardar las cookies en la Base de Datos
             if ($login_response && ($login_response->Cookies)) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
-                $cookies_str = json_decode($login_response->Cookies);
+                $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
 
@@ -224,7 +225,7 @@ namespace business {
             $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
 
             return $param;
-        }
+        }        
 
     }
 

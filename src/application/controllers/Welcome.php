@@ -147,7 +147,6 @@ class Welcome extends CI_Controller {
 
     //---------------HOME FUNCTIONS-----------------------------
     public function contract_visibility_steep_1() { //setting proper profile
-        return Response::ResponseOK()->toJson();
         $datas = $this->input->post();
 
         //1. check if exist this profile in IG
@@ -307,6 +306,8 @@ class Welcome extends CI_Controller {
                 $profile_public_data->followers,
                 $profile_public_data->following
         );
+        $Client->MarkInfo->Status->add_item(UserStatus::ACTIVE);
+        //$Client->MarkInfo->Status->add_item(UserStatus::PAUSED, FALSE);
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
         $ClientModule = unserialize($this->session->userdata('client_module'));
         $this->dashboard_set_contrated_module($ClientModule);

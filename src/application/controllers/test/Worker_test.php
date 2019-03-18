@@ -66,6 +66,12 @@ class Worker_test extends CI_Controller {
         $worker = new Worker();
         $worker->truncate_daily_work();
         echo "[new] truncate_daily_work ==> (<b>ok</b>)<br>";
+        
+        echo "<h2>Test Dailywork</h2>";
+        $worker = new Worker();
+        $worker->prepare_daily_work(false);
+        echo "[new] prepare_daily_work ==> (<b>ok</b>)<br>";
+        
     }
 
     public function do_work_by_id($reference_id) {

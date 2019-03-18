@@ -53,7 +53,7 @@ namespace business\worker {
 
         public static function get_next_work(int $id = NULL) {
             $dailywork = new DailyWork();     
-            $work_data = $dailywork->ci->daily_work_model->get_by_id($id);
+            $work_data = $dailywork->ci->daily_work_model->get_next_work($id,TRUE);
 
             $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id);
             $dailywork->Ref_profile->load_data();
@@ -80,7 +80,7 @@ namespace business\worker {
         
         public function save_follow_work(string $profile_name, string $insta_id)
         {           
-            $this->ci->daily_work_model->save_follow($this->Client->Id,$this->Ref_profile->Id, $prfile_name,$insta_id);
+            $this->ci->daily_work_model->save_follow($this->Client->Id,$this->Ref_profile->Id, $profile_name,$insta_id);
             $this->ci->daily_work_model->update_follow(1);
 
         }

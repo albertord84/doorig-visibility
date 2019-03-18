@@ -139,7 +139,7 @@ class InstaClient_lib {
 
   public function make_checkpoint(string $login, string $code) {
 
-    $this->InstaClient->make_checkpoint($login, $code);
+    return $this->InstaClient->make_checkpoint($login, $code);
   }
 
   public function TurnOn_Logs() {

@@ -414,6 +414,7 @@ namespace InstaApiWeb {
         case EnumEntity::GEO + EnumAction::GET_POST:
         case EnumEntity::PERSON + EnumAction::GET_POST:
         case EnumEntity::HASHTAG + EnumAction::GET_POST:
+        case EnumEntity::PERSON + EnumAction::GET_FOLLOWERS:
           if ($this->MediaStr == null) {
             throw new InstaCurlMediaException("The media-cUrl parameters (id, cursor, first) have not been established!!!. Use: setMediaData(string, int, string).");
           }
@@ -763,7 +764,6 @@ namespace InstaApiWeb {
     private function cmd_checkpoint(Cookies $cookies = null, string $challenge, string $code) {
       $postinfo = sprintf("security_code=%s", $code);
       $url = sprintf("%s%s", $this->InstaURL['Base'], $challenge);
-      var_dump($url);
       
       $headers = array();
       $headers[] = $this->Headers['Origin'];
