@@ -21,7 +21,7 @@
                     <div class="text-center">
                         <h4 id="text_by_status" class="m-b-20 text-success" style="font-weight:bold"></h4>
                         <a id="ig-profile-url" href="" target="_blank">
-                            <img id="ig-profile-picture-url" class="img-profile-client" src="<?php echo base_url()?>assets/images/users/default-user.png" alt="photo">
+                            <img id="ig-profile-picture-url" class="img-profile-client"  src="<?php echo base_url()?>assets/images/users/default-user.png" alt="photo">
                             <p id="ig-profile-name" style="color:black;font-size:1.5em">@profile</p>                                                                     
                         </a>
                     </div>

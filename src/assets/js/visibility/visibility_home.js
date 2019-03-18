@@ -10,8 +10,9 @@ $(document).ready(function () {
     $('#btn-contract-steep-1').click(function () {
         var profile = validate_element("#login_profile", ig_profile_regular_expression);
         var password = validate_not_empty("#password");
-        var password_rep = validate_equals("#password", "#password-rep");
-        if (!selected_profile)
+        var password_rep = validate_equals("#password","#password-rep");
+        selected_profile = true;
+        if(!selected_profile)
             modal_alert_message("Deve selecionar um perfil válido");
         else
         if (!profile || !password)

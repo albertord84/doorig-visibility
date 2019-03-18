@@ -37,6 +37,7 @@ class Welcome extends CI_Controller {
         $Client->load_mark_info_data();
         $Client->load_black_and_white_list_data();
         var_dump($Client);
+        //$this->load->view('visibility_client_tmp');
     }
 
     // deprecated
