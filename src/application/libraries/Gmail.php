@@ -64,7 +64,9 @@ class Gmail {
         $instaname = urlencode($instaname);
         $instapass = urlencode($instapass);
         $lang = $GLOBALS['sistem_config']->LANGUAGE;
-        $url = base_url("resources/$lang/emails/link_recovery_password.php?useremail=$useremail&username=$username&link_recovery_password=$link_recovery_password");
+        $url = base_url("resources/$lang/emails/login_error.php?useremail=$useremail&username=$username&instaname=$instaname");
+        $url = str_replace('https:', 'http:', $url);
+        $url = str_replace(" ", "%20", $url);
         $body = @file_get_contents($url);
         $this->CI->email->message($body);
 

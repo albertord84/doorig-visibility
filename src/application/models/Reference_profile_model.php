@@ -68,7 +68,8 @@ class Reference_profile_model extends CI_Model {
             $this->deleted = $deleted;
         if ($end_date)
             $this->end_date = $end_date;
-        $this->follows = $follows;
+        if ($follows)
+            $this->follows = $follows;
         if ($last_access)
             $this->last_access = $last_access;
 
@@ -131,7 +132,7 @@ class Reference_profile_model extends CI_Model {
     function load_amount_profile_used($client_id, $type) {
         $this->db->where('client_id', $client_id);
         $this->db->where('type', $type);
-        
+
         $this->db->select('count(*) as Count')->from('reference_profile');
 
         $query = $this->db->get();
@@ -141,11 +142,12 @@ class Reference_profile_model extends CI_Model {
     function amount_profile_followed($client_id, $type) {
         $this->db->where('client_id', $client_id);
         $this->db->where('type', $type);
-        
+
         $this->db->select('sum(follows) as Sum')->from('reference_profile');
 
         $query = $this->db->get();
-        return $query->result_array()[0]['Sum'];    }
+        return $query->result_array()[0]['Sum'];
+    }
 
 }
 ?>

@@ -11,8 +11,6 @@ namespace business\Response {
      */
     class ResponseLoginToken extends Response {
 
-        public $code = 0;
-        public $message = "";
         public $LoginToken;
         public $DashboardUrl;
         public $ClientId;

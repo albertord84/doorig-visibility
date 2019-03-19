@@ -176,12 +176,25 @@ namespace business {
             return $id;
         }
 
+        /**
+         *  
+         */
+        public function increase_follows(int $follows_count = 1) {
+            $ci = &get_instance();
+            $ci->load->model('reference_profile_model');
+            $this->Follows += $follows_count;
+            $ci->reference_profile_model->update($this->Id, $insta_id = NULL, $insta_name = NULL, $status_id = NULL, $insta_follower_cursor = NULL, $deleted = NULL, $end_date = NULL, $this->Follows);
+        }
+
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
             //$response = new FollowersResponse();
             $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
+            
+            $ci = &get_instance();
+            $ci->load->model('reference_profile_model');
+            $ci->reference_profile_model->update($this->Id, $insta_id = NULL, $insta_name = NULL, $status_id = NULL, $this->Cursor, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = time());
 
-            if($this->get_insta_followers_reponse($response))
-            {
+            if ($this->get_insta_followers_reponse($response)) {
                 return $response;
             }
         }
@@ -204,12 +217,12 @@ namespace business {
             if ($response->code == 0) {
                 $this->Cursor = $response->Cursor;
                 return true;
-            } else if ($response->code != 0) {                
-                 var_dump($response);
+            } else if ($response->code != 0) {
+                var_dump($response);
             }
             return false;
         }
-        
+
         function isWorkable() {
             return $this->Status_id == StatusProfiles::ACTIVE && $this->End_date == NULL;
         }
