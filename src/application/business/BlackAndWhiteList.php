@@ -75,6 +75,22 @@ namespace business {
             }
         }
 
+        public function is_white(string $insta_id) {
+            foreach ($this->BlackAndWhiteList as $key => $BlackAndWhiteItem) {
+                if ($BlackAndWhiteItem->black_or_white == 1 && $BlackAndWhiteItem->insta_id == $insta_id)
+                    return TRUE;
+            }
+            return FALSE;
+        }
+
+        public function is_black(string $insta_id) {
+            foreach ($this->BlackAndWhiteList as $key => $BlackAndWhiteItem) {
+                if ($BlackAndWhiteItem->black_or_white == 0 && $BlackAndWhiteItem->insta_id == $insta_id)
+                    return TRUE;
+            }
+            return FALSE;
+        }
+
     }
 
 }

@@ -35,36 +35,54 @@ require_once config_item('business-class');
             if ($followers->code == 0) {
                 foreach ($followers->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil
-                    if ($this->validate_profile($profile)) {
+                    if ($this->validate_profile_follow($work, $profile)) {
                         $result = $instaclient->follow($profile->insta_id);
                         if ($this->process_response($result)) {
                             $work->save_follow_work($profile->insta_name, $profile->insta_id);
+                        } else {
+                            break;
                         }
-                        else { break; }
                     }
                 }
-            }       
-            
+            }
         }
 
         public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
             foreach ($work->get_unfollow_list() as $profile) {
-                $result = $instaclient->unfollow($profile->id);
-                if ($this->process_response($result)) {
-                    $work->save_unfollow_work($profile->id);          
-                } else { break; }
+                if ($this->validate_profile_unfollow($work, $profile)) {
+                    $result = $instaclient->unfollow($profile->id);
+                    if ($this->process_response($result)) {
+                        $work->save_unfollow_work($profile->id);
+                    } else {
+                        break;
+                    }
+                }
             }
         }
 
-        public function validate_profile($profile) {
+        public function validate_profile_follow(DailyWork $work, $profile) {
+            $work->Ref_profile;
+            if ($work->Client->BlackAndWhiteList->is_black($profile->insta_id))
+                return FALSE;
+            $null_picture = strpos($Profile->profile_pic_url, '44884218_345707102882519_2446069589734326272_n');
+            if ($profile->requested_by_viewer || $profile->followed_by_viewer || $null_picture)
+                return FALSE;
             return TRUE;
         }
 
-        public function process_response($response) {         
-            /*$Profile = new Profile();
-            $ref_prof_id = $this->daily_work->rp_id;
-            $client_id = $this->daily_work->client_id;
-            $error = $Profile->parse_profile_follow_errors($json_response);*/
+        public function validate_profile_unfollow(DailyWork $work, $profile) {
+            $work->Ref_profile;
+            if ($work->Client->BlackAndWhiteList->is_white($profile->insta_id))
+                return FALSE;
+
+            return TRUE;
+        }
+
+        public function process_response($response) {
+            /* $Profile = new Profile();
+              $ref_prof_id = $this->daily_work->rp_id;
+              $client_id = $this->daily_work->client_id;
+              $error = $Profile->parse_profile_follow_errors($json_response); */
             switch ($response->code) {
                 case 0:
                     return true;
@@ -186,8 +204,8 @@ require_once config_item('business-class');
 //                    $this->DB->InsertEventToWashdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
 //                    $this->DB->set_client_status($client_id, user_status::BLOCKED_BY_TIME);                    
                     break;
-            }            
-            var_dump($response);            
+            }
+            var_dump($response);
             return false;
         }
 
@@ -205,8 +223,8 @@ require_once config_item('business-class');
 
         public function process_get_followers_error(DailyWork $daily_work, \business\cls\Client $client, int $quantity, Proxy $proxy) {
             
-        }        
-       
+        }
+
     }
 
 }

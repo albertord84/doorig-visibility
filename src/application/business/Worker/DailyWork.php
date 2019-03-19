@@ -60,6 +60,7 @@ namespace business\worker {
             $dailywork->Ref_profile->load_data();
             $dailywork->Client = new \business\Client($dailywork->Ref_profile->Client_id);
             $dailywork->Client->load_mark_info_data();
+            $dailywork->Client->load_black_and_white_list_data();
             $dailywork->to_follow = $work_data->to_follow;
             $dailywork->to_follow = $work_data->to_unfollow;
             return $dailywork;
@@ -90,7 +91,10 @@ namespace business\worker {
             $ci->daily_work_model->save_follow($this->Client->Id,$this->Ref_profile->Id, $profile_name,$insta_id);
             $this->to_follow -= 1;
             $ci->daily_work_model->update_follow($this->to_follow,$this->Ref_profile->Id);
-
+            
+            // Increase RP amount of follows
+            $this->Ref_profile = new ReferenceProfile($work_data->reference_id);
+            $this->Ref_profile->increase_follows();
         }
         
         public function save_unfollow_work(string $insta_id)
