@@ -3,9 +3,9 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-if (!function_exists('conver_instanumber_to_number')) {
+if (!function_exists('convert_instanumber_to_number')) {
 
-    function conver_instanumber_to_number($insta_number) {
+    function convert_instanumber_to_number($insta_number) {
         $M = strpos($insta_number, 'm');
         $K = strpos($insta_number, 'k');
         $insta_number = str_replace(',', '', $insta_number);

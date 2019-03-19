@@ -19,7 +19,14 @@ namespace business {
 
         public $ReferenceProfiles;
         private $Client; // Client Reference
-
+        
+        public $amount_reference_profile_used = NULL;
+        public $amount_profile_followed = NULL;  //cantidad de seguidos por perfiles de referencia
+        public $amount_geolocations_used = NULL;
+        public $amount_profile_geolocations_followed = NULL; //cantidad de seguidos por geolocations
+        public $amount_hashtags_used = NULL;
+        public $amount_profile_hashtags_followed = NULL;
+        
         /**
          * 
          * @todo Class constructor.
@@ -58,6 +65,18 @@ namespace business {
             } else {
                 //throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
             }
+            
+            $ci = &get_instance();
+            $ci->load->model("Reference_profile_model");
+            
+            $this->amount_reference_profile_used = $ci->Reference_profile_model->load_amount_profile_used($this->Client->Id, 0);
+            $this->amount_profile_followed = $ci->Reference_profile_model->amount_profile_followed($this->Client->Id, 0);  //cantidad de seguidos por perfiles de referencia
+            
+            $this->amount_geolocations_used = $ci->Reference_profile_model->load_amount_profile_used($this->Client->Id, 1);
+            $this->amount_profile_geolocations_followed = $ci->Reference_profile_model->amount_profile_followed($this->Client->Id, 1); //cantidad de seguidos por geolocations
+            
+            $this->amount_hashtags_used = $ci->Reference_profile_model->load_amount_profile_used($this->Client->Id, 2);
+            $this->amount_profile_hashtags_followed = $ci->Reference_profile_model->amount_profile_followed($this->Client->Id, 2);
         }
 
         /**

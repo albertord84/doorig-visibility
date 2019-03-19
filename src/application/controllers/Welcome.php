@@ -31,11 +31,11 @@ class Welcome extends CI_Controller {
         $Client = new Client(15);
         //$profile_public_data = InstaCommands::get_profile_public_data('alberto_dreyes');
         // Inser First Daily Report Point
-        //$followes = conver_instanumber_to_number($profile_public_data->followers);
-        //$following = conver_instanumber_to_number($profile_public_data->following);
+        //$followes = convert_instanumber_to_number($profile_public_data->followers);
+        //$following = convert_instanumber_to_number($profile_public_data->following);
         //$Client->DailyReport->save(15, $following, $followes);
-        $Client->load_mark_info_data();
-        $Client->load_black_and_white_list_data();
+        //$Client->load_mark_info_data();
+        $Client->load_insta_reference_profiles_data();
         var_dump($Client);
         //$this->load->view('visibility_client_tmp');
     }
@@ -113,7 +113,7 @@ class Welcome extends CI_Controller {
 
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
-                unset($tmpClient->Pass);
+                unset($tmpClient->MarkIndo->Pass);
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
                 //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
@@ -320,8 +320,8 @@ class Welcome extends CI_Controller {
         $Client->MarkInfo->Status->add_item(UserStatus::ACTIVE);
         //$Client->MarkInfo->Status->add_item(UserStatus::PAUSED, FALSE);
         // Inser First Daily Report Point
-        $followes = conver_instanumber_to_number($profile_public_data->followers);
-        $following = conver_instanumber_to_number($profile_public_data->following);
+        $followes = convert_instanumber_to_number($profile_public_data->followers);
+        $following = convert_instanumber_to_number($profile_public_data->following);
         $Client->DailyReport->save($client_id, $following, $followes);
         //2. set visibility module as ACTIVE in doorig_dashboard_db.clients_modules using Guzzle
         $ClientModule = unserialize($this->session->userdata('client_module'));
