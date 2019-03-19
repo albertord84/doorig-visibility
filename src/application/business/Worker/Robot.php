@@ -17,16 +17,6 @@ require_once config_item('business-class');
     class Robot extends Business {
 
         public function __construct() {
-            $ci = &get_instance();
-
-            $ci->load->model('db_model');
-            //$ci->load->library("InstaApiWeb/InstaApi_lib", null, 'InstaApi_lib');
-
-
-            /*  $config = parse_ini_file(dirname(__FILE__) . $conf_file, true);
-              $this->IPS = $config["IPS"];
-              $this->Day_client_work = new Day_client_work();
-              $this->Ref_profile = new Reference_profile(); */
         }
 
         public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
@@ -57,14 +47,16 @@ require_once config_item('business-class');
         }
 
         public function validate_profile($profile) {
+            
             return TRUE;
         }
 
-        public function process_response($response) {         
-            /*$Profile = new Profile();
-            $ref_prof_id = $this->daily_work->rp_id;
-            $client_id = $this->daily_work->client_id;
-            $error = $Profile->parse_profile_follow_errors($json_response);*/
+        public function process_response($response) {        
+            
+            $ci = &get_instance();
+
+             $ci->load->library("LogsManager_lib", array("output_addr" => "test.log"), 'LogMgr');
+            $ci->LogMgr->WriteResponse($response);
             switch ($response->code) {
                 case 0:
                     return true;
@@ -97,9 +89,10 @@ require_once config_item('business-class');
                     $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
                     $rows_count = $result->num_rows;
                     if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 210)) {
-                        $Gmail = new Gmail();
-                        $Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 4= " . $rows_count, "Jose");
-                        $Gmail->send_client_login_error("ruslan.guerra88@gmail.com", "Ruslan!!!!!!! BLOQUEADOS 4= " . $rows_count, "Ruslan");
+                        //[CONSERTAR] Ver email problem
+                        //$Gmail = new Gmail();
+                        //$Gmail->send_client_login_error("josergm86@gmail.com", "Jose!!!!!!! BLOQUEADOS 4= " . $rows_count, "Jose");
+                        //$Gmail->send_client_login_error("ruslan.guerra88@gmail.com", "Ruslan!!!!!!! BLOQUEADOS 4= " . $rows_count, "Ruslan");
                     }
                     print "<br>\n BLOCKED_BY_TIME!!! number($rows_count) <br>\n";
                     break;

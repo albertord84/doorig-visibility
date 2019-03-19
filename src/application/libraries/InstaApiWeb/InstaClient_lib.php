@@ -50,7 +50,7 @@ class InstaClient_lib {
       $proxy = $params["proxy"];
     $this->InstaClient = new InstaClient($insta_id, $cookies, $proxy);
   }
-
+  
   public function make_login(string $login, string $pass) {
     try {
       $result = $this->InstaClient->make_login($login, $pass);
@@ -65,15 +65,15 @@ class InstaClient_lib {
   }
 
   public function follow(string $resource_id) {
-    $this->InstaClient->follow($resource_id);
+    return $this->InstaClient->follow($resource_id);
   }
 
   public function unfollow(string $resource_id) {
-    $this->InstaClient->unfollow($resource_id);
+    return $this->InstaClient->unfollow($resource_id);
   }
 
   public function like_post(string $resource_id) {
-    $this->InstaClient->like_post($resource_id);
+    return $this->InstaClient->like_post($resource_id);
   }
 
   /* public function make_insta_friendships_command(string $resource_id, string $command = 'follow', string $objetive_url = 'web/friendships') {
@@ -89,54 +89,49 @@ class InstaClient_lib {
 
   public function make_curl_chaining_str(string $insta_id, int $N, string $cursor = NULL) {
 
-    $this->InstaClient->make_curl_chaining_str($insta_id, $N, $cursor);
+    return $this->InstaClient->make_curl_chaining_str($insta_id, $N, $cursor);
   }
 
   public function obtine_cookie_value($cookies, string $name) {
 
-    $this->InstaClient->obtine_cookie_value($cookies, $name);
+    return $this->InstaClient->obtine_cookie_value($cookies, $name);
   }
 
   public function get_cookies_value(string $key) {
 
-    $this->InstaClient->get_cookies_value($key);
+    return $this->InstaClient->get_cookies_value($key);
   }
 
   public function make_post() {
 
-    $this->InstaClient->make_post();
+    return $this->InstaClient->make_post();
   }
 
   public function get_insta_csrftoken($ch) {
 
-    $this->InstaClient->get_insta_csrftoken($ch);
+    return $this->InstaClient->get_insta_csrftoken($ch);
   }
 
   public function verify_cookies(\stdClass $cookies) {
 
-    $this->InstaClient->verify_cookies($cookies);
+    return $this->InstaClient->verify_cookies($cookies);
   }
 
   public function like_first_post(string $fromClient_ista_id) {
 
-    $this->InstaClient->like_first_post($fromClient_ista_id);
+   return $this->InstaClient->like_first_post($fromClient_ista_id);
   }
 
   public function curlResponseHeaderCallback($ch, string $headerLine) {
 
-    $this->InstaClient->curlResponseHeaderCallback($ch, $headerLine);
+    return $this->InstaClient->curlResponseHeaderCallback($ch, $headerLine);
   }
 
   public function checkpoint_requested(string $login, string $pass, int $choise = VerificationChoice::Email) {
 
     return $this->InstaClient->checkpoint_requested($login, $pass, $choise);
   }
-
-  public function get_challenge_data(string $challenge, string $login, int $choice = VerificationChoice::Email) {
-
-    $this->InstaClient->get_challenge_data($challenge, $login, $choice);
-  }
-
+ 
   public function make_checkpoint(string $login, string $code) {
 
     return $this->InstaClient->make_checkpoint($login, $code);

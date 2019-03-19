@@ -116,6 +116,7 @@ require_once config_item('business-class');
                     $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                     $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
                     unset($ci->InstaClientBusiness_lib);
+                    break;  
                 } else {
                     DailyWork::delete_dailywork($daily_work->Client);
                 }

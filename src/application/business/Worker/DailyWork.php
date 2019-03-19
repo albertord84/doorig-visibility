@@ -97,9 +97,9 @@ namespace business\worker {
         {               
             $ci = &get_instance();
             $ci->load->model('daily_work_model');
-            $this->ci->daily_work_model->save_unfollow($this->Client->Id,$insta_id);
+            $ci->daily_work_model->save_unfollow($this->Client->Id,$insta_id);
             $this->to_unfollow -= 1;
-            $this->ci->daily_work_model->update_unfollow($this->to_unfollow, $this->Ref_profile->Id);             
+            $ci->daily_work_model->update_unfollow($this->to_unfollow, $this->Ref_profile->Id);             
         }
 
 

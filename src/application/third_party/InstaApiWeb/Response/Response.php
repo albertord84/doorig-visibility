@@ -17,6 +17,11 @@ namespace InstaApiWeb\Response {
       $this->message = $message;
       $this->output_array = array('code' => $this->code, 'message' => $this->message);
     }
+    
+    public function getJSON()
+    {
+        return json_encode($this->output_array);
+    }
 
     public function toJSON() {
       get_instance()->output
