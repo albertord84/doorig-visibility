@@ -41,12 +41,16 @@ namespace business {
         public $purchase_counter = NULL;
         public $last_access = NULL;
         public $insta_followers_ini = NULL;
-        public $insta_following = NULL;
+        public $insta_following_ini = NULL;
+        public $total_followeds = NULL;
+        
         public $like_first = NULL;
+        
         public $Cookies;
         public $Plane;
         public $Status;
         public $Client;
+
 
         function __construct(Client &$client) {
             $this->Client = $client;
@@ -113,11 +117,16 @@ namespace business {
             $this->observation = $data->observation;
             $this->purchase_counter = $data->purchase_counter;
             $this->last_access = $data->last_access;
-            $this->insta_followers_ini = $data->insta_followers_ini;
-            $this->insta_following = $data->insta_following;
+            $this->insta_followers_ini = convert_instanumber_to_number($data->insta_followers_ini);
+            $this->insta_following_ini = convert_instanumber_to_number($data->insta_following);
             $this->like_first = $data->like_first;
 
             $this->Cookies = new Cookies($data->cookies);
+            
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            $this->total_followeds = $ci->client_mark_model->load_doorig_follows($this->client_id); 
+
         }
 
         public function setLikeFirst(bool $like_first = TRUE) {
@@ -128,7 +137,7 @@ namespace business {
             $this->like_first = $like_first;
         }
 
-        public function update_cookies(int $client_id, string $cookies = NULL) {
+        public function update_cookies(string $cookies = NULL) {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL);

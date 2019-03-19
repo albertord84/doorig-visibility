@@ -171,7 +171,6 @@ namespace business {
             if (ReferenceProfile::exist($insta_id, $client_id, 1 /* ACTIVE */)) {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
-                $ci = &get_instance();
                 $id = $ci->reference_profile_model->save($insta_id, $instaname, $client_id, 1 /* ACTIVE */, $type);
             }
             return $id;

@@ -18,10 +18,10 @@
                 <div class="row">
                     <div class="col-md-2 text-left"></div>
                     <div class="col-md-4 text-left">
-                        <h4 class="text-muted"><span id="amount-reference-profile-used">21</span> perfis de referência usados</h4>
+                        <h4 class="text-muted"><span id="amount_reference_profile_used">21</span> Perfis de referência usados</h4>
                     </div>
                     <div class="col-md-4 text-right">
-                        <h4 class="text-muted"><span id="amount-profile-followed">21256</span> perfis seguidos </h4>
+                        <h4 class="text-muted"><span id="amount_profile_followed">21256</span> Perfis seguidos </h4>
                     </div>
                     <div class="col-md-2 text-left"></div>
                 </div>
@@ -81,10 +81,10 @@
                 <div class="row">
                     <div class="col-md-2 text-left"></div>
                     <div class="col-md-4 text-left">
-                        <h4 class="text-muted"><span id="amount-reference-profile-used">21</span> Geolocalizações usadas</h4>
+                        <h4 class="text-muted"><span id="amount_geolocations_used">21</span> Geolocalizações usadas</h4>
                     </div>
                     <div class="col-md-4 text-right">
-                        <h4 class="text-muted"><span id="amount-profile-followed">21256</span> Perfis seguidos </h4>
+                        <h4 class="text-muted"><span id="amount_profile_geolocations_followed">21256</span> Perfis seguidos </h4>
                     </div>
                     <div class="col-md-2 text-left"></div>
                 </div>
@@ -143,17 +143,17 @@
                 <div class="row">
                     <div class="col-md-2 text-left"></div>
                     <div class="col-md-4 text-left">
-                        <h4 class="text-muted"><span id="amount-reference-profile-used">21</span> perfis de referência usados</h4>
+                        <h4 class="text-muted"><span id="amount_hashtags_used">21</span> Hashtags usados</h4>
                     </div>
                     <div class="col-md-4 text-right">
-                        <h4 class="text-muted"><span id="amount-profile-followed">21256</span> perfis seguidos </h4>
+                        <h4 class="text-muted"><span id="amount_profile_hashtags_followed">21256</span> perfis seguidos </h4>
                     </div>
                     <div class="col-md-2 text-left"></div>
                 </div>
                 <br>
                 <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-8">                                                
+                    <div class="col-md-8">
                         <label for="int1">Novo Hashtag:</label>
                         <div class="input-group" id="container-add-hashtag">
                             <input id="login-hashtag" type="text" onkeyup="search_match_hashtag('#login-hashtag','#table-search-hashtag');" class="form-control to-lower-case">

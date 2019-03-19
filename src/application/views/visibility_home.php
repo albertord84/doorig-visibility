@@ -489,7 +489,7 @@
         <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"></script>
         <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"></script>       
         
-        <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/insta_interaction_commands.js"></script>
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"></script>
         
     </body>

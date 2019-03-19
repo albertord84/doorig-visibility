@@ -36,7 +36,7 @@ namespace business {
 
         public function load_data() {
             $ci = &get_instance();
-            $data = $ci->black_and_white_list_model->get_by_id($this->Id);
+            $data = $ci->black_and_white_list_model->get_by_id($this->id);
 
             if ($data)
                 $this->fill_data($data);
@@ -57,7 +57,7 @@ namespace business {
                 $this->fill_data($data);
         }
 
-        protected function fill_data(\stdClass $data) {
+        public function fill_data(\stdClass $data) {
             $this->id = $data->id;
             $this->client_id = $data->client_id;
             $this->insta_id = $data->insta_id;
