@@ -211,6 +211,10 @@ $(document).ready(function () {
                 $("#ig-profile-amount-followers").text(response.followers);
                 $("#ig-profile-amount-following").text(response.following);
                 $("#ig-profile-amount-post").text(response.post);
+                
+                $("#actual_followers").text(response.followers);
+                $("#actual_followings").text(response.following);
+                $("#total_gain").text(response.followers - person_profile.MarkInfo.insta_followers_ini);
             },
             error: function (xhr, status) {
                 modal_alert_message('Não foi possível conectar com o Instagram');
@@ -295,12 +299,11 @@ $(document).ready(function () {
     
     function display_black_and_white_list_datas(){       
         var rp = person_profile.BlackAndWhiteList.BlackAndWhiteList; 
-        console.log(rp);
         $.each( rp, function( key, value ) {
             if(value.black_or_white==0)
-                show_profile_wl_in_view("#container-profile-wl", value.profile, value.Id);
+                show_profile_wl_in_view("#container-profile-wl", value.profile, value.id);
             else
-                show_profile_bl_in_view("#container-profile-bl", value.profile, value.Id);
+                show_profile_bl_in_view("#container-profile-bl", value.profile, value.id);
         })
     }
     
@@ -309,7 +312,7 @@ $(document).ready(function () {
         i=0; var statistics=[];
         $.each( datas, function( key, value ) {
             statistics[i]={
-                period: timeConverter(value.date),
+                period: timeConverter(value.date,"-"),
                 followed: value.followings,
                 followers: value.followers
             };
@@ -331,10 +334,25 @@ $(document).ready(function () {
             lineColors: [ '#009efb', '#55ce63'],
             resize: true
         });
-        
     }
-            
+    
+    function display_statistical_datas(){ 
+        var info = person_profile.MarkInfo;
+        $("#init_date").text(timeConverter(info.init_date,"/"));
+        $("#insta_followers_ini").text(info.insta_followers_ini);
+        $("#insta_following_ini").text(info.insta_following_ini);
+        $("#total_followeds").text(info.total_followeds);        
+        var info = person_profile.ReferenceProfiles;
+        $("#amount_reference_profile_used").text(info.amount_reference_profile_used);
+        $("#amount_profile_followed").text(info.amount_profile_followed);
+        $("#amount_geolocations_used").text(info.amount_geolocations_used);
+        $("#amount_profile_geolocations_followed").text(info.amount_profile_geolocations_followed);
+        $("#amount_hashtags_used").text(info.amount_hashtags_used);
+        $("#amount_profile_hashtags_followed").text(info.amount_profile_hashtags_followed);
+    }
+    
     display_person_profile_datas();
+    display_statistical_datas();
     display_reference_profile_datas();
     display_black_and_white_list_datas();
     display_chart_datas();

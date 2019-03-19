@@ -714,6 +714,7 @@ function delete_profile_wl(id) {
     });
 }
 
+
 //BLACK LIST FUNCTIONS--------------------------------------------------------------------
 function add_profile_bl(container, profile_bl) {
     //1. append html-code card to container

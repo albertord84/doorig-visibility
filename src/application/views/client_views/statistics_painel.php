@@ -20,13 +20,13 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="social-widget">
-                                                <p id="initial_date" class="soc-header box-facebook">INÍCIO <br></p>
+                                                <p class="soc-header box-twitter">INÍCIO <br> <span id="init_date"></span></p>
                                                 <div class="soc-content">
                                                     <div class="col-6 b-r">
-                                                        <h3 id="initial_followers" class="font-medium"></h3>
+                                                        <h3 id="insta_followers_ini" class="font-medium"></h3>
                                                         <h6 class="text-muted">Seguidores</h6></div>
                                                     <div class="col-6">
-                                                        <h3 id="initial_followings" class="font-medium"></h3>
+                                                        <h3 id="insta_following_ini" class="font-medium"></h3>
                                                         <h6 class="text-muted">Seguindo</h6></div>
                                                 </div>
                                             </div>
@@ -43,10 +43,10 @@
                                                 <p id="actual_date" class="soc-header box-twitter">AGORA <br><?php echo date("d/m/y",time());?></p>
                                                 <div class="soc-content">
                                                     <div class="col-6 b-r">
-                                                        <h3 id="actual_followers" class="font-medium">456</h3>
+                                                        <h3 id="actual_followers" class="font-medium"></h3>
                                                         <h6 class="text-muted">Seguidores</h6></div>
                                                     <div class="col-6">
-                                                        <h3 id="actual_followings" class="font-medium">456</h3>
+                                                        <h3 id="actual_followings" class="font-medium"></h3>
                                                         <h6 class="text-muted">Seguindo</h6></div>
                                                 </div>
                                             </div>
