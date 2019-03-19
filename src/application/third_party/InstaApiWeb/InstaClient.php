@@ -55,7 +55,7 @@ namespace InstaApiWeb {
 
         public function follow(string $resource_id) {
             try {
-                if (!InstaClient::verify_cookies($cookies)) {
+                if (!InstaClient::verify_cookies($this->cookies)) {
                     throw new InstaCookiesException('the cookies you are passing are incompleate or wrong');
                 }
 
@@ -80,7 +80,7 @@ namespace InstaApiWeb {
         public function unfollow(string $resource_id) {
             try {
 
-                if (!InstaClient::verify_cookies($cookies)) {
+                if (!InstaClient::verify_cookies($this->cookies)) {
                     throw new InstaCookiesException('the cookies you are passing are incompleate or wrong');
                 }
 
@@ -105,7 +105,7 @@ namespace InstaApiWeb {
         public function like_post(string $resource_id) {
             try {
 
-                if (!InstaClient::verify_cookies($cookies)) {
+                if (!InstaClient::verify_cookies($this->cookies)) {
                     throw new InstaCookiesException('the cookies you are passing are incompleate or wrong');
                 }
 

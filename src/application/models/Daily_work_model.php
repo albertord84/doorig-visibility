@@ -37,16 +37,16 @@ class Daily_work_model extends CI_Model {
     $this->db->update('daily_work', $this, array('reference_id' => $reference_id));
   }
   
-  function update_follow($followed)
+  function update_follow($followed, $reference_id)
   {
-      $this->to_follow+= $followed;
-      $this->db->update('daily_work', $this,array('reference_id' => $this->reference_id));
+      $this->to_follow = $followed;
+      $this->db->update('daily_work', $this,array('reference_id' => $reference_id));
   }
   
-  function update_unfollow($unfollowed)
+  function update_unfollow($unfollowed, $reference_id)
   {
-      $this->to_unfollow+= $unfollowed;
-      $this->db->update('daily_work', $this,array('reference_id' => $this->reference_id));
+      $this->to_unfollow = $unfollowed;
+      $this->db->update('daily_work', $this,array('reference_id' => $reference_id));
   }
           
   function get_by_id($reference_id) {
