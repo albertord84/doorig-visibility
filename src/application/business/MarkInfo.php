@@ -117,8 +117,8 @@ namespace business {
             $this->observation = $data->observation;
             $this->purchase_counter = $data->purchase_counter;
             $this->last_access = $data->last_access;
-            $this->insta_followers_ini = conver_instanumber_to_number($data->insta_followers_ini);
-            $this->insta_following_ini = conver_instanumber_to_number($data->insta_following);
+            $this->insta_followers_ini = convert_instanumber_to_number($data->insta_followers_ini);
+            $this->insta_following_ini = convert_instanumber_to_number($data->insta_following);
             $this->like_first = $data->like_first;
 
             $this->Cookies = new Cookies($data->cookies);

@@ -33,8 +33,8 @@ namespace business {
                 
                 $cad = substr($profile_data->description,0,strpos($profile_data->description, "-"));
                 $cad= explode(" ", $cad);
-                $profile_data->followers = $cad[0];
-                $profile_data->following = $cad[2];
+                $profile_data->followers = convert_instanumber_to_number($cad[0]);
+                $profile_data->following = convert_instanumber_to_number($cad[2]);
                 $profile_data->post = $cad[4];
                 
                 $doc = new \DOMDocument();
