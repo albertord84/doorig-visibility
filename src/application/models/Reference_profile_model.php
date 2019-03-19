@@ -120,15 +120,33 @@ class Reference_profile_model extends CI_Model {
         return $query->result();
     }
 
-            
-    function update_last_acctess($id, $time)
-    {
+    function update_last_acctess($id, $time) {
         $data = array(
-               'last_access' => "'$title'"
-            );        
+            'last_access' => "'$title'"
+        );
         $this->db->where('id', $id);
-        $this->db->update('reference_profile', $data);  
+        $this->db->update('reference_profile', $data);
     }
+
+    function load_amount_profile_used($client_id, $type) {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('type', $type);
+        
+        $this->db->select('count(*) as Count')->from('reference_profile');
+
+        $query = $this->db->get();
+        return $query->result_array()[0]['Count'];
+    }
+
+    function amount_profile_followed($client_id, $type) {
+        $this->db->where('client_id', $client_id);
+        $this->db->where('type', $type);
+        
+        $this->db->select('sum(follows) as Sum')->from('reference_profile');
+
+        $query = $this->db->get();
+        return $query->result_array()[0]['Sum'];    }
+
 }
 ?>
 

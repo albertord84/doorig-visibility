@@ -50,13 +50,7 @@ namespace business {
         public $Plane;
         public $Status;
         public $Client;
-        
-        public $amount_reference_profile_used = NULL;
-        public $amount_profile_followed = NULL;  //cantidad de seguidos por perfiles de referencia
-        public $amount_geolocations_used = NULL;
-        public $amount_profile_geolocations_followed = NULL; //cantidad de seguidos por geolocations
-        public $amount_hashtags_used = NULL;
-        public $amount_profile_hashtags_followed = NULL;
+
 
         function __construct(Client &$client) {
             $this->Client = $client;
@@ -132,13 +126,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $this->total_followeds = $ci->client_mark_model->load_doorig_follows($this->client_id); 
-            
-            $amount_reference_profile_used = NULL;
-            $amount_profile_followed = NULL;  //cantidad de seguidos por perfiles de referencia
-            $amount_geolocations_used = NULL;
-            $amount_profile_geolocations_followed = NULL; //cantidad de seguidos por geolocations
-            $amount_hashtags_used = NULL;
-            $amount_profile_hashtags_followed = NULL;
+
         }
 
         public function setLikeFirst(bool $like_first = TRUE) {
