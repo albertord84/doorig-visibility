@@ -11,7 +11,7 @@ $(document).ready(function () {
         var profile = validate_element("#login_profile", ig_profile_regular_expression);
         var password = validate_not_empty("#password");
         var password_rep = validate_equals("#password","#password-rep");
-        selected_profile = true;
+        //selected_profile = true;
         if(!selected_profile)
             modal_alert_message("Deve selecionar um perfil válido");
         else
