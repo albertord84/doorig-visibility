@@ -27,7 +27,7 @@ class Worker extends CI_Controller {
     }
 
     public function do_work_by_id($reference_id) {
-        header('Content-Type: application/json');
+        //header('Content-Type: application/json');
         $worker = new BusinessWorker();
         $worker->do_work_by_id($reference_id);
     }

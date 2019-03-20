@@ -46,6 +46,13 @@ namespace business {
             $this->gateway_plane_id = $data->gateway_plane_id;
         }
 
+        public function get_all() {
+            $ci = &get_instance();
+            $data = $ci->Plane_model->get_all();
+
+            return $data;
+        }
+
     }
 
 }    

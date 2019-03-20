@@ -12,12 +12,14 @@ use business\Response\ResponseLoginToken;
 use business\InstaCommands;
 use business\UserStatus;
 use business\ErrorCodes;
+use business\Plane;
 
 class Welcome extends CI_Controller {
 
     function __construct() {
         parent::__construct();
         require_once config_item('business-client-class');
+        require_once config_item('business-plane-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-login-token-class');
         require_once config_item('business-insta_commands-class');
@@ -143,6 +145,8 @@ class Welcome extends CI_Controller {
                 $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
                 $this->load->view('visibility_client', $param);
             } else {
+                $Planes = new Plane();
+                $param["planes"] = $Planes->get_all();
                 $this->load->view('visibility_home', $param);
             }
         } else {
