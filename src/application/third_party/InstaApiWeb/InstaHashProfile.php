@@ -56,7 +56,7 @@ namespace InstaApiWeb {
         }
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
-            $N = $N/3 + 1;   // 
+            $N = $N/3 + 1;   // Solo en caso del 
             $profiles = array();
             $json_response = $this->get_post($N, $cursor, $cookies, $proxy);
 

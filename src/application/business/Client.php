@@ -204,7 +204,7 @@ namespace business {
             return $return_response;
         }
 
-        private function process_login_response(\InstaApiWeb\LoginResponse $login_response = null) {
+        private function process_login_response(\InstaApiWeb\Response\LoginResponse $login_response = null) {
             if ($login_response) {
                 switch ($login_response->code) {
                     case 0: // Login ok
