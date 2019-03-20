@@ -217,7 +217,7 @@ $(document).ready(function () {
                 $("#total_gain").text(response.followers - person_profile.MarkInfo.insta_followers_ini);
             },
             error: function (xhr, status) {
-                modal_alert_message('Não foi possível conectar com o Instagram');
+                //modal_alert_message('Não foi possível conectar com o Instagram');
             }
         });
     }
