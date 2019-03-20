@@ -71,8 +71,6 @@ require_once config_item('business-class');
 
         public function process_response($response) {
             $ci = &get_instance();
-            //[CONSERTAR]  
-            $ci->load->library("LogsManager_lib", array("output_addr" => "test.log"), 'LogMgr');
             $ci->LogMgr->WriteResponse($response);
             switch ($response->code) {
                 case 0:

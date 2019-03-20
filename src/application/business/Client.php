@@ -158,12 +158,13 @@ namespace business {
                 $this->MarkInfo->load_data();
 
             $ci = &get_instance();
-            $ci->load->library('InstaApiWeb/InstaClient_lib', $param = array("insta_id" => "3445996566", "cookies" => $this->MarkInfo->Cookies), 'InstaClient_lib');
+            $ci->load->library('InstaApiWeb/InstaClient_lib', $param = array("insta_id" => $this->MarkInfo->insta_id, "cookies" => $this->MarkInfo->Cookies), 'InstaClient_lib');
             $login_response = $ci->InstaClient_lib->make_checkpoint($this->MarkInfo->login, $code);
 
             // Guardar las cookies en la Base de Datos
             if ($login_response && ($login_response->Cookies)) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
+                
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
@@ -185,7 +186,7 @@ namespace business {
                 $this->MarkInfo->load_data();
 
             $ci = &get_instance();
-            $ci->load->library('InstaApiWeb/InstaClient_lib', $param = array("insta_id" => "3445996566", "cookies" => $this->MarkInfo->Cookies), 'InstaClient_lib');
+            $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_gost_insta_client_lib_params(), 'InstaClient_lib');
             $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
 
             // Guardar las cookies en la Base de Datos

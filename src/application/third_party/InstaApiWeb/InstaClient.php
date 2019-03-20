@@ -43,10 +43,6 @@ namespace InstaApiWeb {
             require_once config_item('thirdparty-cookies-resource');
             require_once config_item('thirdparty-insta_curl_mgr-resource');
 
-
-            if (!InstaClient::verify_cookies($cookies)) {
-                throw new InstaCookiesException('the cookies you are passing are incompleate or wrong');
-            }
             $this->insta_id = $insta_id;
             $this->cookies = $cookies;
             $this->proxy = $proxy;

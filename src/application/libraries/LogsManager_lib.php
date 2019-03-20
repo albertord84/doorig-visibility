@@ -16,7 +16,7 @@ class LogsManager_lib {
     
     public $Output_addr;
     
-    public function __construct($params)
+    public function __construct($params = NULL)
     {
         $this->Output_addr = $params["output_addr"];
     }

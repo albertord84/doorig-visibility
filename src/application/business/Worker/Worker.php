@@ -5,9 +5,11 @@ namespace business\worker {
     use business\Business;
     use business\Client;
 
-require_once config_item('business-class');
+    require_once config_item('business-class');
     require_once config_item('business-client-class');
+    require_once config_item('business-robot-class');
     require_once config_item('business-client-list-class');
+    require_once config_item('business-daily_work-class');
 
     /**
      * @category Business class
@@ -28,7 +30,8 @@ require_once config_item('business-class');
         private $ci;
 
         function __construct() {
-
+            $ci = &get_instance();
+            $ci->load->library("LogsManager_lib", null, 'LogMgr');
         }
 
         // LISTA!!!
@@ -37,7 +40,7 @@ require_once config_item('business-class');
         }
 
         public function truncate_daily_work() {
-            $ci = &get_instance();    
+            $ci = &get_instance();
             $ci->load->model('Daily_work_model');
             $ci->Daily_work_model->truncate();
         }
@@ -48,16 +51,18 @@ require_once config_item('business-class');
             $Clients = new \business\ClientList();
             $Clients->load_data();
 
-            $ci = &get_instance();               
+            $ci = &get_instance();
             $ci->load->model('Daily_work_model');
             $Client = new Client(0);
-            
+
             foreach ($Clients->Clients as $Client) { // for each CLient
+                print("<br>\n Client: $Client->Id <br>\n");
                 if ($Client->isWorkable()) {
+                    print("<br>\n Is Workable <br>\n<br>\n");
                     $Client->load_insta_reference_profiles_data(1);
                     // Distribute work between clients RPs 
                     $reference_profiles = $Client->ReferenceProfiles->workable();
-                    print("<br>\nWorkable Referenc Profile: " . count($reference_profiles) . " <br>\n<br>\n");
+                    print("<br>\nWorkable Reference Profiles: " . count($reference_profiles) . " <br>\n<br>\n");
                     if (strtotime("today") - $Client->MarkInfo->init_date < 15 * 24 * 60 * 60) {
                         $DIALY_REQUESTS_BY_CLIENT = 480;
                     } else {
@@ -70,7 +75,7 @@ require_once config_item('business-class');
                         $to_unfollow = $to_follow_unfollow;
                         foreach ($reference_profiles as $Ref_Prof) { // For each reference profile
                             if (!$Ref_Prof->Deleted && $Ref_Prof->End_date == NULL) {
-                               $ci->Daily_work_model->save($Ref_Prof->Id, $to_follow, $to_unfollow);   
+                                $ci->Daily_work_model->save($Ref_Prof->Id, $to_follow, $to_unfollow);
                             }
                         }
                     } else {
@@ -97,8 +102,8 @@ require_once config_item('business-class');
 
         public static function verify_client(Client $client) {
             $do_login = true;
-            if ($client->MarkInfo->Cookies == null) {
-                $do_login = $client->login();
+            if ($client->MarkInfo->Cookies == null || ($client->MarkInfo->Cookies->SessionId == null)) {
+                $do_login = $client->do_login();
             }
             return $do_login;
         }
@@ -106,7 +111,7 @@ require_once config_item('business-class');
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
             ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
-            $ci = &get_instance();  
+            $ci = &get_instance();
             while (DailyWork::exist_work()) {
                 $daily_work = DailyWork::get_next_work($client_id);
 
@@ -116,7 +121,7 @@ require_once config_item('business-class');
                     $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                     $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
                     unset($ci->InstaClientBusiness_lib);
-                    break;  
+                    break;
                 } else {
                     DailyWork::delete_dailywork($daily_work->Client);
                 }
@@ -128,7 +133,7 @@ require_once config_item('business-class');
             $daily_work = DailyWork::get_next_work($reference_id);
             $daily_work->login_data = json_decode($daily_work->Client->MarkInfo->cookies);
             $daily_work->login_data = json_decode($daily_work->Client->MarkInfo->cookies);
-            
+
             if (Worker::verify_client($daily_work->Client)) {
                 $ci = &get_instance();
                 $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Ref_profile->Insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies), 'InstaClient_lib');

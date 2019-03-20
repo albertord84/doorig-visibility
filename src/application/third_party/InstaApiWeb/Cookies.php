@@ -49,14 +49,14 @@ namespace InstaApiWeb {
 
     public function __construct(string $cookies_str = null, string $challenge = NULL) {
       $obj = json_decode($cookies_str);
-      if (isset($obj->sessionid))
-        $this->SessionId = $obj->sessionid;
-      if (isset($obj->csrftoken))
-        $this->CsrfToken = $obj->csrftoken;
-      if (isset($obj->ds_user_id))
-        $this->DsUserId = $obj->ds_user_id;
-      if (isset($obj->mid))
-        $this->Mid = $obj->mid;
+      if (isset($obj->SessionId))
+        $this->SessionId = $obj->SessionId;
+      if (isset($obj->CsrfToken))
+        $this->CsrfToken = $obj->CsrfToken;
+      if (isset($obj->DsUserId))
+        $this->DsUserId = $obj->DsUserId;
+      if (isset($obj->Mid))
+        $this->Mid = $obj->Mid;
       $this->Challenge = $challenge;
     }
 

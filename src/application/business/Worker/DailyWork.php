@@ -62,7 +62,7 @@ namespace business\worker {
             $dailywork->Client->load_mark_info_data();
             $dailywork->Client->load_black_and_white_list_data();
             $dailywork->to_follow = $work_data->to_follow;
-            $dailywork->to_follow = $work_data->to_unfollow;
+            $dailywork->to_unfollow = $work_data->to_unfollow;
             return $dailywork;
         }
 

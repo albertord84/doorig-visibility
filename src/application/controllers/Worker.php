@@ -15,10 +15,20 @@ class Worker extends CI_Controller {
         print("ok");
     }
 
-    //NEW FOR TEST
-    public function test_work(int $id) {
+    public function prepare_daily_work() {
+        $worker = new BusinessWorker();
+        $worker->truncate_daily_work();
+        $worker->prepare_daily_work();
+    }
+
+    public function do_work() {
         $worker = new BusinessWorker();
         $worker->do_work();
+    }
+
+    public function do_work_by_id($reference_id) {
+        $worker = new BusinessWorker();
+        $worker->do_work_by_id($reference_id);
     }
 
 }

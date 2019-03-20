@@ -331,6 +331,8 @@ class Welcome extends CI_Controller {
         $this->session->set_userdata('client_module', serialize($ClientModule));
         //4. Save client in session
         $this->session->set_userdata('client', serialize($Client));
+        
+        $Client->do_login();
     }
 
     private function dashboard_set_contrated_module(\stdClass $ClientModule) {

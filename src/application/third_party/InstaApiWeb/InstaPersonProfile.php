@@ -98,12 +98,12 @@ namespace InstaApiWeb {
             }
         }
 
-        private function build_full_insta_profile($response, Cookies $Cookies = NULL, Proxy $Proxy = NULL) {
+        private function build_full_insta_profile($node, Cookies $Cookies = NULL, Proxy $Proxy = NULL) {
             $InstaProfile = new InstaProfile();
-            $InstaProfile->insta_id = $response->id;
-            $InstaProfile->insta_name = $response->username;
-            $InstaProfile->image_url = $response->profile_pic_url;
-            $profile_data = InstaProfile::get_user_data($response->username, $Cookies, $Proxy);
+            $InstaProfile->insta_id = $node->id;
+            $InstaProfile->insta_name = $node->username;
+            $InstaProfile->image_url = $node->profile_pic_url;
+            $profile_data = InstaProfile::get_user_data($node->username, $Cookies, $Proxy);
             $InstaProfile->instaProfileData = new \stdClass();
             $user = $profile_data->graphql->user;
             if (isset($user->is_private)) {
