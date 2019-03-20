@@ -67,10 +67,10 @@ namespace business {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
-                
+
                 // Insert table with client id in DB followed
                 $ci->client_mark_model->create_followed_table($client_id);
-                
+
                 $client_id = $ci->client_mark_model->save($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
             }
 
@@ -164,11 +164,13 @@ namespace business {
             // Guardar las cookies en la Base de Datos
             if ($login_response && ($login_response->Cookies)) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
-                
+
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
 
+            $return_response = $this->process_login_response($login_response);
+            
             return $login_response;
         }
 
@@ -187,6 +189,7 @@ namespace business {
 
             $ci = &get_instance();
             $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_gost_insta_client_lib_params(), 'InstaClient_lib');
+            $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
 
             // Guardar las cookies en la Base de Datos
@@ -196,7 +199,37 @@ namespace business {
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
             }
 
-            return $login_response;
+            $return_response = $this->process_login_response($login_response);
+
+            return $return_response;
+        }
+
+        private function process_login_response(\InstaApiWeb\LoginResponse $login_response = null) {
+            if ($login_response) {
+                switch ($login_response->code) {
+                    case 0: // Login ok
+                        //3. Poner el Cliente como activo, y guardar las cookies
+                        $this->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
+                        $this->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
+                        $this->MarkInfo->update_cookies(json_encode($login_response->Cookies));
+                        return Response\Response::ResponseOK();
+
+                    case 1: // Bloqued by password
+                        $this->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_INSTA);
+                        return Response\Response::ResponseOK();
+
+                    case 2: // Check Point Required
+                        $this->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT);
+                        return Response\Response::ResponseOK();
+
+                    case -2: // Other exception
+                        return Response\Response::ResponseFAIL($login_response->message, $login_response->code);
+
+                    default:
+                        break;
+                }
+            }
+            return Response\Response::ResponseFAIL(T('Empty login response'), -3);
         }
 
         public function verify_cookies() {
@@ -226,7 +259,7 @@ namespace business {
             $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
 
             return $param;
-        }        
+        }
 
     }
 

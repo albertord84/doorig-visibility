@@ -67,8 +67,8 @@ namespace InstaApiWeb {
                     }
 
                     foreach ($json_response->data->location->edge_location_to_media->edges as $Edge) {
-                        //$profile = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
-                        $profile = $this->build_full_insta_profile($Edge->node->owner, $cookies, $proxy);
+                        $profile = $this->get_post_user_info($Edge->node->shortcode, $cookies, $proxy);
+                        //$profile = $this->build_full_insta_profile($Edge->node->owner, $cookies, $proxy);
                         array_push($profiles, $profile);
                     }
 
@@ -94,9 +94,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::GEO), new EnumAction(EnumAction::GET_POST));
                 $mngr->setMediaData($this->insta_id, $N, $cursor);
                 $curl_str = $mngr->make_curl_str($proxy, $cookies);
-                var_dump($curl_str);
                 exec($curl_str, $output, $status);
-                var_dump($output);
                 return json_decode($output[0]);
             } catch (Exception $e) {
                 var_dump($e);
@@ -108,7 +106,6 @@ namespace InstaApiWeb {
             $mngr->setReferencePost($post_reference);
             $mngr->setInstaId($this->insta_id);
             $curl_str = $mngr->make_curl_str($proxy, $cookies);
-            var_dump($curl_str);
             $result = exec($curl_str, $output, $status);
             $object = json_decode($output[0]);
 
@@ -118,7 +115,12 @@ namespace InstaApiWeb {
                 $profile->insta_name = $node->username;
                 $profile->insta_id = $node->id;
                 $profile->image_url = $node->profile_pic_url;
-                $profile->instaProfileData->is_private = $node->is_private;
+                $profile->instaProfileData->blocked_by_viewer = $node->blocked_by_viewer;
+                $profile->instaProfileData->followed_by_viewer = $node->followed_by_viewer;
+                $profile->instaProfileData->requested_by_viewer = $node->requested_by_viewer;
+                $profile->instaProfileData->has_blocked_viewer = $node->has_blocked_viewer;
+                $profile->instaProfileData->is_verified = $node->is_verified;
+                $profile->instaProfileData->is_unpublished = $node->is_unpublished;
                 return $profile;
             }
             return NULL;

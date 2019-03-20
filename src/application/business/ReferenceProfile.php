@@ -4,6 +4,7 @@ namespace business {
 
     require_once config_item('business-loader-class');
     require_once config_item('thirdparty-cookies-resource');
+    require_once config_item('thirdparty-followers-response-class');
     require_once config_item('business-status_profiles-class');
 
     use InstaApiWeb\Cookies;
@@ -83,12 +84,16 @@ namespace business {
         public $Last_access;
         public $Cursor;
         public $Ref_profile_lib;
+        
+        public $Client; // Client Reference
 
-        public function __construct(int $id = NULL) {
+        public function __construct(int $id = NULL, Client &$Client = NULL) {
             parent::__construct();
             $ci = &get_instance();
             $ci->load->model('reference_profile_model');
 
+            $this->Client = $Client;
+            
             $this->Id = $id;
             if ($id) {
                 $this->load_data();
@@ -187,16 +192,18 @@ namespace business {
         }
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
-            //$response = new FollowersResponse();
+            $response = new \InstaApiWeb\Response\FollowersResponse(array());
             $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
-            
-            $ci = &get_instance();
-            $ci->load->model('reference_profile_model');
-            $ci->reference_profile_model->update($this->Id, $insta_id = NULL, $insta_name = NULL, $status_id = NULL, $this->Cursor, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = time());
 
-            if ($this->get_insta_followers_reponse($response)) {
-                return $response;
-            }
+            if ($response->code == 0) {
+                $this->Cursor = $response->Cursor;
+
+                $ci = &get_instance();
+                $ci->load->model('reference_profile_model');
+                $ci->reference_profile_model->update($this->Id, $insta_id = NULL, $insta_name = NULL, $status_id = NULL, $this->Cursor, $deleted = NULL, $end_date = NULL, $follows = NULL, $last_access = time());
+            } 
+            
+            return $response;
         }
 
         static function exist(string $insta_id, int $client_id, int $status = 0) {
@@ -213,14 +220,26 @@ namespace business {
             }
         }
 
-        function get_insta_followers_reponse(FollowersResponse $response) {
-            if ($response->code == 0) {
-                $this->Cursor = $response->Cursor;
-                return true;
-            } else if ($response->code != 0) {
-                var_dump($response);
+
+        public function process_get_followers_error($daily_work, $client, $quantity, $proxy) {
+            $result = $this->RecognizeClientStatus($client);
+            if (isset($result->json_response->authenticated) && $result->json_response->authenticated) {
+                //retry of graph request
+                $json_response = $this->get_insta_followers($result, $daily_work->rp_insta_id, $quantity, $daily_work->insta_follower_cursor, $proxy);
+                if ($json_response === NULL) {
+                    $this->DB->update_reference_cursor($daily_work->reference_id, NULL);
+                    $this->DB->delete_daily_work($daily_work->reference_id);
+                    $this->DB->insert_event_to_washdog($client_id, washdog_type::ERROR_IN_PR, 1, $this->id, "unexistence reference profile or may be the reference profile is block ing the client");
+                } else if (isset($json_response->status) && $json_response->status == 'ok') {
+                    return $json_response;
+                }
+                return NULL;
+            } else if ($result->json_response->message == 'checkpoint_required' || $result->json_response->message == 'incorrect_password') {
+                //unautorized, bloc by password or an api unrecognized error
+                $msg = $result->json_response->message;
+                var_dump("daily work deleted for client ($daily_work->client_id) because $msg\n");
+                $this->DB->delete_daily_work_client($daily_work->client_id);
             }
-            return false;
         }
 
         function isWorkable() {

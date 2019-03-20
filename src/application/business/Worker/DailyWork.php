@@ -24,6 +24,9 @@ namespace business\worker {
      * 
      */
     class DailyWork extends Business {
+        
+        public $to_follow;
+        public $to_unfollow;
 
         /**
          * 
@@ -55,14 +58,17 @@ namespace business\worker {
             $ci->load->model('daily_work_model');
             $dailywork = new DailyWork();     
             $work_data = $ci->daily_work_model->get_next_work($id,TRUE);
-
-            $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id);
-            $dailywork->Ref_profile->load_data();
-            $dailywork->Client = new \business\Client($dailywork->Ref_profile->Client_id);
+            
+            $dailywork->Client = new \business\Client($work_data->client_id);
             $dailywork->Client->load_mark_info_data();
             $dailywork->Client->load_black_and_white_list_data();
+            
+            $dailywork->Ref_profile = new ReferenceProfile($work_data->reference_id, $dailywork->Client);
+            $dailywork->Ref_profile->load_data();
+            
             $dailywork->to_follow = $work_data->to_follow;
             $dailywork->to_unfollow = $work_data->to_unfollow;
+            
             return $dailywork;
         }
 
@@ -81,9 +87,15 @@ namespace business\worker {
         }
 
         public function delete_dailywork() {
+            /*$ci = &get_instance();
+            $ci->load->model('daily_work_model');
+            return $ci->daily_work_model->*/
             
+            //[IMPLEMENTAR]
+            throw new Exception("Not implemented method delete_dailywork");
         }
         
+
         public function save_follow_work(string $profile_name, string $insta_id)
         {       
             $ci = &get_instance();
@@ -93,7 +105,7 @@ namespace business\worker {
             $ci->daily_work_model->update_follow($this->to_follow,$this->Ref_profile->Id);
             
             // Increase RP amount of follows
-            $this->Ref_profile = new ReferenceProfile($work_data->reference_id);
+            //$this->Ref_profile = new ReferenceProfile($this->Ref_profile->Id);
             $this->Ref_profile->increase_follows();
         }
         

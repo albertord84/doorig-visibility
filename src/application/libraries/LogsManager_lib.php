@@ -23,7 +23,7 @@ class LogsManager_lib {
     
     public function WriteMessage(string $message)
     {
-        var_dump($message);
+        print_r($message);
         //$this->CI->set_output($this->Output_addr);
     }
     
@@ -31,13 +31,13 @@ class LogsManager_lib {
     {
         if(method_exists($message, "getJSON"))
         {
-            print_r(json_encode($message->getJSON()));
-            echo ",";
+            echo(json_encode(json_decode($message->getJSON()), JSON_PRETTY_PRINT));
+            echo "\n\n,";
         }
         else 
         {
-            $str_obj = json_encode($message);
-            print_r("{'message': 'unkown object', 'object': $str_obj },");            
+            //$str_obj = json_encode($message);
+            print_r("{'message': 'unkown object', 'object': $message },");            
         }
         //$this->CI->set_output($this->Output_addr);
     }

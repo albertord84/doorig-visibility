@@ -3,6 +3,7 @@
 namespace InstaApiWeb {
 
     require_once config_item('thirdparty-insta_ref_profile-resource');
+    require_once config_item('thirdparty-insta_profile-resource');
     require_once config_item('thirdparty-followers-response-class');
 
 //use InstaApiWeb\InstaApi;
@@ -13,7 +14,6 @@ namespace InstaApiWeb {
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
     use InstaApiWeb\Response\FollowersResponse;
-    use function config_item;
     use function GuzzleHttp\json_decode;
 
     /**
@@ -56,7 +56,7 @@ namespace InstaApiWeb {
         }
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
-
+            $N = $N/3 + 1;   // 
             $profiles = array();
             $json_response = $this->get_post($N, $cursor, $cookies, $proxy);
 
@@ -89,9 +89,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::HASHTAG), new EnumAction(EnumAction::GET_POST));
                 $mngr->setMediaData(/* $this->insta_name */'cuba', $N, $cursor);
                 $curl_str = $mngr->make_curl_str($proxy, $cookies);
-                var_dump($curl_str);
                 exec($curl_str, $output, $status);
-                var_dump($output);
                 return json_decode($output[0]);
             } catch (Exception $e) {
                 var_dump($e);
@@ -103,7 +101,6 @@ namespace InstaApiWeb {
             $mngr->setReferencePost($post_reference);
             //$mngr->setInstaId($this->insta_id);
             $curl_str = $mngr->make_curl_str($proxy, $cookies);
-            var_dump($curl_str);
             $result = exec($curl_str, $output, $status);
             $object = json_decode($output[0]);
 

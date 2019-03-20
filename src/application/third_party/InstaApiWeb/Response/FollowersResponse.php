@@ -25,7 +25,7 @@ namespace InstaApiWeb\Response{
 
     public $HasNextPage;
     
-     public function __construct(array $followersCollection, string $cursor = null, bool $hasNextPage, int $code = 0, string $message = '')
+     public function __construct(array $followersCollection, string $cursor = null, bool $hasNextPage = false, int $code = 0, string $message = '')
      {
          parent::__construct($code, $message);
 

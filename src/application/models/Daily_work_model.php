@@ -54,10 +54,10 @@ class Daily_work_model extends CI_Model {
         return $query->row();
     }
 
-    function get_next_work(int $id = NULL, bool $block = true) {
+    function get_next_work(int $reference_profile_id = NULL, bool $block = true) {
         $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) AND reference_profile.deleted is not TRUE";
-        if ($id !== NULL) {
-            $where .= " AND client_mark.client_id = $id";
+        if ($reference_profile_id !== NULL) {
+            $where .= " AND reference_profile.id = $reference_profile_id";
         }
         $this->db->select("reference_id, to_follow, to_unfollow, client_mark.client_id ");
         $this->db->join('reference_profile', 'reference_profile.id = daily_work.reference_id');
@@ -118,7 +118,7 @@ class Daily_work_model extends CI_Model {
 
     function save_unfollow(int $client_id, int $profile_id) {
         $followed_db = $this->load->database('followed', TRUE);
-        $followed_db->where('reference_id', $profile_id);
+        $followed_db->where('followed_id', $profile_id);
         $data = array('unfollowed' => 1);
         $followed_db->update("`$client_id`", $data);
     }

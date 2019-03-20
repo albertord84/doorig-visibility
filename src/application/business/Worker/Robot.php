@@ -3,8 +3,10 @@
 namespace business\worker {
 
     use business\Business;
-
+     use \InstaApiWeb\Response\FollowersResponse;
+    
 require_once config_item('business-class');
+require_once config_item('thirdparty-followers-response-class');
 
     /**
      * @category Business class
@@ -22,13 +24,13 @@ require_once config_item('business-class');
 
         public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
             $cookies = $work->Client->MarkInfo->Cookies;
-            $followers = $work->Ref_profile->get_followers($cookies, 5/* ,proxy */);
-            if ($followers->code == 0) {
-                foreach ($followers->FollowersCollection as $profile) {
+            $followers_response = $work->Ref_profile->get_followers($cookies, $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME/* ,proxy */);
+            if ($this->process_followers_reponse($work, $followers_response)) {
+                foreach ($followers_response->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil
                     if ($this->validate_profile_follow($work, $profile)) {
                         $result = $instaclient->follow($profile->insta_id);
-                        if ($this->process_response($result)) {
+                        if ($this->process_response($work,$result)) {
                             $work->save_follow_work($profile->insta_name, $profile->insta_id);
                         } else {
                             break;
@@ -41,9 +43,9 @@ require_once config_item('business-class');
         public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
             foreach ($work->get_unfollow_list() as $profile) {
                 if ($this->validate_profile_unfollow($work, $profile)) {
-                    $result = $instaclient->unfollow($profile->id);
-                    if ($this->process_response($result)) {
-                        $work->save_unfollow_work($profile->id);
+                    $result = $instaclient->unfollow($profile->followed_id);
+                    if ($this->process_response($work, $result)) {
+                        $work->save_unfollow_work($profile->followed_id);
                     } else {
                         break;
                     }
@@ -55,21 +57,42 @@ require_once config_item('business-class');
             $work->Ref_profile;
             if ($work->Client->BlackAndWhiteList->is_black($profile->insta_id))
                 return FALSE;
-            $null_picture = strpos($Profile->profile_pic_url, '44884218_345707102882519_2446069589734326272_n');
-            if ($profile->requested_by_viewer || $profile->followed_by_viewer || $null_picture)
+            $null_picture = strpos($profile->profile_pic_url, '44884218_345707102882519_2446069589734326272_n');
+            if ($profile->instaProfileData->requested_by_viewer || $profile->instaProfileData->followed_by_viewer 
+             || $profile->instaProfileData->has_blocked_viewer || $null_picture)
                 return FALSE;
             return TRUE;
         }
 
         public function validate_profile_unfollow(DailyWork $work, $profile) {
             $work->Ref_profile;
-            if ($work->Client->BlackAndWhiteList->is_white($profile->insta_id))
+            if ($work->Client->BlackAndWhiteList->is_white($profile->followed_id))
                 return FALSE;
 
             return TRUE;
         }
 
-        public function process_response($response) {
+        
+        function process_followers_reponse(DailyWork $daily_work, FollowersResponse $followers_response) {
+            if($followers_response && $followers_response->code == 0) return true;
+            $login_response = $daily_work->Client->do_login();
+            if($login_response->code == 0)
+            {
+                if($daily_work->Client->MarkInfo->Status->hasStatus(\business\UserStatus::VERIFY_ACCOUNT) ||
+                   $daily_work->Client->MarkInfo->Status->hasStatus(\business\UserStatus::BLOCKED_BY_INSTA) ||
+                   $daily_work->Client->MarkInfo->Status->hasStatus(\business\UserStatus::BLOCKED_BY_TIME))
+                {
+                    $daily_work->delete_dailywork();
+                }
+                else
+                {
+                    $daily_work->Client->MarkInfo->increase_client_last_access(2*60*60);//2h
+                }
+            }
+            return false;
+        }
+        
+        public function process_response(DailyWork $daily_work, $response) {
             $ci = &get_instance();
             $ci->LogMgr->WriteResponse($response);
             switch ($response->code) {

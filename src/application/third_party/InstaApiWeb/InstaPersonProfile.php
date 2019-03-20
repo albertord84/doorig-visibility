@@ -89,9 +89,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::PERSON), new EnumAction(EnumAction::GET_FOLLOWERS));
                 $mngr->setMediaData($this->insta_id, $N, $cursor);
                 $curl_str = $mngr->make_curl_str($proxy, $cookies);
-                var_dump($curl_str);
                 exec($curl_str, $output, $status);
-                var_dump($output);
                 return json_decode($output[0]);
             } catch (\Exception $e) {
                 var_dump($e);

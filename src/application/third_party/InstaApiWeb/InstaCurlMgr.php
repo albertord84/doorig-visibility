@@ -67,7 +67,7 @@ namespace InstaApiWeb {
       parent::__construct($value);
 
       /* Instagram Hash-query definitions */
-      $this->TagQuery['Geo'] = "ac38b90f0f3981c42092016a37c59bf7";
+      $this->TagQuery['Geo'] = "1b84447a4d8b6d6d0426fefb34514485";
       $this->TagQuery['Person'] = "37479f2b8209594dde7facb0d904896a";
       $this->TagQuery['HashTag'] = "ded47faa9a1aaded10161a2ff32abb6b";
     }
