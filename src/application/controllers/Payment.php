@@ -27,6 +27,8 @@ class Payment extends CI_Controller {
             $file = $path . "vindi_notif_post-" . date("d-m-Y") . ".log";
             $result = file_put_contents($file, "\n\n", FILE_APPEND);
             $result = file_put_contents($file, serialize($post_str), FILE_APPEND);
+            echo 'OK';            
+            return;
 
             //2. Converto Raw Object to string
             $post = urldecode($post_str);
