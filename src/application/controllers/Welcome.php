@@ -12,12 +12,14 @@ use business\Response\ResponseLoginToken;
 use business\InstaCommands;
 use business\UserStatus;
 use business\ErrorCodes;
+use business\Plane;
 
 class Welcome extends CI_Controller {
 
     function __construct() {
         parent::__construct();
         require_once config_item('business-client-class');
+        require_once config_item('business-plane-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-login-token-class');
         require_once config_item('business-insta_commands-class');
