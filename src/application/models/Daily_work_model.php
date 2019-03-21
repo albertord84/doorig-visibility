@@ -55,7 +55,11 @@ class Daily_work_model extends CI_Model {
     }
 
     function get_next_work(int $reference_profile_id = NULL, bool $block = true) {
-        $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) AND reference_profile.deleted is not TRUE";
+        $time = time();
+        $min_time = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME*60*1000 + $time;
+        $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) "
+                . "AND reference_profile.deleted is not TRUE "
+                . "AND (client_mark.last_access is NULL OR `client_mark`.`last_access` > $min_time )";
         if ($reference_profile_id !== NULL) {
             $where .= " AND reference_profile.id = $reference_profile_id";
         }
@@ -78,10 +82,10 @@ class Daily_work_model extends CI_Model {
             'last_access' => "'$time'"
         );
 
-        $this->db->where('client_id', $id);
+        $this->db->where('client_id', $client_id);
         $this->db->update('client_mark', $data);
 
-        $this->db->where('id', $id);
+        $this->db->where('id', $reference_id);
         $this->db->update('reference_profile', $data);
     }
 

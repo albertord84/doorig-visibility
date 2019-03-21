@@ -8,6 +8,7 @@ namespace business {
     require_once config_item('business-ref_profile-class');
     require_once config_item('business-reference-profiles-class');
     require_once config_item('business-black_and_white_list-class');
+    require_once config_item('business-response-class');
 
     /**
      * @category Business class
@@ -170,7 +171,7 @@ namespace business {
             }
 
             $return_response = $this->process_login_response($login_response);
-            
+
             return $login_response;
         }
 
