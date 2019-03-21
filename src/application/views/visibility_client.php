@@ -80,7 +80,7 @@
                         <!-- HEADER -->
                         <div class="card">
                             <div class="card-body">
-                                <h1>MÓDULO VISIBILIDADE</h1>
+                                <h1>VISIBILIDADE</h1>
                             </div>
                         </div>
                         

@@ -68,7 +68,7 @@
                         <div class="card">
                             <div class="row card-body">
                                 <div class="col-md-8">
-                                    <h1>MÓDULO VISIBILIDADE</h1>                                    
+                                    <h1>VISIBILIDADE</h1>                                    
                                 </div>
                                 <div class="col-md-4 text-right">
                                     <a href="#contract-now">

@@ -143,6 +143,8 @@ class Welcome extends CI_Controller {
                 $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
                 $this->load->view('visibility_client', $param);
             } else {
+                $Planes = new Plane();
+                $param["planes"] = $Planes->get_all();
                 $this->load->view('visibility_home', $param);
             }
         } else {

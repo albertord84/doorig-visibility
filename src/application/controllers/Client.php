@@ -86,38 +86,6 @@ class Client extends CI_Controller {
         echo json_encode($response);
     }
 
-    public function insert_profile_in_white_list() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
-        return Response::ResponseOK()->toJson();
-    }
-
-    public function insert_profile_in_black_list() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
-        return Response::ResponseOK()->toJson();
-    }
-
-    public function delete_profile_in_white_list() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
-        return Response::ResponseOK()->toJson();
-    }
-
-    public function delete_profile_in_black_list() {
-        //$this->load-library("sessions_utils");
-        //$this->is_client();
-        $datas = $this->input->post();
-
-        return Response::ResponseOK()->toJson();
-    }
-
     public function request_checkpoint_required_code() {
         $datas = $this->input->post();
 
