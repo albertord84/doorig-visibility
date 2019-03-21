@@ -171,7 +171,9 @@
                                                     <div class="img-wrapper">
                                                         <img src="http://localhost/doorig/src/assets/images/video-sec/video-img.jpg" alt="clients story">
                                                         <div class="hover">
-                                                            <a href="../../../www.youtube.com/watch46da.html?v=EfTUpvxEbqc" class="video-play video-play-btn" target="_self"><i class="flaticon-music-player-play"></i></a>
+                                                            <a  class="video-play video-play-btn" target="_self">
+                                                                <i class="fas fa-play-circle"></i>
+                                                            </a>
                                                             <!--<a href="https://youtu.be/Eo2Lr1trSKs" class="video-play video-play-btn" target="_self"><i class="flaticon-music-player-play"></i></a>-->
                                                         </div>
                                                     </div>
@@ -300,7 +302,7 @@
                                                                         <div id="midle_plane" class="table-block text-center" >                                                                        
                                                                             <div class="table-det">
                                                                                 <h3 style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Médio</h3>
-                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span>20.45</h2>
+                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span><?php echo number_format((float)$planes[2]->normal_val/100, 2, ',', '.');?></h2>
                                                                                 <ul>
                                                                                     <li style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">Perfis de Referência</li>
                                                                                     <li style="margin-top:4px;margin-bottom:4px;padding-top:4px;padding-bottom:4px;">Like First</li>
@@ -317,7 +319,7 @@
                                                                         <div id="fast_plane" class="table-block text-center active">                                                                        
                                                                             <div class="table-det">
                                                                                 <h3 style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Rápido</h3>
-                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span>38.12</h2>
+                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span><?php echo number_format((float)$planes[3]->normal_val/100, 2, ',', '.');?></h2>
                                                                                 <ul>
                                                                                     <li style="margin-top:3px;margin-bottom:3px;padding-top:3px;padding-bottom:3px;">Perfis de Referência</li>
                                                                                     <li style="margin-top:3px;margin-bottom:3px;padding-top:3px;padding-bottom:3px;">Geolocalização</li>
@@ -335,7 +337,7 @@
                                                                         <div id="very_fast_plane" class="table-block text-center">                                                                        
                                                                             <div id="very_fast_plane" class="table-det">
                                                                                 <h3 style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Ultra rápido</h3>
-                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span>55.00</h2>
+                                                                                <h2 style="font-size:1.5em;margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;"><span>$R </span><?php echo number_format((float)$planes[4]->normal_val/100, 2, ',', '.');?></h2>
                                                                                 <ul>
                                                                                     <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Perfis de Referência</li>
                                                                                     <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>
