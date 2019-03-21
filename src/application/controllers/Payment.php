@@ -27,8 +27,6 @@ class Payment extends CI_Controller {
             $file = $path . "vindi_notif_post-" . date("d-m-Y") . ".log";
             $result = file_put_contents($file, "\n\n", FILE_APPEND);
             $result = file_put_contents($file, serialize($post_str), FILE_APPEND);
-            echo 'OK';            
-            return;
 
             //2. Converto Raw Object to string
             $post = urldecode($post_str);
@@ -36,15 +34,21 @@ class Payment extends CI_Controller {
 
             //3. Process input object
             if (isset($post->event) && isset($post->event->type)) {
-                //$Client = new Client();
-                //$Client->M
-                // Recurrence created succefully
+                //4.1 Recurrence created succefully
                 if ($post->event->type == "charge_created") {
                     $gateway_client_id = $post->event->data->charge->customer->id;
-                    // Activate User
+                    $Client->MarkInfo->load_data();
+                    //4.1 Save Client 
+                    $Client = new Client();
+                    $Client->load_data_by_gateway_client_id();
+                    //[]
+                    $Client->MarkInfo = new \business\MarkInfo($Client);
+                    //$gateway_client_id = $post->event->data->bill->customer->id;
+                    //$gateway_payment_key = $post->event->data->bill->subscription->id;
+                    $Client->MarkInfo->saveGatewayInfo();
                 }
-                // Bill paid succefully
-                if (isset($post->event) && isset($post->event->type) && $post->event->type == "bill_paid") {
+                //4.2 Bill paid succefully
+                if ($post->event->type == "bill_paid") {
                     if (isset($post->event->data) && isset($post->event->data->bill) && $post->event->data->bill->status = "paid") {
                         $result = file_put_contents($file, "\n bill_paid DETECTED!!:\n", FILE_APPEND);
                         // Activate User
@@ -183,7 +187,7 @@ class Payment extends CI_Controller {
         }
         return is_array($client) && $client["gateway_id"] == 2;
     }
-    
+
     public function vindi_addClient() {
         require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/system_config.php';
         $GLOBALS['sistem_config'] = new follows\cls\system_config();

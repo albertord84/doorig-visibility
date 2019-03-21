@@ -118,7 +118,7 @@ class Login extends CI_Controller {
             "_csrftoken" => null,
             "device_id" => $uuid,
         ];
-        $client = new \GuzzleHttp\Client([
+        $client = new \GuzzleHttp\Client(['verify' => false ][
             'cookies' => $jar,
             'base_uri' => $this->baseUri
         ]);
@@ -155,7 +155,7 @@ class Login extends CI_Controller {
             '_csrftoken' => $csrf_token,
             'usage' => 'prefill',
         ];
-        $client = new \GuzzleHttp\Client([
+        $client = new \GuzzleHttp\Client(['verify' => false ][
             'cookies' => $cookies,
             'base_uri' => $this->baseUri
         ]);
@@ -193,7 +193,7 @@ class Login extends CI_Controller {
             'device_id' => $uuid,
             'experiments' => $LOGIN_EXPERIMENTS,
         ];
-        $client = new \GuzzleHttp\Client([
+        $client = new \GuzzleHttp\Client(['verify' => false ][
             'cookies' => $cookies,
             'base_uri' => $this->baseUri
         ]);
@@ -225,7 +225,7 @@ class Login extends CI_Controller {
         $data = [
             'adid' => $this->generateUUID(),
         ];
-        $client = new \GuzzleHttp\Client([
+        $client = new \GuzzleHttp\Client(['verify' => false ][
             'cookies' => $cookies,
             'base_uri' => $this->baseUri
         ]);
@@ -268,7 +268,7 @@ class Login extends CI_Controller {
             'adid' => $this->generateUUID(),
             'guid' => $this->generateUUID(),
         ];
-        $client = new \GuzzleHttp\Client([
+        $client = new \GuzzleHttp\Client(['verify' => false ][
             'cookies' => $cookies,
             'base_uri' => $this->baseUri
         ]);
@@ -311,7 +311,7 @@ class Login extends CI_Controller {
             'is_async_ads_double_request' => '0',
             'is_async_ads_rti' => '0'
         ];
-        $client = new \GuzzleHttp\Client([
+        $client = new \GuzzleHttp\Client(['verify' => false ][
             'cookies' => $cookies,
             'base_uri' => $this->baseUri
         ]);
