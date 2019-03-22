@@ -169,7 +169,7 @@
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="left-content-area text-center">
                                                     <div class="img-wrapper">
-                                                        <img src="http://localhost/doorig/src/assets/images/video-sec/video-img.jpg" alt="clients story">
+                                                        <img src="<?php echo $GLOBALS["sistem_config"]->BASE_SITE_URL?>../assets/images/video-sec/video-img.jpg" alt="clients story">
                                                         <div class="hover">
                                                             <a  class="video-play video-play-btn" target="_self">
                                                                 <i class="fas fa-play-circle"></i>
