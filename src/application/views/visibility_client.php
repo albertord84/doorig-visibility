@@ -19,8 +19,8 @@
         <!--<link href="<?php echo base_url()?>assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">-->        
         
         <!-- Custom CSS -->
-        <link href="<?php echo base_url()?>assets/css/style.css" rel="stylesheet">
-        <link href="<?php echo base_url()?>assets/css/style-doorig.css" rel="stylesheet">
+        <link href="<?php echo base_url()?>assets/css/style.css"<?php echo '?'.$SCRIPT_VERSION;?> rel="stylesheet">
+        <link href="<?php echo base_url()?>assets/css/style-doorig.css"<?php echo '?'.$SCRIPT_VERSION;?> rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/pages/pricing-page.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/timeline.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/wizard/steps.css" rel="stylesheet">        
@@ -48,7 +48,7 @@
         <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/wizard.css">
         
         <!-- My CSS -->
-        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"<?php echo '?'.$SCRIPT_VERSION;?>> 
 
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
@@ -151,17 +151,17 @@
         <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>        
                 
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>        
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/jquery.mask.js"></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/jquery.mask.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
         <!-- system scripts -->
-        <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"></script>
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"></script>
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
-        <script src="<?php echo base_url()?>assets/js/visibility/insta_interaction_commands.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/insta_interaction_commands.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/visibility_client.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
     </body>
 </html>

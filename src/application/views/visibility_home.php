@@ -21,8 +21,8 @@
         <!--Toaster Popup message CSS -->
         <link href="<?php echo base_url()?>assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">        
         <!-- Custom CSS -->
-        <link href="<?php echo base_url()?>assets/css/style.css" rel="stylesheet">
-        <link href="<?php echo base_url()?>assets/css/style-doorig.css" rel="stylesheet">
+        <link href="<?php echo base_url()?>assets/css/style.css"<?php echo '?'.$SCRIPT_VERSION;?> rel="stylesheet">
+        <link href="<?php echo base_url()?>assets/css/style-doorig.css"<?php echo '?'.$SCRIPT_VERSION;?> rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/pages/pricing-page.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/css/timeline.css" rel="stylesheet">
         <link href="<?php echo base_url()?>assets/node_modules/wizard/steps.css" rel="stylesheet">
@@ -33,7 +33,7 @@
         <!-- You can change the theme colors from here -->
         <link href="<?php echo base_url()?>assets/css/colors/default.css" id="theme" rel="stylesheet">
         
-        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"> 
+        <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/mycss.css"<?php echo '?'.$SCRIPT_VERSION;?>> 
         <link rel="stylesheet" href="<?php echo base_url().'assets/'?>css/wizard.css"> 
         
         <script type="text/javascript">
@@ -485,14 +485,14 @@
         
         <!-- system scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/PT/internalization.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"></script>
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"></script>
-        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"></script>       
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/mask.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/basics.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL?>../assets/js/dashboard/dasboard.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>       
         
-        <script src="<?php echo base_url()?>assets/js/visibility/insta_interaction_commands.js"></script>
-        <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/insta_interaction_commands.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
     </body>
 </html>

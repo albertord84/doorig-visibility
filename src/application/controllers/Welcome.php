@@ -86,6 +86,7 @@ class Welcome extends CI_Controller {
         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
         $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
         $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
+        $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
         $this->load->view('visibility_client', $param);
     }
 
@@ -143,10 +144,12 @@ class Welcome extends CI_Controller {
                 $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                 $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
                 $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
+                $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
                 $this->load->view('visibility_client', $param);
             } else {
                 $Planes = new Plane();
                 $param["planes"] = $Planes->get_all();
+                $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
                 $this->load->view('visibility_home', $param);
             }
         } else {
