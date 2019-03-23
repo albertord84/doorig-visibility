@@ -29,6 +29,7 @@ $config['business-client_status_item-class'] = getcwd() . '/application/business
 $config['business-user-class'] = getcwd() . '/application/business/User.php';
 $config['business-admin-class'] = getcwd() . '/application/business/Admin.php';
 $config['business-attendent-class'] = getcwd() . '/application/business/Attendent.php';
+$config['business-payment_vindi-class'] = getcwd() . '/application/business/Payment/Vindi.php';
 
 //$config['business-geo_profile-class'] = getcwd() . '/application/business/BusinessGeoProfile.php';
 //$config['business-hash_profile-class'] = getcwd() . '/application/business/BusinessHashProfile.php';

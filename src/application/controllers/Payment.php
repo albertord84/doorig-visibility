@@ -13,6 +13,7 @@ class Payment extends CI_Controller {
         parent::__construct();
         require_once config_item('business-client-class');
         require_once config_item('business-response-class');
+        require_once config_item('business-payment_vindi-class');
     }
 
     public function index() {
@@ -189,7 +190,7 @@ class Payment extends CI_Controller {
     }
 
     public function vindi_addClient() {
-        $Vindi = new \Vindi\Vindi();
+        $Vindi = new \business\Payment\Vindi();
         $credit_card_name = urldecode($_POST['credit_card_name']);
         $user_email = urldecode($_POST['user_email']);
         $result = $Vindi->addClient($credit_card_name, $user_email);
