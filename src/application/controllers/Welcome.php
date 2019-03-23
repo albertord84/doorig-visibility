@@ -29,8 +29,8 @@ class Welcome extends CI_Controller {
     }
 
     // deprecated
-    public function a() {
-        $Client = new Client(15);
+    public function a($client = 1) {
+        $Client = new Client($client);
         //$profile_public_data = InstaCommands::get_profile_public_data('alberto_dreyes');
         // Inser First Daily Report Point
         //$followes = convert_instanumber_to_number($profile_public_data->followers);

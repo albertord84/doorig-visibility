@@ -19,20 +19,18 @@ namespace business {
 
         public $ReferenceProfiles;
         private $Client; // Client Reference
-        
         public $amount_reference_profile_used = NULL;
         public $amount_profile_followed = NULL;  //cantidad de seguidos por perfiles de referencia
         public $amount_geolocations_used = NULL;
         public $amount_profile_geolocations_followed = NULL; //cantidad de seguidos por geolocations
         public $amount_hashtags_used = NULL;
         public $amount_profile_hashtags_followed = NULL;
-        
+
         /**
          * 
          * @todo Class constructor.
          * 
          */
-
         function __construct(Client &$client) {
             parent::__construct();
 
@@ -65,16 +63,16 @@ namespace business {
             } else {
                 //throw ErrorCodes::getException(ErrorCodes::CLIENT_DATA_NOT_FOUND);
             }
-            
+
             $ci = &get_instance();
             $ci->load->model("Reference_profile_model");
-            
+
             $this->amount_reference_profile_used = $ci->Reference_profile_model->load_amount_profile_used($this->Client->Id, 0);
             $this->amount_profile_followed = $ci->Reference_profile_model->amount_profile_followed($this->Client->Id, 0);  //cantidad de seguidos por perfiles de referencia
-            
+
             $this->amount_geolocations_used = $ci->Reference_profile_model->load_amount_profile_used($this->Client->Id, 1);
             $this->amount_profile_geolocations_followed = $ci->Reference_profile_model->amount_profile_followed($this->Client->Id, 1); //cantidad de seguidos por geolocations
-            
+
             $this->amount_hashtags_used = $ci->Reference_profile_model->load_amount_profile_used($this->Client->Id, 2);
             $this->amount_profile_hashtags_followed = $ci->Reference_profile_model->amount_profile_followed($this->Client->Id, 2);
         }
@@ -106,6 +104,39 @@ namespace business {
                 }
             }
             return $rps;
+        }
+
+        public function insert_profile_in_daily_work($reference_id, $insta_datas, $N, $active_profiles, $DIALY_REQUESTS_BY_CLIENT) {
+            $total_to_follow = 0;
+            if ($N == 0)
+                $total_to_follow = $DIALY_REQUESTS_BY_CLIENT;
+            else {
+                for ($i = 0; $i < $N; $i++) {
+                    $work = $this->get_daily_work_to_profile($active_profiles[$i]['id']);
+                    if (count($work)) {
+                        $total_to_follow = $total_to_follow + $work[0]['to_follow'];
+                    }
+                }
+            }
+
+            $cnt_to_follow = floor($total_to_follow / ($N + 1));
+            try {
+                $this->db->insert('daily_work', array(
+                    'reference_id' => $reference_id,
+                    'to_follow' => $cnt_to_follow,
+                    'to_unfollow' => $cnt_to_follow,
+                    'cookies' => json_encode($insta_datas)
+                ));
+                for ($i = 0; $i < $N; $i++) {
+                    $flag = 1;
+                    if (!$this->upadate_profile_in_daily_work($active_profiles[$i]['id'], array('to_follow' => $cnt_to_follow)))
+                        $flag = 0;
+                }
+                return TRUE;
+            } catch (Exception $exc) {
+                echo $exc->getTraceAsString();
+                return 0;
+            }
         }
 
     }
