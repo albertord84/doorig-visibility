@@ -44,24 +44,24 @@
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,400i,500,600,700,700i|Roboto:400,400i,500,700,900');
 
-@import url(imp.css);
+@import url(https://doorig.com/assets/css/imp.css);
 /*@import url(bootstrap.min.css);*/
-@import url(font-awesome.min.css);
-@import url(hover.css);
-@import url(owl.carousel.min.css);
-@import url(animate.min.css);
-@import url('jquery.fancybox.css');
+/*@import url(font-awesome.min.css);*/
+@import url(https://doorig.com/assets/css/hover.css);
+@import url(https://doorig.com/assets/css/owl.carousel.min.css);
+@import url(https://doorig.com/assets/css/animate.min.css);
+@import url('https://doorig.com/assets/css/jquery.fancybox.css');
 /*** Flaticon css ***/
-@import url('flaticon.css');
-@import url('icomoon.css');
+@import url('https://doorig.com/assets/css/flaticon.css');
+/*@import url('https://doorig.com/assets/css/icomoon.css');*/
 
-@import url('lightbox.css');
-@import url('magnific-popup.css');
+@import url('https://doorig.com/assets/css/lightbox.css');
+@import url('https://doorig.com/assets/css/magnific-popup.css');
 
 /*** Jquery ui css ***/
-@import url(../jquery-ui-1.11.4/jquery-ui.css);
+@import url(https://doorig.com/assets/jquery-ui-1.11.4/jquery-ui.css);
 /*** Bootstrap select picker css ***/
-@import url(../bootstrap-sl-1.12.1/bootstrap-select.css);
+@import url(https://doorig.com/assets/bootstrap-sl-1.12.1/bootstrap-select.css);
 
 
 /*==============================================
