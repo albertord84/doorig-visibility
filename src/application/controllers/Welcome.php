@@ -36,7 +36,8 @@ class Welcome extends CI_Controller {
         //$followes = convert_instanumber_to_number($profile_public_data->followers);
         //$following = convert_instanumber_to_number($profile_public_data->following);
         //$Client->DailyReport->save(15, $following, $followes);
-        //$Client->load_mark_info_data();
+        $Client->DailyReport->load_data();
+        $Client->load_mark_info_data();
         $Client->load_insta_reference_profiles_data();
         var_dump($Client);
         //$this->load->view('visibility_client_tmp');
