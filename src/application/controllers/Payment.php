@@ -37,37 +37,47 @@ class Payment extends CI_Controller {
             if (isset($post->event) && isset($post->event->type)) {
                 //4.1 Recurrence created succefully
                 if ($post->event->type == "charge_created") {
-                    $gateway_client_id = $post->event->data->charge->customer->id;
-                    $Client->MarkInfo->load_data();
                     //4.1 Save Client 
-                    $Client = new Client();
-                    $Client->load_data_by_gateway_client_id();
-                    //[]
-                    $Client->MarkInfo = new \business\MarkInfo($Client);
-                    //$gateway_client_id = $post->event->data->bill->customer->id;
-                    //$gateway_payment_key = $post->event->data->bill->subscription->id;
-                    $Client->MarkInfo->saveGatewayInfo();
+                    //$Client = new Client();
+                    //$Client->MarkInfo = new \business\MarkInfo($Client);
+                    //$Client->MarkInfo->load_data();
+                    //$Client->MarkInfo->saveGatewayInfo();
                 }
                 //4.2 Bill paid succefully
                 if ($post->event->type == "bill_paid") {
                     if (isset($post->event->data) && isset($post->event->data->bill) && $post->event->data->bill->status = "paid") {
                         $result = file_put_contents($file, "\n bill_paid DETECTED!!:\n", FILE_APPEND);
                         // Activate User
-                        //$gateway_client_id = $post->event->data->bill->customer->id;
+                        $gateway_client_id = $post->event->data->bill->customer->id;
                         $gateway_payment_key = $post->event->data->bill->subscription->id;
                         //1. activar cliente
-                        $this->load->model('class/user_model');
-                        $this->load->model('class/user_status');
-                        $this->load->model('class/client_model');
-                        //$client_id = $this->client_model->get_client_id_by_gateway_client_id($gateway_client_id);
-                        $client_id = $this->client_model->get_client_id_by_gateway_payment_key($gateway_payment_key);
-                        if ($client_id) {
-                            $this->user_model->update_user($client_id, array(
-                                'status_id' => user_status::ACTIVE));
+                        $PaymentVindi = new \business\Payment\Vindi();
+                        $PaymentVindi->load_data_by_gateway_client_id($gateway_client_id);
+                        if ($PaymentVindi->client_id) {
+                            $Client = new Client($PaymentVindi->client_id);
+                            $Client->MarkInfo = new \business\MarkInfo($Client);
+                            $Client->load_mark_info_data();
+
+                            $Client->MarkInfo->Status->add_item(user_status::ACTIVE);
+                            $Client->MarkInfo->Status->remove_item(business\UserStatus::BLOCKED_BY_PAYMENT);
+                            $Client->MarkInfo->Status->remove_item(business\UserStatus::BEGINNER);
+                            $Client->MarkInfo->Status->remove_item(business\UserStatus::PENDING);
+
                             $result = file_put_contents($file, "$client_id: ACTIVED" . "\n\n", FILE_APPEND);
+
                             //2. pay_day un mes para el frente
-                            $this->client_model->update_client(
-                                    $client_id, array('pay_day' => strtotime("+1 month", time())));
+                            $Client->MarkInfo->update(
+                                    $PaymentVindi->client_id,
+                                    $plane_id = NULL,
+                                    $pay_id = NULL,
+                                    $proxy_id = NULL,
+                                    $path = NULL,
+                                    $pass = NULL,
+                                    $insta_id = NULL,
+                                    $init_date = NULL,
+                                    $end_date = NULL,
+                                    $pay_day = strtotime("+1 month", time())
+                            );
                             $result = file_put_contents($file, "$client_id: +1 month from now" . "\n\n\n", FILE_APPEND);
                         } else {
                             $result = file_put_contents($file, "Subscription($gateway_payment_key): NOT FOUND HERE!!!" . "\n\n\n", FILE_APPEND);
@@ -193,7 +203,7 @@ class Payment extends CI_Controller {
         try {
             $Client = new Client();
             $Client = unserialize($this->session->userdata('client'));
-            
+
             $Client->MarkInfo = new \business\MarkInfo($Client);
             $Client->MarkInfo->load_data();
 
@@ -252,14 +262,14 @@ class Payment extends CI_Controller {
             $Client->MarkInfo->load_data();
 
             $pay_day = json_decode(urldecode($_POST['pay_day']));
-            
-            $pay_day = time() + 24*60*60;
-            
+
+            $pay_day = time() + 24 * 60 * 60;
+
             $ResponseRecurrencyPayment = new \business\Response\ResponseRecurrencyPayment($PaymentKey = "");
             $ResponseRecurrencyPayment = $Client->MarkInfo->Payment->create_recurrency_payment($pay_day);
-            
+
             $Client->MarkInfo->Payment->update($Client->Id, NULL, NULL, $ResponseRecurrencyPayment->PaymentKey);
-            
+
             return $ResponseRecurrencyPayment->toJson();
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
@@ -267,13 +277,19 @@ class Payment extends CI_Controller {
     }
 
     public function vindi_cancel_recurrency_payment() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new follows\cls\system_config();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/PaymentVindi.php';
-        $Vindi = new \follows\cls\Payment\Vindi();
-        $client_payment_key = urldecode($_POST['client_payment_key']);
-        $result = $Vindi->cancel_recurrency_payment($client_payment_key);
-        echo json_encode($result);
+        try {
+            $Client = new Client(0);
+            $Client = unserialize($this->session->userdata('client'));
+
+            $Client->MarkInfo = new \business\MarkInfo($Client);
+            $Client->MarkInfo->load_data();
+
+            $Response = $Client->MarkInfo->Payment->cancel_recurrency_payment();
+
+            return $Response->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
     }
 
     public function vindi_create_payment() {

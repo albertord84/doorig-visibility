@@ -78,6 +78,10 @@ namespace business\Payment {
 
         public function save(int $client_id = NULL, int $gateway_client_id = NULL, int $plane_id = NULL, string $payment_key = NULL, int $gateway_id = NULL) {
             $client_id = $client_id ? $client_id : $this->client_id;
+            $gateway_client_id = $gateway_client_id ? $gateway_client_id : $this->gateway_client_id;
+            $plane_id = $plane_id ? $plane_id : $this->plane_id;
+            $payment_key = $payment_key ? $payment_key : $this->payment_key;
+            $gateway_id = $gateway_id ? $gateway_id : $this->gateway_id;
             $ci = &get_instance();
             $ci->Client_payment_model->save($client_id, $gateway_client_id, $plane_id, $payment_key, $gateway_id);
         }
@@ -260,7 +264,6 @@ namespace business\Payment {
                     "customer_id" => $payment_data['customer_id']
                 ]);
             } catch (\Exception $e) {
-                var_dump($e);
                 return Response::ResponseFAIL($e->getMessage(), $e->getCode());
             }
             if ($payment && $payment->status == 'active')
@@ -299,6 +302,26 @@ namespace business\Payment {
         }
 
         /**
+         * Delete recurrency payment status (Cancel subscription)
+         * @param type $payment_key
+         * @return Subscription or \Exception
+         */
+        public function cancel_recurrency_payment(string $payment_key = NULL) {
+            $payment_key = $payment_key ? $payment_key : $this->Client->MarkInfo->Payment->payment_key;
+
+            try {
+                // Instancia o serviço de Subscription (Assinaturas) com o array contendo VINDI_API_KEY e VINDI_API_URI
+                $subsService = new \Vindi\Subscription($this->api_arguments);
+                $subs = $subsService->delete($payment_key);
+            } catch (\Exception $e) {
+                return Response::ResponseFAIL($e->getMessage(), $e->getCode());
+            }
+            if ($subs->status == 'canceled' || $subs->status == 'expired');
+                return Response::ResponseOK();
+            return Response::ResponseFAIL(T("Problema ao cancelar recorrencia!"), $code = 1);
+        }
+
+        /**
          * Reschedule Assigment for client 
          * @param type $client_id Follows client id
          * @param timestamp $date
@@ -327,26 +350,6 @@ namespace business\Payment {
             $return->success = $subscription->status == 'active' || $subscription->status == 'future';
             $return->payment_key = isset($subscription) && isset($subscription->id) ? $subscription->id : NULL;
             $return->subscription = $subscription;
-            return $return;
-        }
-
-        /**
-         * Delete recurrency payment status (Cancel subscription)
-         * @param type $payment_id
-         * @return Subscription or \Exception
-         */
-        public function cancel_recurrency_payment($payment_id) {
-            $return = new \stdClass();
-            $return->success = false;
-            try {
-                // Instancia o serviço de Subscription (Assinaturas) com o array contendo VINDI_API_KEY e VINDI_API_URI
-                $subsService = new \Vindi\Subscription($this->api_arguments);
-                $subs = $subsService->delete($payment_id);
-            } catch (\Exception $e) {
-                $return->message = $e->getMessage();
-                return $return;
-            }
-            $return->success = $subs->status == 'canceled' || $subs->status == 'expired';
             return $return;
         }
 
