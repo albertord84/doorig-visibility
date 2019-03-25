@@ -101,10 +101,12 @@ require_once config_item('business-class');
         }
 
         public static function verify_client(Client $client) {
-            if ($client->MarkInfo->Cookies == null || ($client->MarkInfo->Cookies->SessionId == null)) {
+            if (!isset($client->MarkInfo->Cookies) || ($client->MarkInfo->Cookies->SessionId == null)) {
                 $login_response = $client->do_login();
+                return ($login_response && isset($login_response->Cookies) 
+                        && $login_response->Cookies != NULL && $client->MarkInfo->Cookies->SessionId != null);
             }
-            return ($login_response && isset($login_response->Cookies) && $login_response->Cookies != NULL);
+            return true;
         }
 
         // LISTA!!!
@@ -115,17 +117,20 @@ require_once config_item('business-class');
                     $daily_work = DailyWork::get_next_work($client_id);
                     if ($daily_work !== null) {
                         if (Worker::verify_client($daily_work->Client)) {
-                            $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "3445996566", "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $daily_work->Client->MarkInfo->Proxy->getApiProxy()), 'InstaClient_lib');
+                            $daily_work->Client->load_mark_info_data();
+                            $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
+                            $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                             $robot = new Robot();
                             $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                             $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
                             unset($ci->InstaClientBusiness_lib);
                             //break;
                         } else {
-                            DailyWork::delete_dailywork($daily_work->Client);
+                            $daily_work->delete_dailywork();
                         }
                     } else {
-                        sleep(10 * 60);
+                        //sleep(1 * 20);
+                        sleep(5 * 60);
                     }
                 } catch (\Throwable $exc) {
                      $ci = &get_instance();

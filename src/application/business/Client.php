@@ -193,13 +193,6 @@ namespace business {
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
 
-            // Guardar las cookies en la Base de Datos
-            if ($login_response && isset($login_response->Cookies) && $login_response->Cookies != NULL) {
-                $this->MarkInfo->Cookies = $login_response->Cookies;
-                $cookies_str = json_encode($login_response->Cookies);
-                self::update($this->Id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $cookies_str);
-            }
-
             $return_response = $this->process_login_response($login_response);
 
             return $return_response;

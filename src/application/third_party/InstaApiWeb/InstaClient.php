@@ -83,7 +83,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_UNFOLLOW));
                 $mngr->setResourceId($resource_id);
                 $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-               // var_dump($curl_str);
+                // var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 $obj = null;
                 $code = -1;
@@ -256,8 +256,8 @@ namespace InstaApiWeb {
 
                 //$ig->setOutputInterface("191.252.110.140");
                 //$ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
-//        if ($this->proxy)
-//          $ig->setProxy("http://" . $this->proxy->ToString());
+                if ($this->proxy)
+                    $ig->setProxy("http://" . $this->proxy->ToString());
                 //$ig->setProxy("http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316");
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
@@ -270,11 +270,11 @@ namespace InstaApiWeb {
                     $ig->finishTwoFactorLogin($verificationCode, $twoFactorIdentifier);
                 }
 
-                $ck = array("sessionid" => $ig->client->getCookie('sessionid')->getValue(),
-                    "csrftoken" => $ig->client->getCookie('csrftoken')->getValue(),
-                    "ds_user_id" => $ig->client->getCookie('ds_user_id')->getValue(),
-                    "mid" => $ig->client->getCookie('mid')->getValue());
-                $Cookies = new Cookies(json_encode($ck));
+                $Cookies = new Cookies();
+                $Cookies->SessionId = $ig->client->getCookie('sessionid')->getValue();
+                $Cookies->CsrfToken = $ig->client->getCookie('csrftoken')->getValue();
+                $Cookies->Mid = $ig->client->getCookie('mid')->getValue();
+                $Cookies->DsUserId = $ig->client->getCookie('ds_user_id')->getValue();
                 $loginResponse = new LoginResponse('ok', $Cookies);
 
                 return $loginResponse;
