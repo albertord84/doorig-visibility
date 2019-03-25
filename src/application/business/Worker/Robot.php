@@ -32,7 +32,7 @@ require_once config_item('business-class');
                     //pedir datos del perfil y validar perfil
                     if ($this->validate_profile_follow($work, $profile)) {
                         $result = $instaclient->follow($profile->insta_id);
-                        $result = $this->InstetLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
+                        $result = $this->InsertLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
                         if ($this->process_response($work, $result)) {
                             $work->save_follow_work($profile->insta_name, $profile->insta_id);
                         } else {
@@ -49,7 +49,7 @@ require_once config_item('business-class');
                 if ($this->validate_profile_unfollow($work, $profile)) {
                     $result = $instaclient->unfollow($profile->followed_id);
                     $profile->insta_id = $profile->followed_id;
-                    $result = $this->InstetLogsParameters($result, "Unfollow", $client_id, NULL, $profile);
+                    $result = $this->InsertLogsParameters($result, "Unfollow", $client_id, NULL, $profile);
                     if ($this->process_response($work, $result)) {
                         $work->save_unfollow_work($profile->followed_id);
                     } else {
@@ -197,7 +197,7 @@ require_once config_item('business-class');
             return false;
         }
 
-        private function InstetLogsParameters($result = NULL, $action = NULL, $client_id = NULL, $ref_prof_id = NULL, $profile = NULL) {
+        private function InsertLogsParameters($result = NULL, $action = NULL, $client_id = NULL, $ref_prof_id = NULL, $profile = NULL) {
             if ($action != NULL)
                 $result->add_params("title", "$action");
             if ($client_id != NULL)
@@ -206,7 +206,7 @@ require_once config_item('business-class');
                 $result->add_params("rp", "$ref_prof_id");
             if ($profile != NULL) {
                 $result->add_params("profile", "$profile->insta_id");
-                $result->add_params("profile_name", "$profile->insta_insta_name");
+                $result->add_params("profile_name", "$profile->insta_name");
             }
             return $result;
         }
