@@ -56,10 +56,11 @@ class Daily_work_model extends CI_Model {
 
     function get_next_work(int $reference_profile_id = NULL, bool $block = true) {
         $time = time();
-        $min_time = $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME*60*1000 + $time;
+        $min_time = $time - $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME*60*1000 ;
         $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) "
                 . "AND reference_profile.deleted is not TRUE "
-                . "AND (client_mark.last_access is NULL OR `client_mark`.`last_access` > $min_time )";
+                . "AND (client_mark.last_access is NULL OR "
+                . "CAST(`client_mark`.`last_access` AS UNSIGNED INTEGER) < $min_time )";
         if ($reference_profile_id !== NULL) {
             $where .= " AND reference_profile.id = $reference_profile_id";
         }
@@ -67,11 +68,11 @@ class Daily_work_model extends CI_Model {
         $this->db->join('reference_profile', 'reference_profile.id = daily_work.reference_id');
         $this->db->join('client_mark', 'client_mark.client_id = reference_profile.client_id');
         $this->db->where($where);
-        $this->db->order_by("client_mark.last_access asc", "reference_profile.last_access asc");
+        $this->db->order_by("client_mark.last_access asc, reference_profile.last_access asc");
         $query = $this->db->get('daily_work');
         $result = $query->row();
 
-        if ($block)
+        if ($result != null && $block)
             $this->block_work($result->reference_id, $result->client_id);
         return $result;
     }
@@ -79,7 +80,7 @@ class Daily_work_model extends CI_Model {
     private function block_work($reference_id, $client_id) {
         $time = time();
         $data = array(
-            'last_access' => "'$time'"
+            'last_access' => $time
         );
 
         $this->db->where('client_id', $client_id);
@@ -127,6 +128,13 @@ class Daily_work_model extends CI_Model {
         $followed_db->update("`$client_id`", $data);
     }
 
+    function remove_client_work($client_id) {
+        $this->db->where("reference_id IN (SELECT reference_profile.id "
+            . "FROM reference_profile "
+            . "WHERE reference_profile.client_id = $client_id )");
+        $this->db->delete('daily_work');
+    }
+    
     function truncate() {
         $this->db->truncate('daily_work');
     }

@@ -83,12 +83,9 @@ namespace business\worker {
         }
 
         public function delete_dailywork() {
-            /* $ci = &get_instance();
-              $ci->load->model('daily_work_model');
-              return $ci->daily_work_model-> */
-
-            //[IMPLEMENTAR]
-            throw new Exception("Not implemented method delete_dailywork");
+             $ci = &get_instance();
+             $ci->load->model('daily_work_model');
+             $ci->daily_work_model->remove_client_work($this->Client->Id);
         }
 
         public function save_follow_work(string $profile_name, string $insta_id) {

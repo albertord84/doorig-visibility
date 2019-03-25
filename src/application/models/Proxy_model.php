@@ -54,6 +54,11 @@ function get_all($offset = 0, $rows = 0){
 
     return $query->result();
   }
+  
+ function count()
+ {
+     return $this->db->count_all("Proxy");
+ }
 }
 
 ?>

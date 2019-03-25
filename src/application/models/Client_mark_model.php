@@ -129,7 +129,7 @@ class Client_mark_model extends CI_Model {
     }
 
     function load_doorig_follows($client_id) {
-        
+
         $this->db->where('client_id', $client_id);
 
         $this->db->select('count(*) as Count')->from('daily_report');
@@ -171,36 +171,43 @@ class Client_mark_model extends CI_Model {
 
         return $query->result();
     }
-    
-    function create_followed_table($client_id)
-    {
-        $followed_db = $this->load->database('followed', TRUE);        
-        $dbforge = $this->load->dbforge($followed_db,TRUE);
+
+    function create_followed_table($client_id) {
+        $followed_db = $this->load->database('followed', TRUE);
+        $dbforge = $this->load->dbforge($followed_db, TRUE);
         $fields = array(
-        'followed_id' => array(
+            'followed_id' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-        ),
-        'reference_id' => array(
-                'type' =>'INT',
+            ),
+            'reference_id' => array(
+                'type' => 'INT',
                 'constraint' => '6'
-        ),
-        'date' => array(
+            ),
+            'date' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-        ),
-        'unfollowed' => array(
-             'type' => 'TINYINT',
-             'constraint' => '1',
-        ),
-        'followed_login' => array(
-             'type' => 'VARCHAR',
-             'constraint' => '100',
+            ),
+            'unfollowed' => array(
+                'type' => 'TINYINT',
+                'constraint' => '1',
+            ),
+            'followed_login' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '100',
         ));
         $dbforge->add_field($fields);
         $dbforge->add_field('id');
         $dbforge->create_table("`$client_id`", TRUE);
     }
+
+    function get_followed($client_id, $profile_id) {
+        $followed_db = $this->load->database('followed', TRUE);
+        $followed_db->where('followed_id', $profile_id);
+        $query = $followed_db->get("`$client_id`");
+        return $query->result();
+    }
+
 }
 ?>
 

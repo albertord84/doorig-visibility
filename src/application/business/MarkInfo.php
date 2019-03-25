@@ -43,14 +43,12 @@ namespace business {
         public $insta_followers_ini = NULL;
         public $insta_following_ini = NULL;
         public $total_followeds = NULL;
-        
         public $like_first = NULL;
-        
         public $Cookies;
         public $Plane;
         public $Status;
         public $Client;
-
+        public $Proxy;
 
         function __construct(Client &$client) {
             $this->Client = $client;
@@ -69,7 +67,7 @@ namespace business {
             $data = $ci->client_mark_model->get_by_id($this->Client->Id);
 
             if ($data)
-                $this->fill_data($data);            
+                $this->fill_data($data);
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
             $this->Payment = new Payment($this->pay_id);
@@ -78,9 +76,9 @@ namespace business {
             $this->Proxy->load_data();
             $this->Status = new ClientStatusList($this->Client);
             $this->Status->load_data();
-            
-            $this->Cookies = new Cookies($this->cookies);
-                    
+
+            //$this->Cookies = new Cookies($this->cookies);
+
             return $data;
         }
 
@@ -122,11 +120,10 @@ namespace business {
             $this->like_first = $data->like_first;
 
             $this->Cookies = new Cookies($data->cookies);
-            
+
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
-            $this->total_followeds = $ci->client_mark_model->load_doorig_follows($this->client_id); 
-
+            $this->total_followeds = $ci->client_mark_model->load_doorig_follows($this->client_id);
         }
 
         public function setLikeFirst(bool $like_first = TRUE) {
@@ -149,13 +146,24 @@ namespace business {
             $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL);
         }
         
-        
-        public function increase_client_last_access(int $time)
+        public function set_proxy()
         {
-            //[IMPLEMENTAR]
-            throw new Exception("Not implemented method increase_client_last_access");
-            
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            $n = Proxy::ProxysCount();
+            $new_proxy = ($proxy->idProxy) % $n + 1;
+            $ci->client_mark_model->update($this->client_id, NULL, NULL, $new_proxy);
+            $this->proxy_id = $new_proxy;
+            $this->Proxy = new Proxy($this->proxy_id);
+            $this->Proxy->load_data();
         }
+
+        public function increase_client_last_access(int $minutes = 120) {
+            $next_time = time() + $minutes * 60 * 1000;
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            $ci->client_mark_model->update_last_acctess($this->Client->Id, $next_time);
+        }     
 
     }
 
