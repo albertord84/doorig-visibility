@@ -11,7 +11,7 @@ namespace business {
     require_once config_item('business-loader-class');
     require_once config_item('business-plane-class');
     require_once config_item('business-proxy-class');
-    require_once config_item('business-payment-class');
+    require_once config_item('business-payment_vindi-class');
     require_once config_item('business-client-class');
     //require_once config_item('business-proxy-class');
     require_once config_item('business-user_status-class');
@@ -48,6 +48,7 @@ namespace business {
         
         public $Cookies;
         public $Plane;
+        public $Payment;
         public $Status;
         public $Client;
 
@@ -72,7 +73,7 @@ namespace business {
                 $this->fill_data($data);            
             $this->Plane = new Plane($this->plane_id);
             $this->Plane->load_data();
-            $this->Payment = new Payment($this->pay_id);
+            $this->Payment = new Payment\Vindi($this->Client);
             $this->Payment->load_data();
             $this->Proxy = new Proxy($this->proxy_id);
             $this->Proxy->load_data();

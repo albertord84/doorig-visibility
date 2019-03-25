@@ -176,36 +176,94 @@ class Payment extends CI_Controller {
         echo "\n\n<br>Job Done!" . date("Y-m-d h:i:sa") . "\n\n";
     }
 
-    public function is_client_vindi($client_id) {
-        $client = NULL;
+    public function is_client_vindi($client_id = 1) {
         try {
-            $this->db->select('*');
-            $this->db->from('client_payment');
-            $this->db->where('dumbu_client_id', $client_id);
-            $client = $this->db->get()->row_array();
+            $Client = new Client($client_id);
+            $Client->load_mark_info_data();
+
+            $this->session->set_userdata('client', serialize($Client));
+
+            var_dump($Client);
         } catch (\Exception $exc) {
-            return $exc;
+            print_r($exc->getMessage());
         }
-        return is_array($client) && $client["gateway_id"] == 2;
     }
 
     public function vindi_addClient() {
-        $Vindi = new \business\Payment\Vindi();
-        $credit_card_name = urldecode($_POST['credit_card_name']);
-        $user_email = urldecode($_POST['user_email']);
-        $result = $Vindi->addClient($credit_card_name, $user_email);
-        echo json_encode($result);
+        try {
+            $Client = new Client();
+            $Client = unserialize($this->session->userdata('client'));
+            
+            $Client->MarkInfo = new \business\MarkInfo($Client);
+            $Client->MarkInfo->load_data();
+
+            $credit_card_name = urldecode($_POST['credit_card_name']);
+            $user_email = urldecode($_POST['user_email']);
+            //$credit_card_name = "God";
+            //$user_email = "god@heaven.sky";
+            $customer_id = $Client->MarkInfo->Payment->addClient($credit_card_name, $user_email);
+
+            $Client->MarkInfo->Payment->save($Client->Id, $customer_id);
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+
+        return Response::ResponseOK()->toJson();
     }
 
     public function vindi_addClientPayment() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new follows\cls\system_config();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/PaymentVindi.php';
-        $Vindi = new \follows\cls\Payment\Vindi();
-        $user_id = urldecode($_POST['user_id']);
-        $datas = (array) json_decode(urldecode($_POST['datas']));
-        $result = $Vindi->addClientPayment($user_id, $datas);
-        echo json_encode($result);
+        try {
+            $Client = new Client(0);
+            $Client = unserialize($this->session->userdata('client'));
+
+            $Client->MarkInfo = new \business\MarkInfo($Client);
+            $Client->MarkInfo->load_data();
+
+            $datas = (array) json_decode(urldecode($_POST['datas']));
+
+            $payment_data['credit_card_name'] = 'alberto reyes diaz';
+            $payment_data['credit_card_number'] = '5234214982638268';
+            $payment_data['credit_card_exp_month'] = '08';
+            $payment_data['credit_card_exp_year'] = '2021';
+            $payment_data['credit_card_cvc'] = '057';
+
+            $datas = array(
+                "holder_name" => $payment_data['credit_card_name'],
+                "card_expiration" => $payment_data['credit_card_exp_month'] . "/" . $payment_data['credit_card_exp_year'],
+                "card_number" => $payment_data['credit_card_number'],
+                "card_cvv" => $payment_data['credit_card_cvc'],
+                "payment_method_code" => "credit_card",
+                "customer_id" => $Client->MarkInfo->Payment->gateway_client_id
+            );
+
+            $Reponse = $Client->MarkInfo->Payment->addClientPayment($Client->Id, $datas);
+            return $Reponse->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+    }
+
+    public function vindi_create_recurrency_payment() {
+        try {
+            $Client = new Client(0);
+            $Client = unserialize($this->session->userdata('client'));
+
+            $Client->MarkInfo = new \business\MarkInfo($Client);
+            $Client->MarkInfo->load_data();
+
+            $pay_day = json_decode(urldecode($_POST['pay_day']));
+            
+            $pay_day = time() + 24*60*60;
+            
+            $ResponseRecurrencyPayment = new \business\Response\ResponseRecurrencyPayment($PaymentKey = "");
+            $ResponseRecurrencyPayment = $Client->MarkInfo->Payment->create_recurrency_payment($pay_day);
+            
+            $Client->MarkInfo->Payment->update($Client->Id, NULL, NULL, $ResponseRecurrencyPayment->PaymentKey);
+            
+            return $ResponseRecurrencyPayment->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
     }
 
     public function vindi_cancel_recurrency_payment() {
@@ -227,18 +285,6 @@ class Payment extends CI_Controller {
         $prod_1real_id = urldecode($_POST['prod_1real_id']);
         $amount = urldecode($_POST['amount']);
         $result = $Vindi->create_payment($user_id, $prod_1real_id, $amount);
-        echo json_encode($result);
-    }
-
-    public function vindi_create_recurrency_payment() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new follows\cls\system_config();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/PaymentVindi.php';
-        $Vindi = new \follows\cls\Payment\Vindi();
-        $user_id = urldecode($_POST['user_id']);
-        $pay_day = json_decode(urldecode($_POST['pay_day']));
-        $plane_type = json_decode(urldecode($_POST['plane_type']));
-        $result = $Vindi->create_recurrency_payment($user_id, $pay_day, $plane_type);
         echo json_encode($result);
     }
 

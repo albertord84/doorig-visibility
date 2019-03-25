@@ -194,8 +194,8 @@ class Welcome extends CI_Controller {
 
             //3. return response
             return Response::ResponseOK()->toJson();
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
     }
 

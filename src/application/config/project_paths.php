@@ -68,6 +68,7 @@ $config['business-response-class'] = getcwd() . '/application/business/Response/
 $config['business-response_inserted_object-class'] = getcwd() . '/application/business/Response/ResponseInsertedObject.php';
 $config['business-response-reference-profiles-class'] = getcwd() . '/application/business/Response/ResponseReferenceProfiles.php';
 $config['business-response_black_and_white_list-class'] = getcwd() . '/application/business/Response/ResponseBlackAndWhiteList.php';
+$config['business-response_recurrency_payment-class'] = getcwd() . '/application/business/Response/ResponseRecurrencyPayment.php';
 
 /*
   |--------------------------------------------------------------------------
