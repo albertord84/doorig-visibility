@@ -64,7 +64,7 @@ namespace business {
             $init_date = $init_date ? $init_date : time();
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
-            if (self::exist($insta_id)) {
+            if (self::exist($client_id)) {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
@@ -85,10 +85,10 @@ namespace business {
             $ci->client_mark_model->update($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
         }
 
-        static function exist(string $insta_id) {
+        static function exist(string $client_id) {
             try {
-                $Client = new Client(0);
-                $Client->MarkInfo->load_data_by_insta_id($insta_id);
+                $Client = new Client($client_id);
+                $Client->MarkInfo->load_data();
 
                 $exist = $Client->MarkInfo->client_id > 0;
                 if ($exist)
