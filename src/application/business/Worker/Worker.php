@@ -127,8 +127,10 @@ require_once config_item('business-class');
                     } else {
                         sleep(10 * 60);
                     }
-                } catch (\Exception $exc) {
-                    echo $exc->getTraceAsString();
+                } catch (\Throwable $exc) {
+                     $ci = &get_instance();
+                     $ci->LogMgr->WriteResponse($exc);
+                    //$exc->getTraceAsString();
                 }
             }
         }
