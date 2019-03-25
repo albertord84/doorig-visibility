@@ -5,6 +5,7 @@ namespace InstaApiWeb {
     require_once config_item('thirdparty-insta_ref_profile-resource');
     require_once config_item('thirdparty-insta_profile-resource');
     require_once config_item('thirdparty-followers-response-class');
+    require_once config_item('insta-exception-class');
 
 //use InstaApiWeb\InstaApi;
 
@@ -15,6 +16,7 @@ namespace InstaApiWeb {
     use InstaApiWeb\InstaReferenceProfile;
     use InstaApiWeb\Response\FollowersResponse;
     use function GuzzleHttp\json_decode;
+    use InstaApiWeb\Exceptions\InstaException;
 
     /**
      * Description of HashProfile
@@ -56,7 +58,7 @@ namespace InstaApiWeb {
         }
 
         public function get_insta_followers(Cookies $cookies = NULL, int $N = 15, string& $cursor = NULL, Proxy $proxy = NULL) {
-            $N = $N/3 + 1;   // Solo en caso del 
+            $N = $N / 3 + 1;   // Solo en caso del 
             $profiles = array();
             $json_response = $this->get_post($N, $cursor, $cookies, $proxy);
 
@@ -79,9 +81,10 @@ namespace InstaApiWeb {
                 $message = isset($json_response->message) ? $json_response->message :
                         "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
                 return new FollowersResponse(array(), '', false, 1, $message);
-            }
+            } else {
 
-            throw new \InstaException("unknown exception response $json_response");
+                throw new \InstaException("unknown exception response $json_response");
+            }
         }
 
         public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {

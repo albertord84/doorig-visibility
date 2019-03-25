@@ -18,6 +18,11 @@ namespace InstaApiWeb\Response {
       $this->output_array = array('code' => $this->code, 'message' => $this->message);
     }
     
+    public function add_params(string $params_name, string $value)
+    {
+        $this->output_array[$params_name] = $value;
+    }
+    
     public function getJSON()
     {
         return json_encode($this->output_array);

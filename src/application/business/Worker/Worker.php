@@ -101,29 +101,36 @@ require_once config_item('business-class');
         }
 
         public static function verify_client(Client $client) {
-            $do_login = true;
             if ($client->MarkInfo->Cookies == null || ($client->MarkInfo->Cookies->SessionId == null)) {
-                $do_login = $client->do_login();
+                $login_response = $client->do_login();
             }
-            return $do_login;
+            return ($login_response && isset($login_response->Cookies) && $login_response->Cookies != NULL);
         }
 
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
-            ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
             $ci = &get_instance();
-            while (DailyWork::exist_work()) {
-                $daily_work = DailyWork::get_next_work($client_id);
-
-                if (Worker::verify_client($daily_work->Client)) {
-                    $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "3445996566", "cookies" => $daily_work->Client->MarkInfo->Cookies), 'InstaClient_lib');
-                    $robot = new Robot();
-                    $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
-                    $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
-                    unset($ci->InstaClientBusiness_lib);
-                    break;
-                } else {
-                    DailyWork::delete_dailywork($daily_work->Client);
+            while (true) {
+                try {
+                    $daily_work = DailyWork::get_next_work($client_id);
+                    if ($daily_work !== null) {
+                        if (Worker::verify_client($daily_work->Client)) {
+                            $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "3445996566", "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $daily_work->Client->MarkInfo->Proxy->getApiProxy()), 'InstaClient_lib');
+                            $robot = new Robot();
+                            $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
+                            $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
+                            unset($ci->InstaClientBusiness_lib);
+                            //break;
+                        } else {
+                            DailyWork::delete_dailywork($daily_work->Client);
+                        }
+                    } else {
+                        sleep(10 * 60);
+                    }
+                } catch (\Throwable $exc) {
+                     $ci = &get_instance();
+                     $ci->LogMgr->WriteResponse($exc);
+                    //$exc->getTraceAsString();
                 }
             }
         }

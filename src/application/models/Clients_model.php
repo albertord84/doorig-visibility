@@ -144,8 +144,14 @@ class Clients_model extends CI_Model {
         $this->db->where('user_id', $id);
         $this->db->update('client', $data);  
     }
-  
-  
+    
+    function get_followed(int $client_id, string $profile_id) {
+        $followed_db = $this->load->database('followed', TRUE);
+        $followed_db->where('followed_id', $profile_id);
+        $query = $followed_db->get();
+        return  $query->result();
+    }
+    
   /*DB Model function*/
   public function get_clients_by_status($user_status, $offset = 0, $rows = 50) {
     try {

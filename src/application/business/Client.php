@@ -8,6 +8,7 @@ namespace business {
     require_once config_item('business-ref_profile-class');
     require_once config_item('business-reference-profiles-class');
     require_once config_item('business-black_and_white_list-class');
+    require_once config_item('business-response-class');
 
     /**
      * @category Business class
@@ -170,7 +171,7 @@ namespace business {
             }
 
             $return_response = $this->process_login_response($login_response);
-            
+
             return $login_response;
         }
 
@@ -193,10 +194,10 @@ namespace business {
             $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
 
             // Guardar las cookies en la Base de Datos
-            if ($login_response && ($login_response->Cookies)) {
+            if ($login_response && isset($login_response->Cookies) && $login_response->Cookies != NULL) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
                 $cookies_str = json_encode($login_response->Cookies);
-                self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
+                self::update($this->Id, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, $cookies_str);
             }
 
             $return_response = $this->process_login_response($login_response);
@@ -259,6 +260,13 @@ namespace business {
             $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
 
             return $param;
+        }
+        
+        function exist_followed(string $insta_id)
+        {
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            return $ci->client_mark_model->get_followed($this->Id, $insta_id) != null;
         }
 
     }

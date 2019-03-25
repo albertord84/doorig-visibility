@@ -40,5 +40,6 @@ class LogsManager_lib {
             print_r("{'message': 'unkown object', 'object': $message },");            
         }
         //$this->CI->set_output($this->Output_addr);
-    }
+    }    
+
 }

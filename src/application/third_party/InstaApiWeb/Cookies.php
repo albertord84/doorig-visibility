@@ -48,7 +48,8 @@ namespace InstaApiWeb {
     public $Challenge;
 
     public function __construct(string $cookies_str = null, string $challenge = NULL) {
-      $obj = json_decode($cookies_str);
+      $obj = json_decode($cookies_str);     
+ 
       if (isset($obj->SessionId))
         $this->SessionId = $obj->SessionId;
       if (isset($obj->CsrfToken))
