@@ -113,8 +113,11 @@ require_once config_item('business-class');
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
             $ci = &get_instance();
-            while (true) {
+            $N = 1;
+            while ($N++ <= 3) {
+//            while (true) {
                 try {
+                    print 'Get_next_work: \n';
                     $daily_work = DailyWork::get_next_work($client_id);
                     if ($daily_work !== null) {
                         if (Worker::verify_client($daily_work->Client)) {
@@ -122,7 +125,9 @@ require_once config_item('business-class');
                             $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
                             $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                             $robot = new Robot();
+                            print 'Do_follow_work: \n';
                             $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
+                            print 'Do_unfollow_work: \n';
                             $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
                             unset($ci->InstaClientBusiness_lib);
                             //break;
