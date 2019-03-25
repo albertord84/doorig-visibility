@@ -23,7 +23,7 @@ class Client_mark_model extends CI_Model {
         parent::construct();
     }
 
-    function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
+    function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
 
         $this->client_id = $client_id;
         $this->plane_id = $plane_id;
@@ -34,6 +34,7 @@ class Client_mark_model extends CI_Model {
         $this->insta_id = $insta_id;
         $this->init_date = $init_date;
         $this->end_date = $end_date;
+        $this->pay_day = $pay_day;
         $this->cookies = $cookies;
         $this->observation = $observation;
         $this->purchase_counter = $purchase_counter;
@@ -55,7 +56,7 @@ class Client_mark_model extends CI_Model {
         $this->db->delete('client_mark', array('id' => $id));
     }
 
-    function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
+    function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
 
         $this->client_id = $client_id;
         if ($plane_id)
@@ -74,6 +75,8 @@ class Client_mark_model extends CI_Model {
             $this->init_date = $init_date;
         if ($end_date)
             $this->end_date = $end_date;
+        if ($pay_day)
+            $this->pay_day = $pay_day;
         if ($cookies)
             $this->cookies = $cookies;
         if ($observation)

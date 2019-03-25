@@ -29,14 +29,15 @@ class Welcome extends CI_Controller {
     }
 
     // deprecated
-    public function a() {
-        $Client = new Client(15);
+    public function a($client = 1) {
+        $Client = new Client($client);
         //$profile_public_data = InstaCommands::get_profile_public_data('alberto_dreyes');
         // Inser First Daily Report Point
         //$followes = convert_instanumber_to_number($profile_public_data->followers);
         //$following = convert_instanumber_to_number($profile_public_data->following);
         //$Client->DailyReport->save(15, $following, $followes);
-        //$Client->load_mark_info_data();
+        $Client->DailyReport->load_data();
+        $Client->load_mark_info_data();
         $Client->load_insta_reference_profiles_data();
         var_dump($Client);
         //$this->load->view('visibility_client_tmp');
@@ -86,6 +87,7 @@ class Welcome extends CI_Controller {
         $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
         $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
         $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
+        $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
         $this->load->view('visibility_client', $param);
     }
 
@@ -143,10 +145,12 @@ class Welcome extends CI_Controller {
                 $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
                 $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
                 $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
+                $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
                 $this->load->view('visibility_client', $param);
             } else {
                 $Planes = new Plane();
                 $param["planes"] = $Planes->get_all();
+                $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
                 $this->load->view('visibility_home', $param);
             }
         } else {
@@ -190,8 +194,8 @@ class Welcome extends CI_Controller {
 
             //3. return response
             return Response::ResponseOK()->toJson();
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
     }
 
@@ -232,7 +236,7 @@ class Welcome extends CI_Controller {
 
             //1. llamar a la funcion generate_access_token que esta en el dasboard por Guzle
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "/welcome/generate_access_token";
-            $GuzClient = new \GuzzleHttp\Client();
+            $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'client_id' => $client_id,
@@ -257,13 +261,13 @@ class Welcome extends CI_Controller {
     private function check_access_token($access_token, $client_id) {
         try {
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "welcome/confirm_access_token";
-            $GuzClient = new \GuzzleHttp\Client();
+            $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'module_id' => $GLOBALS['sistem_config']->module_id,
                     'client_id' => $client_id,
                     'access_token' => $access_token
-                ]
+                ],
             ]);
             $StatusCode = $response->getStatusCode();
             $content = $response->getBody()->getContents();
@@ -279,7 +283,7 @@ class Welcome extends CI_Controller {
     }
 
     public function request_lateral_menu($client_id) {
-        $GuzClient = new \GuzzleHttp\Client();
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
         $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "Clients/get_lateral_menu/";
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
@@ -293,7 +297,7 @@ class Welcome extends CI_Controller {
     }
 
     public function request_modals() {
-        $GuzClient = new \GuzzleHttp\Client();
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
         $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "Clients/get_modals";
         $response = $GuzClient->get($url);
         $StatusCode = $response->getStatusCode();
@@ -341,7 +345,7 @@ class Welcome extends CI_Controller {
 
     private function dashboard_set_contrated_module(\stdClass $ClientModule) {
         $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "clients/set_contrated_module";
-        $GuzClient = new \GuzzleHttp\Client();
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
                 'client_id' => $ClientModule->client_id,
