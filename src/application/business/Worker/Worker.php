@@ -83,8 +83,9 @@ require_once config_item('business-class');
                         if (count($Client->reference_profiles)) { // To keep unfollow
                             $ci->db_model->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
                         }
-                        if (!$not_mail)
-                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+                            #@TODO Uncomment
+//                        if (!$not_mail)
+//                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 }
             }
