@@ -40,7 +40,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="social-widget">
-                                                <p id="actual_date" class="soc-header box-twitter">AGORA <br><?php echo date("d/m/y",time());?></p>
+                                                <p id="actual_date" class="soc-header box-twitter">AGORA <br><?php echo date("d/n/Y",time());?></p>
                                                 <div class="soc-content">
                                                     <div class="col-6 b-r">
                                                         <h3 id="actual_followers" class="font-medium"></h3>

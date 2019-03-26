@@ -116,7 +116,7 @@ class Welcome extends CI_Controller {
 
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
-                unset($tmpClient->MarkIndo->Pass);
+                unset($tmpClient->MarkIndo->pass);
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
                 //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
