@@ -30,7 +30,7 @@ class Daily_work_model extends CI_Model {
         $this->db->delete('daily_work', array('reference_id' => $reference_id));
     }
 
-    function update($reference_id, $to_follow, $to_unfollow, $cookies) {
+    function update($reference_id, $to_follow, $to_unfollow) {
         $this->to_follow = $to_follow;
         $this->to_unfollow = $to_unfollow;
 
@@ -56,7 +56,7 @@ class Daily_work_model extends CI_Model {
 
     function get_next_work(int $reference_profile_id = NULL, bool $block = true) {
         $time = time();
-        $min_time = $time - $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME*60*1000 ;
+        $min_time = $time - $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 * 1000;
         $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) "
                 . "AND reference_profile.deleted is not TRUE "
                 . "AND (client_mark.last_access is NULL OR "
@@ -130,11 +130,16 @@ class Daily_work_model extends CI_Model {
 
     function remove_client_work($client_id) {
         $this->db->where("reference_id IN (SELECT reference_profile.id "
-            . "FROM reference_profile "
-            . "WHERE reference_profile.client_id = $client_id )");
+                . "FROM reference_profile "
+                . "WHERE reference_profile.client_id = $client_id )");
         $this->db->delete('daily_work');
     }
-    
+
+    function remove_client_work_by_reference_profile(int $reference_profile_id) {
+        $this->db->where('reference_id', $reference_profile_id);
+        $this->db->delete('daily_work');
+    }
+
     function truncate() {
         $this->db->truncate('daily_work');
     }

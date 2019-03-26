@@ -5,7 +5,7 @@
             <div class="card-body">
                 <div class="col-md-12">
                     <div class="text-right">
-                        <a href="#">Saiva mais <i class="far fa-question-circle"></i></a>
+                        <a href="#">Saiba mais <i class="far fa-question-circle"></i></a>
                     </div>
                 </div>
                 <div class="col-md-12">

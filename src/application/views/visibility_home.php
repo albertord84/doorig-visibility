@@ -241,7 +241,7 @@
                                                                             </div>                                                                
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label>Senha:</label>
+                                                                            <label>Senha de Instagram:</label>
                                                                             <input id="password" type="password" class="form-control" id="firstName1"> 
                                                                         </div>
                                                                         <div class="form-group">

@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    
     //ACCOUNT FUNCTIONS-----------------------------------------------------
     $("#active-account").click(function () {
         $(this).prop("disabled",true);
@@ -312,7 +311,7 @@ $(document).ready(function () {
         i=0; var statistics=[];
         $.each( datas, function( key, value ) {
             statistics[i]={
-                period: timeConverter(value.date,"-"),
+                period: timeConverter(value.date,"/"),
                 followed: value.followings,
                 followers: value.followers
             };
@@ -344,11 +343,21 @@ $(document).ready(function () {
         $("#total_followeds").text(info.total_followeds);        
         var info = person_profile.ReferenceProfiles;
         $("#amount_reference_profile_used").text(info.amount_reference_profile_used);
-        $("#amount_profile_followed").text(info.amount_profile_followed);
         $("#amount_geolocations_used").text(info.amount_geolocations_used);
-        $("#amount_profile_geolocations_followed").text(info.amount_profile_geolocations_followed);
         $("#amount_hashtags_used").text(info.amount_hashtags_used);
-        $("#amount_profile_hashtags_followed").text(info.amount_profile_hashtags_followed);
+        
+        if(info.amount_profile_followed)
+            $("#amount_profile_followed").text(info.amount_profile_followed);
+        else
+            $("#amount_profile_followed").text(0);
+        if(info.amount_profile_geolocations_followed)        
+            $("#amount_profile_geolocations_followed").text(info.amount_profile_geolocations_followed);
+        else
+            $("#amount_profile_geolocations_followed").text(0);
+        if(info.amount_profile_hashtags_followed)
+            $("#amount_profile_hashtags_followed").text(info.amount_profile_hashtags_followed);
+        else
+            $("#amount_profile_hashtags_followed").text(0);
     }
     
     display_person_profile_datas();

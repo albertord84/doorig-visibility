@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="sec-title text-center">
-                        <h2 style="color:red">PERFIL OU SENHA INCORRETOS!!</h2>
+                        <h2 >ATUALIZE A SUA MARCA</h2>
                         <span class="border"></span>
                     </div>
                 </div>                                        

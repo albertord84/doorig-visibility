@@ -59,7 +59,7 @@ class Welcome extends CI_Controller {
         $this->session->set_userdata('client', serialize($Client));
         //4. load datas as params to be used in visibility_client view                
         $tmpClient = $Client;
-        unset($tmpClient->Pass);
+        unset($tmpClient->pass);
         $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
         //5. load painel_by_status as params to be display in visibility_client view
         $param["painel_by_status"] = NULL;
@@ -112,12 +112,10 @@ class Welcome extends CI_Controller {
                 $Client->load_daily_report_data();
                 $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
-                
-                //var_dump($Client);                return;
 
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
-                unset($tmpClient->MarkIndo->Pass);
+                unset($tmpClient->MarkInfo->pass);
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
                 //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
@@ -160,8 +158,46 @@ class Welcome extends CI_Controller {
 
     public function log_out() {
         //$this->user_model->insert_washdog($this->session->userdata('id'), 'CLOSING SESSION');
+
+        
         $this->session->sess_destroy();
-        header('Location: ' . $GLOBALS['sistem_config']->BASE_SITE_URL);
+    }
+
+    public function planes() {
+        //1. check correct access_token or active session
+        if ($this->session->userdata('client_module') && $this->session->userdata('client')){
+            $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
+            $ClientModule = unserialize($this->session->userdata('client_module'));
+            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
+            $param["modals"] = $this->request_modals();
+            $Planes = new Plane();
+            $param2["planes"] = $Planes->get_all();
+            $param["update_plane"] = $this->load->view('client_views/change_plane', $param2, TRUE);
+            $tmpClient = unserialize($this->session->userdata('client'));
+            unset($tmpClient->pass);
+            $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
+            $this->load->view('visibility_client_updates', $param);            
+        }else{
+            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+        }
+    }
+    
+    public function mark() {
+        //1. check correct access_token or active session
+        if ($this->session->userdata('client_module') && $this->session->userdata('client')){
+            $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
+            $ClientModule = unserialize($this->session->userdata('client_module'));
+            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
+            $param["modals"] = $this->request_modals();            
+            
+            $param["update_mark"] = $this->load->view('client_views/update_mark', "", TRUE);
+            $tmpClient = unserialize($this->session->userdata('client'));
+            unset($tmpClient->pass);
+            $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
+            $this->load->view('visibility_client_updates', $param);            
+        }else{
+            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+        }
     }
 
     //---------------HOME FUNCTIONS-----------------------------
@@ -174,23 +210,24 @@ class Welcome extends CI_Controller {
             //2. save mark in DB using client_id as follow:
             $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
             $Client = new Client($client_id);
-            $Client->save(
-                    $client_id,
-                    $plane_id = null,
-                    $pay_id = null,
-                    $proxy_id = null,
-                    $login = $datas["insta_name"],
-                    $pass = $datas["password"],
-                    $insta_id = $datas["insta_id"],
-                    $init_date = time(),
-                    $end_date = null,
-                    $cookies = null,
-                    $observation = null,
-                    $purchase_counter = 1,
-                    $last_access = null,
-                    $insta_followers_ini = null,
-                    $insta_following = null
-            );
+            if (!$Client->exist($client_id))
+                $Client->save(
+                        $client_id,
+                        $plane_id = null,
+                        $pay_id = null,
+                        $proxy_id = null,
+                        $login = $datas["insta_name"],
+                        $pass = $datas["password"],
+                        $insta_id = $datas["insta_id"],
+                        $init_date = time(),
+                        $end_date = null,
+                        $cookies = null,
+                        $observation = null,
+                        $purchase_counter = 1,
+                        $last_access = null,
+                        $insta_followers_ini = null,
+                        $insta_following = null
+                );
 
             //3. return response
             return Response::ResponseOK()->toJson();
@@ -221,6 +258,30 @@ class Welcome extends CI_Controller {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
     }
+    
+    public function update_plane() { //setting plane
+        try {
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+            //1. set plane in la DB
+            $datas = $this->input->post();
+            $plane_id = 1;
+            $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
+            $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
+            $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+
+            //Client::update($client_id, $plane_id);
+
+            //2. si esta haciendo upgrade, cobrar diferencia
+            
+            //3. atualizar banco de dados
+            
+            //4. return response
+            return Response::ResponseOK()->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+    }
 
     public function get_person_profile_datas($profile_name) {
         $result = InstaCommands::get_profile_public_data($profile_name);
@@ -236,7 +297,7 @@ class Welcome extends CI_Controller {
 
             //1. llamar a la funcion generate_access_token que esta en el dasboard por Guzle
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "/welcome/generate_access_token";
-            $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+            $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'client_id' => $client_id,
@@ -261,7 +322,7 @@ class Welcome extends CI_Controller {
     private function check_access_token($access_token, $client_id) {
         try {
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "welcome/confirm_access_token";
-            $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+            $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'module_id' => $GLOBALS['sistem_config']->module_id,
@@ -283,7 +344,7 @@ class Welcome extends CI_Controller {
     }
 
     public function request_lateral_menu($client_id) {
-        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "Clients/get_lateral_menu/";
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
@@ -297,7 +358,7 @@ class Welcome extends CI_Controller {
     }
 
     public function request_modals() {
-        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "Clients/get_modals";
         $response = $GuzClient->get($url);
         $StatusCode = $response->getStatusCode();
@@ -339,13 +400,13 @@ class Welcome extends CI_Controller {
         $this->session->set_userdata('client_module', serialize($ClientModule));
         //4. Save client in session
         $this->session->set_userdata('client', serialize($Client));
-        
+
         $Client->do_login();
     }
 
     private function dashboard_set_contrated_module(\stdClass $ClientModule) {
         $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "clients/set_contrated_module";
-        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
                 'client_id' => $ClientModule->client_id,
