@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    console.log(person_profile);
     //ACCOUNT FUNCTIONS-----------------------------------------------------
     $("#active-account").click(function () {
         $(this).prop("disabled",true);

@@ -59,7 +59,7 @@ class Welcome extends CI_Controller {
         $this->session->set_userdata('client', serialize($Client));
         //4. load datas as params to be used in visibility_client view                
         $tmpClient = $Client;
-        unset($tmpClient->Pass);
+        unset($tmpClient->pass);
         $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
         //5. load painel_by_status as params to be display in visibility_client view
         $param["painel_by_status"] = NULL;
@@ -113,10 +113,9 @@ class Welcome extends CI_Controller {
                 $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
 
-                //var_dump($Client);                return;
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
-                unset($tmpClient->MarkIndo->pass);
+                unset($tmpClient->MarkInfo->pass);
                 $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
                 //5. load painel_by_status as params to be display in visibility_client view
                 $param["painel_by_status"] = NULL;
@@ -161,6 +160,43 @@ class Welcome extends CI_Controller {
         //$this->user_model->insert_washdog($this->session->userdata('id'), 'CLOSING SESSION');
         $this->session->sess_destroy();
         header('Location: ' . $GLOBALS['sistem_config']->BASE_SITE_URL);
+    }
+
+    public function planes() {
+        //1. check correct access_token or active session
+        if ($this->session->userdata('client_module') && $this->session->userdata('client')){
+            $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
+            $ClientModule = unserialize($this->session->userdata('client_module'));
+            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
+            $param["modals"] = $this->request_modals();
+            $Planes = new Plane();
+            $param2["planes"] = $Planes->get_all();
+            $param["update_plane"] = $this->load->view('client_views/change_plane', $param2, TRUE);
+            $tmpClient = unserialize($this->session->userdata('client'));
+            unset($tmpClient->pass);
+            $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
+            $this->load->view('visibility_client_updates', $param);            
+        }else{
+            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+        }
+    }
+    
+    public function mark() {
+        //1. check correct access_token or active session
+        if ($this->session->userdata('client_module') && $this->session->userdata('client')){
+            $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
+            $ClientModule = unserialize($this->session->userdata('client_module'));
+            $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
+            $param["modals"] = $this->request_modals();            
+            
+            $param["update_mark"] = $this->load->view('client_views/update_mark', "", TRUE);
+            $tmpClient = unserialize($this->session->userdata('client'));
+            unset($tmpClient->pass);
+            $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
+            $this->load->view('visibility_client_updates', $param);            
+        }else{
+            header("Location:" . $GLOBALS['sistem_config']->BASE_SITE_URL);
+        }
     }
 
     //---------------HOME FUNCTIONS-----------------------------
@@ -216,6 +252,30 @@ class Welcome extends CI_Controller {
             $this->contrated_module();
 
             //3. return response
+            return Response::ResponseOK()->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+    }
+    
+    public function update_plane() { //setting plane
+        try {
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+            //1. set plane in la DB
+            $datas = $this->input->post();
+            $plane_id = 1;
+            $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
+            $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
+            $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+
+            //Client::update($client_id, $plane_id);
+
+            //2. si esta haciendo upgrade, cobrar diferencia
+            
+            //3. atualizar banco de dados
+            
+            //4. return response
             return Response::ResponseOK()->toJson();
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
