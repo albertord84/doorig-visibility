@@ -4,7 +4,7 @@
         <div class="container">
             <div class="col-md-12">
                 <div class="text-right">
-                    <a href="#">Saiva mais <i class="far fa-question-circle"></i></a>
+                    <a href="#">Saiba mais <i class="far fa-question-circle"></i></a>
                 </div>
             </div>
             <div class="row">
@@ -34,7 +34,7 @@
                                         </div>                                                                
                                     </div>
                                     <div class="form-group">
-                                        <label>Senha:</label>
+                                        <label>Senha de Instagram:</label>
                                         <input id="password" type="password" class="form-control" id="firstName1"> 
                                     </div>
                                     <div class="form-group">
