@@ -205,7 +205,9 @@ namespace business {
                         //3. Poner el Cliente como activo, y guardar las cookies
                         $this->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
                         $this->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
-                        $this->MarkInfo->update_cookies(json_encode($login_response->Cookies));
+                        $cookies = NULL;
+                        if($login_response->Cookies != NULL) $cookies = json_encode($login_response->Cookies);
+                        $this->MarkInfo->update_cookies($cookies);
                         return Response\Response::ResponseOK();
 
                     case 1: // Bloqued by password
