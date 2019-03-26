@@ -3,8 +3,9 @@
 namespace business {
 
     require_once config_item('business-loader-class');
-    
-    /**x
+    require_once config_item('thirdparty-proxy-resource');
+
+    /*     * x
      * @category Business class
      * 
      * @access public
@@ -12,6 +13,7 @@ namespace business {
      * @todo Define an Proxy business class.
      * 
      */
+
     class Proxy extends Loader {
 
         public $Id;
@@ -24,13 +26,13 @@ namespace business {
         function __construct(int $id = NULL) {
             $ci = &get_instance();
             $ci->load->model('proxy_model');
-            
+
             $this->Id = $id;
         }
 
         public function load_data() {
             //$this->Id = $id ? $id : $this->Id;
-            
+
             $ci = &get_instance();
             $data = $ci->proxy_model->get_by_id($this->Id);
 
@@ -53,6 +55,16 @@ namespace business {
 
         public function ToString() {
             return "--proxy '$this->User:$this->Password@$this->Ip:$this->Port'";
+        }
+
+        public static function ProxysCount() {
+            $ci = &get_instance();
+            $ci->load->model('proxy_model');
+            return $ci->proxy_model->count();
+        }
+
+        public function getApiProxy() {
+            return new \InstaApiWeb\Proxy($this->Ip, $this->Port, $this->User, $this->Password);
         }
 
     }

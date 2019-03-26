@@ -8,6 +8,7 @@ namespace business {
     require_once config_item('business-ref_profile-class');
     require_once config_item('business-reference-profiles-class');
     require_once config_item('business-black_and_white_list-class');
+    require_once config_item('business-response-class');
 
     /**
      * @category Business class
@@ -63,7 +64,7 @@ namespace business {
             $init_date = $init_date ? $init_date : time();
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
-            if (self::exist($insta_id)) {
+            if (self::exist($client_id)) {
                 throw ErrorCodes::getException(ErrorCodes::DATA_ALREADY_EXIST);
             } else {
                 $ci = &get_instance();
@@ -84,10 +85,10 @@ namespace business {
             $ci->client_mark_model->update($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
         }
 
-        static function exist(string $insta_id) {
+        static function exist(string $client_id) {
             try {
-                $Client = new Client(0);
-                $Client->MarkInfo->load_data_by_insta_id($insta_id);
+                $Client = new Client($client_id);
+                $Client->MarkInfo->load_data();
 
                 $exist = $Client->MarkInfo->client_id > 0;
                 if ($exist)
@@ -170,7 +171,7 @@ namespace business {
             }
 
             $return_response = $this->process_login_response($login_response);
-            
+
             return $login_response;
         }
 
@@ -191,13 +192,6 @@ namespace business {
             $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_gost_insta_client_lib_params(), 'InstaClient_lib');
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
-
-            // Guardar las cookies en la Base de Datos
-            if ($login_response && ($login_response->Cookies)) {
-                $this->MarkInfo->Cookies = $login_response->Cookies;
-                $cookies_str = json_encode($login_response->Cookies);
-                self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
-            }
 
             $return_response = $this->process_login_response($login_response);
 
@@ -259,6 +253,13 @@ namespace business {
             $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
 
             return $param;
+        }
+        
+        function exist_followed(string $insta_id)
+        {
+            $ci = &get_instance();
+            $ci->load->model('client_mark_model');
+            return $ci->client_mark_model->get_followed($this->Id, $insta_id) != null;
         }
 
     }

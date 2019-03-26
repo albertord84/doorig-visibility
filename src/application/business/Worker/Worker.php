@@ -83,8 +83,9 @@ require_once config_item('business-class');
                         if (count($Client->reference_profiles)) { // To keep unfollow
                             $ci->db_model->insert_daily_work($Client->reference_profiles[0]->id, 0, $DIALY_REQUESTS_BY_CLIENT, $Client->cookies);
                         }
-                        if (!$not_mail)
-                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+                            #@TODO Uncomment
+//                        if (!$not_mail)
+//                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
                 }
             }
@@ -101,29 +102,46 @@ require_once config_item('business-class');
         }
 
         public static function verify_client(Client $client) {
-            $do_login = true;
-            if ($client->MarkInfo->Cookies == null || ($client->MarkInfo->Cookies->SessionId == null)) {
-                $do_login = $client->do_login();
+            if (!isset($client->MarkInfo->Cookies) || ($client->MarkInfo->Cookies->SessionId == null)) {
+                $login_response = $client->do_login();
+                return ($login_response && isset($login_response->Cookies) 
+                        && $login_response->Cookies != NULL && $client->MarkInfo->Cookies->SessionId != null);
             }
-            return $do_login;
+            return true;
         }
 
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
-            ///opt/lampp/htdocs/follows-worker/src/application/libraries/InstaApiWeb/InstaGeoProfile_lib.php
             $ci = &get_instance();
-            while (DailyWork::exist_work()) {
-                $daily_work = DailyWork::get_next_work($client_id);
-
-                if (Worker::verify_client($daily_work->Client)) {
-                    $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "3445996566", "cookies" => $daily_work->Client->MarkInfo->Cookies), 'InstaClient_lib');
-                    $robot = new Robot();
-                    $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
-                    $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
-                    unset($ci->InstaClientBusiness_lib);
-                    break;
-                } else {
-                    DailyWork::delete_dailywork($daily_work->Client);
+            $N = 1;
+            while ($N++ <= 3) {
+//            while (true) {
+                try {
+                    print 'Get_next_work: \n';
+                    $daily_work = DailyWork::get_next_work($client_id);
+                    if ($daily_work !== null) {
+                        if (Worker::verify_client($daily_work->Client)) {
+                            $daily_work->Client->load_mark_info_data();
+                            $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
+                            $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
+                            $robot = new Robot();
+                            print 'Do_follow_work: \n';
+                            $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
+                            print 'Do_unfollow_work: \n';
+                            $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
+                            unset($ci->InstaClientBusiness_lib);
+                            //break;
+                        } else {
+                            $daily_work->delete_dailywork();
+                        }
+                    } else {
+                        //sleep(1 * 20);
+                        sleep(5 * 60);
+                    }
+                } catch (\Throwable $exc) {
+                     $ci = &get_instance();
+                     $ci->LogMgr->WriteResponse($exc);
+                    //$exc->getTraceAsString();
                 }
             }
         }

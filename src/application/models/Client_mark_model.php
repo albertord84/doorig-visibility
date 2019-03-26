@@ -23,7 +23,7 @@ class Client_mark_model extends CI_Model {
         parent::construct();
     }
 
-    function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
+    function save($client_id, $plane_id = 1, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
 
         $this->client_id = $client_id;
         $this->plane_id = $plane_id;
@@ -34,6 +34,7 @@ class Client_mark_model extends CI_Model {
         $this->insta_id = $insta_id;
         $this->init_date = $init_date;
         $this->end_date = $end_date;
+        $this->pay_day = $pay_day;
         $this->cookies = $cookies;
         $this->observation = $observation;
         $this->purchase_counter = $purchase_counter;
@@ -55,7 +56,7 @@ class Client_mark_model extends CI_Model {
         $this->db->delete('client_mark', array('id' => $id));
     }
 
-    function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
+    function update($client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies = NULL, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL) {
 
         $this->client_id = $client_id;
         if ($plane_id)
@@ -74,6 +75,8 @@ class Client_mark_model extends CI_Model {
             $this->init_date = $init_date;
         if ($end_date)
             $this->end_date = $end_date;
+        if ($pay_day)
+            $this->pay_day = $pay_day;
         if ($cookies)
             $this->cookies = $cookies;
         if ($observation)
@@ -129,7 +132,7 @@ class Client_mark_model extends CI_Model {
     }
 
     function load_doorig_follows($client_id) {
-        
+
         $this->db->where('client_id', $client_id);
 
         $this->db->select('count(*) as Count')->from('daily_report');
@@ -171,36 +174,43 @@ class Client_mark_model extends CI_Model {
 
         return $query->result();
     }
-    
-    function create_followed_table($client_id)
-    {
-        $followed_db = $this->load->database('followed', TRUE);        
-        $dbforge = $this->load->dbforge($followed_db,TRUE);
+
+    function create_followed_table($client_id) {
+        $followed_db = $this->load->database('followed', TRUE);
+        $dbforge = $this->load->dbforge($followed_db, TRUE);
         $fields = array(
-        'followed_id' => array(
+            'followed_id' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-        ),
-        'reference_id' => array(
-                'type' =>'INT',
+            ),
+            'reference_id' => array(
+                'type' => 'INT',
                 'constraint' => '6'
-        ),
-        'date' => array(
+            ),
+            'date' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '20',
-        ),
-        'unfollowed' => array(
-             'type' => 'TINYINT',
-             'constraint' => '1',
-        ),
-        'followed_login' => array(
-             'type' => 'VARCHAR',
-             'constraint' => '100',
+            ),
+            'unfollowed' => array(
+                'type' => 'TINYINT',
+                'constraint' => '1',
+            ),
+            'followed_login' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '100',
         ));
         $dbforge->add_field($fields);
         $dbforge->add_field('id');
         $dbforge->create_table("`$client_id`", TRUE);
     }
+
+    function get_followed($client_id, $profile_id) {
+        $followed_db = $this->load->database('followed', TRUE);
+        $followed_db->where('followed_id', $profile_id);
+        $query = $followed_db->get("`$client_id`");
+        return $query->result();
+    }
+
 }
 ?>
 

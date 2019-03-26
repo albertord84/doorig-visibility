@@ -29,14 +29,15 @@ class Welcome extends CI_Controller {
     }
 
     // deprecated
-    public function a() {
-        $Client = new Client(15);
+    public function a($client = 1) {
+        $Client = new Client($client);
         //$profile_public_data = InstaCommands::get_profile_public_data('alberto_dreyes');
         // Inser First Daily Report Point
         //$followes = convert_instanumber_to_number($profile_public_data->followers);
         //$following = convert_instanumber_to_number($profile_public_data->following);
         //$Client->DailyReport->save(15, $following, $followes);
-        //$Client->load_mark_info_data();
+        $Client->DailyReport->load_data();
+        $Client->load_mark_info_data();
         $Client->load_insta_reference_profiles_data();
         var_dump($Client);
         //$this->load->view('visibility_client_tmp');
@@ -111,9 +112,8 @@ class Welcome extends CI_Controller {
                 $Client->load_daily_report_data();
                 $Client->load_black_and_white_list_data();
                 $this->session->set_userdata('client', serialize($Client));
-                
-                //var_dump($Client);                return;
 
+                //var_dump($Client);                return;
                 //4. load datas as params to be used in visibility_client view                
                 $tmpClient = $Client;
                 unset($tmpClient->MarkIndo->pass);
@@ -173,28 +173,29 @@ class Welcome extends CI_Controller {
             //2. save mark in DB using client_id as follow:
             $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
             $Client = new Client($client_id);
-            $Client->save(
-                    $client_id,
-                    $plane_id = null,
-                    $pay_id = null,
-                    $proxy_id = null,
-                    $login = $datas["insta_name"],
-                    $pass = $datas["password"],
-                    $insta_id = $datas["insta_id"],
-                    $init_date = time(),
-                    $end_date = null,
-                    $cookies = null,
-                    $observation = null,
-                    $purchase_counter = 1,
-                    $last_access = null,
-                    $insta_followers_ini = null,
-                    $insta_following = null
-            );
+            if (!$Client->exist($client_id))
+                $Client->save(
+                        $client_id,
+                        $plane_id = null,
+                        $pay_id = null,
+                        $proxy_id = null,
+                        $login = $datas["insta_name"],
+                        $pass = $datas["password"],
+                        $insta_id = $datas["insta_id"],
+                        $init_date = time(),
+                        $end_date = null,
+                        $cookies = null,
+                        $observation = null,
+                        $purchase_counter = 1,
+                        $last_access = null,
+                        $insta_followers_ini = null,
+                        $insta_following = null
+                );
 
             //3. return response
             return Response::ResponseOK()->toJson();
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
     }
 
@@ -235,7 +236,7 @@ class Welcome extends CI_Controller {
 
             //1. llamar a la funcion generate_access_token que esta en el dasboard por Guzle
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "/welcome/generate_access_token";
-            $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+            $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'client_id' => $client_id,
@@ -260,7 +261,7 @@ class Welcome extends CI_Controller {
     private function check_access_token($access_token, $client_id) {
         try {
             $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "welcome/confirm_access_token";
-            $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+            $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
             $response = $GuzClient->post($url, [
                 GuzzleHttp\RequestOptions::FORM_PARAMS => [
                     'module_id' => $GLOBALS['sistem_config']->module_id,
@@ -282,7 +283,7 @@ class Welcome extends CI_Controller {
     }
 
     public function request_lateral_menu($client_id) {
-        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "Clients/get_lateral_menu/";
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
@@ -296,7 +297,7 @@ class Welcome extends CI_Controller {
     }
 
     public function request_modals() {
-        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $url = $GLOBALS["sistem_config"]->DASHBOARD_SITE_URL . "Clients/get_modals";
         $response = $GuzClient->get($url);
         $StatusCode = $response->getStatusCode();
@@ -338,13 +339,13 @@ class Welcome extends CI_Controller {
         $this->session->set_userdata('client_module', serialize($ClientModule));
         //4. Save client in session
         $this->session->set_userdata('client', serialize($Client));
-        
+
         $Client->do_login();
     }
 
     private function dashboard_set_contrated_module(\stdClass $ClientModule) {
         $url = $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . "clients/set_contrated_module";
-        $GuzClient = new \GuzzleHttp\Client(['verify' => false ]);
+        $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
                 'client_id' => $ClientModule->client_id,

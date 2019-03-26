@@ -193,7 +193,10 @@ namespace business {
 
         public function get_followers(Cookies $cookies = NULL, int $N = 15, Proxy $proxy = NULL) {
             $response = new \InstaApiWeb\Response\FollowersResponse(array());
-            $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $proxy);
+            $api_proxy = NULL;
+            if($proxy != NULL)
+                $api_proxy = $proxy->getApiProxy();
+            $response = $this->Ref_profile_lib->get_insta_followers($cookies, $N, $this->Cursor, $api_proxy);
 
             if ($response->code == 0) {
                 $this->Cursor = $response->Cursor;

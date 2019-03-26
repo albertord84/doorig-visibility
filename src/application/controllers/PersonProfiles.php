@@ -18,6 +18,7 @@ class PersonProfiles extends CI_Controller {
 
         require_once config_item('business-client-class');
         require_once config_item('business-ref_profile-class');
+        require_once config_item('business-daily_work-class');
         require_once config_item('business-response-class');
         require_once config_item('business-response-reference-profiles-class');
         require_once config_item('business-response_inserted_object-class');
@@ -29,13 +30,16 @@ class PersonProfiles extends CI_Controller {
     }
 
     public function insert() {
-        
+
         $datas = $this->input->post();
 
         $client_id = unserialize($this->session->userdata('client'))->Id;
 
         try {
             $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id, 0);
+
+            $DailyWork = new \business\worker\DailyWork();
+            $DailyWork->insert($id, 50, 50);
 
             $response = new ResponseInsertedObject($id);
             $response->toJson();
@@ -50,6 +54,9 @@ class PersonProfiles extends CI_Controller {
         try {
             $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
             $ReferenceProfile->remove();
+
+            $DailyWork = new business\worker\DailyWork();
+            $DailyWork->delete_dailywork_by_reference_profile($ReferenceProfile->Id);
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;

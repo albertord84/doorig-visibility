@@ -11,6 +11,7 @@ namespace business\Response {
 
         public $code = 0;
         public $message = "";
+        public $extra_data;
 
         function __construct(int $code = 0, string $message = "") {
             $this->code = $code;
