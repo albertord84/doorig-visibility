@@ -185,16 +185,20 @@ namespace business {
          * 
          */
         public function do_login() {
-            if (!$this->MarkInfo->isLoaded())
-                $this->MarkInfo->load_data();
-
-            $ci = &get_instance();
-            $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_gost_insta_client_lib_params(), 'InstaClient_lib');
             $login_response = new \InstaApiWeb\Response\LoginResponse();
-            $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
+            try {
+                if (!$this->MarkInfo->isLoaded())
+                    $this->MarkInfo->load_data();
 
+                $ci = &get_instance();
+                $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_gost_insta_client_lib_params(), 'InstaClient_lib');
+                $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
+            } catch (\InstagramAPI\Exception\InstaPasswordException $exc) {
+                $login_response->code = 1;
+            } catch (\InstagramAPI\Exception\InstaCheckpointException $exc) {
+                $login_response->code = 2;
+            }
             $return_response = $this->process_login_response($login_response);
-
             return $return_response;
         }
 
@@ -254,9 +258,8 @@ namespace business {
 
             return $param;
         }
-        
-        function exist_followed(string $insta_id)
-        {
+
+        function exist_followed(string $insta_id) {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             return $ci->client_mark_model->get_followed($this->Id, $insta_id) != null;
