@@ -4,7 +4,7 @@ $(document).ready(function () {
     var alt = "300px";
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
-    $('#very_fast_plane').height(alt);
+    $('#very_fast_plane').height(alt);  
     
     function load_contrated_plane(){
         var contrated_plane = person_profile.MarkInfo.Plane.id;
@@ -19,9 +19,10 @@ $(document).ready(function () {
         }
         else
         if(contrated_plane == 2){
-            $("#contrated_very_fast_plane").text("Plano atual");            
             $("#very_fast_plane_radio").click();
+            $("#contrated_very_fast_plane").text("Plano atual");            
         }
+        
     }
     
     $("#midle_plane_radio").click(function () {
@@ -39,6 +40,7 @@ $(document).ready(function () {
     });
 
     $("#very_fast_plane_radio").click(function () {
+        alert(123);
         $("#midle_plane").removeClass("active");
         $("#fast_plane").removeClass("active");
         $("#very_fast_plane").addClass("active");
