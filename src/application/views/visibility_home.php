@@ -493,6 +493,7 @@
         
         <script src="<?php echo base_url()?>assets/js/visibility/insta_interaction_commands.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         <script src="<?php echo base_url()?>assets/js/visibility/visibility_home.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
+        <script src="<?php echo base_url()?>assets/js/visibility/dinamic_menu_items.js"<?php echo '?'.$SCRIPT_VERSION;?>></script>
         
     </body>
 </html>
