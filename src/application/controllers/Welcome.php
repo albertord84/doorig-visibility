@@ -40,6 +40,7 @@ class Welcome extends CI_Controller {
         $Client->load_mark_info_data();
         $Client->load_insta_reference_profiles_data();
         var_dump($Client);
+        $this->session->sess_destroy();
         //$this->load->view('visibility_client_tmp');
     }
 
@@ -221,6 +222,7 @@ class Welcome extends CI_Controller {
                         $insta_id = $datas["insta_id"],
                         $init_date = time(),
                         $end_date = null,
+                        $pay_day = null,
                         $cookies = null,
                         $observation = null,
                         $purchase_counter = 1,
@@ -228,7 +230,25 @@ class Welcome extends CI_Controller {
                         $insta_followers_ini = null,
                         $insta_following = null
                 );
-
+            else 
+                $Client->update(
+                        $client_id,
+                        $plane_id = null,
+                        $pay_id = null,
+                        $proxy_id = null,
+                        $login = $datas["insta_name"],
+                        $pass = $datas["password"],
+                        $insta_id = $datas["insta_id"],
+                        $init_date = time(),
+                        $end_date = null,
+                        $pay_day = null,
+                        $cookies = null,
+                        $observation = null,
+                        $purchase_counter = 1,
+                        $last_access = null,
+                        $insta_followers_ini = null,
+                        $insta_following = null
+                );
             //3. return response
             return Response::ResponseOK()->toJson();
         } catch (\Exception $exc) {
@@ -381,8 +401,9 @@ class Welcome extends CI_Controller {
         //
         //2. set $insta_followers_ini $insta_following
         $profile_public_data = InstaCommands::get_profile_public_data($Client->MarkInfo->login);
+        $proxy = ($client_id % 8) + 1;
         Client::update(
-                $client_id, null, null, null, null, null, null, null, null, null, null, null, null,
+                $client_id, null, null, $proxy, null, null, null, null, null, null, null, null, null, null,
                 $profile_public_data->followers,
                 $profile_public_data->following
         );
@@ -409,8 +430,8 @@ class Welcome extends CI_Controller {
         $GuzClient = new \GuzzleHttp\Client(['verify' => false]);
         $response = $GuzClient->post($url, [
             GuzzleHttp\RequestOptions::FORM_PARAMS => [
-                'client_id' => $ClientModule->client_id,
-                'module_id' => $ClientModule->module_id
+                'client_id' => $ClientModule->Client->Id,
+                'module_id' => $ClientModule->Module->Id
         ]]);
         $StatusCode = $response->getStatusCode();
         $content = $response->getBody()->getContents();
