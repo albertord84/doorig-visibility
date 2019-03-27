@@ -163,12 +163,12 @@ namespace business {
             $login_response = $ci->InstaClient_lib->make_checkpoint($this->MarkInfo->login, $code);
 
             // Guardar las cookies en la Base de Datos
-            if ($login_response && ($login_response->Cookies)) {
+            /*if ($login_response && ($login_response->Cookies)) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
 
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
-            }
+            }*/
 
             $return_response = $this->process_login_response($login_response);
 
