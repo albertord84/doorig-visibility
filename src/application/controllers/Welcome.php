@@ -279,27 +279,6 @@ class Welcome extends CI_Controller {
         }
     }
 
-    public function update_plane() { //setting plane
-        try {
-            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
-            //1. set plane in la DB
-            $datas = $this->input->post();
-            $plane_id = 1;
-            $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
-            $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
-            $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
-            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
-
-            //Client::update($client_id, $plane_id);
-            //2. si esta haciendo upgrade, cobrar diferencia
-            //3. atualizar banco de dados
-            //4. return response
-            return Response::ResponseOK()->toJson();
-        } catch (\Exception $exc) {
-            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
-        }
-    }
-
     public function get_person_profile_datas($profile_name) {
         $result = InstaCommands::get_profile_public_data($profile_name);
         echo json_encode($result);
