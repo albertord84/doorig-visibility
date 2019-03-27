@@ -119,6 +119,8 @@ require_once config_item('business-class');
                 try {
                     print 'Get_next_work: \n';
                     $daily_work = DailyWork::get_next_work($client_id);
+                    $ci = &get_instance();
+                    $ci->LogMgr->WriteResponse($daily_work);            
                     if ($daily_work !== null) {
                         if (Worker::verify_client($daily_work->Client)) {
                             $daily_work->Client->load_mark_info_data();

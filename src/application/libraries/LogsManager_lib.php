@@ -36,8 +36,9 @@ class LogsManager_lib {
         }
         else 
         {
+            var_dump($message);
             //$str_obj = json_encode($message);
-            print_r("{'message': 'unkown object', 'object': $message },");            
+            //print_r("{'message': 'unkown object', 'object': $message },");            
         }
         //$this->CI->set_output($this->Output_addr);
     }    

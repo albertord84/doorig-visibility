@@ -163,12 +163,12 @@ namespace business {
             $login_response = $ci->InstaClient_lib->make_checkpoint($this->MarkInfo->login, $code);
 
             // Guardar las cookies en la Base de Datos
-            if ($login_response && ($login_response->Cookies)) {
+            /*if ($login_response && ($login_response->Cookies)) {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
 
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
-            }
+            }*/
 
             $return_response = $this->process_login_response($login_response);
 
@@ -205,7 +205,9 @@ namespace business {
                         //3. Poner el Cliente como activo, y guardar las cookies
                         $this->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
                         $this->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
-                        $this->MarkInfo->update_cookies(json_encode($login_response->Cookies));
+                        $cookies = NULL;
+                        if($login_response->Cookies != NULL) $cookies = json_encode($login_response->Cookies);
+                        $this->MarkInfo->update_cookies($cookies);
                         return Response\Response::ResponseOK();
 
                     case 1: // Bloqued by password
