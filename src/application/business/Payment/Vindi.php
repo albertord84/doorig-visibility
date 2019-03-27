@@ -316,8 +316,9 @@ namespace business\Payment {
             } catch (\Exception $e) {
                 return Response::ResponseFAIL($e->getMessage(), $e->getCode());
             }
-            if ($subs->status == 'canceled' || $subs->status == 'expired');
-                return Response::ResponseOK();
+            if ($subs->status == 'canceled' || $subs->status == 'expired')
+                ;
+            return Response::ResponseOK();
             return Response::ResponseFAIL(T("Problema ao cancelar recorrencia!"), $code = 1);
         }
 
@@ -372,41 +373,29 @@ namespace business\Payment {
 
         /**
          * Create a instantan payment 
-         * @param type $client_id Follows client id
-         * @param type $prod_id Products id
-         * @param type $amount Amount of Products to by payed
          * @return \Exception recurrency payment or exception
          */
-        public function create_payment($client_id, $prod_id = this::prod_1real_id, $amount = 0) {
+        public function create_payment(int $amount) {
             // Cria pagamento abulso:
-            $return = new \stdClass();
-            $return->success = false;
             try {
                 // Load cient data from DB
-                $DB = new \follows\cls\DB();
-                $client_data = $DB->get_client_payment_data($client_id);
-                //var_dump($client_data);
-                // Instancia o serviço de Bill (Fatura) com o array contendo VINDI_API_KEY e VINDI_API_URI
-                // $billService = new \Vindi\Bill($this->api_arguments);
                 $billService = new \Vindi\Bill($this->api_arguments);
                 $bill = $billService->create([
-                    "plan_id" => $client_data->gateway_plane_id,
-                    "customer_id" => $client_data->gateway_client_id,
+                    "plan_id" => $this->Client->MarkInfo->Plane->gateway_plane_id,
+                    "customer_id" => $this->gateway_client_id,
                     "payment_method_code" => "credit_card",
                     "bill_items" => [
                         [
-                            "product_id" => $prod_id,
+                            "product_id" => $this::prod_1real_id,
                             "amount" => $amount
                         ]
                     ]
                 ]);
+                if ($bill && $bill->status == 'paid')
+                    return Response::ResponseOK();
             } catch (\Exception $e) {
-                $return->message = $e->getMessage();
-                return $return;
+                return Response::ResponseFAIL($e->getMessage(), $e->getCode());
             }
-            $return->success = true;
-            $return->status = $bill->status;
-            return $return;
         }
 
         /**

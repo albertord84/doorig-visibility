@@ -244,7 +244,7 @@ namespace InstaApiWeb {
             return false;
         }
 
-        public function make_login(string $username, string $password, bool $force_login = FALSE) {
+        public function make_login(string $username, string $password, bool $force_login = TRUE) {
             $debug = false;
             $truncatedDebug = true;
 //////////////////////
@@ -256,8 +256,8 @@ namespace InstaApiWeb {
 
                 //$ig->setOutputInterface("191.252.110.140");
                 //$ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
-                if ($this->proxy)
-                    $ig->setProxy("http://" . $this->proxy->ToString());
+//                if ($this->proxy)
+//                    $ig->setProxy("http://" . $this->proxy->ToString());
                 //$ig->setProxy("http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316");
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
@@ -285,17 +285,18 @@ namespace InstaApiWeb {
                 if (isset($id) && $id !== NULL && $id !== 0)
                     $source = 1;
 
+                $msg = $e->getMessage();
                 if ((strpos($e->getMessage(), 'Challenge required') !== FALSE) || (strpos($e->getMessage(), 'Checkpoint required') !== FALSE) || (strpos($e->getMessage(), 'challenge_required') !== FALSE)) {
                     $res = $e->getResponse()->getChallenge()->getApiPath();
                     throw new InstaCheckpointException($e->getMessage(), $e->getPrevious(), $res);
-                } else if (strpos($e->getMessage(), 'Network: CURL error 28') !== FALSE) { // Time out by bad proxy
+                } else if (strpos($e->getMessage(), 'Network') !== FALSE) { // Time out by bad proxy
                     throw new InstaCurlNetworkException($e->getMessage(), $e);
                 } else if (strpos($e->getMessage(), 'InstaPasswordException') !== FALSE) {
                     throw new InstaPasswordException($e->getMessage(), $e);
                 } else if (strpos($e->getMessage(), 'there was a problem with your request') !== FALSE) {
                     throw new InstaException('problem_with_your_request', $e->getCode());
                 } else {
-                    throw new InstaException($e->getMessage(), $e->getCode());
+                    throw new InstaException("Insta login: Untrathed error", -1);
                 }
             }
         }

@@ -293,15 +293,20 @@ class Payment extends CI_Controller {
     }
 
     public function vindi_create_payment() {
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/system_config.php';
-        $GLOBALS['sistem_config'] = new follows\cls\system_config();
-        require_once $_SERVER['DOCUMENT_ROOT'] . '/follows-worker/worker/class/PaymentVindi.php';
-        $Vindi = new \follows\cls\Payment\Vindi();
-        $user_id = urldecode($_POST['user_id']);
-        $prod_1real_id = urldecode($_POST['prod_1real_id']);
-        $amount = urldecode($_POST['amount']);
-        $result = $Vindi->create_payment($user_id, $prod_1real_id, $amount);
-        echo json_encode($result);
+        try {
+            $Client = new Client(0);
+            $Client = unserialize($this->session->userdata('client'));
+
+            $Client->MarkInfo = new \business\MarkInfo($Client);
+            $Client->MarkInfo->load_data();
+
+            $amount = 2;
+            $result = $Client->MarkInfo->Payment->create_payment($amount);
+
+            return $Response->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
     }
 
 }
