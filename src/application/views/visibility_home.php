@@ -233,7 +233,7 @@
                                                                 <div class="col-md-10"> 
                                                                     <form>
                                                                         <div class="form-group">
-                                                                            <label>Perfil da sua marca:</label>
+                                                                            <label>Perfil de Instagram da sua marca:</label>
                                                                             <input id="login_profile" type="text" onkeyup="search_match_profile('#login_profile','#table_search_profile');" class="form-control to-lower-case" >
                                                                             <div id="container_search_profile" class="col-md-12 col-sm-12 col-xs-12 text-center " style="max-height: 230px; overflow-y: auto; overflow-x: hidden;">                            
                                                                                 <table id="table_search_profile" class="table">                                
@@ -241,11 +241,11 @@
                                                                             </div>                                                                
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label>Senha de Instagram:</label>
+                                                                            <label>Senha de Instagram da sua marca:</label>
                                                                             <input id="password" type="password" class="form-control" id="firstName1"> 
                                                                         </div>
                                                                         <div class="form-group">
-                                                                            <label>Confirmar senha:</label>
+                                                                            <label>Confirmar a senha:</label>
                                                                             <input id="password-rep" type="password" class="form-control" id="firstName1"> 
                                                                         </div>
                                                                     </form>                                                                    

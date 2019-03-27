@@ -9,6 +9,7 @@ namespace business {
     require_once config_item('business-reference-profiles-class');
     require_once config_item('business-black_and_white_list-class');
     require_once config_item('business-response-class');
+    require_once config_item('thirdparty-login_response-class');
 
     /**
      * @category Business class
@@ -185,20 +186,24 @@ namespace business {
          * 
          */
         public function do_login() {
-            if (!$this->MarkInfo->isLoaded())
-                $this->MarkInfo->load_data();
-
-            $ci = &get_instance();
-            $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_gost_insta_client_lib_params(), 'InstaClient_lib');
             $login_response = new \InstaApiWeb\Response\LoginResponse();
-            $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
+            try {
+                if (!$this->MarkInfo->isLoaded())
+                    $this->MarkInfo->load_data();
 
+                $ci = &get_instance();
+                $params = $this->get_gost_insta_client_lib_params();
+                $params['proxy'] = new \InstaApiWeb\Proxy($this->MarkInfo->Proxy->Ip, $this->MarkInfo->Proxy->Port, $this->MarkInfo->Proxy->User, $this->MarkInfo->Proxy->Password);
+                $ci->load->library('InstaApiWeb/InstaClient_lib', $params, 'InstaClient_lib');
+                $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
+            } catch (\Throwable $e) {
+                var_dump($e);
+            }
             $return_response = $this->process_login_response($login_response);
-
             return $return_response;
         }
 
-        private function process_login_response(\InstaApiWeb\Response\LoginResponse $login_response = null) {
+        public function process_login_response(\InstaApiWeb\Response\LoginResponse $login_response = null) {
             if ($login_response) {
                 switch ($login_response->code) {
                     case 0: // Login ok
@@ -210,7 +215,7 @@ namespace business {
                         $this->MarkInfo->update_cookies($cookies);
                         return Response\Response::ResponseOK();
 
-                    case 1: // Bloqued by password
+                    case 3: // Bloqued by password
                         $this->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_INSTA);
                         return Response\Response::ResponseOK();
 
@@ -219,9 +224,9 @@ namespace business {
                         return Response\Response::ResponseOK();
 
                     case -2: // Other exception
-                        return Response\Response::ResponseFAIL($login_response->message, $login_response->code);
 
                     default:
+                        return Response\Response::ResponseFAIL($login_response->message, $login_response->code);
                         break;
                 }
             }
@@ -256,9 +261,8 @@ namespace business {
 
             return $param;
         }
-        
-        function exist_followed(string $insta_id)
-        {
+
+        function exist_followed(string $insta_id) {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             return $ci->client_mark_model->get_followed($this->Id, $insta_id) != null;
