@@ -68,8 +68,7 @@ namespace business\worker {
                 $dailywork->to_unfollow = $work_data->to_unfollow;
 
                 return $dailywork;
-            }
-            return null;
+            } else { return null; } 
         }
 
         public function is_work_done($config) {

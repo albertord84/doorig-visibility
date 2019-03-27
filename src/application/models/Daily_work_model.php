@@ -56,7 +56,7 @@ class Daily_work_model extends CI_Model {
 
     function get_next_work(int $reference_profile_id = NULL, bool $block = true) {
         $time = time();
-        $min_time = $time - $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60 * 1000;
+        $min_time = $time - $GLOBALS['sistem_config']->MIN_NEXT_ATTEND_TIME * 60;
         $where = "(daily_work.to_follow  > 0 OR daily_work.to_unfollow  > 0) "
                 . "AND reference_profile.deleted is not TRUE "
                 . "AND (client_mark.last_access is NULL OR "
