@@ -19,6 +19,107 @@ class Payment extends CI_Controller {
     public function index() {
         echo 'OK';
     }
+    
+    public function add_payment() { //adição pela primeira vez ou atualização, é a mesma coisa
+        $Client_id = unserialize($this->session->userdata('client'))->Id;
+        $datas = $this->input->post();        
+        $datas['cc-number'];
+        $datas['cc-cvv'];
+        $datas['cc-name'];
+        $datas['cc-month'];
+        $datas['cc-year'];
+        $datas['cc-cpf'];
+        $datas['promotional-code'];        
+        
+        //1. criar customer_id si no tenia o cargar el que tiene en la base de datos
+        
+        //2. adicionar este nuevo carton en la vindi
+        
+        //3. if(!modulo_visibility_contrated) return;
+        
+        //3. if(!valido(promotional-code))
+                //if (block_payment || pendent_payment){
+                        //1.3 cobrar valor del plano actual en la hora
+
+                        //pay_day = pay_day + 1 mes;
+
+                        //1.4 crear nueva recurrencia para pay_day
+
+                        // if (cobrado en la hora && nueva recurrencia ok) {
+                                //1.5 matar recurrencia vieja si tenia
+
+                                //1.6 actualizar new_recorrency_id y pay_day en la base de datos
+
+                                //1.7 actualizar recorrency_id y pay_day en la sesion
+
+                                //1.8 debloquer por pagamento e ativar, poner trabajo
+
+                        //} else{
+                                //error message("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois");
+                        //}
+                //}
+        //else{
+                //atender cada codigo promocional en particular
+                        // R1. no permitir codigo promocional a un cliente que esta asinando por segunda o mas vezes
+                        // R2. conferir si es posible aplicar CP segun la data de assinatura y hoy
+                //CP Tipo 1: %desconto nos N  primeiros meses; 
+                //
+                //CP Tipo 2: n+N free days
+        //}
+        
+        
+        return Response::ResponseOK()->toJson();
+    }
+    
+    public function update_plane() { //setting plane
+        try {
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+            //1. set plane in la DB
+            $datas = $this->input->post();
+            $plane_id = 1;
+            $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
+            $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
+            $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
+            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+
+            //1. if(is_upgrade_plane){
+            
+            
+                    //if (block_payment || pendent_payment){
+                        //1.3 cobrar valor del new_plane en la hora
+
+                        //pay_day = pay_day + 1 mes;
+
+                        //1.4 crear nueva recurrencia para pay_day
+
+                        //if (cobrado en la hora && nueva recurrencia ok) {
+                                //1.5 matar recurrencia vieja si tenia
+
+                                //1.6 actualizar new_recorrency_id y pay_day en la base de datos
+
+                                //1.7 actualizar recorrency_id y pay_day en la sesion
+
+                                //1.8 debloquer por pagamento e ativar, poner trabajo
+
+                        //} else{
+                                //error message("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois");
+                        //}
+                    //} else {
+                        //$value =diff(actual_plane, new_plane);
+                        
+                        //1.3 cobrar valor $value en la hora
+                        
+                        //1.4 Si cobro modificar plano en BD e sesion
+                    //}    
+
+            
+            
+            //5. return response
+            return Response::ResponseOK()->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+    }
 
     public function vindi_notification_post() {
         try {

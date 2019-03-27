@@ -51,7 +51,7 @@ $(document).ready(function () {
         var btn = this;
         spinner_start(btn);
         $.ajax({
-            url: base_url + 'index.php/welcome/update_plane',
+            url: base_url + 'index.php/Payment/update_plane',
             data: {
                 "plane": plane
             },
