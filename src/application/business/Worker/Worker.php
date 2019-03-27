@@ -138,7 +138,7 @@ require_once config_item('business-class');
                         }
                     } else {
                         //sleep(1 * 20);
-                        sleep(5 * 60);
+                       sleep(5 * 60);
                     }
                 } catch (\Throwable $exc) {
                      $ci = &get_instance();
