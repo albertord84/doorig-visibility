@@ -52,6 +52,13 @@ namespace business {
 
             return $data;
         }
+        
+        public function update($id, $initial_val = NULL, $normal_val = NULL, $to_follow = NULL, $gateway_prod_id = NULL, $gateway_plane_id = NULL) {
+            $ci = &get_instance();
+            $ci->Plane_model->update($id, $initial_val, $normal_val, $to_follow, $gateway_prod_id, $gateway_plane_id); 
+            
+            $this->load_data();
+        }
 
     }
 

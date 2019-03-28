@@ -19,102 +19,142 @@ class Payment extends CI_Controller {
     public function index() {
         echo 'OK';
     }
-    
+
     public function add_payment() { //adição pela primeira vez ou atualização, é a mesma coisa
-        $Client_id = unserialize($this->session->userdata('client'))->Id;
-        $datas = $this->input->post();        
-        $datas['cc-number'];
-        $datas['cc-cvv'];
-        $datas['cc-name'];
-        $datas['cc-month'];
-        $datas['cc-year'];
-        $datas['cc-cpf'];
-        $datas['promotional-code'];        
-        
-        //1. criar customer_id si no tenia o cargar el que tiene en la base de datos
-        
-        //2. adicionar este nuevo carton en la vindi
-        
-        //3. if(!modulo_visibility_contrated) return;
-        
-        //3. if(!valido(promotional-code))
-                //if (block_payment || pendent_payment){
-                        //1.3 cobrar valor del plano actual en la hora
+        try {
+            $payment_data = $this->input->post();
+            $client_id = $payment_data['client_id'];
 
-                        //pay_day = pay_day + 1 mes;
+            $Client = new Client($client_id);
+            $is_contrated = $Client->load_mark_info_data();
+            $Client = $this->session->set_userdata('client', serialize($Client));
 
+            $payment_data['credit_card_name'] = $payment_data['cc-number'];
+            $payment_data['user_email'] = $payment_data['cc-cvv'];
+            $payment_data['credit_card_number'] = $payment_data['cc-name'];
+            $payment_data['credit_card_exp_month'] = $payment_data['cc-month'];
+            $payment_data['credit_card_exp_year'] = $payment_data['cc-year'];
+            $payment_data['credit_card_cvc'] = $payment_data['cc-cpf'];
+            $payment_data['promotional-code'];
+
+
+            $payment_data['credit_card_name'] = 'alberto reyes diaz';
+            $payment_data['user_email'] = 'albertord84@gmail.com';
+            $payment_data['credit_card_number'] = '5234214982638268';
+            $payment_data['credit_card_exp_month'] = '08';
+            $payment_data['credit_card_exp_year'] = '2021';
+            $payment_data['credit_card_cvc'] = '057';
+
+
+            //1. if(!modulo_visibility_contrated) return;
+            if ($is_contrated) {
+                //2. if(!valido(promotional-code))
+                //3. adicionar este nuevo carton en la vindi
+                $this->vindi_addClientPayment($payment_data);
+                //4. if (block_payment || pendent_payment){
+                $MarkInfo = new business\MarkInfo($client);
+                $MarkInfo = $Client->MarkInfo;
+                $Status = new business\ClientStatusList($client);
+                $Status = $MarkInfo->Status;
+                if ($Status->hasStatus(\business\UserStatus::BLOCKED_BY_PAYMENT) || $Status->hasStatus(\business\UserStatus::PENDING)) {
+                    //1.3 cobrar valor del plano actual en la hora
+                    $Plane = new \business\Plane();
+                    $Plane = $MarkInfo->Plane;
+                    $Response = new Response();
+                    $Response = $this->vindi_create_payment($Plane->normal_val);
+                    if ($Response->code === 0) { // cobrado en la hora
                         //1.4 crear nueva recurrencia para pay_day
-
-                        // if (cobrado en la hora && nueva recurrencia ok) {
-                                //1.5 matar recurrencia vieja si tenia
-
-                                //1.6 actualizar new_recorrency_id y pay_day en la base de datos
-
-                                //1.7 actualizar recorrency_id y pay_day en la sesion
-
-                                //1.8 debloquer por pagamento e ativar, poner trabajo
-
-                        //} else{
-                                //error message("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois");
-                        //}
-                //}
-        //else{
+                        $pay_day = strtotime("+1 month", time());
+                        $Payment = new \business\Payment\Vindi($Client);
+                        $Payment = $Client->MarkInfo->Payment;
+                        $old_recurrency_pk = $Payment->payment_key;
+                        $Response = $this->vindi_create_recurrency_payment($pay_day); // ya actualiza new_recurrency_id 
+                    }
+                }
+                //else{
                 //atender cada codigo promocional en particular
-                        // R1. no permitir codigo promocional a un cliente que esta asinando por segunda o mas vezes
-                        // R2. conferir si es posible aplicar CP segun la data de assinatura y hoy
+                // R1. no permitir codigo promocional a un cliente que esta asinando por segunda o mas vezes
+                // R2. conferir si es posible aplicar CP segun la data de assinatura y hoy
                 //CP Tipo 1: %desconto nos N  primeiros meses; 
                 //
                 //CP Tipo 2: n+N free days
-        //}
-        
-        
-        return Response::ResponseOK()->toJson();
+                //}
+            } else {
+                //2. criar customer_id si no tenia o cargar el que tiene en la base de datos
+                $this->vindi_addClient($payment_data);
+                //3. adicionar este nuevo carton en la vindi
+                $this->vindi_addClientPayment($payment_data);
+            }
+
+            return Response::ResponseOK(T('Dados atualizados corretamente!'));
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
     }
-    
+
     public function update_plane() { //setting plane
         try {
-            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+            $payment_data = $this->input->post();
+            $client_id = $payment_data['client_id'];
+
+            $Client = new Client($client_id);
+            $is_contrated = $Client->load_mark_info_data();
+            $Client = $this->session->set_userdata('client', serialize($Client));
+
             //1. set plane in la DB
             $datas = $this->input->post();
             $plane_id = 1;
             $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
             $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
             $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
-            $client_id = unserialize($this->session->userdata('client_module'))->Client->Id;
+
+            $MarkInfo = new business\MarkInfo($client);
+            $MarkInfo = $Client->MarkInfo;
+
+            $Plane = new \business\Plane();
+            $Plane = $MarkInfo->Plane;
+
+            $OldPlane = new \business\Plane($MarkInfo->plane_id);
+            $OldPlane->load_data();
+
+            $Response = new Response();
+
+            if ($plane_id === $Plane->id)
+                return Response::ResponseFAIL(T('Me cago en tu madre'));
 
             //1. if(is_upgrade_plane){
-            
-            
-                    //if (block_payment || pendent_payment){
-                        //1.3 cobrar valor del new_plane en la hora
-
-                        //pay_day = pay_day + 1 mes;
-
+            if ($plane_id > $Plane->id) {
+                $MarkInfo->update($Client->Id, $plane_id);  // Actualiza plano y objeto plano del MarkInfo!!!
+                $Plane = $MarkInfo->Plane;   // DEPRECATED!!!
+                $Status = new business\ClientStatusList($client);
+                $Status = $MarkInfo->Status;
+                if ($Status->hasStatus(\business\UserStatus::BLOCKED_BY_PAYMENT) || $Status->hasStatus(\business\UserStatus::PENDING)) {
+                    //1.3 cobrar valor del new_plane en la hora
+                    $Response = $this->vindi_create_payment($Plane->normal_val);
+                    if ($Response->code === 0) { // cobrado en la hora                    
+                        $pay_day = strtotime("+1 month", time());
                         //1.4 crear nueva recurrencia para pay_day
+                        $Response = $this->vindi_create_recurrency_payment($pay_day);
+                    } else {
+                        return Response::ResponseFAIL(T("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois"), -1)->toJson();
+                    }
+                } else {
+                    $plane_diff = $Plane->normal_val - $OldPlane->normal_val;
+                    //1.3 cobrar valor $plane_diff en la hora
+                    $Response = $this->vindi_create_payment($plane_diff);
+                    if ($Response->code != 0) { // no cobrado en la hora  
+                        return Response::ResponseFAIL(T("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois"), -1)->toJson();
+                    }
+                }
+            } else { // Bajando de plano
+                //if (block_payment || pendent_payment){
+                if ($Status->hasStatus(\business\UserStatus::BLOCKED_BY_PAYMENT) || $Status->hasStatus(\business\UserStatus::PENDING)) {
+                    $pay_day = strtotime("+1 month", time());
+                    //1.4 crear nueva recurrencia para pay_day
+                    $Response = $this->vindi_create_recurrency_payment($pay_day);
+                } //} else nuevo plano queda actualizado automaticamente
+            }
 
-                        //if (cobrado en la hora && nueva recurrencia ok) {
-                                //1.5 matar recurrencia vieja si tenia
-
-                                //1.6 actualizar new_recorrency_id y pay_day en la base de datos
-
-                                //1.7 actualizar recorrency_id y pay_day en la sesion
-
-                                //1.8 debloquer por pagamento e ativar, poner trabajo
-
-                        //} else{
-                                //error message("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois");
-                        //}
-                    //} else {
-                        //$value =diff(actual_plane, new_plane);
-                        
-                        //1.3 cobrar valor $value en la hora
-                        
-                        //1.4 Si cobro modificar plano en BD e sesion
-                    //}    
-
-            
-            
-            //5. return response
             return Response::ResponseOK()->toJson();
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
@@ -300,43 +340,33 @@ class Payment extends CI_Controller {
         }
     }
 
-    public function vindi_addClient() {
+    public function vindi_addClient($payment_data) {
         try {
             $Client = new Client();
             $Client = unserialize($this->session->userdata('client'));
 
-            $Client->MarkInfo = new \business\MarkInfo($Client);
-            $Client->MarkInfo->load_data();
-
-            $credit_card_name = urldecode($_POST['credit_card_name']);
-            $user_email = urldecode($_POST['user_email']);
+            $credit_card_name = urldecode($payment_data['credit_card_name']);
+            $user_email = urldecode($payment_data['user_email']);
             //$credit_card_name = "God";
             //$user_email = "god@heaven.sky";
             $customer_id = $Client->MarkInfo->Payment->addClient($credit_card_name, $user_email);
 
             $Client->MarkInfo->Payment->save($Client->Id, $customer_id);
+
+            return Response::ResponseOK();
         } catch (\Exception $exc) {
-            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode());
         }
 
         return Response::ResponseOK()->toJson();
     }
 
-    public function vindi_addClientPayment() {
+    public function vindi_addClientPayment($payment_data) {
         try {
             $Client = new Client(0);
             $Client = unserialize($this->session->userdata('client'));
 
-            $Client->MarkInfo = new \business\MarkInfo($Client);
-            $Client->MarkInfo->load_data();
-
-            $datas = (array) json_decode(urldecode($_POST['datas']));
-
-            $payment_data['credit_card_name'] = 'alberto reyes diaz';
-            $payment_data['credit_card_number'] = '5234214982638268';
-            $payment_data['credit_card_exp_month'] = '08';
-            $payment_data['credit_card_exp_year'] = '2021';
-            $payment_data['credit_card_cvc'] = '057';
+            //$payment_data = (array) json_decode(urldecode($_POST['datas']));
 
             $datas = array(
                 "holder_name" => $payment_data['credit_card_name'],
@@ -348,65 +378,70 @@ class Payment extends CI_Controller {
             );
 
             $Reponse = $Client->MarkInfo->Payment->addClientPayment($Client->Id, $datas);
-            return $Reponse->toJson();
+            return $Reponse;
         } catch (\Exception $exc) {
-            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode());
         }
     }
 
-    public function vindi_create_recurrency_payment() {
+    public function vindi_create_recurrency_payment($pay_day = NULL) {
         try {
+            $pay_day = $pay_day ? $pay_day : time();
+
             $Client = new Client(0);
             $Client = unserialize($this->session->userdata('client'));
-
-            $Client->MarkInfo = new \business\MarkInfo($Client);
-            $Client->MarkInfo->load_data();
-
-            $pay_day = json_decode(urldecode($_POST['pay_day']));
-
-            $pay_day = time() + 24 * 60 * 60;
 
             $ResponseRecurrencyPayment = new \business\Response\ResponseRecurrencyPayment($PaymentKey = "");
             $ResponseRecurrencyPayment = $Client->MarkInfo->Payment->create_recurrency_payment($pay_day);
 
-            $Client->MarkInfo->Payment->update($Client->Id, NULL, NULL, $ResponseRecurrencyPayment->PaymentKey);
+            //if (nueva recurrencia ok) {
+            if ($ResponseRecurrencyPayment->code === 0) {
+                $Client->MarkInfo->Payment->update($Client->Id, NULL, NULL, $ResponseRecurrencyPayment->PaymentKey);
 
-            return $ResponseRecurrencyPayment->toJson();
+                //1.5 matar recurrencia vieja si tenia
+                $this->vindi_cancel_recurrency_payment($old_recurrency_pk);
+                //1.6 pay_day en la base de datos actualizar recorrency_id y pay_day en la sesion
+                $MarkInfo->update($Client->Id, null, null, null, null, null, null, null, null, $pay_day);
+
+                //1.8 debloquer por pagamento e ativar, poner trabajo
+                $Status->remove_item(\business\UserStatus::BLOCKED_BY_PAYMENT);
+                $Status->remove_item(\business\UserStatus::PENDING);
+                $Status->add_item(\business\UserStatus::ACTIVE);
+
+                $Worker = new \business\worker\Worker();
+                $Worker->prepare_client_daily_work($Client->Id, false, false);
+                return $ResponseRecurrencyPayment;
+            }
+            return Response::ResponseFAIL(T("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois"), -1)->toJson();
         } catch (\Exception $exc) {
-            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode());
         }
     }
 
-    public function vindi_cancel_recurrency_payment() {
+    public function vindi_cancel_recurrency_payment(string $payment_key) {
         try {
             $Client = new Client(0);
             $Client = unserialize($this->session->userdata('client'));
 
-            $Client->MarkInfo = new \business\MarkInfo($Client);
-            $Client->MarkInfo->load_data();
+            $Response = $Client->MarkInfo->Payment->cancel_recurrency_payment($payment_key);
 
-            $Response = $Client->MarkInfo->Payment->cancel_recurrency_payment();
-
-            return $Response->toJson();
+            return $Response;
         } catch (\Exception $exc) {
-            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode());
         }
     }
 
-    public function vindi_create_payment() {
+    public function vindi_create_payment($amount) {
         try {
             $Client = new Client(0);
             $Client = unserialize($this->session->userdata('client'));
 
-            $Client->MarkInfo = new \business\MarkInfo($Client);
-            $Client->MarkInfo->load_data();
+            $Response = new Response();
+            $Response = $Client->MarkInfo->Payment->create_payment($amount);
 
-            $amount = 2;
-            $result = $Client->MarkInfo->Payment->create_payment($amount);
-
-            return $Response->toJson();
+            return $Response;
         } catch (\Exception $exc) {
-            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode());
         }
     }
 

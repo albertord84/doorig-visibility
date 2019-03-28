@@ -159,10 +159,11 @@ class Welcome extends CI_Controller {
 
     public function log_out() {
         //$this->user_model->insert_washdog($this->session->userdata('id'), 'CLOSING SESSION');
-        session_start();
         $this->session->set_userdata('client_module', NULL);
         $this->session->set_userdata('client', NULL);
         $this->session->sess_destroy();
+        
+        header("Location:" . $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . 'welcome/log_out');
     }
 
     public function planes() {

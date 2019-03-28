@@ -28,7 +28,7 @@ class Plane_model extends CI_Model {
     $this->db->delete('plane', array('id' => $id));
   }
 
-  function update($id, $initial_val, $normal_val, $to_follow, $gateway_prod_id, $gateway_plane_id) {
+  function update($id, $initial_val = NULL, $normal_val = NULL, $to_follow = NULL, $gateway_prod_id = NULL, $gateway_plane_id = NULL) {
     $this->id = $id;
     $this->initial_val = $initial_val;
     $this->normal_val = $normal_val;

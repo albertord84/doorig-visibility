@@ -92,7 +92,7 @@ require_once config_item('business-class');
         }
 
         // NUEVAS x IMPLMENTAR !!!
-        public function prepare_client_daily_work(int $client_id, bool $not_mail = false) {
+        public function prepare_client_daily_work(int $client_id, bool $not_mail = false, bool $print = false) {
             
         }
 
