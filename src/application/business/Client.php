@@ -193,7 +193,7 @@ namespace business {
 
                 $ci = &get_instance();
                 $params = $this->get_gost_insta_client_lib_params();
-                $params['proxy'] = new \InstaApiWeb\Proxy($this->MarkInfo->Proxy->Ip, $this->MarkInfo->Proxy->Port, $this->MarkInfo->Proxy->User, $this->MarkInfo->Proxy->Password);
+                //$params['proxy'] = new \InstaApiWeb\Proxy($this->MarkInfo->Proxy->Ip, $this->MarkInfo->Proxy->Port, $this->MarkInfo->Proxy->User, $this->MarkInfo->Proxy->Password);
                 $ci->load->library('InstaApiWeb/InstaClient_lib', $params, 'InstaClient_lib');
                 $login_response = $ci->InstaClient_lib->make_login($this->MarkInfo->login, $this->MarkInfo->pass);
             } catch (\Throwable $e) {
