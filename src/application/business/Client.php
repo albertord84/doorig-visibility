@@ -199,7 +199,7 @@ namespace business {
             } catch (\Throwable $e) {
                 var_dump($e);
             }
-            $return_response = $this->process_login_response($login_response, $logs);
+            $return_response = $this->process_login_response($login_response, $log);
             return $return_response;
         }
 
@@ -234,9 +234,9 @@ namespace business {
         }
 
         
-        public static function verify_client(Client $client) {
+        public static function verify_client(Client $client, bool $log = FALSE) {
             if (!isset($client->MarkInfo->Cookies) || ($client->MarkInfo->Cookies->SessionId == null)) {
-                $login_response = $client->do_login();
+                $login_response = $client->do_login($log);
                 return (isset($client->MarkInfo->Cookies) && $client->MarkInfo->Cookies->SessionId != null);
             }
             return true;
@@ -250,7 +250,7 @@ namespace business {
                     !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA) && //3
                     !$this->MarkInfo->Status->hasStatus(UserStatus::KEEP_UNFOLLOW) && //13
                     !$this->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)//9
-                    && Client::verify_client($this)) {
+                    && Client::verify_client($this, TRUE)) {
                 return TRUE;
             }
             return FALSE;
