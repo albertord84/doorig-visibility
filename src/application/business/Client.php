@@ -173,7 +173,7 @@ namespace business {
 
             $return_response = $this->process_login_response($login_response);
 
-            return $login_response;
+            return $return_response;
         }
 
         //Componente del Robot
