@@ -262,7 +262,7 @@ namespace InstaApiWeb {
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
 
-                if($this->has_logs())
+                if($this->has_logs)
                 {
                     var_dump($loginIGResponse);
                 }
@@ -288,8 +288,10 @@ namespace InstaApiWeb {
                 //echo $e->getTraceAsString();  
                 if($this->has_logs)
                 {
+                    echo 'hello';
                     var_dump($e);
                 }
+                
                 $source = 0;
                 if (isset($id) && $id !== NULL && $id !== 0)
                     $source = 1;
