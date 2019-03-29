@@ -262,10 +262,10 @@ namespace InstaApiWeb {
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
 
-               /* if($this->has_logs)
-                {*/
+               if($this->has_logs)
+                {
                     var_dump($loginIGResponse);
-               // }
+                }
                 
                 $ig->client->loadCookieJar();
 
@@ -285,10 +285,9 @@ namespace InstaApiWeb {
                 return $loginResponse;
             } catch (\Throwable $e) {
                 //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
-                //echo $e->getTraceAsString(); 
-                
-                    echo 'hello';
-               // if($this->has_logs)
+                //echo $e->getTraceAsString();                 
+           
+               if($this->has_logs)
                 {
                     var_dump($e);
                 }
@@ -474,11 +473,11 @@ namespace InstaApiWeb {
         }
 
         public function TurnOn_Logs() {
-            $has_logs = TRUE;
+            $this->has_logs = TRUE;
         }
 
         public function TurnOff_Logs() {
-            $has_logs = FALSE;
+            $this->has_logs = FALSE;
         }
 
         private function parse_insta_response($insta_response) {
