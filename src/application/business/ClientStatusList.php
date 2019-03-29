@@ -94,7 +94,7 @@ namespace business {
             $client_status_item = new ClientStatusItem();
             foreach ($this->ClientStatusList as $key => $client_status_item) {
                 if ($client_status_item->client_status_id == $status_id && $client_status_item->active == $active)
-                    return TRUE;
+                    return $key;
             }
             return FALSE;
         }
