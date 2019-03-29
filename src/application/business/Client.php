@@ -210,7 +210,11 @@ namespace business {
         public function process_login_response(\InstaApiWeb\Response\LoginResponse $login_response = null, bool $log = FALSE) {
             if ($login_response) {
                 $ci = &get_instance();
-                $ci->LogMgr->WriteResponse($response);
+                if($log && isset($ci->LogMgr))
+                {
+                    
+                    $ci->LogMgr->WriteResponse($response);
+                }
                 switch ($login_response->code) {
                     case 0: // Login ok
                         //3. Poner el Cliente como activo, y guardar las cookies
