@@ -262,6 +262,11 @@ namespace InstaApiWeb {
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
 
+                if($this->has_logs())
+                {
+                    var_dump($loginIGResponse);
+                }
+                
                 $ig->client->loadCookieJar();
 
                 if ($loginIGResponse !== null && $loginIGResponse->isTwoFactorRequired()) {
@@ -280,7 +285,11 @@ namespace InstaApiWeb {
                 return $loginResponse;
             } catch (\Throwable $e) {
                 //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
-                //echo $e->getTraceAsString();                
+                //echo $e->getTraceAsString();  
+                if($this->has_logs())
+                {
+                    var_dump($e);
+                }
                 $source = 0;
                 if (isset($id) && $id !== NULL && $id !== 0)
                     $source = 1;
