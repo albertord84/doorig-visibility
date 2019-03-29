@@ -286,7 +286,7 @@ namespace InstaApiWeb {
             } catch (\Throwable $e) {
                 //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
                 //echo $e->getTraceAsString();  
-                if($this->has_logs())
+                if($this->has_logs)
                 {
                     var_dump($e);
                 }
