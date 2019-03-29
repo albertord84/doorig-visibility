@@ -151,8 +151,12 @@ $(document).ready(function () {
             success: function (response) {
                 spinner_stop(btn);
                 if (response.code === 0) {
-                    $('.verify-account-steep1').css({'display':'none','visibility': 'hidden','opacity': '0','transition':'visibility 0s, opacity 0.5s linear'});  
-                    $('.verify-account-steep2').css({'display':'block','visibility': 'visible', 'opacity': '1'});                                        
+                    if(response.message =="RELOAD"){
+                        $(location).attr('href', base_url + "index.php/welcome/");
+                    }else{
+                        $('.verify-account-steep1').css({'display':'none','visibility': 'hidden','opacity': '0','transition':'visibility 0s, opacity 0.5s linear'});  
+                        $('.verify-account-steep2').css({'display':'block','visibility': 'visible', 'opacity': '1'});                                                                
+                    }
                 } else
                     modal_alert_message(response.message);
             },

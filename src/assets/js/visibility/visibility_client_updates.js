@@ -1,13 +1,13 @@
 $(document).ready(function () {
     
-    load_contrated_plane();
     var alt = "300px";
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
     $('#very_fast_plane').height(alt);  
+    var contrated_plane = person_profile.MarkInfo.Plane.id;
+    
     
     function load_contrated_plane(){
-        var contrated_plane = person_profile.MarkInfo.Plane.id;
         if(contrated_plane == 0){
             $("#contrated_midle_plane").text("Plano atual");            
             $("#midle_plane_radio").click();
@@ -19,10 +19,9 @@ $(document).ready(function () {
         }
         else
         if(contrated_plane == 2){
-            $("#very_fast_plane_radio").click();
             $("#contrated_very_fast_plane").text("Plano atual");            
-        }
-        
+            $("#very_fast_plane_radio").click();
+        }        
     }
     
     $("#midle_plane_radio").click(function () {
@@ -40,20 +39,19 @@ $(document).ready(function () {
     });
 
     $("#very_fast_plane_radio").click(function () {
-        alert(123);
         $("#midle_plane").removeClass("active");
         $("#fast_plane").removeClass("active");
         $("#very_fast_plane").addClass("active");
         plane = "very_fast";
-    });
+    });    
     
-    $('#btn-update-plane').click(function () {
-        var btn = this;
-        spinner_start(btn);
+    function update_plane(a){
+        alert(33333); return;
         $.ajax({
             url: base_url + 'index.php/Payment/update_plane',
             data: {
-                "plane": plane
+                "plane": plane,
+                'client_id':person_profile.Id
             },
             type: 'POST',
             dataType: 'json',
@@ -66,11 +64,17 @@ $(document).ready(function () {
                     modal_alert_message(response.message);
             },
             error: function (xhr, status) {
-                spinner_stop(btn);
                 modal_alert_message('Erro enviando dados, tente depois...');
             }
         });
+    }
+    
+    $('#btn-update-plane').click(function () {
+         planes = {0:"midle",1:"fast",2:"very_fast"};
+        if(planes[contrated_plane]==plane) return;
+        modal_confirm_message("Confirma a atualização do plano?", "update_plane", "1");
     });
+    
     
     $('#btn-update-mark-credentials').click(function () {
         var profile = validate_element("#login_profile", ig_profile_regular_expression);
@@ -114,4 +118,30 @@ $(document).ready(function () {
         }
     });
     
+    load_contrated_plane();
 });
+
+
+function update_plane(a){
+        $.ajax({
+            url: base_url + 'index.php/Payment/update_plane',
+            data: {
+                "plane": plane,
+                'client_id':person_profile.Id
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                spinner_stop(btn);
+                if (response.code === 0) {
+                    modal_success_message('Atualização realizada com sucesso');
+                    $(location).attr('href', base_url + "index.php/welcome/index/");
+                } else
+                    modal_alert_message(response.message);
+            },
+            error: function (xhr, status) {
+                modal_alert_message('Erro enviando dados, tente depois...');
+            }
+        });
+    }
+    

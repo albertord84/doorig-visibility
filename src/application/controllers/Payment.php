@@ -29,23 +29,16 @@ class Payment extends CI_Controller {
             $is_contrated = $Client->load_mark_info_data();
             $Client = $this->session->set_userdata('client', serialize($Client));
 
-            $payment_data['credit_card_name'] = $payment_data['cc-number'];
-            $payment_data['user_email'] = $payment_data['cc-cvv'];
-            $payment_data['credit_card_number'] = $payment_data['cc-name'];
-            $payment_data['credit_card_exp_month'] = $payment_data['cc-month'];
-            $payment_data['credit_card_exp_year'] = $payment_data['cc-year'];
-            $payment_data['credit_card_cvc'] = $payment_data['cc-cpf'];
             $payment_data['promotional-code'];
+            $payment_data['cpf'];
 
-
-            $payment_data['credit_card_name'] = 'alberto reyes diaz';
-            $payment_data['user_email'] = 'albertord84@gmail.com';
-            $payment_data['credit_card_number'] = '5234214982638268';
-            $payment_data['credit_card_exp_month'] = '08';
-            $payment_data['credit_card_exp_year'] = '2021';
-            $payment_data['credit_card_cvc'] = '057';
-
-
+//            $payment_data['user_email'] = 'albertord84@gmail.com';
+//            $payment_data['credit_card_name'] = 'alberto reyes diaz';
+//            $payment_data['credit_card_number'] = '5234214982638268';
+//            $payment_data['credit_card_exp_month'] = '08';
+//            $payment_data['credit_card_exp_year'] = '2021';
+//            $payment_data['credit_card_cvc'] = '057';
+            
             //1. if(!modulo_visibility_contrated) return;
             if ($is_contrated) {
                 //2. if(!valido(promotional-code))
