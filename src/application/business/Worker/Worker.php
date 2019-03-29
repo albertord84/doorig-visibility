@@ -86,6 +86,7 @@ require_once config_item('business-class');
                 }
                 else  if($logs)
                 { echo "{ \"workable\": false, \"client\" : $client->Id}"; }
+
         }
 
         // NUEVAS x IMPLMENTAR !!!

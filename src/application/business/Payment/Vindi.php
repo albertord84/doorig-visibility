@@ -84,12 +84,16 @@ namespace business\Payment {
             $gateway_id = $gateway_id ? $gateway_id : $this->gateway_id;
             $ci = &get_instance();
             $ci->Client_payment_model->save($client_id, $gateway_client_id, $plane_id, $payment_key, $gateway_id);
+            
+            $this->load_data();
         }
 
         public function update(int $client_id = NULL, int $gateway_client_id = NULL, int $plane_id = NULL, string $payment_key = NULL, int $gateway_id = NULL) {
             $client_id = $client_id ? $client_id : $this->client_id;
             $ci = &get_instance();
             $ci->Client_payment_model->update($client_id, $gateway_client_id, $plane_id, $payment_key, $gateway_id);
+            
+            $this->load_data();
         }
 
         //---------------VINDI FUNCTIONS-----------------------------    
@@ -313,13 +317,12 @@ namespace business\Payment {
                 // Instancia o serviço de Subscription (Assinaturas) com o array contendo VINDI_API_KEY e VINDI_API_URI
                 $subsService = new \Vindi\Subscription($this->api_arguments);
                 $subs = $subsService->delete($payment_key);
+                if ($subs->status == 'canceled' || $subs->status == 'expired')
+                    return Response::ResponseOK();
+                return Response::ResponseFAIL(T("Problema ao cancelar recorrencia!"), -1);
             } catch (\Exception $e) {
                 return Response::ResponseFAIL($e->getMessage(), $e->getCode());
             }
-            if ($subs->status == 'canceled' || $subs->status == 'expired')
-                ;
-            return Response::ResponseOK();
-            return Response::ResponseFAIL(T("Problema ao cancelar recorrencia!"), $code = 1);
         }
 
         /**
@@ -391,8 +394,9 @@ namespace business\Payment {
                         ]
                     ]
                 ]);
-                if ($bill && $bill->status == 'paid')
-                    return Response::ResponseOK();
+                if ($bill && $bill->status != 'paid')
+                    return Response::ResponseFAIL($bill->status, -1);
+                return Response::ResponseOK();
             } catch (\Exception $e) {
                 return Response::ResponseFAIL($e->getMessage(), $e->getCode());
             }

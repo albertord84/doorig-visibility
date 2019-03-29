@@ -144,12 +144,16 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL);
+            
+            $this->cookies = $cookies;
         }
 
         public function update(int $client_id, int $plane_id = NULL, int $pay_id = NULL, int $proxy_id = NULL, string $login = NULL, string $pass = NULL, string $insta_id = NULL, string $init_date = NULL, string $end_date = NULL, string $pay_day = NULL, string $cookies = NULL, string $observation = NULL, int $purchase_counter = NULL, string $last_access = NULL, string $insta_followers_ini = NULL, string $insta_following = NULL, int $like_first = NULL) {
+            $client_id = $client_id ? $client_id : $this->Client->Id;
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
-            $ci->client_mark_model->update($this->Client->Id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $pay_day, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following, $like_first);
+            $ci->client_mark_model->update($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $pay_day, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following, $like_first);
+            $this->load_data();
         }
         
         public function set_proxy()
@@ -169,6 +173,8 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $ci->client_mark_model->update_last_acctess($this->Client->Id, $next_time);
+            
+            $this->last_access = $next_time;
         }     
 
     }

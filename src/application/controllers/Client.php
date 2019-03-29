@@ -103,8 +103,9 @@ class Client extends CI_Controller {
 
             $Response = $Client->process_login_response($login_response);
 
-            if ($login_response && $login_response->code === 0)
-                header("Location:" . base_url());
+            if ($login_response && $login_response->code === 0) {
+                return business\Response\Response::ResponseOK('RELOAD');
+            }
 
             return $Response->toJson();
         } catch (Exception $exc) {
@@ -124,8 +125,7 @@ class Client extends CI_Controller {
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $Client->make_checkpoint($datas["code"]);
 
-            if ($login_response && $login_response->code == 0
-             && !$Client->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)) {
+            if ($login_response && $login_response->code == 0 && !$Client->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)) {
                 $this->session->set_userdata("client", serialize($Client));
                 return $login_response->toJson();
             } else {
@@ -185,7 +185,7 @@ class Client extends CI_Controller {
 
                 $this->session->set_userdata('client', $Client);
             }
-            
+
             return $login_response->toJson();
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
