@@ -262,10 +262,10 @@ namespace InstaApiWeb {
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
 
-                if($this->has_logs)
-                {
+               /* if($this->has_logs)
+                {*/
                     var_dump($loginIGResponse);
-                }
+               // }
                 
                 $ig->client->loadCookieJar();
 
@@ -285,10 +285,11 @@ namespace InstaApiWeb {
                 return $loginResponse;
             } catch (\Throwable $e) {
                 //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
-                //echo $e->getTraceAsString();  
-                if($this->has_logs)
-                {
+                //echo $e->getTraceAsString(); 
+                
                     echo 'hello';
+               // if($this->has_logs)
+                {
                     var_dump($e);
                 }
                 
