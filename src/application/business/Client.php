@@ -185,7 +185,7 @@ namespace business {
          * @return
          * 
          */
-        public function do_login() {
+        public function do_login(bool $log = FALSE) {
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             try {
                 if (!$this->MarkInfo->isLoaded())
@@ -199,12 +199,14 @@ namespace business {
             } catch (\Throwable $e) {
                 var_dump($e);
             }
-            $return_response = $this->process_login_response($login_response);
+            $return_response = $this->process_login_response($login_response, $logs);
             return $return_response;
         }
 
-        public function process_login_response(\InstaApiWeb\Response\LoginResponse $login_response = null) {
+        public function process_login_response(\InstaApiWeb\Response\LoginResponse $login_response = null, bool $log = FALSE) {
             if ($login_response) {
+                $ci = &get_instance();
+                $ci->LogMgr->WriteResponse($response);
                 switch ($login_response->code) {
                     case 0: // Login ok
                         //3. Poner el Cliente como activo, y guardar las cookies
