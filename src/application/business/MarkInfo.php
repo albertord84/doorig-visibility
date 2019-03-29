@@ -137,7 +137,10 @@ namespace business {
             $this->like_first = $like_first;
         }
 
-        public function update_cookies(string $cookies = NULL) {
+        public function update_cookies(Cookies $cookies = NULL) {
+            $this->Cookies =  $cookies;
+            if($cookies != NULL)
+                $cookies = \GuzzleHttp\json_encode ($cookies);
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL);

@@ -210,9 +210,7 @@ namespace business {
                         //3. Poner el Cliente como activo, y guardar las cookies
                         $this->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
                         $this->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
-                        $cookies = NULL;
-                        if($login_response->Cookies != NULL) $cookies = json_encode($login_response->Cookies);
-                        $this->MarkInfo->update_cookies($cookies);
+                        $this->MarkInfo->update_cookies($login_response->Cookies );
                         return Response\Response::ResponseOK();
 
                     case 3: // Bloqued by password
@@ -233,19 +231,24 @@ namespace business {
             return Response\Response::ResponseFAIL(T('Empty login response'), -3);
         }
 
-        public function verify_cookies() {
-            // Log user with curl in istagram to get needed session data
-            //$login_data = $Client->sign_in($Client);
-            //if ($login_data !== NULL) {
-            //    $Client->cookies = json_encode($login_data);
-            //}
-            return TRUE;
+        
+        public static function verify_client(Client $client) {
+            if (!isset($client->MarkInfo->Cookies) || ($client->MarkInfo->Cookies->SessionId == null)) {
+                $login_response = $client->do_login();
+                return (isset($client->MarkInfo->Cookies) && $client->MarkInfo->Cookies->SessionId != null);
+            }
+            return true;
         }
 
         public function isWorkable() {
             if (!$this->MarkInfo->isLoaded())
                 $this->load_mark_info_data();
-            if ($this->MarkInfo->cookies && !$this->MarkInfo->Status->hasStatus(UserStatus::PAUSED) && !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_PAYMENT) && !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA) && !$this->MarkInfo->Status->hasStatus(UserStatus::KEEP_UNFOLLOW) && !$this->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)) {
+            if (!$this->MarkInfo->Status->hasStatus(UserStatus::PAUSED) &&//14
+                    !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_PAYMENT) && //2
+                    !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA) && //3
+                    !$this->MarkInfo->Status->hasStatus(UserStatus::KEEP_UNFOLLOW) && //13
+                    !$this->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)//9
+                    && Client::verify_client($this)) {
                 return TRUE;
             }
             return FALSE;

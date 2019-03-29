@@ -87,18 +87,18 @@ namespace business\worker {
              $ci->daily_work_model->remove_client_work($this->Client->Id);
         }
 
-        public function delete_dailywork_by_reference_profile(int $reference_profile_id) {
+       /* public function delete_dailywork_by_reference_profile(int $reference_profile_id) {
              $ci = &get_instance();
              $ci->load->model('daily_work_model');
              $ci->daily_work_model->remove_client_work_by_reference_profile($reference_profile_id);
-        }
+        }*/
 
         public function save_follow_work(string $profile_name, string $insta_id) {
             $ci = &get_instance();
             $ci->load->model('daily_work_model');
             $ci->daily_work_model->save_follow($this->Client->Id, $this->Ref_profile->Id, $profile_name, $insta_id);
             $this->to_follow -= 1;
-            $ci->daily_work_model->update_follow($this->to_follow, $this->Ref_profile->Id);
+            $ci->daily_work_model->update_follow($this->to_follow, $this->Client->Id);
 
             // Increase RP amount of follows
             //$this->Ref_profile = new ReferenceProfile($this->Ref_profile->Id);
@@ -110,13 +110,13 @@ namespace business\worker {
             $ci->load->model('daily_work_model');
             $ci->daily_work_model->save_unfollow($this->Client->Id, $insta_id);
             $this->to_unfollow -= 1;
-            $ci->daily_work_model->update_unfollow($this->to_unfollow, $this->Ref_profile->Id);
+            $ci->daily_work_model->update_unfollow($this->to_unfollow, $this->Client->Id);
         }
         
-        public function insert(int $reference_profile_id, int $to_follow, int $to_unfollow) {
+        public function insert(int $client_id, int $to_follow, int $to_unfollow) {
             $ci = &get_instance();
             $ci->load->model('daily_work_model');
-            $ci->daily_work_model->save($reference_profile_id, $to_follow, $to_unfollow);
+            $ci->daily_work_model->save($client_id, $to_follow, $to_unfollow);
         }
 
     }
