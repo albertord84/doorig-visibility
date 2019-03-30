@@ -81,12 +81,27 @@ namespace business {
                     return;
                 $init_date = $init_date ? $init_date : (string) time();
                 $client_status_item = new ClientStatusItem();
+                $Old_status_id = $this->Client->Status_id;
                 $id = $client_status_item->save($this->Client->Id, $client_status_id, $active, $init_date, $end_date);
                 $client_status_item->load_data_by_id($id);
                 $this->ClientStatusList[$id] = $client_status_item;
+                
+                $this->excludent_stutatus($Old_status_id, $client_status_id);
+                
                 return $id;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function excludent_stutatus(int $old_tatus_id, int $new_status_id) {
+            switch ($new_status_id) {
+                case UserStatus::VERIFY_ACCOUNT:
+                    $this->remove_item(UserStatus::BLOCKED_BY_INSTA);   
+                    break;
+
+                default:
+                    break;
             }
         }
 

@@ -166,7 +166,8 @@ class Client extends CI_Controller {
             //$datas["passwordrep"];
             //2. get mark status from forced login
             $Client = new BusinessClient(0);
-            $Client->MarkInfo = new \business\MarkInfo($Client);
+            //$Client->load_mark_info_data_by_insta_id($datas["insta_id"]);
+            //$Client->Id = $Client->MarkInfo->client_id;
             $Client = unserialize($this->session->userdata('client'));
             $Client->MarkInfo->login = $datas["insta_name"];
             $Client->MarkInfo->pass = $datas["password"];
@@ -181,7 +182,7 @@ class Client extends CI_Controller {
                     $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
                     $Client->MarkInfo->insta_following_ini = $profile_info->following;
                 }
-                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
+                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
 
                 $this->session->set_userdata('client', $Client);
             }
