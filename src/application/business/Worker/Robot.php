@@ -25,7 +25,8 @@ require_once config_item('business-class');
         public function do_follow_work(DailyWork $work, \InstaClient_lib $instaclient) {
             $cookies = $work->Client->MarkInfo->Cookies;
             $to_follow = min($GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME,$work->to_follow);
-            $followers_response = $work->Ref_profile->get_followers($cookies, $to_follow , $proxy);
+            $proxy = $work->Client->MarkInfo->Proxy;
+            $followers_response = $work->Ref_profile->get_followers($cookies, $to_follow, $proxy);
             $client_id = $work->Client->Id;
             $ref_prof_id = $work->Ref_profile->Id;            
             if ($this->process_followers_reponse($work, $followers_response)) {
