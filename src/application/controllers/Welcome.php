@@ -430,7 +430,7 @@ class Welcome extends CI_Controller {
             //$datas["password"];
             //$datas["passwordrep"];
             //2. get mark status from forced login
-            $Client = new BusinessClient(0);
+            $Client = new Client(0);
             //$Client->load_mark_info_data_by_insta_id($datas["insta_id"]);
             //$Client->Id = $Client->MarkInfo->client_id;
             $Client = unserialize($this->session->userdata('client'));
