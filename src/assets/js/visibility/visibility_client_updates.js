@@ -1,6 +1,6 @@
 $(document).ready(function () {
     
-    var alt = "300px";
+    var alt = "340px";
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
     $('#very_fast_plane').height(alt);  
@@ -46,7 +46,6 @@ $(document).ready(function () {
     });    
     
     function update_plane(a){
-        alert(33333); return;
         $.ajax({
             url: base_url + 'index.php/Payment/update_plane',
             data: {
