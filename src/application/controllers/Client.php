@@ -104,7 +104,7 @@ class Client extends CI_Controller {
             $Response = $Client->process_login_response($login_response);
 
             if ($login_response && $login_response->code === 0) {
-                return business\Response\Response::ResponseOK('RELOAD');
+                return business\Response\Response::ResponseOK('RELOAD')->toJson();
             }
 
             return $Response->toJson();

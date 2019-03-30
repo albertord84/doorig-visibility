@@ -133,6 +133,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->library('InstaApiWeb/InstaClient_lib', self::get_gost_insta_client_lib_params(), 'InstaClient_lib');
 
+            $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $this->MarkInfo->pass, $choice);
 
             // Guardar las cookies en la Base de Datos
@@ -140,7 +141,7 @@ namespace business {
                 $this->MarkInfo->Cookies = $login_response->Cookies;
                 $ci->session->set_userdata('client', serialize($this));
                 $cookies_str = json_encode($login_response->Cookies);
-                self::update($this->Id, null, null, null, null, null, null, null, null, $cookies_str);
+                self::update($this->Id, null, null, null, null, null, null, null, null, null, $cookies_str);
             }
 
             return $login_response;
