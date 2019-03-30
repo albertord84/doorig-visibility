@@ -8,7 +8,7 @@
 
 use InstaApiWeb\Cookies;
 use InstaApiWeb\Response\FollowersResponse;
-
+use InstaApiWeb\Proxy;
 /**
  * Description of ReferenceProfile_lib
  *
