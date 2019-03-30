@@ -75,7 +75,7 @@ class Client extends CI_Controller {
 
     public function is_client() {
         if (!($this->session->user->user_id && $this->session->user->role_id == user_role::CLIENT))
-            header("Location:https://doorig.com");
+            header('Location: ' . $GLOBALS['sistem_config']->BASE_SITE_URL);
     }
 
     public function client_cancel() {
