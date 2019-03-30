@@ -256,12 +256,17 @@ namespace InstaApiWeb {
 
                 //$ig->setOutputInterface("191.252.110.140");
                 //$ig->setProxy(['proxy'=>'tcp://70.39.250.32:23128']);
-//                if ($this->proxy)
-//                    $ig->setProxy("http://" . $this->proxy->ToString());
+                  if ($this->proxy)
+                      $ig->setProxy("http://" . $this->proxy->ToString());
                 //$ig->setProxy("http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316");
 
                 $loginIGResponse = $ig->login($username, $password, $force_login);
 
+               if($this->has_logs)
+                {
+                    var_dump($loginIGResponse);
+                }
+                
                 $ig->client->loadCookieJar();
 
                 if ($loginIGResponse !== null && $loginIGResponse->isTwoFactorRequired()) {
@@ -280,7 +285,13 @@ namespace InstaApiWeb {
                 return $loginResponse;
             } catch (\Throwable $e) {
                 //echo '<br>Something went wrong: ' . $e->getMessage() . "\n</br>";
-                //echo $e->getTraceAsString();                
+                //echo $e->getTraceAsString();                 
+           
+               if($this->has_logs)
+                {
+                    var_dump($e);
+                }
+                
                 $source = 0;
                 if (isset($id) && $id !== NULL && $id !== 0)
                     $source = 1;
@@ -462,11 +473,11 @@ namespace InstaApiWeb {
         }
 
         public function TurnOn_Logs() {
-            $has_logs = TRUE;
+            $this->has_logs = TRUE;
         }
 
         public function TurnOff_Logs() {
-            $has_logs = FALSE;
+            $this->has_logs = FALSE;
         }
 
         private function parse_insta_response($insta_response) {

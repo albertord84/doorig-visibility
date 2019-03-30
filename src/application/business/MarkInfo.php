@@ -70,16 +70,6 @@ namespace business {
 
             if ($data)
                 $this->fill_data($data);
-            $this->Plane = new Plane($this->plane_id);
-            $this->Plane->load_data();
-            $this->Payment = new Payment\Vindi($this->Client);
-            $this->Payment->load_data();
-            $this->Proxy = new Proxy($this->proxy_id);
-            $this->Proxy->load_data();
-            $this->Status = new ClientStatusList($this->Client);
-            $this->Status->load_data();
-
-            //$this->Cookies = new Cookies($this->cookies);
 
             return $data;
         }
@@ -96,10 +86,11 @@ namespace business {
 
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
-            $data = $ci->client_mark_model->get_by_insta_id($this->Client->Id);
+            $data = $ci->client_mark_model->get_by_insta_id($insta_id);
 
             if ($data)
                 $this->fill_data($data);
+            
             return $data;
         }
 
@@ -122,6 +113,15 @@ namespace business {
             $this->insta_following_ini = convert_instanumber_to_number($data->insta_following);
             $this->like_first = $data->like_first;
 
+            $this->Plane = new Plane($this->plane_id);
+            $this->Plane->load_data();
+            $this->Payment = new Payment\Vindi($this->Client);
+            $this->Payment->load_data();
+            $this->Proxy = new Proxy($this->proxy_id);
+            $this->Proxy->load_data();
+            $this->Status = new ClientStatusList($this->Client);
+            $this->Status->load_data();
+            
             $this->Cookies = new Cookies($data->cookies);
 
             $ci = &get_instance();
@@ -137,11 +137,14 @@ namespace business {
             $this->like_first = $like_first;
         }
 
-        public function update_cookies(string $cookies = NULL) {
+        public function update_cookies(Cookies $cookies = NULL) {
+            $this->Cookies = $cookies;
+            if ($cookies != NULL)
+                $cookies = \GuzzleHttp\json_encode($cookies);
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $ci->client_mark_model->update($this->Client->Id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $login = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = NULL, $cookies, $observation = NULL, $purchase_counter = NULL, $last_access = NULL, $insta_followers_ini = NULL, $insta_following = NULL, $like_first = NULL);
-            
+
             $this->cookies = $cookies;
         }
 
@@ -152,9 +155,8 @@ namespace business {
             $ci->client_mark_model->update($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $pay_day, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following, $like_first);
             $this->load_data();
         }
-        
-        public function set_proxy()
-        {
+
+        public function set_proxy() {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $n = Proxy::ProxysCount();
@@ -170,9 +172,9 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $ci->client_mark_model->update_last_acctess($this->Client->Id, $next_time);
-            
+
             $this->last_access = $next_time;
-        }     
+        }
 
     }
 

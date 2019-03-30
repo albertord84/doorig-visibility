@@ -420,4 +420,42 @@ class Welcome extends CI_Controller {
         throw ErrorCodes::getException(ErrorCodes::DASHBOARD_CONNECTION_ERROR);
     }
 
+    public function update_mark_credentials() {
+        $datas = $this->input->post();
+
+        try {
+            //1. forze login with IG
+            //$datas["insta_name"];
+            //$datas["insta_id"];
+            //$datas["password"];
+            //$datas["passwordrep"];
+            //2. get mark status from forced login
+            $Client = new Client(0);
+            //$Client->load_mark_info_data_by_insta_id($datas["insta_id"]);
+            //$Client->Id = $Client->MarkInfo->client_id;
+            $Client = unserialize($this->session->userdata('client'));
+            $Client->MarkInfo->login = $datas["insta_name"];
+            $Client->MarkInfo->pass = $datas["password"];
+            $old_insta_id = $Client->MarkInfo->insta_id;
+            $Client->MarkInfo->insta_id = $datas["insta_id"];
+            $login_response = $Client->do_login();
+
+            if ($login_response && $login_response->code === 0) {
+                //3. save mark and status in DB using client_id as follow:
+                $insta_followers_ini = $insta_following = NULL;
+                if ($old_insta_id != $datas["insta_id"]) {
+                    $profile_info = \business\InstaCommands::get_profile_public_data($datas["insta_name"]);
+                    $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
+                    $Client->MarkInfo->insta_following_ini = $profile_info->following;
+                }
+                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
+
+                $this->session->set_userdata('client', $Client);
+            }
+
+            return $login_response->toJson();
+        } catch (\Exception $exc) {
+            return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
+        }
+    }
 }

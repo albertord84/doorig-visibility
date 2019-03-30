@@ -84,16 +84,34 @@ namespace business {
                 $id = $client_status_item->save($this->Client->Id, $client_status_id, $active, $init_date, $end_date);
                 $client_status_item->load_data_by_id($id);
                 $this->ClientStatusList[$id] = $client_status_item;
+                
+                $this->excludent_stutatus($client_status_id);
+                
                 return $id;
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
+            }
+        }
+        
+        public function excludent_stutatus(int $new_status_id) {
+            switch ($new_status_id) {
+                case UserStatus::VERIFY_ACCOUNT:
+                    $this->remove_item(UserStatus::BLOCKED_BY_INSTA);   
+                    break;
+
+                case UserStatus::BLOCKED_BY_INSTA:
+                    $this->remove_item(UserStatus::VERIFY_ACCOUNT);   
+                    break;
+
+                default:
+                    break;
             }
         }
 
         public function hasStatus(int $status_id, int $active = 1) {
             $client_status_item = new ClientStatusItem();
             foreach ($this->ClientStatusList as $key => $client_status_item) {
-                if ($client_status_item->client_status_id == $status_id)
+                if ($client_status_item->client_status_id == $status_id && $client_status_item->active == $active)
                     return $key;
             }
             return FALSE;
