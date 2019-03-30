@@ -38,8 +38,8 @@ class GeolocationProfiles extends CI_Controller {
         try {
             $id = ReferenceProfile::save($datas['insta_id'], $datas['insta_name'], $client_id, 1);
 
-            $DailyWork = new \business\worker\DailyWork();
-            $DailyWork->insert($id, 50, 50);
+            //$DailyWork = new \business\worker\DailyWork();
+            //$DailyWork->insert($id, 50, 50);
 
             $response = new ResponseInsertedObject($id);
             $response->toJson();

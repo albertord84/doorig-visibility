@@ -89,7 +89,6 @@ class Payment extends CI_Controller {
         try {
             $payment_data = $this->input->post();
             $client_id = $payment_data['client_id'];
-
             $Client = new Client($client_id);
             $is_contrated = $Client->load_mark_info_data();
             $Client = $this->session->set_userdata('client', serialize($Client));

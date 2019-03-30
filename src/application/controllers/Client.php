@@ -104,7 +104,7 @@ class Client extends CI_Controller {
             $Response = $Client->process_login_response($login_response);
 
             if ($login_response && $login_response->code === 0) {
-                return business\Response\Response::ResponseOK('RELOAD');
+                return business\Response\Response::ResponseOK('RELOAD')->toJson();
             }
 
             return $Response->toJson();
@@ -166,22 +166,24 @@ class Client extends CI_Controller {
             //$datas["passwordrep"];
             //2. get mark status from forced login
             $Client = new BusinessClient(0);
-            $Client->MarkInfo = new \business\MarkInfo($Client);
+            //$Client->load_mark_info_data_by_insta_id($datas["insta_id"]);
+            //$Client->Id = $Client->MarkInfo->client_id;
             $Client = unserialize($this->session->userdata('client'));
             $Client->MarkInfo->login = $datas["insta_name"];
             $Client->MarkInfo->pass = $datas["password"];
+            $old_insta_id = $Client->MarkInfo->insta_id;
             $Client->MarkInfo->insta_id = $datas["insta_id"];
             $login_response = $Client->do_login();
 
             if ($login_response && $login_response->code === 0) {
                 //3. save mark and status in DB using client_id as follow:
                 $insta_followers_ini = $insta_following = NULL;
-                if ($Client->MarkInfo->insta_id != $datas["insta_id"]) {
+                if ($old_insta_id != $datas["insta_id"]) {
                     $profile_info = \business\InstaCommands::get_profile_public_data($datas["insta_name"]);
                     $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
                     $Client->MarkInfo->insta_following_ini = $profile_info->following;
                 }
-                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
+                $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
 
                 $this->session->set_userdata('client', $Client);
             }
