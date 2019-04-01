@@ -209,6 +209,7 @@ require_once config_item('business-class');
                 $result->add_params("profile", "$profile->insta_id");
                 $result->add_params("profile_name", "$profile->insta_name");
             }
+            $result->add_params("time", time());
             return $result;
         }
 

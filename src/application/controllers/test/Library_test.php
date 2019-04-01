@@ -191,12 +191,16 @@ class Library_test extends CI_Controller {
     //======= INSTA_API_CLIENT-LIB =======//
     echo "<h2>Test InstaApiClient Library</h2>";
     echo "[load] InstaClient_lib ==> ";
-    $cookies = new stdClass();
-    $cookies->sessionid = "3445996566%3AUdrflm2b4CXrbl%3A15";
+    $cookies =  new InstaApiWeb\Cookies();
+    $cookies->SessionId = "6718341208%3AFvypZ64w6C6jFJ%3A2";
+    $cookies->CsrfToken = "waQioTJhviqNQ6f2rUXEkSoEnGn09HjP";
+    $cookies->DsUserId = "6718341208";
+    $cookies->Mid = "XJ-KsAAEAAF7aaoXoFDWgNoUIxsX";
+   /* $cookies->sessionid = "3445996566%3AUdrflm2b4CXrbl%3A15";
     $cookies->csrftoken = "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0";
     $cookies->ds_user_id = "3445996566";
-    $cookies->mid = "XEExCwAEAAE88jhoc0YKOgFcqT3I";
-    $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "3445996566", "cookies" => new InstaApiWeb\Cookies(json_encode($cookies))), 'InstaClient_lib');
+    $cookies->mid = "XEExCwAEAAE88jhoc0YKOgFcqT3I";*/
+    $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "6718341208", "cookies" => $cookies), 'InstaClient_lib');
     echo "(<b>ok</b>)<br>";
 
     /* echo "[exec] make_login() ==> ";
@@ -205,13 +209,13 @@ class Library_test extends CI_Controller {
      */
 
 
-    echo "[exec] unfollow() ==> ";
-    $this->InstaClient_lib->unfollow("2023444583");
-    echo "(<b>ok</b>)<br>";
+//    echo "[exec] unfollow() ==> ";
+//    $this->InstaClient_lib->unfollow("2023444583");
+//    echo "(<b>ok</b>)<br>";
 
 
     echo "[exec] follow() ==> ";
-    $this->InstaClient_lib->follow("2023444583");
+    var_dump($this->InstaClient_lib->follow("210429330"));
     echo "(<b>ok</b>)<br>";
 
     echo "[exec] make_curl_friendships_command_str() ==> ";
