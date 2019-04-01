@@ -58,7 +58,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_FOLLOW));
                 $mngr->setResourceId($resource_id);
                 $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-                var_dump($curl_str);
+                //var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 $obj = null;
                 $code = -1;
@@ -72,8 +72,8 @@ namespace InstaApiWeb {
                     $message = \GuzzleHttp\json_encode($message);
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
-            } catch (Exception $e) {
-                var_dump($e);
+            } catch (\Exception $e) {
+                var_dump('#' . $e->getMessage());
             }
         }
 
@@ -87,7 +87,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_UNFOLLOW));
                 $mngr->setResourceId($resource_id);
                 $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-                var_dump($curl_str);
+                //var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 $obj = null;
                 $code = -1;
@@ -102,8 +102,8 @@ namespace InstaApiWeb {
                     $message = \GuzzleHttp\json_encode($message);
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
-            } catch (Exception $e) {
-                var_dump($e);
+            } catch (\Exception $e) {
+                var_dump('#' . $e->getMessage());
             }
         }
 
@@ -117,7 +117,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_LIKE));
                 $mngr->setResourceId($resource_id);
                 $curl_str = $mngr->make_curl_str($proxy, $cookies);
-                var_dump($curl_str);
+                //var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 $obj = null;
                 $code = -1;
@@ -132,8 +132,8 @@ namespace InstaApiWeb {
                     $message = \GuzzleHttp\json_encode($message);
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
-            } catch (Exception $e) {
-                var_dump($e);
+            } catch (\Exception $e) {
+                var_dump('#' . $e->getMessage());
             }
         }
 
@@ -433,7 +433,7 @@ namespace InstaApiWeb {
                     return $response;
                 }
             } catch (\Exception $exc) {
-                var_dump($exc);
+                return new LoginResponse(FALSE, NULL, "", $exc->getCode(), $exc->getMessage());
             }
         }
 
@@ -479,7 +479,7 @@ namespace InstaApiWeb {
                     $Cookies->json_response = json_decode('{"authenticated":false, "status":"fail"}');
                 }
             } catch (\Exception $exc) {
-                
+                return new LoginResponse(FALSE, NULL, "", $exc->getCode(), $exc->getMessage());
             }
 
             $response = new Response\LoginResponse(false, $Cookies, '', -4, 'Make checkpoint bad request ');
