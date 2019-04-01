@@ -222,6 +222,9 @@ namespace business {
                         $this->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);
                         $this->MarkInfo->Status->remove_item(UserStatus::BLOCKED_BY_INSTA);
                         $this->MarkInfo->update_cookies($login_response->Cookies);
+
+                        if(isset($this->MarkInfo->Cookies) && $this->MarkInfo->Cookies->SessionId != null)
+                        { $this->prepare_client_daily_work(true,false); }
                         return Response\Response::ResponseOK();
 
                     case 3: // Bloqued by password
@@ -262,6 +265,40 @@ namespace business {
                 return TRUE;
             }
             return FALSE;
+        }
+        
+        
+        // NUEVAS x IMPLMENTAR !!!
+        public function prepare_client_daily_work(bool $not_mail = false, $logs = false) {
+            $ci = &get_instance();
+            $ci->load->model('Daily_work_model');
+                    
+            if ($this->isWorkable() && $ci->Daily_work_model->get_by_id($this->Id) == null) {
+                    $to_follow = 0;
+                     if (strtotime("today") - $this->MarkInfo->init_date < 15 * 24 * 60 * 60) {
+                        $to_follow = 480;
+                    } else {
+                        $to_follow = $this->MarkInfo->Plane->to_follow;
+                    }
+                    
+                    $ci = &get_instance();
+                    $ci->load->model('Daily_work_model');
+                    $ci->Daily_work_model->save($client->Id, $to_follow, $to_follow);
+                    $this->load_insta_reference_profiles_data();
+                    $reference_profiles = count($this->ReferenceProfiles->workable());
+                     if($logs)
+                    { echo "{ \"workable\": true, \"client\" : $this->Id, ref_prof: $reference_profiles}"; }
+                   
+                    if( $reference_profiles == 0)
+                    {                      
+                        #@TODO Uncomment
+//                      if (!$not_mail)
+//                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
+                    }
+                }
+                else  if($logs)
+                { echo "{ \"workable\": false, \"client\" : $this->Id}"; }
+
         }
 
         static function get_gost_insta_client_lib_params() {

@@ -55,39 +55,10 @@ require_once config_item('business-class');
 
             foreach ($Clients->Clients as $Client) { // for each CLient                
                 print("<br>\n Client: $Client->Id <br>\n");
-                $this->prepare_client_daily_work($Client, $not_mail,true);
+                $Client->prepare_client_daily_work($not_mail,true);
             }
         }
 
-        // NUEVAS x IMPLMENTAR !!!
-        public function prepare_client_daily_work(\business\Client $client, bool $not_mail = false, $logs = false) {
-            if ($client->isWorkable()) {
-                    $to_follow = 0;
-                     if (strtotime("today") - $Client->MarkInfo->init_date < 15 * 24 * 60 * 60) {
-                        $to_follow = 480;
-                    } else {
-                        $to_follow = $client->MarkInfo->Plane->to_follow;
-                    }
-                    
-                    $ci = &get_instance();
-                    $ci->load->model('Daily_work_model');
-                    $ci->Daily_work_model->save($client->Id, $to_follow, $to_follow);
-                    $client->load_insta_reference_profiles_data();
-                    $reference_profiles = count($client->ReferenceProfiles->workable());
-                     if($logs)
-                    { echo "{ \"workable\": true, \"client\" : $client->Id, ref_prof: $reference_profiles}"; }
-                   
-                    if( $reference_profiles == 0)
-                    {                      
-                        #@TODO Uncomment
-//                      if (!$not_mail)
-//                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
-                    }
-                }
-                else  if($logs)
-                { echo "{ \"workable\": false, \"client\" : $client->Id}"; }
-
-        }
 
         // NUEVAS x IMPLMENTAR !!!
         public function request_current_work(\business\Client $client = NULL) {
@@ -99,13 +70,13 @@ require_once config_item('business-class');
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
             $ci = &get_instance();
             $N = 1;
-            while ($N++ <= 3) {
-//            while (true) {
+       //     while ($N++ <= 3) {
+            while (true) {
                 try {
-                    print 'Get_next_work: \n';
+                    //print 'Get_next_work: \n';
                     $daily_work = DailyWork::get_next_work($client_id);
-                    $ci = &get_instance();
-                    $ci->LogMgr->WriteResponse($daily_work);            
+                    //$ci = &get_instance();
+                    //$ci->LogMgr->WriteResponse($daily_work);            
                     if ($daily_work !== null) {
                         if (Client::verify_client($daily_work->Client)) {
                             $daily_work->Client->load_mark_info_data();

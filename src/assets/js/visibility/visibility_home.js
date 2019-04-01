@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var alt = "300px";
+    var alt = "340px";
     var plane = "fast";
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
