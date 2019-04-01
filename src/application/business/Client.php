@@ -283,7 +283,7 @@ namespace business {
                     
                     $ci = &get_instance();
                     $ci->load->model('Daily_work_model');
-                    $ci->Daily_work_model->save($client->Id, $to_follow, $to_follow);
+                    $ci->Daily_work_model->save($this->Id, $to_follow, $to_follow);
                     $this->load_insta_reference_profiles_data();
                     $reference_profiles = count($this->ReferenceProfiles->workable());
                      if($logs)
