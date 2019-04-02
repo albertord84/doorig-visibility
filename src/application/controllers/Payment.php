@@ -23,6 +23,8 @@ class Payment extends CI_Controller {
         $_POST['credit_card_exp_year'] = '2021';
         $_POST['credit_card_cvc'] = '057';
 
+        $_POST["plane"] = 'midle';
+        $_POST["plane"] = 'very_fast';
         $_POST['client_id'] = 19;
         $_POST['promotional-code'] = '';
         $_POST['cpf'] = '062.665.447-50';
@@ -95,47 +97,46 @@ class Payment extends CI_Controller {
             $client_id = $payment_data['client_id'];
             $Client = new Client($client_id);
             $is_contrated = $Client->load_mark_info_data();
-            $Client = $this->session->set_userdata('client', serialize($Client));
+            $this->session->set_userdata('client', serialize($Client));
 
             //1. set plane in la DB
-            $datas = $this->input->post();
-            $plane_id = 1;
-            $plane_id = $datas["plane"] == 'midle' ? 1 : $plane_id;
-            $plane_id = $datas["plane"] == 'fast' ? 2 : $plane_id;
-            $plane_id = $datas["plane"] == 'very_fast' ? 3 : $plane_id;
+            $new_plane_id = 1;
+            $new_plane_id = $payment_data["plane"] == 'midle' ? 1 : $new_plane_id;
+            $new_plane_id = $payment_data["plane"] == 'fast' ? 2 : $new_plane_id;
+            $new_plane_id = $payment_data["plane"] == 'very_fast' ? 3 : $new_plane_id;
+            $NewPlane = new \business\Plane($new_plane_id);
 
-            $MarkInfo = new business\MarkInfo($client);
+            $MarkInfo = new business\MarkInfo($Client);
             $MarkInfo = $Client->MarkInfo;
 
-            $Plane = new \business\Plane();
-            $Plane = $MarkInfo->Plane;
-
-            $OldPlane = new \business\Plane($MarkInfo->plane_id);
-            $OldPlane->load_data();
+            $ActualPlane = new \business\Plane();
+            $ActualPlane = $MarkInfo->Plane;
 
             $Response = new Response();
 
-            if ($plane_id === $Plane->id)
-                return Response::ResponseFAIL(T('Me cago en tu madre'));
+            if ($NewPlane->id == $ActualPlane->id)
+                return Response::ResponseFAIL(T('Me cago en tu madre'))->toJson();
 
             //1. if(is_upgrade_plane){
-            if ($plane_id > $Plane->id) {
-                $MarkInfo->update($Client->Id, $plane_id);  // Actualiza plano y objeto plano del MarkInfo!!!
-                $Plane = $MarkInfo->Plane;   // DEPRECATED!!!
-                $Status = new business\ClientStatusList($client);
-                $Status = $MarkInfo->Status;
+            $Status = new business\ClientStatusList($Client);
+            $Status = $MarkInfo->Status;
+            $MarkInfo->update($Client->Id, $NewPlane->id);  // Actualiza plano y objeto plano del MarkInfo!!!
+            if ($NewPlane->id > $ActualPlane->id) {
                 if ($Status->hasStatus(\business\UserStatus::BLOCKED_BY_PAYMENT) || $Status->hasStatus(\business\UserStatus::PENDING)) {
                     //1.3 cobrar valor del new_plane en la hora
-                    $Response = $this->vindi_create_payment($Plane->normal_val);
+                    $Response = $this->vindi_create_payment($NewPlane->normal_val);
                     if ($Response->code === 0) { // cobrado en la hora                    
                         $pay_day = strtotime("+1 month", time());
                         //1.4 crear nueva recurrencia para pay_day
+                        $Response = new \business\Response\ResponseRecurrencyPayment("");
                         $Response = $this->vindi_create_recurrency_payment($pay_day);
+                        $Response->Subscription = null;
+                        unset($Response->output_array['Subscription']);
                     } else {
                         return Response::ResponseFAIL(T("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois"), -1)->toJson();
                     }
                 } else {
-                    $plane_diff = $Plane->normal_val - $OldPlane->normal_val;
+                    $plane_diff = $NewPlane->normal_val - $ActualPlane->normal_val;
                     //1.3 cobrar valor $plane_diff en la hora
                     $Response = $this->vindi_create_payment($plane_diff);
                     if ($Response->code != 0) { // no cobrado en la hora  
@@ -147,11 +148,14 @@ class Payment extends CI_Controller {
                 if ($Status->hasStatus(\business\UserStatus::BLOCKED_BY_PAYMENT) || $Status->hasStatus(\business\UserStatus::PENDING)) {
                     $pay_day = strtotime("+1 month", time());
                     //1.4 crear nueva recurrencia para pay_day
+                    $Response = new \business\Response\ResponseRecurrencyPayment("");
                     $Response = $this->vindi_create_recurrency_payment($pay_day);
+                    $Response->Subscription = null;
+                    unset($Response->output_array['Subscription']);
                 } //} else nuevo plano queda actualizado automaticamente
             }
 
-            return Response::ResponseOK()->toJson();
+            return $Response->toJson();
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }

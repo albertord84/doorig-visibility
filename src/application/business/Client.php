@@ -229,11 +229,11 @@ namespace business {
 
                     case 3: // Bloqued by password
                         $this->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_INSTA);
-                        return Response\Response::ResponseOK();
+                        return Response\Response::ResponseFAIL(T('Senha incorreta!!!'));
 
                     case 2: // Check Point Required
                         $this->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT);
-                        return Response\Response::ResponseOK();
+                        return Response\Response::ResponseFAIL(T('Virifique a sua conta!!!'));
 
                     case -2: // Other exception
 
