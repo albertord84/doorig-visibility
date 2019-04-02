@@ -38,23 +38,23 @@ namespace business {
         }
 
         public function load_daily_report_data() {
-            $this->DailyReport->load_data();
+            return $this->DailyReport->load_data();
         }
 
         public function load_insta_reference_profiles_data(int $status = 0, int $type = -1) {
-            $this->ReferenceProfiles->load_data($status, $type);
+            return $this->ReferenceProfiles->load_data($status, $type);
         }
 
         public function load_black_and_white_list_data() {
-            $this->BlackAndWhiteList->load_data();
+            return $this->BlackAndWhiteList->load_data();
         }
 
         public function load_mark_info_data() {
-            $this->MarkInfo->load_data();
+            return $this->MarkInfo->load_data();
         }
 
         public function load_mark_info_data_by_insta_id(int $insta_id = NULL) {
-            $this->MarkInfo->load_data_by_insta_id($insta_id);
+            return $this->MarkInfo->load_data_by_insta_id($insta_id);
         }
 
         public function remove($client_id) {
