@@ -37,7 +37,7 @@ class Payment extends CI_Controller {
     public function add_payment() { //adição pela primeira vez ou atualização, é a mesma coisa
         try {
             $payment_data = $this->input->post();
-            $client_id = $payment_data['client_id'];
+            $client_id = mydecrypt($payment_data['client_id']);
 
             $Client = new Client($client_id);
             $is_contrated = $Client->load_mark_info_data();
@@ -94,10 +94,8 @@ class Payment extends CI_Controller {
     public function update_plane() { //setting plane
         try {
             $payment_data = $this->input->post();
-            $client_id = $payment_data['client_id'];
-            $Client = new Client($client_id);
-            $is_contrated = $Client->load_mark_info_data();
-            $this->session->set_userdata('client', serialize($Client));
+            $Client = new Client(0);
+            $Client = unserialize($this->session->userdata('client'));
 
             //1. set plane in la DB
             $new_plane_id = 1;
