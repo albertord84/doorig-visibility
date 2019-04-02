@@ -11,7 +11,7 @@ $(document).ready(function () {
             },
             error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
         }); 
-    });    
+    });
     
     $("#unactive-account").click(function () {
         $(this).prop("disabled",true);
