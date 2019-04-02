@@ -178,6 +178,7 @@ class Payment extends CI_Controller {
             if (isset($post->event) && isset($post->event->type)) {
                 //4.1 Recurrence created succefully
                 if ($post->event->type == "charge_created") {
+                    $result = file_put_contents($file, "\n charge_created DETECTED!!:\n", FILE_APPEND);
                     //4.1 Save Client 
                     //$Client = new Client();
                     //$Client->MarkInfo = new \business\MarkInfo($Client);
@@ -194,10 +195,13 @@ class Payment extends CI_Controller {
                         //1. activar cliente
                         $PaymentVindi = new \business\Payment\Vindi();
                         $PaymentVindi->load_data_by_gateway_client_id($gateway_client_id);
+                        $result = file_put_contents($file, "\n Client $gateway_client_id loaded... \n", FILE_APPEND);
                         if ($PaymentVindi->client_id) {
                             $Client = new Client($PaymentVindi->client_id);
                             $Client->MarkInfo = new \business\MarkInfo($Client);
                             $Client->load_mark_info_data();
+                            
+                            $result = file_put_contents($file, "\n Client Mark Info Loaded... \n", FILE_APPEND);
 
                             $Client->MarkInfo->Status->add_item(user_status::ACTIVE);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::BLOCKED_BY_PAYMENT);
@@ -219,6 +223,7 @@ class Payment extends CI_Controller {
                                     $end_date = NULL,
                                     $pay_day = strtotime("+1 month", time())
                             );
+                            
                             $result = file_put_contents($file, "$client_id: +1 month from now" . "\n\n\n", FILE_APPEND);
                         } else {
                             $result = file_put_contents($file, "Subscription($gateway_payment_key): NOT FOUND HERE!!!" . "\n\n\n", FILE_APPEND);
