@@ -44,54 +44,6 @@ class Welcome extends CI_Controller {
         //$this->load->view('visibility_client_tmp');
     }
 
-    // deprecated
-    public function index_tmp($client = 1) {
-        //2. set $ClientModule in session and lateral_menu and modals views
-        //$this->session->set_userdata('client_module', serialize($ClientModule));
-        $param["lateral_menu"] = $this->request_lateral_menu($client);
-        $param["modals"] = $this->request_modals();
-
-        //3. load Mark datas from DB and set in session 
-        $Client = new Client($client);
-        $Client->load_mark_info_data();
-        $Client->ReferenceProfiles->load_data();
-        $Client->load_daily_report_data();
-        $Client->load_black_and_white_list_data();
-        $this->session->set_userdata('client', serialize($Client));
-        //4. load datas as params to be used in visibility_client view                
-        $tmpClient = $Client;
-        unset($tmpClient->pass);
-        $param["person_profile_datas"] = json_encode(object_to_array($tmpClient));
-        //5. load painel_by_status as params to be display in visibility_client view
-        $param["painel_by_status"] = NULL;
-        $Status_list = $Client->MarkInfo->Status->ClientStatusList;
-
-        $param["painel_verify_account"] = null;
-        if ($Client->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT))
-            $param["painel_verify_account"] = $this->load->view('client_views/verify_account_painel', '', TRUE);
-
-        $param["painel_blocked_by_payment"] = null;
-        if ($Client->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_PAYMENT))
-            $param["painel_blocked_by_payment"] = $this->load->view('client_views/block_by_payment_painel', '', TRUE);
-
-        $param["painel_pending"] = null;
-        if ($Client->MarkInfo->Status->hasStatus(UserStatus::PENDING))
-            $param["painel_pending"] = $this->load->view('client_views/pendent_by_payment_painel', '', TRUE);
-
-        $param["painel_blocked_by_insta"] = null;
-        if ($Client->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA))
-            $param["painel_blocked_by_insta"] = $this->load->view('client_views/block_by_insta_painel', '', TRUE);
-
-        //6. set painel_person_profile as params to be display in visibility_client view
-        $param["painel_person_profile"] = $this->load->view('client_views/person_profile_painel', '', TRUE);
-        $param["painel_statistics"] = $this->load->view('client_views/statistics_painel', '', TRUE);
-        $param["painel_reference_profiles"] = $this->load->view('client_views/reference_profiles_painel', '', TRUE);
-        $param["configuration"] = $this->load->view('client_views/configuration_painel', '', TRUE);
-        $param["black_and_white_list"] = $this->load->view('client_views/black_and_white_list_painel', '', TRUE);
-        $param['SCRIPT_VERSION'] = $GLOBALS['sistem_config']->SCRIPT_VERSION;
-        $this->load->view('visibility_client', $param);
-    }
-
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
         $ClientModule = NULL;
@@ -99,10 +51,12 @@ class Welcome extends CI_Controller {
             $ClientModule = unserialize($this->session->userdata('client_module'));
         } else {
             $ClientModule = $this->check_access_token($access_token, $client_id);
+            $this->session->set_userdata('client_module', serialize($ClientModule));
+            header("Location:" . base_url());
+            return;
         }
         if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
-            $this->session->set_userdata('client_module', serialize($ClientModule));
             $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
             $param["modals"] = $this->request_modals();
             if ($ClientModule->Active) {
