@@ -55,13 +55,11 @@ namespace business\Payment {
          * @return DataSet  
          */
         public function load_data_by_gateway_client_id(int $gateway_client_id = NULL) {
-            parent::load_data();
-
             $gateway_client_id = $gateway_client_id ? $gateway_client_id : $this->gateway_client_id;
 
             $ci = &get_instance();
             $ci->load->model('Client_payment_model');
-            $data = $ci->Client_payment_model->load_data_by_gateway_client_id($gateway_client_id);
+            $data = $ci->Client_payment_model->get_by_gateway_client_id($gateway_client_id);
 
             if ($data)
                 $this->fill_data($data);
