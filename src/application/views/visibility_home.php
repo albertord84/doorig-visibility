@@ -169,16 +169,22 @@
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="left-content-area text-center">
                                                     <div class="img-wrapper">
-                                                        <img src="<?php echo $GLOBALS["sistem_config"]->BASE_SITE_URL?>../assets/images/video-sec/video-img.jpg" alt="clients story">
+                                                        <img src="<?php echo $GLOBALS["sistem_config"]->BASE_SITE_URL?>/../assets/images/video-sec/video-img.jpg" alt="clients story">
                                                         <div class="hover">
                                                             <a  class="video-play video-play-btn" target="_self">
                                                                 <i class="fas fa-play-circle"></i>
                                                             </a>
                                                             <!--<a href="https://youtu.be/Eo2Lr1trSKs" class="video-play video-play-btn" target="_self"><i class="flaticon-music-player-play"></i></a>-->
                                                         </div>
-                                                    </div>
+                                                    </div>                                                    
                                                 </div>
                                             </div>
+                                            
+                                            
+                                                
+                                            
+                                            
+                                            
                                         </div>
                                     </div>
                                 </section>
@@ -194,8 +200,9 @@
                                         
                                         <div class="col-md-12">
                                             <div class="sec-title text-center">
-                                                <h2>Contratar agora</h2>
+                                                <h2>Contrate agora</h2>
                                                 <span class="border"></span>
+                                                <h3>Contrate e teste grátis!!</h3>
                                             </div>
                                         </div>
                                         
