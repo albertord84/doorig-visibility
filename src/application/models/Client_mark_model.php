@@ -135,7 +135,7 @@ class Client_mark_model extends CI_Model {
 
         $this->db->where('client_id', $client_id);
 
-        $this->db->select('sum("folows") as Count')->from('reference_profile');
+        $this->db->select('sum(\`folows\`) as Count')->from('reference_profile');
 
         //$this->db->order_by('<field>', '<type>'); ==> asc/desc
 
