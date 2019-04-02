@@ -87,7 +87,7 @@ require_once config_item('business-class');
                             $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                             print 'Do_unfollow_work: \n';
                             $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
-                            unset($ci->InstaClientBusiness_lib);
+                            unset($ci->InstaClient_lib);
                             //break;
                         } else {
                             $daily_work->delete_dailywork();
@@ -117,7 +117,7 @@ require_once config_item('business-class');
                     $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                 if ($daily_work->to_unfollow > 0)
                     $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
-                unset($ci->InstaClientBusiness_lib);
+                unset($ci->InstaClient_lib);
             }
         }
 

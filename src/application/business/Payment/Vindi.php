@@ -84,7 +84,7 @@ namespace business\Payment {
             $gateway_id = $gateway_id ? $gateway_id : $this->gateway_id;
             $ci = &get_instance();
             $ci->Client_payment_model->save($client_id, $gateway_client_id, $plane_id, $payment_key, $gateway_id);
-            
+
             $this->load_data();
         }
 
@@ -92,7 +92,7 @@ namespace business\Payment {
             $client_id = $client_id ? $client_id : $this->client_id;
             $ci = &get_instance();
             $ci->Client_payment_model->update($client_id, $gateway_client_id, $plane_id, $payment_key, $gateway_id);
-            
+
             $this->load_data();
         }
 
@@ -394,9 +394,9 @@ namespace business\Payment {
                         ]
                     ]
                 ]);
-                if ($bill && $bill->status != 'paid')
-                    return Response::ResponseFAIL($bill->status, -1);
-                return Response::ResponseOK();
+                if ($bill && ($bill->status == 'paid' || $bill->status == 'pending'))
+                    return Response::ResponseOK($bill->status);
+                return Response::ResponseFAIL($bill->status, -1);
             } catch (\Exception $e) {
                 return Response::ResponseFAIL($e->getMessage(), $e->getCode());
             }
