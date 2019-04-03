@@ -210,6 +210,8 @@ require_once config_item('business-class');
                 $result->add_params("profile", "$profile->insta_id");
                 $result->add_params("profile_name", "$profile->insta_name");
             }
+            $date = date("M,d,Y h:i:s A");
+            $result->add_params("time", $date);
             return $result;
         }
 

@@ -11,7 +11,7 @@ $(document).ready(function () {
             },
             error : function(xhr, status){modal_alert_message('Erro enviando dados, tente depois...');}
         }); 
-    });    
+    });
     
     $("#unactive-account").click(function () {
         $(this).prop("disabled",true);
@@ -158,7 +158,8 @@ $(document).ready(function () {
                         $('.verify-account-steep2').css({'display':'block','visibility': 'visible', 'opacity': '1'});                                                                
                     }
                 } else
-                    modal_alert_message(response.message);
+                    //modal_alert_message(response.message);
+                    $(location).attr('href', base_url + "index.php/welcome/");
             },
             error: function (xhr, status) {                
                 spinner_stop(btn);

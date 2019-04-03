@@ -38,23 +38,23 @@ namespace business {
         }
 
         public function load_daily_report_data() {
-            $this->DailyReport->load_data();
+            return $this->DailyReport->load_data();
         }
 
         public function load_insta_reference_profiles_data(int $status = 0, int $type = -1) {
-            $this->ReferenceProfiles->load_data($status, $type);
+            return $this->ReferenceProfiles->load_data($status, $type);
         }
 
         public function load_black_and_white_list_data() {
-            $this->BlackAndWhiteList->load_data();
+            return $this->BlackAndWhiteList->load_data();
         }
 
         public function load_mark_info_data() {
-            $this->MarkInfo->load_data();
+            return $this->MarkInfo->load_data();
         }
 
         public function load_mark_info_data_by_insta_id(int $insta_id = NULL) {
-            $this->MarkInfo->load_data_by_insta_id($insta_id);
+            return $this->MarkInfo->load_data_by_insta_id($insta_id);
         }
 
         public function remove($client_id) {
@@ -229,11 +229,11 @@ namespace business {
 
                     case 3: // Bloqued by password
                         $this->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_INSTA);
-                        return Response\Response::ResponseOK();
+                        return Response\Response::ResponseFAIL(T('Senha incorreta!!!'));
 
                     case 2: // Check Point Required
                         $this->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT);
-                        return Response\Response::ResponseOK();
+                        return Response\Response::ResponseFAIL(T('Virifique a sua conta!!!'));
 
                     case -2: // Other exception
 
@@ -283,7 +283,7 @@ namespace business {
                     
                     $ci = &get_instance();
                     $ci->load->model('Daily_work_model');
-                    $ci->Daily_work_model->save($client->Id, $to_follow, $to_follow);
+                    $ci->Daily_work_model->save($this->Id, $to_follow, $to_follow);
                     $this->load_insta_reference_profiles_data();
                     $reference_profiles = count($this->ReferenceProfiles->workable());
                      if($logs)
