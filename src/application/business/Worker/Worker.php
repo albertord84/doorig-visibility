@@ -55,22 +55,20 @@ require_once config_item('business-class');
 
             foreach ($Clients->Clients as $Client) { // for each CLient                
                 print("<br>\n Client: $Client->Id <br>\n");
-                $Client->prepare_client_daily_work($not_mail,true);
+                $Client->prepare_client_daily_work($not_mail, true);
             }
         }
-
 
         // NUEVAS x IMPLMENTAR !!!
         public function request_current_work(\business\Client $client = NULL) {
             
         }
 
-
         // LISTA!!!
         public function do_work(int $client_id = NULL, int $n = NULL, int $rp = NULL) {
             $ci = &get_instance();
             $N = 1;
-       //     while ($N++ <= 3) {
+            //     while ($N++ <= 3) {
             while (true) {
                 try {
                     //print 'Get_next_work: \n';
@@ -83,10 +81,14 @@ require_once config_item('business-class');
                             $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
                             $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                             $robot = new Robot();
-                            print 'Do_follow_work: \n';
-                            $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
-                            print 'Do_unfollow_work: \n';
-                            $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
+                            if ($daily_work->to_follow > 0) {
+                                print 'Do_follow_work: \n';
+                                $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
+                            }
+                            if ($daily_work->to_unfollow > 0) {
+                                print 'Do_unfollow_work: \n';
+                                $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
+                            }
                             unset($ci->InstaClientBusiness_lib);
                             //break;
                         } else {
@@ -94,11 +96,11 @@ require_once config_item('business-class');
                         }
                     } else {
                         //sleep(1 * 20);
-                       sleep(5 * 60);
+                        sleep(5 * 60);
                     }
                 } catch (\Throwable $exc) {
-                     $ci = &get_instance();
-                     $ci->LogMgr->WriteResponse($exc);
+                    $ci = &get_instance();
+                    $ci->LogMgr->WriteResponse($exc->getMessage());
                     //$exc->getTraceAsString();
                 }
             }

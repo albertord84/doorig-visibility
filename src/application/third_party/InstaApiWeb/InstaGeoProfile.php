@@ -79,7 +79,10 @@ namespace InstaApiWeb {
                 return new FollowersResponse(array(), '', false, 1, $message);
             }
 
-            throw new \InstaException("unknown exception response: $json_response");
+            else
+            {
+                throw new \InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
+            }
         }
 
         /**
@@ -97,7 +100,7 @@ namespace InstaApiWeb {
                 exec($curl_str, $output, $status);
                 return json_decode($output[0]);
             } catch (Exception $e) {
-                var_dump($e);
+                var_dump($e->getMessage());
             }
         }
 

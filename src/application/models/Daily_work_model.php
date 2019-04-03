@@ -103,7 +103,7 @@ class Daily_work_model extends CI_Model {
         $cnt = $GLOBALS['sistem_config']->REQUESTS_AT_SAME_TIME;
         $Elapsed_time_limit = $GLOBALS['sistem_config']->UNFOLLOW_ELAPSED_TIME_LIMIT;
         $followed_db = $this->load->database('followed', TRUE);
-        $followed_db->where("unfollowed = false AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit");
+        $followed_db->where("unfollowed = false AND ((UNIX_TIMESTAMP(NOW()) - CAST(date AS INTEGER)) DIV 60 DIV 60) > $Elapsed_time_limit AND `date` > '1554156000'");
         $followed_db->limit($cnt);
         $followed_db->select('*')->from("`$client_id`");
         $query = $followed_db->get();
