@@ -372,12 +372,13 @@ $(document).ready(function () {
     display_chart_datas();
 });
 
-if(person_profile.Status ==2 || person_profile.Status ==3 || person_profile.Status ==6 || person_profile.Status ==9){               
-    $(".profile-delete").off("click");
-    $(".sensitive_painel *").addClass('sensitive_painel_disabled');        
-    $(".sensitive_painel_disabled *").off();                   
-    $(".sensitive_painel_disabled").click(function (e) {
-        modal_alert_message("Você deve resolver os problemas notificados.");
-        return false;
-    });
-}
+//if(person_profile.Status ==2 || person_profile.Status ==3 || person_profile.Status ==6 || person_profile.Status ==9){               
+//    $(".profile-delete").off("click");
+//    $(".sensitive_painel *").addClass('sensitive_painel_disabled');        
+//    $(".sensitive_painel_disabled *").off();                   
+//    $(".sensitive_painel_disabled").click(function (e) {
+//        modal_alert_message("Você deve resolver os problemas notificados.");
+//        return false;
+//    });
+//}
+

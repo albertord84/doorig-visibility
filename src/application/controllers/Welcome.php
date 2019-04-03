@@ -46,16 +46,17 @@ class Welcome extends CI_Controller {
 
     public function index($access_token, $client_id) {
         //1. check correct access_token or active session
-        $ClientModule = NULL;
-        if ($this->session->userdata('client_module')) {
+        $ClientModule = unserialize($this->session->userdata('client_module'));
+        if (is_object($ClientModule)) {
             $ClientModule = unserialize($this->session->userdata('client_module'));
         } else {
             $ClientModule = $this->check_access_token($access_token, $client_id);
             $this->session->set_userdata('client_module', serialize($ClientModule));
-            header("Location:" . base_url());
+            $REDIRECT = $ClientModule ? base_url() : $GLOBALS['sistem_config']->BASE_SITE_URL;
+            header("Location:" . $REDIRECT);
             return;
         }
-        if ($ClientModule) {
+        if ($ClientModule){
             //2. set $ClientModule in session and lateral_menu and modals views
             $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
             $param["modals"] = $this->request_modals();
@@ -116,7 +117,7 @@ class Welcome extends CI_Controller {
         $this->session->set_userdata('client_module', NULL);
         $this->session->set_userdata('client', NULL);
         $this->session->sess_destroy();
-        
+
         header("Location:" . $GLOBALS['sistem_config']->DASHBOARD_SITE_URL . 'welcome/log_out');
     }
 
@@ -169,41 +170,11 @@ class Welcome extends CI_Controller {
             $Client = new Client($client_id);
             if (!$Client->exist($client_id))
                 $Client->save(
-                        $client_id,
-                        $plane_id = null,
-                        $pay_id = null,
-                        $proxy_id = null,
-                        $login = $datas["insta_name"],
-                        $pass = $datas["password"],
-                        $insta_id = $datas["insta_id"],
-                        $init_date = time(),
-                        $end_date = null,
-                        $pay_day = null,
-                        $cookies = null,
-                        $observation = null,
-                        $purchase_counter = 1,
-                        $last_access = null,
-                        $insta_followers_ini = null,
-                        $insta_following = null
+                        $client_id, $plane_id = null, $pay_id = null, $proxy_id = null, $login = $datas["insta_name"], $pass = $datas["password"], $insta_id = $datas["insta_id"], $init_date = time(), $end_date = null, $pay_day = null, $cookies = null, $observation = null, $purchase_counter = 1, $last_access = null, $insta_followers_ini = null, $insta_following = null
                 );
             else
                 $Client->update(
-                        $client_id,
-                        $plane_id = null,
-                        $pay_id = null,
-                        $proxy_id = null,
-                        $login = $datas["insta_name"],
-                        $pass = $datas["password"],
-                        $insta_id = $datas["insta_id"],
-                        $init_date = time(),
-                        $end_date = null,
-                        $pay_day = null,
-                        $cookies = null,
-                        $observation = null,
-                        $purchase_counter = 1,
-                        $last_access = null,
-                        $insta_followers_ini = null,
-                        $insta_following = null
+                        $client_id, $plane_id = null, $pay_id = null, $proxy_id = null, $login = $datas["insta_name"], $pass = $datas["password"], $insta_id = $datas["insta_id"], $init_date = time(), $end_date = null, $pay_day = null, $cookies = null, $observation = null, $purchase_counter = 1, $last_access = null, $insta_followers_ini = null, $insta_following = null
                 );
             //3. return response
             return Response::ResponseOK()->toJson();
@@ -335,9 +306,7 @@ class Welcome extends CI_Controller {
         $profile_public_data = InstaCommands::get_profile_public_data($Client->MarkInfo->login);
         $proxy = ($client_id % 8) + 1;
         Client::update(
-                $client_id, null, null, $proxy, null, null, null, null, null, null, null, null, null, null,
-                $profile_public_data->followers,
-                $profile_public_data->following
+                $client_id, null, null, $proxy, null, null, null, null, null, null, null, null, null, null, $profile_public_data->followers, $profile_public_data->following
         );
         $Client->MarkInfo->Status->add_item(UserStatus::ACTIVE);
         //$Client->MarkInfo->Status->add_item(UserStatus::PAUSED, FALSE);
@@ -412,4 +381,5 @@ class Welcome extends CI_Controller {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
     }
+
 }

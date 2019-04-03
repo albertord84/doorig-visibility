@@ -17,29 +17,29 @@ class Payment extends CI_Controller {
         require_once config_item('business-payment_vindi-class');
         require_once config_item('business-user_status-class');
 
-        $_POST['user_email'] = 'albertord84@gmail.com';
-        $_POST['credit_card_name'] = 'alberto reyes diaz';
-        $_POST['credit_card_number'] = '5234214982638268';
-        $_POST['credit_card_exp_month'] = '08';
-        $_POST['credit_card_exp_year'] = '2021';
-        $_POST['credit_card_cvc'] = '057';
-
-        $_POST["plane"] = 'midle';
-        $_POST["plane"] = 'very_fast';
-        $_POST['client_id'] = 19;
-        $_POST['promotional-code'] = '';
-        $_POST['cpf'] = '062.665.447-50';
+//        $_POST['user_email'] = 'albertord84@gmail.com';
+//        $_POST['credit_card_name'] = 'alberto reyes diaz';
+//        $_POST['credit_card_number'] = '5234214982638268';
+//        $_POST['credit_card_exp_month'] = '08';
+//        $_POST['credit_card_exp_year'] = '2021';
+//        $_POST['credit_card_cvc'] = '057';
+//
+//        $_POST["plane"] = 'midle';
+//        $_POST["plane"] = 'very_fast';
+//        $_POST['client_id'] = 19;
+//        $_POST['promotional-code'] = '';
+//        $_POST['cpf'] = '062.665.447-50';
     }
 
     public function index() {
         echo 'OK';
+        echo mydecrypt("cHJFPQ==");
     }
 
     public function add_payment() { //adição pela primeira vez ou atualização, é a mesma coisa
         try {
             $payment_data = $this->input->post();
-            $client_id = mydecrypt($payment_data['client_id']);
-
+            $client_id = (int) mydecrypt(unserialize($payment_data['client_id']));
             $Client = new Client($client_id);
             $is_contrated = $Client->load_mark_info_data();
             $this->session->set_userdata('client', serialize($Client));
@@ -48,7 +48,8 @@ class Payment extends CI_Controller {
             if ($is_contrated) {
                 //2. if(!valido(promotional-code))
                 //3. adicionar este nuevo carton en la vindi
-                $this->vindi_addClientPayment($payment_data);
+                $Reponse = $this->vindi_addClient($payment_data);
+                $Reponse = $this->vindi_addClientPayment($payment_data);
                 //4. if (block_payment || pendent_payment){
                 $MarkInfo = new business\MarkInfo($Client);
                 $MarkInfo = $Client->MarkInfo;
@@ -165,7 +166,7 @@ class Payment extends CI_Controller {
             //1. Get and Save Raw Content Input String
             $post_str = file_get_contents('php://input');
             //$post_str = '{"event":{"type":"bill_paid","created_at":"2019-04-02T17:07:31.338-03:00","data":{"bill":{"id":41399991,"code":null,"amount":"2.0","installments":1,"status":"paid","seen_at":null,"billing_at":null,"due_at":"2019-04-02T23:59:59.000-03:00","url":"https://app.vindi.com.br/customer/bills/41399991?token=8b20999b-c0b4-41f2-ada8-9646c3dbb8b0","created_at":"2019-04-02T17:07:28.000-03:00","updated_at":"2019-04-02T17:07:31.323-03:00","bill_items":[{"id":49485942,"amount":"2.0","quantity":null,"pricing_range_id":null,"description":"","pricing_schema":null,"product":{"id":411113,"name":"One Real Product","code":null},"product_item":null,"discount":null}],"charges":[{"id":40287219,"amount":"2.0","status":"paid","due_at":"2019-04-02T23:59:59.000-03:00","paid_at":"2019-04-02T17:07:31.000-03:00","installments":1,"attempt_count":1,"next_attempt":null,"print_url":null,"created_at":"2019-04-02T17:07:28.000-03:00","updated_at":"2019-04-02T17:07:31.000-03:00","last_transaction":{"id":67453140,"transaction_type":"charge","status":"success","amount":"2.0","installments":1,"gateway_message":"Sucesso","gateway_response_code":null,"gateway_authorization":"20211904021428294601","gateway_transaction_id":"c7512cad-1beb-4109-83ed-0001569f6948","gateway_response_fields":{"CodRet":"00","Msgret":"Sucesso","NumAutor":"682240","NumPedido":"67453140","NumSqn":"988558485","Tid":"20211904021428294601","Data":"20190402","Hora":"17:07:30"},"fraud_detector_score":null,"fraud_detector_status":null,"fraud_detector_id":null,"created_at":"2019-04-02T17:07:29.000-03:00","gateway":{"id":27494,"connector":"e_rede"},"payment_profile":{"id":11432332,"holder_name":"ALBERTO REYES DIAZ","registry_code":null,"bank_branch":null,"bank_account":null,"card_expiration":"2021-08-31T23:59:59.000-03:00","card_number_first_six":"523421","card_number_last_four":"8268","token":"1cabbca4-2fc9-452f-8e48-6826fb17b350","created_at":"2019-04-01T21:38:16.000-03:00","payment_company":{"id":1,"name":"MasterCard","code":"mastercard"}}},"payment_method":{"id":31682,"public_name":"Cartão de crédito","name":"Cartão de crédito","code":"credit_card","type":"PaymentMethod::CreditCard"}}],"customer":{"id":9693483,"name":"Alberto Reyes","email":"albertord84@gmail.com","code":null},"period":null,"subscription":null,"metadata":{},"payment_profile":null,"payment_condition":null}}}}';
-            
+
             $path = __dir__ . '/../../../logs/vindi/';
             $file = $path . "vindi_notif_post-" . date("d-m-Y") . ".log";
             $result = file_put_contents($file, "\n\n", FILE_APPEND);
@@ -193,9 +194,9 @@ class Payment extends CI_Controller {
                         // Activate User
                         $gateway_client_id = $post->event->data->bill->customer->id;
                         $gateway_payment_key = $post->event->data->bill->subscription->id;
-                        
+
                         $result = file_put_contents($file, "\n Client gateway_client_id($gateway_client_id) gateway_payment_key($gateway_payment_key) ... \n", FILE_APPEND);
-                        
+
                         //1. activar cliente
                         $PaymentVindi = new \business\Payment\Vindi();
                         $PaymentVindi->load_data_by_gateway_client_id($gateway_client_id);
@@ -204,31 +205,23 @@ class Payment extends CI_Controller {
                             $Client = new Client($PaymentVindi->client_id);
                             $Client->MarkInfo = new \business\MarkInfo($Client);
                             $Client->load_mark_info_data();
-                            
+
                             $result = file_put_contents($file, "\n Client Mark Info Loaded... \n", FILE_APPEND);
 
                             $Client->MarkInfo->Status->add_item(\business\UserStatus::ACTIVE);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::BLOCKED_BY_PAYMENT);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::BEGINNER);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::PENDING);
-
-                            $result = file_put_contents($file, "$client_id: ACTIVED" . "\n\n", FILE_APPEND);
+                            $result = file_put_contents($file, "Client $client_id: ACTIVED" . "\n\n", FILE_APPEND);
 
                             //2. pay_day un mes para el frente
                             $Client->MarkInfo->update(
-                                    $PaymentVindi->client_id,
-                                    $plane_id = NULL,
-                                    $pay_id = NULL,
-                                    $proxy_id = NULL,
-                                    $path = NULL,
-                                    $pass = NULL,
-                                    $insta_id = NULL,
-                                    $init_date = NULL,
-                                    $end_date = NULL,
-                                    $pay_day = strtotime("+1 month", time())
+                                    $PaymentVindi->client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $path = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = strtotime("+1 month", time())
                             );
-                            
-                            $result = file_put_contents($file, "$client_id: +1 month from now" . "\n\n\n", FILE_APPEND);
+                            $result = file_put_contents($file, "Client $client_id: +1 month from now" . "\n\n\n", FILE_APPEND);
+
+                            $Client->prepare_client_daily_work(false, false);
+                            $result = file_put_contents($file, "Client $client_id: Work Created!!!" . "\n\n\n", FILE_APPEND);
                         } else {
                             $result = file_put_contents($file, "Subscription($gateway_payment_key): NOT FOUND HERE!!!" . "\n\n\n", FILE_APPEND);
                         }
@@ -355,9 +348,13 @@ class Payment extends CI_Controller {
             $user_email = urldecode($payment_data['user_email']);
             //$credit_card_name = "God";
             //$user_email = "god@heaven.sky";
-            $customer_id = $Client->MarkInfo->Payment->addClient($credit_card_name, $user_email);
+            if (!$Client->MarkInfo->Payment->gateway_client_id) {
+                $customer_id = $Client->MarkInfo->Payment->addClient($credit_card_name, $user_email);
 
-            $Client->MarkInfo->Payment->save($Client->Id, $customer_id);
+                $Client->MarkInfo->Payment->save($Client->Id, $customer_id);
+
+                $this->session->set_userdata('client', serialize($Client));
+            }
 
             return Response::ResponseOK();
         } catch (\Exception $exc) {
@@ -384,6 +381,9 @@ class Payment extends CI_Controller {
             );
 
             $Reponse = $Client->MarkInfo->Payment->addClientPayment($Client->Id, $datas);
+
+            $this->session->set_userdata('client', serialize($Client));
+
             return $Reponse;
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode());
@@ -411,12 +411,11 @@ class Payment extends CI_Controller {
                 //1.6 pay_day en la base de datos actualizar recorrency_id y pay_day en la sesion
                 $Client->MarkInfo->update($Client->Id, null, null, null, null, null, null, null, null, $pay_day);
 
-                //1.8 debloquer por pagamento e ativar, poner trabajo
-                $Client->MarkInfo->Status->remove_item(\business\UserStatus::BLOCKED_BY_PAYMENT);
-                $Client->MarkInfo->Status->remove_item(\business\UserStatus::PENDING);
-                $Client->MarkInfo->Status->add_item(\business\UserStatus::ACTIVE);
-
-                $Client->prepare_client_daily_work(false, false);
+                //1.8 debloquer por pagamento e ativar, poner trabajo (SOLO POST DE NOTIFICACIONES LO HACE)
+                //$Client->MarkInfo->Status->remove_item(\business\UserStatus::BLOCKED_BY_PAYMENT);
+                //$Client->MarkInfo->Status->remove_item(\business\UserStatus::PENDING);
+                //$Client->MarkInfo->Status->add_item(\business\UserStatus::ACTIVE);
+                //$Client->prepare_client_daily_work(false, false);
                 return $ResponseRecurrencyPayment;
             }
             return Response::ResponseFAIL(T("Sus datos estan siendo analisados, aguarde resposta, ou tente algumas horas depois"), -1)->toJson();
