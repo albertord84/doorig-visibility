@@ -10,6 +10,8 @@ namespace business {
     require_once config_item('business-black_and_white_list-class');
     require_once config_item('business-response-class');
     require_once config_item('thirdparty-login_response-class');
+    require_once config_item('thirdparty-verification_choice-resource');    
+    require_once config_item('thirdparty-cookies-resource');
 
     /**
      * @category Business class
@@ -131,7 +133,7 @@ namespace business {
                 $this->MarkInfo->load_data();
 
             $ci = &get_instance();
-            $ci->load->library('InstaApiWeb/InstaClient_lib', self::get_gost_insta_client_lib_params(), 'InstaClient_lib');
+            $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_insta_client_lib_params(), 'InstaClient_lib');
 
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $this->MarkInfo->pass, $choice);
@@ -142,6 +144,7 @@ namespace business {
                 $ci->session->set_userdata('client', serialize($this));
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, null, $cookies_str);
+                return Response\Response::ResponseOK();
             }
 
             return $login_response;
@@ -193,7 +196,7 @@ namespace business {
                     $this->MarkInfo->load_data();
 
                 $ci = &get_instance();
-                $params = $this->get_gost_insta_client_lib_params();
+                $params = $this->get_insta_client_lib_params();
                 /* if($log)
                   {
                   $params["log"] = TRUE;
@@ -301,13 +304,9 @@ namespace business {
 
         }
 
-        static function get_gost_insta_client_lib_params() {
-            $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
-                "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0",
-                "ds_user_id" => "3445996566",
-                "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
-            require_once config_item('thirdparty-cookies-resource');
-            $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
+        public function get_insta_client_lib_params() {
+            
+            $param = array("insta_id" => $this->MarkInfo->insta_id, "cookies" => $this->MarkInfo->Cookies, "proxy" => $this->MarkInfo->Proxy->getApiProxy());
 
             return $param;
         }

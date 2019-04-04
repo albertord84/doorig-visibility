@@ -64,7 +64,11 @@ namespace business {
         }
 
         public function getApiProxy() {
-            return new \InstaApiWeb\Proxy($this->Ip, $this->Port, $this->User, $this->Password);
+            if ($this->Id == NULL)
+                return null;
+            else {
+                return new \InstaApiWeb\Proxy($this->Ip, $this->Port, $this->User, $this->Password);
+            }
         }
 
     }

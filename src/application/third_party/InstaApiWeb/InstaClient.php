@@ -397,7 +397,7 @@ namespace InstaApiWeb {
                 $response = $this->make_login($login, $pass);
                 return $response;
             } catch (InstaCheckpointException $exc) {
-                $res = $exc->GetChallange()->getApiPath();
+                $res = $exc->GetChallange();
 
                 $response = $this->get_challenge_data($res, $login, $choise);
                 return $response;

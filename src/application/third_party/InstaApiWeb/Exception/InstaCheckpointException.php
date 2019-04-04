@@ -17,6 +17,8 @@ namespace InstaApiWeb\Exceptions {
 
     public function __construct(string $message = "", \Throwable $previous = null, string $challange_url = NULL) {
       parent::__construct($message, ExceptionCode::InstaCheckpointRequired, $previous);
+      
+      
       $this->challange = $challange_url;
     }
 
