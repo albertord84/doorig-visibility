@@ -374,7 +374,7 @@ class Library_test extends CI_Controller {
   public function login() {
     //echo "estoy dentro de login";
 
-    $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
+  /*  $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
         "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0",
         "ds_user_id" => "3445996566",
         "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
@@ -384,13 +384,13 @@ class Library_test extends CI_Controller {
 
     echo "<h2>login result</h2>";
     //$r = $this->InstaClient_lib->make_login("riveauxmerino", "notredame");
-    $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");        
+    $r = $this->InstaClient_lib->make_login("carlosh_test", "Servidor19");    */    
 //    $r = $this->InstaClient_lib->make_login("alberto_test", "alberto2");        
     var_dump($r);
 
     if (strstr($r->Message, "Challenge required") != false) {
       echo "<h3>Cuenta bloqueada!!!. Challenge required<h3>";
-      $r = $this->InstaClient_lib->checkpoint_requested("riveauxmerino", "notredame");
+      $r = $this->InstaClient_lib->checkpoint_requested("marianafrazao3", "15022018");
     } else {
       //$str = "curl 'https://www.instagram.com/graphql/query/?query_hash=0f318e8cfff9cc9ef09f88479ff571fb&variables=%7B%22id%22%3A%2211148782713%22%7D' -H 'cookie: mid=XCTI8gAEAAEVVYLYNcpS_G1J9l2Y; mcd=3; shbid=487; shbts=1550777997.8902974; rur=FTW; csrftoken=cszNLDehRcW4b5Z7P3gzSY9Cb7wBbJv8; ds_user_id=11148782713; sessionid=11148782713%3AHaTAVUlNWvHyUM%3A0; urlgen=\"{\"177.41.230.161\": 18881\054 \"177.19.35.84\": 10429}:1gwuEF:X_eM2qibUYKy211lpfWA2OEok0o\"' -H 'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' -H 'x-requested-with: XMLHttpRequest' -H 'x-instagram-gis: b623ba4eb3f9a4aa43dd6319c52f6ca8' --compressed";
       $str = "curl 'https://www.instagram.com/graphql/query/?query_hash=ae21d996d1918b725a934c0ed7f59a74&variables=%7B%22fetch_media_count%22%3A0%2C%22fetch_suggested_count%22%3A30%2C%22ignore_cache%22%3Atrue%2C%22filter_followed_friends%22%3Atrue%2C%22seen_ids%22%3A%5B%5D%2C%22include_reel%22%3Atrue%7D' -H 'cookie: mid=XCTI8gAEAAEVVYLYNcpS_G1J9l2Y; mcd=3; shbid=487; shbts=1550777997.8902974; rur=FTW; csrftoken=cszNLDehRcW4b5Z7P3gzSY9Cb7wBbJv8; ds_user_id=11148782713; sessionid=11148782713%3AHaTAVUlNWvHyUM%3A0; urlgen=\"{\"177.41.230.161\": 18881\054 \"177.19.35.84\": 10429}:1gwuEF:X_eM2qibUYKy211lpfWA2OEok0o\"' -H 'x-ig-app-id: 936619743392459' -H 'accept-encoding: gzip, deflate, br' -H 'accept-language: en-US,en;q=0.9' -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.109 Safari/537.36' -H 'accept: */*' -H 'referer: https://www.instagram.com/' -H 'authority: www.instagram.com' -H 'x-requested-with: XMLHttpRequest' -H 'x-instagram-gis: 78d695c40d26a8af17cc358144786042' --compressed";
