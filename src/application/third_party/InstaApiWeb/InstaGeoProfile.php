@@ -5,6 +5,7 @@ namespace InstaApiWeb {
     require_once config_item('thirdparty-insta_profile-resource');
     require_once config_item('thirdparty-insta_ref_profile-resource');
     require_once config_item('thirdparty-followers-response-class');
+    require_once config_item('insta-exception-class');
 
 //use InstaApiWeb\InstaApi;
 
@@ -14,6 +15,7 @@ namespace InstaApiWeb {
     use InstaApiWeb\InstaCurlMgr;
     use InstaApiWeb\InstaReferenceProfile;
     use InstaApiWeb\Response\FollowersResponse;
+    use InstaApiWeb\Exceptions\InstaException;
     use function config_item;
     use function GuzzleHttp\json_decode;
 
@@ -100,7 +102,7 @@ namespace InstaApiWeb {
                 exec($curl_str, $output, $status);
                 return json_decode($output[0]);
             } catch (Exception $e) {
-                var_dump($e->getMessage());
+                var_dump('#' . $e->getMessage() . " line (" . $e->getLine() . ") of ". $e->getFile());
             }
         }
 

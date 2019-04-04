@@ -209,14 +209,14 @@ class Library_test extends CI_Controller {
      */
 
 
-//    echo "[exec] unfollow() ==> ";
-//    $this->InstaClient_lib->unfollow("2023444583");
-//    echo "(<b>ok</b>)<br>";
-
-
-    echo "[exec] follow() ==> ";
-    var_dump($this->InstaClient_lib->follow("210429330"));
+    echo "[exec] unfollow() ==> ";
+    var_dump($this->InstaClient_lib->unfollow("1983460620"));
     echo "(<b>ok</b>)<br>";
+
+
+   /* echo "[exec] follow() ==> ";
+    var_dump($this->InstaClient_lib->follow("210429330"));
+    echo "(<b>ok</b>)<br>";*/
 
     echo "[exec] make_curl_friendships_command_str() ==> ";
     //$this->InstaClient_lib->make_curl_friendships_command_str();

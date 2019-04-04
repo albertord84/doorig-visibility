@@ -73,7 +73,7 @@ namespace InstaApiWeb {
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
             } catch (\Exception $e) {
-                var_dump('#' . $e->getMessage());
+                var_dump('#' . $e->getMessage() . " line (" . $e->getLine() . ") of ". $e->getFile());
             }
         }
 
@@ -87,7 +87,7 @@ namespace InstaApiWeb {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::CMD_UNFOLLOW));
                 $mngr->setResourceId($resource_id);
                 $curl_str = $mngr->make_curl_str($this->proxy, $this->cookies);
-                //var_dump($curl_str);
+                var_dump($curl_str);
                 exec($curl_str, $output, $status);
                 $obj = null;
                 $code = -1;
@@ -103,7 +103,7 @@ namespace InstaApiWeb {
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
             } catch (\Exception $e) {
-                var_dump('#' . $e->getMessage());
+                var_dump('#' . $e->getMessage() . " line (" . $e->getLine() . ") of ". $e->getFile());
             }
         }
 
@@ -133,7 +133,7 @@ namespace InstaApiWeb {
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
             } catch (\Exception $e) {
-                var_dump('#' . $e->getMessage());
+                var_dump('#' . $e->getMessage() . " line (" . $e->getLine() . ") of ". $e->getFile());
             }
         }
 
