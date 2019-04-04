@@ -76,17 +76,19 @@ require_once config_item('business-class');
                     //$ci = &get_instance();
                     //$ci->LogMgr->WriteResponse($daily_work);            
                     if ($daily_work !== null) {
+                        $id = $daily_work->Client->Id;
+                        print "#CLIENT : $id \r";
                         if (Client::verify_client($daily_work->Client)) {
                             $daily_work->Client->load_mark_info_data();
                             $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
                             $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                             $robot = new Robot();
                             if ($daily_work->to_follow > 0) {
-                                print 'Do_follow_work: \n';
+                                print '#Do_follow_work: \r';
                                 $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                             }
                             if ($daily_work->to_unfollow > 0) {
-                                print 'Do_unfollow_work: \n';
+                                print '#Do_unfollow_work: \r';
                                 $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
                             }unset($ci->InstaClient_lib);
 

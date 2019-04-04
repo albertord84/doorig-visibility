@@ -43,11 +43,12 @@ class Business_test extends CI_Controller {
         //======= CLIENT =======//
         echo "<pre>";
         echo "<h2>Test Client Business</h2>";
-        $obj = new Client(28);
+        $obj = new Client(17);
         echo "[new] Client_business ==> (<b>ok</b>)<br>";
+        var_dump($obj->do_login());
         
-        $obj->load_mark_info_data();
-        var_dump($obj->checkpoint_requested());
+        //$obj->load_mark_info_data();
+        //var_dump($obj->checkpoint_requested());
 
         //$array = $obj->get_clients(); 
         //echo "[get] get_clients() => result: " . count($array) . " ==> (<b>ok</b>)<br>"; //var_dump($array);
