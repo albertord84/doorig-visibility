@@ -52,7 +52,8 @@ require_once config_item('business-class');
                     $result = $instaclient->unfollow($profile->followed_id);
                     $profile->insta_id = $profile->followed_id;
                     $result = $this->InsertLogsParameters($result, "Unfollow", $client_id, NULL, $profile);
-                    if ($this->process_response($work, $result)) {
+                    if ($this->process_response($work, $result) || 
+                        (isset($result->Insta_Response->message) && $result->Insta_Response->message == "")) {
                         $work->save_unfollow_work($profile->followed_id);
                     } else {
                         break;
