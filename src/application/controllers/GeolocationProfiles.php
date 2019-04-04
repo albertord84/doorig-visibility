@@ -55,8 +55,8 @@ class GeolocationProfiles extends CI_Controller {
             $ReferenceProfile = new ReferenceProfile($datas['reference_profile_id']);
             $ReferenceProfile->remove();
 
-            $DailyWork = new business\worker\DailyWork();
-            $DailyWork->delete_dailywork_by_reference_profile($ReferenceProfile->Id);
+//            $DailyWork = new business\worker\DailyWork();
+//            $DailyWork->delete_dailywork_by_reference_profile($ReferenceProfile->Id);
         } catch (Exception $exc) {
             Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
             return;
