@@ -144,7 +144,7 @@ namespace business {
                 $ci->session->set_userdata('client', serialize($this));
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, null, $cookies_str);
-                return Response\Response::ResponseOK();
+                $login_response->code = 0;
             }
 
             return $login_response;
