@@ -348,10 +348,6 @@ class Welcome extends CI_Controller {
 
         try {
             //1. forze login with IG
-            //$datas["insta_name"];
-            //$datas["insta_id"];
-            //$datas["password"];
-            //$datas["passwordrep"];
             //2. get mark status from forced login
             $Client = new Client(0);
             //$Client->load_mark_info_data_by_insta_id($datas["insta_id"]);
