@@ -142,3 +142,7 @@
     visibility: hidden;
     display: none;
 }
+
+.payment-access:hover{
+    cursor: pointer
+}

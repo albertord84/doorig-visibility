@@ -116,8 +116,10 @@ $(document).ready(function () {
                         spinner_stop(btn);
                         if(response.code===0){                            
                             $(location).attr('href', base_url+"index.php/welcome/");
-                        } else
+                        } else {
                             modal_alert_message(response.message);                    
+                            $(location).attr('href', base_url+"index.php/welcome/");
+                        }
                     },
                     error : function(xhr, status) {
                         spinner_stop(btn);

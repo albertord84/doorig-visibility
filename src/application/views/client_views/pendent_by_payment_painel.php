@@ -44,7 +44,7 @@
                                                     <li class="p-l-0"><?php echo date("d/m/Y",time())?></li>
                                                 </ul>
                                                 <i class="sl-icon-credit-card" style="font-size:3em; color:#20aee3"></i>
-                                                <p class="m-b-0 m-t-10">Acesse agora a <a class="payment-access disabled1" style="color:#20aee3">Pagamento</a> e atualize <br> seus dados.</p>
+                                                <p class="m-b-0 m-t-10">Acesse agora a <a class="payment-access" style="color:#20aee3">Pagamento</a> e atualize <br> seus dados.</p>
                                                 
                                             </div>
                                         </div>
