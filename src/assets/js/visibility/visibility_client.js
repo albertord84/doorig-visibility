@@ -159,9 +159,10 @@ $(document).ready(function () {
                         $('.verify-account-steep1').css({'display':'none','visibility': 'hidden','opacity': '0','transition':'visibility 0s, opacity 0.5s linear'});  
                         $('.verify-account-steep2').css({'display':'block','visibility': 'visible', 'opacity': '1'});                                                                
                     }
-                } else
-                    //modal_alert_message(response.message);
+                } else {
+                    modal_alert_message(response.message);
                     $(location).attr('href', base_url + "index.php/welcome/");
+                }
             },
             error: function (xhr, status) {                
                 spinner_stop(btn);
