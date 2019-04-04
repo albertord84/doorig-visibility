@@ -161,7 +161,7 @@ $(document).ready(function () {
                     }
                 } else {
                     modal_alert_message(response.message);
-                    $(location).attr('href', base_url + "index.php/welcome/");
+                    //$(location).attr('href', base_url + "index.php/welcome/");
                 }
             },
             error: function (xhr, status) {                

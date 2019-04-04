@@ -145,6 +145,7 @@ namespace business {
                 $cookies_str = json_encode($login_response->Cookies);
                 self::update($this->Id, null, null, null, null, null, null, null, null, null, $cookies_str);
                 $login_response->code = 0;
+                $login_response->message = "OK";
             }
 
             return $login_response;
