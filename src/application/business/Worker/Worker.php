@@ -78,7 +78,7 @@ require_once config_item('business-class');
                     if ($daily_work !== null) {
                         $id = $daily_work->Client->Id;
                         print "#CLIENT : $id \r";
-                        if (Client::verify_client($daily_work->Client)) {
+                        if ($daily_work->Client->isWorkable()) {
                             $daily_work->Client->load_mark_info_data();
                             $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
                             $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
