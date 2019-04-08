@@ -200,24 +200,27 @@ class Payment extends CI_Controller {
                         //1. activar cliente
                         $PaymentVindi = new \business\Payment\Vindi();
                         $PaymentVindi->load_data_by_gateway_client_id($gateway_client_id);
-                        $result = file_put_contents($file, "\n Client $gateway_client_id loaded... \n", FILE_APPEND);
+                        $client_id = $PaymentVindi->client_id;
+                        $result = file_put_contents($file, "\n Client $client_id loaded... \n", FILE_APPEND);
                         if ($PaymentVindi->client_id) {
                             $Client = new Client($PaymentVindi->client_id);
                             $Client->MarkInfo = new \business\MarkInfo($Client);
                             $Client->load_mark_info_data();
-
-                            $result = file_put_contents($file, "\n Client Mark Info Loaded... \n", FILE_APPEND);
+                            
+                            $result = file_put_contents($file, "\n Client $client_id Mark Info Loaded... \n", FILE_APPEND);
 
                             $Client->MarkInfo->Status->add_item(\business\UserStatus::ACTIVE);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::BLOCKED_BY_PAYMENT);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::BEGINNER);
                             $Client->MarkInfo->Status->remove_item(business\UserStatus::PENDING);
-                            $result = file_put_contents($file, "Client $client_id: ACTIVED" . "\n\n", FILE_APPEND);
+			    
+			    $result = file_put_contents($file, "Client $client_id: ACTIVED" . "\n\n", FILE_APPEND);
 
                             //2. pay_day un mes para el frente
                             $Client->MarkInfo->update(
                                     $PaymentVindi->client_id, $plane_id = NULL, $pay_id = NULL, $proxy_id = NULL, $path = NULL, $pass = NULL, $insta_id = NULL, $init_date = NULL, $end_date = NULL, $pay_day = strtotime("+1 month", time())
-                            );
+			    );
+
                             $result = file_put_contents($file, "Client $client_id: +1 month from now" . "\n\n\n", FILE_APPEND);
 
                             $Client->prepare_client_daily_work(false, false);

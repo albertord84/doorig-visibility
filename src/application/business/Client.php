@@ -10,6 +10,8 @@ namespace business {
     require_once config_item('business-black_and_white_list-class');
     require_once config_item('business-response-class');
     require_once config_item('thirdparty-login_response-class');
+    require_once config_item('thirdparty-verification_choice-resource');    
+    require_once config_item('thirdparty-cookies-resource');
 
     /**
      * @category Business class
@@ -131,7 +133,7 @@ namespace business {
                 $this->MarkInfo->load_data();
 
             $ci = &get_instance();
-            $ci->load->library('InstaApiWeb/InstaClient_lib', self::get_gost_insta_client_lib_params(), 'InstaClient_lib');
+            $ci->load->library('InstaApiWeb/InstaClient_lib', $this->get_insta_client_lib_params(), 'InstaClient_lib');
 
             $login_response = new \InstaApiWeb\Response\LoginResponse();
             $login_response = $ci->InstaClient_lib->checkpoint_requested($this->MarkInfo->login, $this->MarkInfo->pass, $choice);
@@ -193,7 +195,7 @@ namespace business {
                     $this->MarkInfo->load_data();
 
                 $ci = &get_instance();
-                $params = $this->get_gost_insta_client_lib_params();
+                $params = $this->get_insta_client_lib_params();
                 /* if($log)
                   {
                   $params["log"] = TRUE;
@@ -229,11 +231,11 @@ namespace business {
 
                     case 3: // Bloqued by password
                         $this->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_INSTA);
-                        return Response\Response::ResponseFAIL(T('Senha incorreta!!!'));
+                        return Response\Response::ResponseFAIL(T('Senha incorreta!!!'), 3);
 
                     case 2: // Check Point Required
                         $this->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT);
-                        return Response\Response::ResponseFAIL(T('Virifique a sua conta!!!'));
+                        return Response\Response::ResponseFAIL(T('Virifique a sua conta!!!'), 2);
 
                     case -2: // Other exception
 
@@ -272,7 +274,7 @@ namespace business {
         public function prepare_client_daily_work(bool $not_mail = false, $logs = false) {
             $ci = &get_instance();
             $ci->load->model('Daily_work_model');
-                    
+             
             if ($this->isWorkable() && $ci->Daily_work_model->get_by_id($this->Id) == null) {
                     $to_follow = 0;
                      if (strtotime("today") - $this->MarkInfo->init_date < 15 * 24 * 60 * 60) {
@@ -285,7 +287,6 @@ namespace business {
                     $ci->load->model('Daily_work_model');
                     $ci->Daily_work_model->save($this->Id, $to_follow, $to_follow);
                     $this->load_insta_reference_profiles_data();
-                    $reference_profiles = count($this->ReferenceProfiles->workable());
                      if($logs)
                     { echo "{ \"workable\": true, \"client\" : $this->Id, ref_prof: $reference_profiles}"; }
                    
@@ -295,19 +296,16 @@ namespace business {
 //                      if (!$not_mail)
 //                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
+                    return true;
                 }
                 else  if($logs)
                 { echo "{ \"workable\": false, \"client\" : $this->Id}"; }
-
+                return false;
         }
 
-        static function get_gost_insta_client_lib_params() {
-            $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
-                "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0",
-                "ds_user_id" => "3445996566",
-                "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
-            require_once config_item('thirdparty-cookies-resource');
-            $param = array("insta_id" => "3445996566", "cookies" => new \InstaApiWeb\Cookies(json_encode($ck)));
+        public function get_insta_client_lib_params() {
+            
+            $param = array("insta_id" => $this->MarkInfo->insta_id, "cookies" => $this->MarkInfo->Cookies, "proxy" => $this->MarkInfo->Proxy->getApiProxy());
 
             return $param;
         }
