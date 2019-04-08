@@ -126,6 +126,25 @@ require_once config_item('business-class');
                 unset($ci->InstaClient_lib);
             }
         }
+        
+        function daily_report()
+        {
+            $Clients = new \business\ClientList();
+            $Clients->load_data();
+            $ci = &get_instance();
+            $ci->load->model("Daily_report_model");
+            $Client = new Client(0);
+            $cnt = 0;
+            $ci->load->library("InstaApiWeb/InstaProfile_lib", null, 'InstaProfile_lib');
+            foreach ($Clients->Clients as $Client) { // for each CLient                
+                $obj = $ci->InstaProfile_lib->get_user_data($Client->MarkInfo->login, $Client->MarkInfo->Cookies, $Client->MarkInfo->Proxy->getApiProxy());
+                if(isset($obj->following) && $obj->following != NULL && isset($obj->follows) && $obj->follows != NULL)
+                    $ci->Daily_report_model->save($Client->Id,$obj->following, $obj->follows, time());
+            }
+            unset($ci->InstaProfile_lib);
+            unset($ci->Daily_report_model);
+
+        }
 
     }
 

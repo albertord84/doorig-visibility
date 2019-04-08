@@ -3,6 +3,12 @@
 namespace InstaApiWeb {
     //require_once \InstaApiWeb\Responses;
 
+    
+    require_once config_item('thirdparty-cookies-resource');
+    require_once config_item('thirdparty-insta_curl_mgr-resource');
+    
+    use InstaApiWeb\InstaCurlMgr;
+    use InstaApiWeb\Cookies;
     /**
      * Description of InstaProfile
      *
@@ -28,7 +34,26 @@ namespace InstaApiWeb {
             $curl_str = $obj->make_curl_str($Proxy, $Cookies);
             
             $result = exec($curl_str, $output, $status);
-            return json_decode($output[0]);
+            $profile_data =  json_decode($output[0]);
+            $profile = new InstaProfile();
+            $profile->insta_name = $reference_user_name;
+            
+            
+            $profile->instaProfileData = new \stdClass();
+            $user = $profile_data->graphql->user;
+            if (isset($user->is_private)) {
+                $profile->instaProfileData->is_private = $user->is_private;
+            }
+            if (isset($user->edge_owner_to_timeline_media->count)) {
+                $profile->instaProfileData->posts_count = $user->edge_owner_to_timeline_media->count;
+            }
+            if (isset($user->edge_followed_by->count)) {
+                $profile->follows = $user->edge_followed_by->count;
+            }
+            if (isset($user->edge_follow->count)) {
+                $profile->following = $user->edge_follow->count;
+            }
+            return $profile;
         }
 
     }

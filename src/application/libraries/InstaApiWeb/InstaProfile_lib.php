@@ -1,8 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once config_item('thirdparty-insta_url-resource');
+require_once config_item('thirdparty-insta_profile-resource');
+require_once config_item('thirdparty-cookies-resource');
+require_once config_item('thirdparty-proxy-resource');
+    
 use InstaApiWeb\InstaURLs;
 use InstaApiWeb\InstaProfile;
 use InstaApiWeb\Cookies;
+use InstaApiWeb\Proxy;
 
 /**
  * @category CodeIgniter-Library: InstaApiLib
@@ -16,16 +22,13 @@ class InstaProfile_lib {
 
   public function __construct ()
   {
-    require_once config_item('thirdparty-insta_url-resource');
-    require_once config_item('thirdparty-insta_profile-resource');
-    require_once config_item('thirdparty-cookies-resource');
-    
     $this->InstaProfile = new InstaProfile();
   }
 
   public function get_user_data(string $reference_user_name, Cookies $Cookies = NULL, Proxy $Proxy = NULL) 
   {
-    return $this->InstaProfile->get_user_data($reference_user_name, $Cookies, $Proxy);
+    $obj = $this->InstaProfile->get_user_data($reference_user_name, $Cookies, $Proxy);
+    return $obj;
   }
 
   
