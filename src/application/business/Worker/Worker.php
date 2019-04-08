@@ -52,11 +52,13 @@ require_once config_item('business-class');
             $Clients->load_data();
 
             $Client = new Client(0);
-
+            $cnt = 0;
             foreach ($Clients->Clients as $Client) { // for each CLient                
-                print("<br>\n Client: $Client->Id <br>\n");
-                $Client->prepare_client_daily_work($not_mail, true);
+                print("#<br>\n Client: $Client->Id <br>\n");
+                if($Client->prepare_client_daily_work($not_mail, true))
+                {$cnt++;}
             }
+            print("#$cnt work created");
         }
 
         // NUEVAS x IMPLMENTAR !!!
