@@ -19,17 +19,18 @@
                                 <div id="midle_plane" class="table-det" >
                                     <img src="<?php echo base_url()?>assets/images/icon/midle.png" width="70%">
                                     <h4 style="">Médio</h4>
-                                    <h2 style="font-size:1.5em;"><span>$R </span><?php echo number_format((float)$planes[0]->normal_val/100, 2, ',', '.');?></h2>
+                                    <h2 style="font-size:1.5em;"><span>$R </span><?php echo number_format((float)$planes[0]->normal_val, 2, ',', '.');?></h2>
                                     <ul>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Perfis de Referência</li>
-<!--                                                                                    <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>
-                                        <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Hashtag</li>-->
+                                        <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>
+                                        <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Hashtag</li>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Like First</li>
                                     </ul>
-                                    <label class="inline custom-control custom-checkbox block" style="margin-top:85px;">
+                                    <label class="inline custom-control custom-checkbox block" style="margin-top:35px;">
                                         <input id="midle_plane_radio" type="radio" name="select_plane" class="custom-control-input">
                                         <span class="custom-control-label ml-0"></span> 
                                     </label>
+                                    <div id="contrated_midle_plane" style="margin-top:-20px"></div> 
                                 </div>
                             </div>
                         </div>
@@ -38,17 +39,18 @@
                                 <div id="fast_plane" class="table-det">
                                     <img src="<?php echo base_url()?>assets/images/icon/fast.png" width="70%">
                                     <h4 style="">Rápido</h4>
-                                    <h2 style="font-size:1.5em;"><span>$R </span><?php echo number_format((float)$planes[1]->normal_val/100, 2, ',', '.');?></h2>
+                                    <h2 style="font-size:1.5em;"><span>$R </span><?php echo number_format((float)$planes[1]->normal_val , 2, ',', '.');?></h2>
                                     <ul>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Perfis de Referência</li>
-                                        <!--<li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>-->
+                                        <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Hashtag</li>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Like First</li>
                                     </ul>
-                                    <label class="inline custom-control custom-checkbox block" style="margin-top:50px">
+                                    <label class="inline custom-control custom-checkbox block" style="margin-top:35px">
                                         <input id="fast_plane_radio" type="radio" name="select_plane" class="custom-control-input">
                                         <span class="custom-control-label ml-0"></span> 
                                     </label>
+                                    <div id="contrated_fast_plane" style="margin-top:-20px"></div> 
                                 </div>
                             </div>
                         </div>
@@ -57,17 +59,18 @@
                                 <div id="very_fast_plane" class="table-det">
                                     <img src="<?php echo base_url()?>assets/images/icon/very fast.png" width="70%">
                                     <h4 style="">Ultra rápido</h4>
-                                    <h2 style="font-size:1.5em;"><span>$R </span><?php echo number_format((float)$planes[2]->normal_val/100, 2, ',', '.');?></h2>
+                                    <h2 style="font-size:1.5em;"><span>$R </span><?php echo number_format((float)$planes[2]->normal_val, 2, ',', '.');?></h2>
                                     <ul>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Perfis de Referência</li>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Geolocalização</li>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Hashtag</li>
                                         <li style="margin-top:2px;margin-bottom:2px;padding-top:2px;padding-bottom:2px;">Like First</li>
                                     </ul>
-                                    <label class="inline custom-control custom-checkbox block" style="margin-bottom:10px">
+                                    <label class="inline custom-control custom-checkbox block" style="margin-top:35px">
                                         <input id="very_fast_plane_radio" type="radio" name="select_plane" class="custom-control-input">
                                         <span class="custom-control-label ml-0"></span> 
                                     </label>
+                                    <div id="contrated_very_fast_plane" style="margin-top:-20px"></div> 
                                 </div>
                             </div>
                         </div>

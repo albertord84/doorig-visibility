@@ -75,11 +75,11 @@ namespace business\Payment {
         }
 
         public function save(int $client_id = NULL, int $gateway_client_id = NULL, int $plane_id = NULL, string $payment_key = NULL, int $gateway_id = NULL) {
-            $client_id = $client_id ? $client_id : $this->client_id;
-            $gateway_client_id = $gateway_client_id ? $gateway_client_id : $this->gateway_client_id;
-            $plane_id = $plane_id ? $plane_id : $this->plane_id;
-            $payment_key = $payment_key ? $payment_key : $this->payment_key;
-            $gateway_id = $gateway_id ? $gateway_id : $this->gateway_id;
+            $this->client_id = $client_id = $client_id ? $client_id : $this->client_id;
+            $this->gateway_client_id = $gateway_client_id = $gateway_client_id ? $gateway_client_id : $this->gateway_client_id;
+            $this->plane_id = $plane_id = $plane_id ? $plane_id : $this->plane_id;
+            $this->payment_key = $payment_key = $payment_key ? $payment_key : $this->payment_key;
+            $this->gateway_id = $gateway_id = $gateway_id ? $gateway_id : $this->gateway_id;
             $ci = &get_instance();
             $ci->Client_payment_model->save($client_id, $gateway_client_id, $plane_id, $payment_key, $gateway_id);
 

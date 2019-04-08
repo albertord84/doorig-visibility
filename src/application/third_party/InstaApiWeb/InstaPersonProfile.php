@@ -80,7 +80,7 @@ namespace InstaApiWeb {
                 return new FollowersResponse(array(), '', false, 1, $message);
             }else{
                 // JOSE REVISAR!!!!
-                throw new InstaException("unknown exception response $json_response", -1);
+                throw new \InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
             }
         }
 

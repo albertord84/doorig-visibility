@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    
-    var alt = "340px";
+    var alt = "390px";
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
     $('#very_fast_plane').height(alt);  
@@ -8,20 +7,20 @@ $(document).ready(function () {
     
     
     function load_contrated_plane(){
-        if(contrated_plane == 0){
+        if(contrated_plane == 1){
             $("#contrated_midle_plane").text("Plano atual");            
             $("#midle_plane_radio").click();
         }
         else
-        if(contrated_plane == 1){
+        if(contrated_plane == 2){
             $("#contrated_fast_plane").text("Plano atual");            
             $("#fast_plane_radio").click();
         }
         else
-        if(contrated_plane == 2){
+        if(contrated_plane == 3){
             $("#contrated_very_fast_plane").text("Plano atual");            
             $("#very_fast_plane_radio").click();
-        }        
+        }
     }
     
     $("#midle_plane_radio").click(function () {
@@ -76,6 +75,7 @@ $(document).ready(function () {
     
     
     $('#btn-update-mark-credentials').click(function () {
+        alert(1234);
         var profile = validate_element("#login_profile", ig_profile_regular_expression);
         var password = validate_not_empty("#password");
         var password_rep = validate_equals("#password","#password-rep");
@@ -104,8 +104,8 @@ $(document).ready(function () {
                 success: function (response) {
                     spinner_stop(btn);
                     if (response.code === 0) {
-                        $('.sigin-painel-steep-1').css({'display': 'none', 'visibility': 'hidden', 'opacity': '0', 'transition': 'visibility 0s, opacity 0.5s linear'});
-                        $('.sigin-painel-steep-2').css({'display': 'block', 'visibility': 'visible', 'opacity': '1'});
+                        //modal_success_message("Marca atualizada com sucesso");
+                        $(location).attr('href', base_url+"index.php/welcome/");
                     } else
                         modal_alert_message(response.message);
                 },
@@ -143,4 +143,5 @@ function update_plane(a){
             }
         });
     }
+    
     

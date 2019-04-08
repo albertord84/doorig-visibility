@@ -52,7 +52,8 @@
 
         <script type="text/javascript">
             var base_url = "<?php echo base_url()?>";
-            var module = "visibility_updates";
+            var module = "visibility";
+            var submodule = "visibility_updates";
             var person_profile = <?php echo $person_profile_datas;?>;         
         </script>
     </head>

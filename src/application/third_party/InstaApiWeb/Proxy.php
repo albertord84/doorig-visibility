@@ -31,6 +31,10 @@ namespace InstaApiWeb {
     public function ToString() {
       return "--proxy '$this->User:$this->Password@$this->Ip:$this->Port'";
     }
+    
+    public function APIToString() {
+      return "$this->User:$this->Password@$this->Ip:$this->Port";
+    }
   }
 
 }

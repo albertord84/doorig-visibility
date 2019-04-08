@@ -31,25 +31,29 @@ class Business_test extends CI_Controller {
 
     public function run() {
         //======= INSTA-COMMANDS =======//
-        echo "<h2>Test get_profile_public_data </h2>";
+       /* echo "<h2>Test get_profile_public_data </h2>";
         //$profile_name = "ma.ietto";
             $profile_name = "leticiajural";
         //    $profile_name = "carinamacedosoaresoficial";
         $obj = InstaCommands::get_profile_public_data($profile_name);
-        var_dump($obj);
+        var_dump($obj);*/
         //var_dump(json_encode(object_to_array($obj)));
         echo "[get] StatusProfiles_business ==> (<b>ok</b>)";
 
         //======= CLIENT =======//
         echo "<pre>";
         echo "<h2>Test Client Business</h2>";
-        $obj = new Client(1);
+        $obj = new Client(17);
         echo "[new] Client_business ==> (<b>ok</b>)<br>";
+        var_dump($obj->do_login());
+        
+        //$obj->load_mark_info_data();
+        //var_dump($obj->checkpoint_requested());
 
         //$array = $obj->get_clients(); 
         //echo "[get] get_clients() => result: " . count($array) . " ==> (<b>ok</b>)<br>"; //var_dump($array);
 
-        $array = $obj->load_data(); //var_dump($obj); echo "<h1>$obj->Id</h1>";
+      /*  $array = $obj->load_data(); //var_dump($obj); echo "<h1>$obj->Id</h1>";
         echo "[get] load_data() => result: " . count($array) . " ==> (<b>ok</b>)<br>";
 
         $array = $obj->load_insta_reference_profiles_data(1, 2); //var_dump($array);
@@ -85,7 +89,7 @@ class Business_test extends CI_Controller {
         $obj = new StatusProfiles();
         echo "[new] StatusProfiles_business ==> (<b>ok</b>)";
 
-        //echo "<h2>"; print_r(memory_get_usage()); echo '<br>'; echo "</h2>";
+        //echo "<h2>"; print_r(memory_get_usage()); echo '<br>'; echo "</h2>";*/
     }
 
 }
