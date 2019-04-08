@@ -52,11 +52,13 @@ require_once config_item('business-class');
             $Clients->load_data();
 
             $Client = new Client(0);
-
+            $cnt = 0;
             foreach ($Clients->Clients as $Client) { // for each CLient                
-                print("<br>\n Client: $Client->Id <br>\n");
-                $Client->prepare_client_daily_work($not_mail, true);
+                print("#<br>\n Client: $Client->Id <br>\n");
+                if($Client->prepare_client_daily_work($not_mail, true))
+                {$cnt++;}
             }
+            print("#$cnt work created");
         }
 
         // NUEVAS x IMPLMENTAR !!!
@@ -78,7 +80,7 @@ require_once config_item('business-class');
                     if ($daily_work !== null) {
                         $id = $daily_work->Client->Id;
                         print "#CLIENT : $id \r";
-                        if (Client::verify_client($daily_work->Client)) {
+                        if ($daily_work->Client->isWorkable()) {
                             $daily_work->Client->load_mark_info_data();
                             $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
                             $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
@@ -123,6 +125,25 @@ require_once config_item('business-class');
                     $robot->do_unfollow_work($daily_work, $ci->InstaClient_lib);
                 unset($ci->InstaClient_lib);
             }
+        }
+        
+        function daily_report()
+        {
+            $Clients = new \business\ClientList();
+            $Clients->load_data();
+            $ci = &get_instance();
+            $ci->load->model("Daily_report_model");
+            $Client = new Client(0);
+            $cnt = 0;
+            $ci->load->library("InstaApiWeb/InstaProfile_lib", null, 'InstaProfile_lib');
+            foreach ($Clients->Clients as $Client) { // for each CLient                
+                $obj = $ci->InstaProfile_lib->get_user_data($Client->MarkInfo->login, $Client->MarkInfo->Cookies, $Client->MarkInfo->Proxy->getApiProxy());
+                if(isset($obj->following) && $obj->following != NULL && isset($obj->follows) && $obj->follows != NULL)
+                    $ci->Daily_report_model->save($Client->Id,$obj->following, $obj->follows, time());
+            }
+            unset($ci->InstaProfile_lib);
+            unset($ci->Daily_report_model);
+
         }
 
     }

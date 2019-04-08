@@ -274,7 +274,7 @@ namespace business {
         public function prepare_client_daily_work(bool $not_mail = false, $logs = false) {
             $ci = &get_instance();
             $ci->load->model('Daily_work_model');
-                    
+             
             if ($this->isWorkable() && $ci->Daily_work_model->get_by_id($this->Id) == null) {
                     $to_follow = 0;
                      if (strtotime("today") - $this->MarkInfo->init_date < 15 * 24 * 60 * 60) {
@@ -287,7 +287,6 @@ namespace business {
                     $ci->load->model('Daily_work_model');
                     $ci->Daily_work_model->save($this->Id, $to_follow, $to_follow);
                     $this->load_insta_reference_profiles_data();
-                    $reference_profiles = count($this->ReferenceProfiles->workable());
                      if($logs)
                     { echo "{ \"workable\": true, \"client\" : $this->Id, ref_prof: $reference_profiles}"; }
                    
@@ -297,10 +296,11 @@ namespace business {
 //                      if (!$not_mail)
 //                            $this->Gmail->send_client_not_rps($Client->email, $Client->name, $Client->login, $Client->pass);
                     }
+                    return true;
                 }
                 else  if($logs)
                 { echo "{ \"workable\": false, \"client\" : $this->Id}"; }
-
+                return false;
         }
 
         public function get_insta_client_lib_params() {

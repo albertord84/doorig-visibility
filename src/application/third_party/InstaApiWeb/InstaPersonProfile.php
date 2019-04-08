@@ -96,27 +96,9 @@ namespace InstaApiWeb {
             }
         }
 
+        //[depricate]
         private function build_full_insta_profile($node, Cookies $Cookies = NULL, Proxy $Proxy = NULL) {
-            $InstaProfile = new InstaProfile();
-            $InstaProfile->insta_id = $node->id;
-            $InstaProfile->insta_name = $node->username;
-            $InstaProfile->image_url = $node->profile_pic_url;
-            $profile_data = InstaProfile::get_user_data($node->username, $Cookies, $Proxy);
-            $InstaProfile->instaProfileData = new \stdClass();
-            $user = $profile_data->graphql->user;
-            if (isset($user->is_private)) {
-                $InstaProfile->instaProfileData->is_private = $user->is_private;
-            }
-            if (isset($user->edge_owner_to_timeline_media->count)) {
-                $InstaProfile->instaProfileData->posts_count = $user->edge_owner_to_timeline_media->count;
-            }
-            if (isset($user->edge_followed_by->count)) {
-                $InstaProfile->follows = $user->edge_followed_by->count;
-            }
-            if (isset($user->edge_follow->count)) {
-                $InstaProfile->following = $user->edge_follow->count;
-            }
-            return $InstaProfile;
+            return InstaProfile::get_user_data($node->username, $Cookies, $Proxy);
         }
 
         public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {

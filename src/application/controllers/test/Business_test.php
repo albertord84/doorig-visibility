@@ -43,7 +43,7 @@ class Business_test extends CI_Controller {
         //======= CLIENT =======//
         echo "<pre>";
         echo "<h2>Test Client Business</h2>";
-        $obj = new Client(17);
+        $obj = new Client(29);
         echo "[new] Client_business ==> (<b>ok</b>)<br>";
         var_dump($obj->do_login());
         

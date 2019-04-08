@@ -31,5 +31,12 @@ class Worker extends CI_Controller {
         $worker = new BusinessWorker();
         $worker->do_work_by_id($reference_id);
     }
+    
+    public function daily_report()
+    {
+        $worker = new BusinessWorker();
+        $worker->daily_report();
+            
+    }
 
 }

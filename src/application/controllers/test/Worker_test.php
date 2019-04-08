@@ -79,6 +79,12 @@ class Worker_test extends CI_Controller {
         $worker = new Worker();
         $worker->do_work_by_id($reference_id);
     }
+    
+    public function daily_reprot() {
+        echo "<h2>Test Worker do_work_by_id</h2>";
+        $worker = new Worker();
+        $worker->daily_report();
+    }
 
 
 }

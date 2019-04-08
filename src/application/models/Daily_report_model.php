@@ -23,7 +23,7 @@ class Daily_report_model extends CI_Model {
         $this->client_id = $client_id;
         $this->followings = $followings;
         $this->followers = $followers;
-        $this->date = $this->date ? $date : time();
+        $this->date = $date ? $date : time();
         $this->db->insert('daily_report', $this);
 
         return $this->db->insert_id();
