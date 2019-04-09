@@ -154,7 +154,7 @@
                         </div>
 
                         <!-- VIDEO SECTION -->
-                        <div class="card">
+<!--                        <div class="card">
                             <div class="card-body">
                                 <A name="lnk_how_function"></A>
                                 <section class="about-sec video" id="video">
@@ -174,22 +174,15 @@
                                                             <a  class="video-play video-play-btn" target="_self">
                                                                 <i class="fas fa-play-circle"></i>
                                                             </a>
-                                                            <!--<a href="https://youtu.be/Eo2Lr1trSKs" class="video-play video-play-btn" target="_self"><i class="flaticon-music-player-play"></i></a>-->
                                                         </div>
                                                     </div>                                                    
                                                 </div>
-                                            </div>
-                                            
-                                            
-                                                
-                                            
-                                            
-                                            
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </section>
                             </div>
-                        </div>
+                        </div>-->
 
                         
                         <A name="contract-now"></A>

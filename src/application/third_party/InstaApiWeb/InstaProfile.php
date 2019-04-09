@@ -37,10 +37,10 @@ namespace InstaApiWeb {
             $profile_data =  json_decode($output[0]);
             $profile = new InstaProfile();
             $profile->insta_name = $reference_user_name;
-            
-            
+                        
             $profile->instaProfileData = new \stdClass();
             $user = $profile_data->graphql->user;
+            $profile->insta_id = $user->id;
             if (isset($user->is_private)) {
                 $profile->instaProfileData->is_private = $user->is_private;
             }

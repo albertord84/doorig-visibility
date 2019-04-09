@@ -28,10 +28,12 @@ require_once config_item('business-class');
             $proxy = $work->Client->MarkInfo->Proxy;
             $followers_response = $work->Ref_profile->get_followers($cookies, $to_follow, $proxy);
             $client_id = $work->Client->Id;
-            $ref_prof_id = $work->Ref_profile->Id;            
+            $ref_prof_id = $work->Ref_profile->Id;
+            var_dump($followers_response);            
             if ($this->process_followers_reponse($work, $followers_response)) {
                 foreach ($followers_response->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil
+                    
                     if ($this->validate_profile_follow($work, $profile)) {
                         $result = $instaclient->follow($profile->insta_id);
                         $result = $this->InsertLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
@@ -63,7 +65,7 @@ require_once config_item('business-class');
         }
 
         public function validate_profile_follow(DailyWork $work, $profile) {
-            $work->Ref_profile;
+           //$work->Ref_profile;
             if ($work->Client->BlackAndWhiteList->is_black($profile->insta_id))
                 return FALSE;
             $null_picture = strpos($profile->profile_pic_url, '44884218_345707102882519_2446069589734326272_n');
