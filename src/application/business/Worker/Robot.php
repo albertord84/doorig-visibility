@@ -28,11 +28,12 @@ require_once config_item('business-class');
             $proxy = $work->Client->MarkInfo->Proxy;
             $followers_response = $work->Ref_profile->get_followers($cookies, $to_follow, $proxy);
             $client_id = $work->Client->Id;
-            $ref_prof_id = $work->Ref_profile->Id;            
+            $ref_prof_id = $work->Ref_profile->Id;
+            var_dump($followers_response);            
             if ($this->process_followers_reponse($work, $followers_response)) {
                 foreach ($followers_response->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil
-                    var_dump($profile);
+                    
                     if ($this->validate_profile_follow($work, $profile)) {
                         $result = $instaclient->follow($profile->insta_id);
                         $result = $this->InsertLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
