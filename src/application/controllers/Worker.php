@@ -38,5 +38,12 @@ class Worker extends CI_Controller {
         $worker->daily_report();
             
     }
+    
+    public function total_undollow()
+    {
+        $worker = new BusinessWorker();
+        $worker->unfollow_total();
+            
+    }
 
 }
