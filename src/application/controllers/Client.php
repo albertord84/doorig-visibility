@@ -176,13 +176,14 @@ class Client extends CI_Controller {
             $login_response = $Client->do_login();
 
             if ($login_response && $login_response->code === 0) {
-                //3. save mark and status in DB using client_id as follow:
-                $insta_followers_ini = $insta_following = NULL;
-                if ($old_insta_id != $datas["insta_id"]) {
-                    $profile_info = \business\InstaCommands::get_profile_public_data($datas["insta_name"]);
-                    $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
-                    $Client->MarkInfo->insta_following_ini = $profile_info->following;
-                }
+                
+            }
+            //3. save mark and status in DB using client_id as follow:
+            $insta_followers_ini = $insta_following = NULL;
+            if ($old_insta_id != $datas["insta_id"]) {
+                $profile_info = \business\InstaCommands::get_profile_public_data($datas["insta_name"]);
+                $Client->MarkInfo->insta_followers_ini = $profile_info->followers;
+                $Client->MarkInfo->insta_following_ini = $profile_info->following;
             }
             $Client->MarkInfo->update($Client->Id, null, null, null, $datas["insta_name"], $datas["password"], $datas["insta_id"], null, null, null, $cookies, null, null, null, $Client->MarkInfo->insta_followers_ini, $Client->MarkInfo->insta_following_ini);
 
