@@ -232,7 +232,7 @@ require_once config_item('business-client-class');
                             $result = $instaclient->unfollow($profile->id);
                             $profile->insta_id = $profile->id;
                             $result = $this->InsertLogsParameters($result, "Unfollow", $client_id, NULL, $profile);
-                            //eliminar el perfil de la tabla de followed                            
+                            //eliminar el perfil de la tabla de followed si existe                         
                         }
                     }
                 }
