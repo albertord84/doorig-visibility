@@ -15,6 +15,7 @@ namespace InstaApiWeb {
     use InstaApiWeb\Response\LoginResponse;
     use InstaApiWeb\Response\PostInstaResponse;
     use InstagramAPI\Instagram;
+    use InstaApiWeb\Response\FollowersResponse;
 
     /**
      * @category CodeIgniter-Library: InstaApiLib
@@ -42,6 +43,7 @@ namespace InstaApiWeb {
             require_once config_item('insta-checkpoint-exception-class');
             require_once config_item('thirdparty-cookies-resource');
             require_once config_item('thirdparty-insta_curl_mgr-resource');
+            require_once config_item('thirdparty-followers-response-class');
 
             $this->insta_id = $insta_id;
             $this->cookies = $cookies;
@@ -153,10 +155,10 @@ namespace InstaApiWeb {
                     {
                         array_push($profile, $edge->node);
                     }
-                    return new FollowersResponse($profiles, $cursor, $has_next_page, 0, 'ok');
+                    return new FollowersResponse($profile, $cursor, $has_next_page, 0, 'ok');
                 }
             }
-             return new FollowersResponse(array(), '', false, 1, $message);
+             return new FollowersResponse(array(), '', false, 1, "null profile or problems in unfolled");
         }
 
         /*

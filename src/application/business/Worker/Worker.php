@@ -154,10 +154,13 @@ require_once config_item('business-class');
         function unfollow_total() {
             $Clients = new \business\ClientList();
             $Clients->load_data(UserStatus::KEEP_UNFOLLOW);
+            $ci = &get_instance();
             while (true) {
                 $time = time();
-                foreach ($Clients as $client) {
-                    $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
+                foreach ($Clients->Clients as $client) {
+                   // $client->load_mark_info_data();
+                    $Proxy = $client->MarkInfo->Proxy->Id ? $client->MarkInfo->Proxy->getApiProxy() : NULL;                           
+                    $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $client->MarkInfo->insta_id, "cookies" => $client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                     $robot = new Robot();
                     $robot->total_unfollow($client, $ci->InstaClient_lib);
                     unset($ci->InstaClient_lib);
