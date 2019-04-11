@@ -231,8 +231,12 @@ require_once config_item('business-client-class');
                         if ($this->validate_profile_unfollow($work, $profile)) {
                             $result = $instaclient->unfollow($profile->id);
                             $profile->insta_id = $profile->id;
-                            $result = $this->InsertLogsParameters($result, "Unfollow", $client_id, NULL, $profile);
-                            //eliminar el perfil de la tabla de followed                            
+                            $work = new DailyWork();
+                            $work->Client = $client;
+                            $work->Ref_profile = new \business\ReferenceProfile();
+                            if(!$this->process_response(null, $result))
+                            { break; }
+                            //eliminar el perfil de la tabla de followed si existe                         
                         }
                     }
                 }
