@@ -210,7 +210,7 @@ class Library_test extends CI_Controller {
 
 
     echo "[exec] unfollow() ==> ";
-    var_dump($this->InstaClient_lib->unfollow("1983460620"));
+    $this->InstaClient_lib->get_followed("riveauxmerino");
     echo "(<b>ok</b>)<br>";
 
 

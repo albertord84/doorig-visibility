@@ -78,6 +78,8 @@ class InstaClient_lib {
     public function like_post(string $resource_id) {
         return $this->InstaClient->like_post($resource_id);
     }
+    
+    public function get_followed(int $cnt, string $cursor = NULL){ return $this->InstaClient->get_followed($cnt, $cursor);}
 
     /* public function make_insta_friendships_command(string $resource_id, string $command = 'follow', string $objetive_url = 'web/friendships') {
 

@@ -70,6 +70,7 @@ namespace InstaApiWeb {
       $this->TagQuery['Geo'] = "1b84447a4d8b6d6d0426fefb34514485";
       $this->TagQuery['Person'] = "37479f2b8209594dde7facb0d904896a";
       $this->TagQuery['HashTag'] = "ded47faa9a1aaded10161a2ff32abb6b";
+      $this->TagQuery['Followed'] = "c56ee0ae1f89cdbd1c89e2bc6b8f3d18";
     }
 
     /**
@@ -82,6 +83,7 @@ namespace InstaApiWeb {
         case EnumEntity::GEO    : $hash = $this->TagQuery['Geo']; break;
         case EnumEntity::PERSON : $hash = $this->TagQuery['Person']; break;
         case EnumEntity::HASHTAG: $hash = $this->TagQuery['HashTag']; break;
+        case EnumEntity::CLIENT : $hash = $this->TagQuery['Followed']; break;
       }
 
       return $hash;
@@ -371,8 +373,8 @@ namespace InstaApiWeb {
       $str_cur = ($cursor != null) ? sprintf(",\"after\":\"%s\"", $cursor) : "";
       $this->MediaStr = sprintf("{\"%s\":\"%s\",\"first\":\"%s\"%s}", $tag, $id, $first, $str_cur);
     }
-
-    /**
+    
+       /**
      * 
      * @param Proxy $proxy
      * @param Cookies $cookies
@@ -421,7 +423,12 @@ namespace InstaApiWeb {
           $str_curl = $this->get_post($proxy, $cookies, $this->MediaStr);
           break;
 
-        case EnumEntity::PERSON + EnumAction::GET_FOLLOWED:
+        case EnumEntity::CLIENT + EnumAction::GET_FOLLOWED:
+            if($this->MediaStr == null){
+                throw new InstaCurlArgumentException("The parameter (id) was not given!!!. Use: setData(string).");
+          }
+          $str_curl = $this->get_followed($proxy, $cookies, $this->MediaStr);
+          break;
         case EnumEntity::PERSON + EnumAction::GET_PROFILE_INFO:
           if ($this->ReferenceUser == null) {
             throw new InstaCurlMediaException("The parameter (reference_user) have not been established!!!. Use: setReferenceuser(string).");
@@ -525,6 +532,48 @@ namespace InstaApiWeb {
 
       return $value;
     }
+    
+    
+    /**
+     * Funcion de Utileria.
+     * Construye cUrl tipo GET para obtener un post para los perfiles de Instagram ==> [Geo, HashTag, Person]  
+     */
+    private function get_followed(Proxy $proxy = null, Cookies $cookies = null, string $media_str) {
+      // Paso 1. configuracion inicial de la curl
+      $curl_str = sprintf("/opt/lampp/bin/curl %s '%s/?query_hash=%s&variables=%s'", 
+        ($proxy != null) ? $proxy->ToString() : "", 
+        $this->InstaURL['Graphql'], 
+        $this->ProfileType->getHashQuery(), 
+        urlencode($media_str));
+
+      // Paso 2. agregando la cookies a la curl
+      if ($cookies != null) {
+        $ck = sprintf("-H '%s'", $this->Headers['Cookie-big']);
+        $ck = sprintf($ck, $cookies->Mid, $cookies->SessionId, $cookies->CsrfToken, $cookies->DsUserId);
+        $curl_str = sprintf("%s %s", $curl_str, $ck);
+
+        $csrf = sprintf("-H '%s'", $this->Headers['X-CSRFToken']);
+        $csrf = sprintf($csrf, $cookies->CsrfToken);
+        $curl_str = sprintf("%s %s", $curl_str, $csrf);
+      }
+
+      // Paso 3. agregando el resto de los headers
+      $curl_str = sprintf("%s -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' -H '%s' %s", 
+        $curl_str, 
+        $this->Headers['Origin'], 
+        $this->Headers['AcceptEncodingGzip'], 
+        $this->Headers['AcceptLanguage'], 
+        $this->Headers['UserAgent'], 
+        $this->Headers['X-Requested'], 
+        $this->Headers['ContentTypeForm'], 
+        $this->Headers['AcceptAll'], 
+        $this->Headers['RefererBase'], 
+        $this->Headers['Authority'], 
+        $this->Headers['compressed']);
+
+      return $curl_str;
+    }
+
     
     /**
      * Funcion de Utileria.

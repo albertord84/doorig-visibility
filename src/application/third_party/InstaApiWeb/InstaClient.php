@@ -134,6 +134,31 @@ namespace InstaApiWeb {
             }
         }
 
+        public function get_followed(int $cnt, string $cursor = NULL) {
+            $obj = new InstaCurlMgr(new EnumEntity(EnumEntity::CLIENT), new EnumAction(EnumAction::GET_FOLLOWED));
+            $obj->setMediaData($this->insta_id, $cnt, $cursor );
+            $curl_str = $obj->make_curl_str($this->proxy, $this->cookies);
+
+            $result = exec($curl_str, $output, $status);
+            $profile = array();
+            $cursor = null;
+            
+            if (count($output) > 0) {
+                $obj = \GuzzleHttp\json_decode($output[0]);
+                if($obj->status == "ok")
+                {
+                    $cursor = $obj->data->user->edge_follow->page_info->cursor;
+                    $has_next_page = $obj->data->user->edge_follow->page_info->has_next_page;
+                    foreach ($obj->data->user->edge_follow->edges as $edge)
+                    {
+                        array_push($profile, $edge->node);
+                    }
+                    return new FollowersResponse($profiles, $cursor, $has_next_page, 0, 'ok');
+                }
+            }
+             return new FollowersResponse(array(), '', false, 1, $message);
+        }
+
         /*
           public function make_insta_friendships_command(string $resource_id, string $command = 'follow', string $objetive_url = 'web/friendships') {
           $insta = InstaURLs::Instagram;

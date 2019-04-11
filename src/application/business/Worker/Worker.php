@@ -129,6 +129,8 @@ require_once config_item('business-class');
         
         function daily_report()
         {
+            $ci = &get_instance();
+            
             $Clients = new \business\ClientList();
             $Clients->load_data();
             $ci = &get_instance();
@@ -139,7 +141,11 @@ require_once config_item('business-class');
             foreach ($Clients->Clients as $Client) { // for each CLient                
                 $obj = $ci->InstaProfile_lib->get_user_data($Client->MarkInfo->login, $Client->MarkInfo->Cookies, $Client->MarkInfo->Proxy->getApiProxy());
                 if(isset($obj->following) && $obj->following != NULL && isset($obj->follows) && $obj->follows != NULL)
+                {
                     $ci->Daily_report_model->save($Client->Id,$obj->following, $obj->follows, time());
+                    $ci->LogMgr->WriteResponse($obj);
+             
+                }
             }
             unset($ci->InstaProfile_lib);
             unset($ci->Daily_report_model);

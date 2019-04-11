@@ -1,0 +1,92 @@
+
+ 
+
+
+
+
+
+<pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>290</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'6718341208'</font> <i>(length=10)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'alberto_test'</font> <i>(length=12)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>789</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>2715</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>291</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>0</font>
+</pre><pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>483</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'3858629065'</font> <i>(length=10)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'josergm86'</font> <i>(length=9)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>7333</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>6528</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>484</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>13</font>
+</pre><pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>486</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'3445996566'</font> <i>(length=10)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'riveauxmerino'</font> <i>(length=13)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>7177</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>4782</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>487</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>13</font>
+</pre><pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>647</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'1009000980'</font> <i>(length=10)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'leticiajural'</font> <i>(length=12)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>8886</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>3504</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>648</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>105</font>
+</pre><pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>439</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'7960309411'</font> <i>(length=10)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'elizabet_insurance_agent'</font> <i>(length=24)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>3348</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>3713</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>425</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>160</font>
+</pre><pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>419</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'11231812600'</font> <i>(length=11)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'cltnrodriguesadvogados'</font> <i>(length=22)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>844</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>3720</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>417</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>false</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>43</font>
+</pre><pre class='xdebug-var-dump' dir='ltr'>
+<small>/opt/lampp/htdocs/visibility/src/application/libraries/LogsManager_lib.php:39:</small>
+<b>object</b>(<i>InstaApiWeb\InstaProfile</i>)[<i>449</i>]
+  <i>public</i> 'insta_id' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'5337601033'</font> <i>(length=10)</i>
+  <i>public</i> 'insta_name' <font color='#888a85'>=&gt;</font> <small>string</small> <font color='#cc0000'>'erickthaynaestacoes'</font> <i>(length=19)</i>
+  <i>public</i> 'follows' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>323</font>
+  <i>public</i> 'following' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>1081</font>
+  <i>public</i> 'image_url' <font color='#888a85'>=&gt;</font> <font color='#3465a4'>null</font>
+  <i>public</i> 'instaProfileData' <font color='#888a85'>=&gt;</font> 
+    <b>object</b>(<i>stdClass</i>)[<i>445</i>]
+      <i>public</i> 'is_private' <font color='#888a85'>=&gt;</font> <small>boolean</small> <font color='#75507b'>true</font>
+      <i>public</i> 'posts_count' <font color='#888a85'>=&gt;</font> <small>int</small> <font color='#4e9a06'>48</font>
+</pre>
