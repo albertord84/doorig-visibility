@@ -70,7 +70,8 @@
           <ul class="navbar-nav my-lg-0" > 
             <li class="nav-item dropdown mega-dropdown"> 
               <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="icon-Box-Close"></i>Filtro                
+                <i class="icon-Box-Close"></i>Filtro   
+                <!--mdi-filter-outline-->
                 <!--<li><a id="lnk_loguot" href=""><i class="fa fa-power-off"></i> Logout</a></li>-->
               </a>              
               <div class="dropdown-menu animated bounceInDown">
