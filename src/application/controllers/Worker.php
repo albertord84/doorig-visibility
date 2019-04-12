@@ -39,7 +39,7 @@ class Worker extends CI_Controller {
             
     }
     
-    public function total_undollow()
+    public function total_unfollow()
     {
         $worker = new BusinessWorker();
         $worker->unfollow_total();
