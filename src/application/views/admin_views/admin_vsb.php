@@ -41,11 +41,11 @@
       <!-- ============================================================== -->     
       <nav class="navbar top-navbar navbar-expand-md navbar-light">
         <!-- Logo -->
-        <div class="navbar-header">
+        <div class="navbar-header" style="width: 180px;">
             <a class="navbar-brand" href="index.html">
               <!-- Logo icon -->
               <b>
-                <!-- Dark Logo icon  kkkk-->
+                <!-- Dark Logo icon -->
                 <img width="27px" src="<?php echo base_url()?>assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
                 <!-- Light Logo icon -->
                 <!--<img src="<?php echo base_url()?>assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />-->
@@ -70,98 +70,95 @@
           <ul class="navbar-nav my-lg-0" > 
             <li class="nav-item dropdown mega-dropdown"> 
               <a class="nav-link dropdown-toggle waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="icon-Box-Close"></i>Filtro   
+                <i class="mdi mdi-filter-outline"></i>Filtro   
                 <!--mdi-filter-outline-->
                 <!--<li><a id="lnk_loguot" href=""><i class="fa fa-power-off"></i> Logout</a></li>-->
               </a>              
-              <div class="dropdown-menu animated bounceInDown">
-                <ul class="mega-dropdown-menu row">
-                  <li class="col-lg-3 col-xlg-2 m-b-30">
-                    <h4 class="m-b-20">CAROUSEL</h4>
-                    <!-- CAROUSEL -->
-                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                      <div class="carousel-inner" role="listbox">
-                        <div class="carousel-item active">
-                          <div class="container"> <img class="d-block img-fluid" src="../assets/images/big/img1.jpg" alt="First slide"></div>
+              <div class="dropdown-menu animated bounceInDown" style="padding: 0px 10px 0px 10px !important;">
+                <form id="filter-form" class="default-form m-top-5 m-b-0">
+                  <ul class="mega-dropdown-menu row">                  
+                    <li class="col-lg-3 col-xlg-2 m-b-0 p-b-10 p-t-10" style="background: #e9ecef">
+                      <h4 class="m-b-5">- CLIENTE -</h4>
+                        <div class="form-group m-b-15">
+                          <input type="text" class="form-control form-control-sm" id="txtClientid" placeholder="Id do cliente"> </div>
+                        <div class="form-group m-b-15">
+                          <input type="text" class="form-control form-control-sm" id="txtMarkid" placeholder="Id do Instagram"> </div>
+                        <div class="form-group m-b-15">
+                          <input type="text" class="form-control form-control-sm" id="txtProfile" placeholder="Perfil do Instagram"> </div>
+                        <div class="form-group m-b-15">
+                          <input type="email" class="form-control form-control-sm" id="txtEmail" placeholder="Enter email"> </div>                  
+                        <div class="form-group m-b-15">
+                          <select class="form-control form-control-sm" id="cmbStatus">
+                            <option selected="">Escolher status...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select> 
+                        </div> 
+                        <h6 class="m-b-5">Data do status:</h6>
+                        <div class="form-group m-b-15 row">                          
+                          <label for="ctrlFromDate" class="col-2 col-form-label font-12 font-bold">&nbsp;&nbsp;&nbsp;&nbsp;Desde:</label>
+                          <div class="col-10"><input class="form-control form-control-sm" type="date" id="ctrlFromDate"></div>  
+                        </div>  
+                        <div class="form-group m-b-15 row"> 
+                          <label for="ctrlToDate" class="col-2 col-form-label font-12 font-bold">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Até:</label>
+                          <div class="col-10"><input class="form-control form-control-sm" type="date" id="ctrlToDate"></div>                           
                         </div>
-                        <div class="carousel-item">
-                          <div class="container"><img class="d-block img-fluid" src="../assets/images/big/img2.jpg" alt="Second slide"></div>
+                    </li>
+                    <li class="col-lg-3  m-b-0 p-b-10 p-t-10" style="background: #e9ecef">
+                      <h4 class="m-b-5">- PAGAMENTO -</h4>
+                        <div class="form-group m-b-15">
+                          <input type="text" class="form-control form-control-sm" id="txtCartao" placeholder="Cartão de credito"> </div>
+                        <div class="form-group m-b-15">
+                          <select class="form-control form-control-sm" id="cmbPlano">
+                            <option selected="">Escolher plano...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select>
                         </div>
-                        <div class="carousel-item">
-                          <div class="container"><img class="d-block img-fluid" src="../assets/images/big/img3.jpg" alt="Third slide"></div>
+                        <h6 class="m-b-5">Data da assignatura:</h6>
+                        <div class="form-group m-b-15 row">                          
+                          <label for="ctrlFromDate" class="col-2 col-form-label font-12 font-bold">&nbsp;&nbsp;&nbsp;&nbsp;Desde:</label>
+                          <div class="col-10"><input class="form-control form-control-sm" type="date" id="ctrlFromDate"></div>  
+                        </div>  
+                        <div class="form-group m-b-15 row"> 
+                          <label for="ctrlToDate" class="col-2 col-form-label font-12 font-bold">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Até:</label>
+                          <div class="col-10"><input class="form-control form-control-sm" type="date" id="ctrlToDate"></div>                           
                         </div>
-                      </div>
-                      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a>
-                      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a>
-                    </div>
-                    <!-- End CAROUSEL -->
-                  </li>
-                  <li class="col-lg-3 m-b-30">
-                    <h4 class="m-b-20">ACCORDION</h4>
-                    <!-- Accordian -->
-                    <div id="accordion" class="nav-accordion" role="tablist" aria-multiselectable="true">
-                      <div class="card">
-                          <div class="card-header" role="tab" id="headingOne">
-                            <h5 class="mb-0">
-                          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Collapsible Group Item #1
-                          </a>
-                        </h5> </div>
-                        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
-                          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high. </div>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header" role="tab" id="headingTwo">
-                          <h5 class="mb-0">
-                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                          Collapsible Group Item #2
-                        </a>
-                        </h5> </div>
-                        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header" role="tab" id="headingThree">
-                          <h5 class="mb-0">
-                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                            Collapsible Group Item #3
-                            </a>
-                          </h5> 
-                        </div>
-                        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
-                          <div class="card-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. </div>
-                        </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="col-lg-3  m-b-30">
-                    <h4 class="m-b-20">CONTACT US</h4>
-                    <!-- Contact -->
-                    <form>
-                      <div class="form-group">
-                        <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name"> </div>
-                      <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Enter email"> </div>
-                      <div class="form-group">
-                        <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Message"></textarea>
-                      </div>
-                      <button type="submit" class="btn btn-info">Submit</button>
-                    </form>
-                  </li>
-                  <li class="col-lg-3 col-xlg-4 m-b-30">
-                    <h4 class="m-b-20">List style</h4>
-                    <!-- List style -->
-                    <ul class="list-style-none">
-                      <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> You can give link</a></li>
-                      <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Give link</a></li>
-                      <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another Give link</a></li>
-                      <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Forth link</a></li>
-                      <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another fifth link</a></li>
-                    </ul>
-                  </li>
-                </ul>
+                        <div class="form-group">
+                          <input type="email" class="form-control" placeholder="Enter email"> </div>
+                        
+                    </li>
+                    <li class="col-lg-3  m-b-0 p-b-10 p-t-10" style="background: #e9ecef">
+                      <h4 class="m-b-5">TRABALHO</h4>
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name"> </div>
+                        <div class="form-group">
+                          <input type="email" class="form-control" placeholder="Enter email"> </div>
+                        
+                    </li>
+                    <li class="col-lg-3 m-b-0 p-b-10 p-t-10" style="background: #e9ecef">
+                      <h4 class="m-b-5">OUTROS</h4>
+                      <div class="form-group m-b-15">
+                          <select class="form-control form-control-sm" id="cmbActiveProfile">
+                            <option selected="">Perfis ativos...</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                          </select> </div> 
+                        <div class="form-group">
+                          <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name"> </div>
+                        <div class="form-group">
+                          <input type="email" class="form-control" placeholder="Enter email"> </div>
+                        
+                        <button type="submit" class="btn btn-info">Consultar</button>                    
+                    </li>                   
+
+                  </ul>
+                </form>  
               </div>
             </li>
           </ul>
