@@ -98,7 +98,7 @@ namespace business\worker {
             $ci->load->model('daily_work_model');
             $ci->daily_work_model->save_follow($this->Client->Id, $this->Ref_profile->Id, $profile_name, $insta_id);
             $this->to_follow -= 1;
-            $ci->daily_work_model->update_follow($this->to_follow, $this->Client->Id);
+            $ci->daily_work_model->update($this->Client->Id,$this->to_follow, $this->to_unfollow);
 
             // Increase RP amount of follows
             //$this->Ref_profile = new ReferenceProfile($this->Ref_profile->Id);
@@ -110,7 +110,7 @@ namespace business\worker {
             $ci->load->model('daily_work_model');
             $ci->daily_work_model->save_unfollow($this->Client->Id, $insta_id);
             $this->to_unfollow -= 1;
-            $ci->daily_work_model->update_unfollow($this->to_unfollow, $this->Client->Id);
+            $ci->daily_work_model->update($this->Client->Id,$this->to_follow, $this->to_unfollow);
         }
         
         public function insert(int $client_id, int $to_follow, int $to_unfollow) {

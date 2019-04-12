@@ -223,20 +223,27 @@ require_once config_item('business-client-class');
         public function total_unfollow(\business\Client $client, \InstaClient_lib $instaclient) {
             $count = 0;
             $cursor = null;
-            while ($count < 10) {
-                $followed = $instaclient->get_followed(10, $cursor);
-                if ($followed->code == 0) {
-                    for ($i = 0; $i < 10; $i++) {
-                        $profile = $followed->FollowersCollection[i];
-                        if ($this->validate_profile_unfollow($work, $profile)) {
-                            $result = $instaclient->unfollow($profile->id);
-                            $profile->insta_id = $profile->id;
-                            $result = $this->InsertLogsParameters($result, "Unfollow", $client_id, NULL, $profile);
-                            //eliminar el perfil de la tabla de followed                            
+
+            $work = new DailyWork();
+            $work->Client = $client;
+            $work->Ref_profile = new \business\ReferenceProfile();
+            $work->Client->load_black_and_white_list_data();
+            $followed = $instaclient->get_followed(10, $cursor);
+            if ($followed->code == 0) {
+                for ($i = 0; $i < 10; $i++) {
+                    $profile = $followed->FollowersCollection[$i];
+                    $profile->followed_id = $profile->id;
+                    if ($this->validate_profile_unfollow($work, $profile)) {
+                        $result = $instaclient->unfollow($profile->id);
+                        $profile->insta_id = $profile->id;
+                        if (!$this->process_response($work, $result)) {
+                            break;
                         }
+                        //eliminar el perfil de la tabla de followed si existe                         
                     }
                 }
             }
+            
         }
 
         public function process_get_insta_ref_prof_data_for_daily_report($content, \BusinessRefProfile $ref_prof) {

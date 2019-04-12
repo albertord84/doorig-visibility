@@ -3,21 +3,19 @@ $(document).ready(function () {
     $('#midle_plane').height(alt);
     $('#fast_plane').height(alt);
     $('#very_fast_plane').height(alt);  
-    var contrated_plane = person_profile.MarkInfo.Plane.id;
-    
     
     function load_contrated_plane(){
-        if(contrated_plane == 1){
+        if(person_profile.MarkInfo.Plane.id == 1){
             $("#contrated_midle_plane").text("Plano atual");            
             $("#midle_plane_radio").click();
         }
         else
-        if(contrated_plane == 2){
+        if(person_profile.MarkInfo.Plane.id == 2){
             $("#contrated_fast_plane").text("Plano atual");            
             $("#fast_plane_radio").click();
         }
         else
-        if(contrated_plane == 3){
+        if(person_profile.MarkInfo.Plane.id == 3){
             $("#contrated_very_fast_plane").text("Plano atual");            
             $("#very_fast_plane_radio").click();
         }
@@ -44,38 +42,37 @@ $(document).ready(function () {
         plane = "very_fast";
     });    
     
-    function update_plane(a){
-        $.ajax({
-            url: base_url + 'index.php/Payment/update_plane',
-            data: {
-                "plane": plane,
-                'client_id':person_profile.Id
-            },
-            type: 'POST',
-            dataType: 'json',
-            success: function (response) {
-                spinner_stop(btn);
-                if (response.code === 0) {
-                    modal_success_message('Atualização realizada com sucesso');
-                    $(location).attr('href', base_url + "index.php/welcome/index/");
-                } else
-                    modal_alert_message(response.message);
-            },
-            error: function (xhr, status) {
-                modal_alert_message('Erro enviando dados, tente depois...');
-            }
-        });
-    }
+//    function update_plane(a){
+//        $.ajax({
+//            url: base_url + 'index.php/Payment/update_plane',
+//            data: {
+//                "plane": plane,
+//                'client_id':person_profile.Id
+//            },
+//            type: 'POST',
+//            dataType: 'json',
+//            success: function (response) {
+//                spinner_stop(btn);
+//                if (response.code === 0) {
+//                    modal_success_message('Atualização realizada com sucesso');
+//                    $(location).attr('href', base_url + "index.php/welcome/index/");
+//                } else
+//                    modal_alert_message(response.message);
+//            },
+//            error: function (xhr, status) {
+//                modal_alert_message('Erro enviando dados, tente depois...');
+//            }
+//        });
+//    }
     
     $('#btn-update-plane').click(function () {
-         planes = {0:"midle",1:"fast",2:"very_fast"};
-        if(planes[contrated_plane]==plane) return;
+         planes = {1:"midle",2:"fast",3:"very_fast"};
+        if(planes[person_profile.MarkInfo.Plane.id]==plane) return;
         modal_confirm_message("Confirma a atualização do plano?", "update_plane", "1");
     });
     
     
     $('#btn-update-mark-credentials').click(function () {
-        alert(1234);
         var profile = validate_element("#login_profile", ig_profile_regular_expression);
         var password = validate_not_empty("#password");
         var password_rep = validate_equals("#password","#password-rep");
@@ -130,8 +127,7 @@ function update_plane(a){
             },
             type: 'POST',
             dataType: 'json',
-            success: function (response) {
-                spinner_stop(btn);
+            success: function (response) {                
                 if (response.code === 0) {
                     modal_success_message('Atualização realizada com sucesso');
                     $(location).attr('href', base_url + "index.php/welcome/index/");
