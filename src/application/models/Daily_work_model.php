@@ -31,6 +31,7 @@ class Daily_work_model extends CI_Model {
     }
 
     function update($client_id, $to_follow, $to_unfollow) {
+        
         $this->to_follow = $to_follow;
         $this->to_unfollow = $to_unfollow;
 

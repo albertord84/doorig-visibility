@@ -159,6 +159,7 @@ require_once config_item('business-class');
                 $time = time();
                 foreach ($Clients->Clients as $client) {
                    // $client->load_mark_info_data();
+                    print "#CLIENT : $id \r";
                     $Proxy = $client->MarkInfo->Proxy->Id ? $client->MarkInfo->Proxy->getApiProxy() : NULL;                           
                     $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $client->MarkInfo->insta_id, "cookies" => $client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                     $robot = new Robot();
@@ -166,7 +167,7 @@ require_once config_item('business-class');
                     unset($ci->InstaClient_lib);
                 }
                 if (300 - (time() - $time) > 10) {
-                    sleep(150 - (time() - $time));
+                    sleep(300 - (time() - $time));
                 }
             }
         }

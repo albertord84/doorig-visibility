@@ -236,6 +236,8 @@ require_once config_item('business-client-class');
                     if ($this->validate_profile_unfollow($work, $profile)) {
                         $result = $instaclient->unfollow($profile->id);
                         $profile->insta_id = $profile->id;
+                        $result = $this->InsertLogsParameters($result, "Total Unfollow", $client->Id, NULL, $profile);
+                    
                         if (!$this->process_response($work, $result)) {
                             break;
                         }
