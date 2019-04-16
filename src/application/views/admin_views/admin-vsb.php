@@ -27,7 +27,10 @@
         <link href="<?php echo base_url()?>assets/css/colors/default.css" id="theme" rel="stylesheet">        
         <!-- Touchspin control --> 
         <link href="<?php echo base_url()?>assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
-        
+        <!-- Footable CSS -->
+        <link href="<?php echo base_url()?>assets/node_modules/footable/css/footable.bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo base_url()?>assets/node_modules/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    
         <script type="text/javascript">
             /*var base_url = "<?php //echo base_url();?>";            
             var client = <?php //echo $client;?>;            
@@ -63,7 +66,7 @@
         <div class="navbar-collapse" >
           <!-- toggle and nav items -->
           <ul class="navbar-nav mr-auto">
-            ADMIN VISIBILITY
+            <h2 class="font-medium">&nbsp;ADMINISTRAÇÃO DO MODULO VISIBILITY</h2>
           </ul>          
           <!-- ============================================================== -->
           <!-- mega menu -->
@@ -261,15 +264,47 @@
         </div>
       </nav>
     </header>  
-        
-    <div class="container-fluid">    
-      <div class="row page-titles">
-        <div class="col-md-5 align-self-center">
-        </div>                        
-      </div>      
-    </div>
-    esto es un texto1
-      
+    <!-- ============================================================== -->
+    <!-- Responsive Content Table -->
+    <!-- ============================================================== -->    
+    <div class="container-fluid"> <div class="row page-titles"><div class="col-md-5 align-self-center"></div></div></div>    
+    <div class="table-responsive">
+      <table id="demo-foo-row-toggler" class="table table-bordered color-table info-table table-sm font-12 table-hover" data-toggle-column="first">
+        <thead class="font-14">
+            <tr>
+              <th class="" data-breakpoints="xs" style="width: 100px;">Id Doorig</th>
+              <th>Id Instagram</th>
+              <th>Last Name</th>
+              <th data-breakpoints="xs sm">Mobile No</th>
+              <th data-breakpoints="xs">Job Title</th>
+              <th data-breakpoints="all" data-title="DOB">Date of Birth</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr data-expanded="true">
+              <td>1</td>
+              <td>
+                  <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user" width="40" class="img-circle" /> Genelia Deshmukh</a>
+              </td>
+              <td>genelia@gmail.com</td>
+              <td>+123 112 789</td>
+              <td><span class="label label-danger">Designer</span> </td>
+              <td>February 26th 1966</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+                <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user" width="40" class="img-circle" /> Shraddha Kapoor</a>
+            </td>
+            <td>gov12inda@gmail.com</td>
+            <td>+345 456 125</td>
+            <td><span class="label label-success">Accountant</span></td>
+            <td>February 26th 1966</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>  
+    
     <?php //echo $modals?>            
     <?php //echo $footer_admin;?>
     <!--</div>-->
@@ -300,8 +335,11 @@
     <script src="<?php echo base_url()?>assets/js/dashboard1.js"></script>
     <!-- Style switcher -->
     <script src="<?php echo base_url()?>assets/node_modules/styleswitcher/jQuery.style.switcher.js"></script>
-    <!-- Touchspin control -->  
+    <!-- Touchspin control -->      
     <script src="<?php echo base_url()?>assets/node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js" type="text/javascript"></script>
+    <!-- Footable -->    
+    <script src="<?php echo base_url()?>assets/node_modules/footable/js/footable.min.js"></script>
+    <!-- Visibility Module scripts -->    
     <script src="<?php echo base_url()?>assets/js/visibility/admin-vsb.js" type="text/javascript"></script>
     
     <!-- system scripts --> 
