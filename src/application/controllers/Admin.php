@@ -27,7 +27,7 @@ class Admin extends CI_Controller {
     //$param["modals"] = $this->load->view('modals', '', true);*/
     
     $param["footer_admin"] = $this->load->view('admin_views/footer_admin', '', true);
-    $this->load->view('admin_views/admin_vsb', $param);
+    $this->load->view('admin_views/admin-vsb', $param);
     //echo "inside admin controller";
   }
   

@@ -70,7 +70,7 @@ namespace InstaApiWeb {
                     $message = count($output) > 0 && isset($output[0]->message) ? $output[0]->message : "";
                 }
                 if (is_object($message)) {
-                    $message = \GuzzleHttp\json_encode($message);
+                    $message = json_encode($message);
                 }
                 return new Response\PostInstaResponse($obj, $code, $message);
             } catch (\Exception $e) {

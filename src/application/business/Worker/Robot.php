@@ -31,7 +31,7 @@ require_once config_item('business-client-class');
             $followers_response = $work->Ref_profile->get_followers($cookies, $to_follow, $proxy);
             $client_id = $work->Client->Id;
             $ref_prof_id = $work->Ref_profile->Id;
-            var_dump($followers_response);
+            //var_dump($followers_response);
             if ($this->process_followers_reponse($work, $followers_response)) {
                 foreach ($followers_response->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil

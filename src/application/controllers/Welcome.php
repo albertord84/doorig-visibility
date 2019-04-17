@@ -56,7 +56,7 @@ class Welcome extends CI_Controller {
             header("Location:" . $REDIRECT);
             return;
         }
-        if ($ClientModule){
+        if ($ClientModule) {
             //2. set $ClientModule in session and lateral_menu and modals views
             $param["lateral_menu"] = $this->request_lateral_menu($ClientModule->Client->Id);
             $param["modals"] = $this->request_modals();
@@ -376,6 +376,30 @@ class Welcome extends CI_Controller {
         } catch (\Exception $exc) {
             return Response::ResponseFAIL($exc->getMessage(), $exc->getCode())->toJson();
         }
+    }
+
+    public function sendin_sms() {
+        //include 'path/to/mailin-api/sms_api.php';
+        $this->load->library('MailinSms');
+
+        $mailin = new MailinSms('SBEzbmqAHRC5YtTs');
+
+        $mailin->addTo('21965536174')
+                ->setFrom('DOORIG') // If numeric, then maximum length is 17 characters and if alphanumeric maximum length is 11 characters.
+                ->setText('Text message to send') // 160 characters per SMS.
+                ->setTag('SMSBlue')
+                ->setType('marketing') // Two possible values: marketing or transactional.
+                ->setCallback('https://doorig.com/');
+
+        $res = $mailin->send();
+        var_dump($res);
+
+        /**
+          Successful SMS sent message will be returned as:
+          {"status":"OK","number_sent":1,"to":"00XXXXXXXX","remaining_credit":9525,"reference":{"1":"cz2tjvs79vm079hpa"}}
+          Error will be returned as:
+          {"status":"KO","description":"Invalid telephone number."}
+         * */
     }
 
 }
