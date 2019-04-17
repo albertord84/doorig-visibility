@@ -32,7 +32,7 @@ class LogsManager_lib {
         if(method_exists($message, "getJSON"))
         {
             echo(json_encode(json_decode($message->getJSON()), JSON_PRETTY_PRINT));
-            echo "\n\n,";
+            echo "\r\r,";
         }
         else 
         {
