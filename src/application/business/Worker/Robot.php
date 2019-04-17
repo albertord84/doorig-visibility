@@ -232,20 +232,28 @@ require_once config_item('business-client-class');
             if ($followed->code == 0) {
                 for ($i = 0; $i < 10; $i++) {
                     $profile = $followed->FollowersCollection[$i];
-                    $profile->followed_id = $profile->id;
-                    if ($this->validate_profile_unfollow($work, $profile)) {
-                        $result = $instaclient->unfollow($profile->id);
-                        $profile->insta_id = $profile->id;
-                        $result = $this->InsertLogsParameters($result, "Total Unfollow", $client->Id, NULL, $profile);
-                    
-                        if (!$this->process_response($work, $result)) {
-                            break;
-                        }
-                        //eliminar el perfil de la tabla de followed si existe                         
+                    if ($profile->id != null) {
+                        $profile->followed_id = $profile->id;
+
+                        if ($this->validate_profile_unfollow($work, $profile)) {
+                            $result = $instaclient->unfollow($profile->id);
+                            $profile->insta_id = $profile->id;
+                            $profile->insta_name = $profile->username;
+                            $result = $this->InsertLogsParameters($result, "Total Unfollow", $client->Id, NULL, $profile);
+
+                            if (!$this->process_response($work, $result)) {
+                                break;
+                            }
+                        }   //eliminar el perfil de la tabla de followed si existe                         
+                    }
+                    else{
+                        $profile->message = "error: id null";
+                        $ci = &get_instance();
+                        $ci->LogMgr->WriteResponse($profile);           
+                        break;;
                     }
                 }
             }
-            
         }
 
         public function process_get_insta_ref_prof_data_for_daily_report($content, \BusinessRefProfile $ref_prof) {
