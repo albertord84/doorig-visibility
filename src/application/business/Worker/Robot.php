@@ -250,7 +250,7 @@ require_once config_item('business-client-class');
                         $profile->message = "error: id null";
                         $ci = &get_instance();
                         $ci->LogMgr->WriteResponse($profile);           
-                        break;;
+                        break;
                     }
                 }
             }

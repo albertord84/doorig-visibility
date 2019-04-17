@@ -83,7 +83,7 @@ namespace InstaApiWeb {
 
             else
             {
-                throw new \InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
+                throw new InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
             }
         }
 

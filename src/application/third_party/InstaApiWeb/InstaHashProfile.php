@@ -82,7 +82,7 @@ namespace InstaApiWeb {
                         "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
                 return new FollowersResponse(array(), '', false, 1, $message);
             } else {           
-                throw new \InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
+                throw new InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
             }
         }
 

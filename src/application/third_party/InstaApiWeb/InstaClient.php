@@ -68,7 +68,13 @@ namespace InstaApiWeb {
                     $obj = json_decode($output[0]);
                     $code = $this->parse_insta_response($obj);
                     $message = count($output) > 0 && isset($output[0]->message) ? $output[0]->message : "";
+                }                
+                else
+                {
+                    $out = $out != null? json_encode($output): "null";
+                    $message = "problem with output ($out) in client unfollow";
                 }
+                
                 if (is_object($message)) {
                     $message = json_encode($message);
                 }
@@ -96,6 +102,11 @@ namespace InstaApiWeb {
                     $obj = json_decode($output[0]);
                     $code = $this->parse_insta_response($obj);
                     $message = count($output) > 0 && isset($output[0]->message) ? $output[0]->message : "";
+                }
+                else
+                {
+                    $out = $out != null? json_encode($output): "null";
+                    $message = "problem with output ($out) in client unfollow";
                 }
 
                 if (is_object($message)) {
@@ -125,6 +136,11 @@ namespace InstaApiWeb {
                     $obj = json_decode($output[0]);
                     $code = $this->parse_insta_response($obj);
                     $message = count($output) > 0 && isset($output[0]->message) ? $output[0]->message : "";
+                }                
+                else
+                {
+                    $out = $out != null? json_encode($output): "null";
+                    $message = "problem with output ($out) in client unfollow";
                 }
 
                 if (is_object($message)) {
