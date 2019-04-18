@@ -8,7 +8,9 @@ class Worker extends CI_Controller {
 
     function __construct() {
         parent::__construct();
+        echo 'Hi';
         require_once config_item('business-worker-class');
+        echo 'Loaded';
     }
 
     public function index() {

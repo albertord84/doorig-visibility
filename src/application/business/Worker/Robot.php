@@ -10,7 +10,7 @@ namespace business\worker {
 require_once config_item('business-client-class');
     require_once config_item('business-class');
     require_once config_item('thirdparty-followers-response-class');
-    require config_item('business-user_status-class');
+    require_once config_item('business-user_status-class');
 
     /**
      * @category Business class
