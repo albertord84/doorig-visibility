@@ -262,8 +262,8 @@ namespace business {
                     !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_PAYMENT) && //2
                     !$this->MarkInfo->Status->hasStatus(UserStatus::BLOCKED_BY_INSTA) && //3
                     !$this->MarkInfo->Status->hasStatus(UserStatus::KEEP_UNFOLLOW) && //13
-                    !$this->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT)//9
-                    && Client::verify_client($this, TRUE)) {
+                    //!$this->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT) &&//9
+                     Client::verify_client($this, TRUE)) {
                 return TRUE;
             }
             return FALSE;

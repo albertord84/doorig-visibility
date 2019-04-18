@@ -151,11 +151,9 @@ require_once config_item('business-client-class');
                      */
                     break;
                 case 5: // "checkpoint_required"
-                    $daily_work->delete_dailywork();
-                    var_dump($result);
+                    //$daily_work->delete_dailywork();
+                    $daily_work->Client->MarkInfo->increase_client_last_access(1.5 * 60 * 60);                    
                     $daily_work->Client->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT, TRUE, time());
-                    //$this->DB->insert_event_to_washdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, $this->id);
-                    //$this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
                 case 6: // "" Empty message
