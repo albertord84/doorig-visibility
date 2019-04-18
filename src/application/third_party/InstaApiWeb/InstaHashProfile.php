@@ -81,7 +81,12 @@ namespace InstaApiWeb {
                 $message = isset($json_response->message) ? $json_response->message :
                         "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
                 return new FollowersResponse(array(), '', false, 1, $message);
-            } else {           
+            }
+            elseif ($json_response == null)
+            {
+                return new FollowersResponse(array(), '', false, 1, "null response from instagram");
+            }
+            else {           
                 throw new InstaException("unknown exception response" . \GuzzleHttp\json_encode($json_response),-1);
             }
         }
