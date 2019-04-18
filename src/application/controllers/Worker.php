@@ -16,6 +16,7 @@ class Worker extends CI_Controller {
     }
 
     public function prepare_daily_work() {
+        echo "Start preoaring\r";
         $worker = new BusinessWorker();
         $worker->truncate_daily_work();
         $worker->prepare_daily_work();
