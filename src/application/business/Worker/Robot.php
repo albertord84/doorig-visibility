@@ -5,10 +5,12 @@ namespace business\worker {
     use business\Business;
     use business\Client;
     use \InstaApiWeb\Response\FollowersResponse;
+    use business\UserStatus;
 
 require_once config_item('business-client-class');
     require_once config_item('business-class');
     require_once config_item('thirdparty-followers-response-class');
+    require config_item('business-user_status-class');
 
     /**
      * @category Business class
@@ -115,13 +117,13 @@ require_once config_item('business-client-class');
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
                     $daily_work->delete_dailywork();
                     // $this->DB->insert_event_to_washdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-                    $daily_work->Client->MarkInfo->Status->add_item(user_status::BLOCKED_BY_TIME, TRUE, time());
+                    $daily_work->Client->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_TIME, TRUE, time());
                     break;
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
                     $daily_work->delete_dailywork();
                     //var_dump($result);
                     // $this->DB->insert_event_to_washdog($client_id, washdog_type::SET_TO_UNFOLLOW, 1, $this->id);
-                    $daily_work->Client->MarkInfo->Status->add_item(user_status::UNFOLLOW, TRUE, time());
+                    $daily_work->Client->MarkInfo->Status->add_item(UserStatus::UNFOLLOW, TRUE, time());
                     print "<br>\n Client (id: $client_id) set to UNFOLLOW!!! <br>\n";
                     break;
                 case 3: // "Unautorized"
@@ -133,11 +135,11 @@ require_once config_item('business-client-class');
                 case 4: // "Parece que você estava usando este recurso de forma indevida"
                     $daily_work->delete_dailywork();
                     var_dump($result);
-                    $daily_work->Client->MarkInfo->Status->add_item(user_status::BLOCKED_BY_TIME, TRUE, time());
+                    $daily_work->Client->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_TIME, TRUE, time());
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_TIME!!! <br>\n";
                     //$this->DB->insert_event_to_washdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
                     // Alert when insta block by IP
-                    /* $result = $this->DB->get_clients_by_status(user_status::BLOCKED_BY_TIME);
+                    /* $result = $this->DB->get_clients_by_status(UserStatus::BLOCKED_BY_TIME);
                       $rows_count = $result->num_rows;
                       if ($rows_count == 100 || $rows_count == 150 || ($rows_count >= 200 && $rows_count <= 210)) {
                       //[CONSERTAR] Ver email problem
@@ -151,7 +153,7 @@ require_once config_item('business-client-class');
                 case 5: // "checkpoint_required"
                     $daily_work->delete_dailywork();
                     var_dump($result);
-                    $daily_work->Client->MarkInfo->Status->add_item(user_status::VERIFY_ACCOUNT, TRUE, time());
+                    $daily_work->Client->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT, TRUE, time());
                     //$this->DB->insert_event_to_washdog($client_id, washdog_type::ROBOT_VERIFY_ACCOUNT, 1, $this->id);
                     //$this->DB->set_client_cookies($client_id, NULL);
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
@@ -175,7 +177,7 @@ require_once config_item('business-client-class');
                 case 8: // "Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança." 
                     $daily_work->delete_dailywork();
                     //$this->DB->insert_event_to_washdog($client_id, washdog_type::BLOCKED_BY_TIME, 1, $this->id);
-                    $daily_work->Client->MarkInfo->Status->add_item(user_status::BLOCKED_BY_TIME, TRUE, time());
+                    $daily_work->Client->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_TIME, TRUE, time());
                     print "<br>\n Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     break;
                 case 9: // "Ocorreu um erro ao processar essa solicitação. Tente novamente mais tarde." 
@@ -193,7 +195,7 @@ require_once config_item('business-client-class');
                 case 11:
                     print "<br> se ha bloqueado. Vuelve a intentarlo</br>";
                     $daily_work->delete_dailywork();
-                    $daily_work->Client->MarkInfo->Status->add_item(user_status::BLOCKED_BY_TIME, TRUE, time());
+                    $daily_work->Client->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_TIME, TRUE, time());
                     break;
                 case 12:
                     print "<br>$ref_prof_id set to null<br>\n";
