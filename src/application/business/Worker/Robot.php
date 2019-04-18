@@ -112,6 +112,10 @@ require_once config_item('business-client-class');
             $idProxy = $daily_work->Client->MarkInfo->proxy_id;
             switch ($response->code) {
                 case 0:
+                    if($daily_work->Client->MarkInfo->Status->hasStatus(UserStatus::VERIFY_ACCOUNT))
+                    {
+                        $daily_work->Client->MarkInfo->Status->remove_item(UserStatus::VERIFY_ACCOUNT);                     
+                    }
                     return true;
                 case 1: // "Com base no uso anterior deste recurso, sua conta foi impedida temporariamente de executar essa ação. Esse bloqueio expirará em há 23 horas."
                     print "<br>\n Unautorized Client (id: $client_id) set to BLOCKED_BY_INSTA!!! <br>\n";
@@ -152,7 +156,10 @@ require_once config_item('business-client-class');
                     break;
                 case 5: // "checkpoint_required"
                     //$daily_work->delete_dailywork();
-                    $daily_work->Client->MarkInfo->increase_client_last_access(1.5 * 60 * 60);                    
+                    $daily_work->Client->MarkInfo->set_proxy();
+                    $daily_work->Client->MarkInfo->increase_client_last_access(2 * 60 * 60);
+                    $new_proxy = $daily_work->Client->MarkInfo->proxy_id;
+                    var_dump("Set Proxy ($idProxy) of client ($client_id) to proxy ($new_proxy)\n");
                     $daily_work->Client->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT, TRUE, time());
                     print "<br>\n Unautorized Client (id: $client_id) set to VERIFY_ACCOUNT!!! <br>\n";
                     break;
