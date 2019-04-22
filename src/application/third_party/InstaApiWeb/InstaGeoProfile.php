@@ -80,7 +80,7 @@ namespace InstaApiWeb {
                         "Fail get insta followers for geo profile $this->insta_id. Unkown Reason";
                 return new FollowersResponse(array(), '', false, 1, $message);
             }
-            elseif ($json_response == null)
+            elseif ($json_response == null || $json_response == "null")
             {
                 return new FollowersResponse(array(), '', false, 1, "null response from instagram");
             }
