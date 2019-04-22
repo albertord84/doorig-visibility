@@ -139,7 +139,7 @@ class Clients_model extends CI_Model {
     function update_last_acctess($id, $time)
     {
         $data = array(
-               'last_access' => "'$title'"
+               'last_access' => "'$time'"
             );        
         $this->db->where('user_id', $id);
         $this->db->update('client', $data);  
