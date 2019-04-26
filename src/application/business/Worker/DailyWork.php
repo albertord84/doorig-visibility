@@ -118,6 +118,15 @@ namespace business\worker {
             $ci->load->model('daily_work_model');
             $ci->daily_work_model->save($client_id, $to_follow, $to_unfollow);
         }
+        
+        public function increase_last_access(int $seconds)
+        {
+            $ci = &get_instance();
+            $ci->load->model('daily_work_model');
+            $time = time() + $seconds;
+            $ci->daily_work_model->block_work($this->Ref_profile->Id, $this->Client->Id, $time);
+        
+        }
 
     }
 

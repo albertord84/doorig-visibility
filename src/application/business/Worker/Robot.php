@@ -157,7 +157,7 @@ require_once config_item('business-client-class');
                 case 5: // "checkpoint_required"
                     //$daily_work->delete_dailywork();
                     $daily_work->Client->MarkInfo->set_proxy();
-                    $daily_work->Client->MarkInfo->increase_client_last_access(2 * 60 * 60);
+                    $daily_work->increase_last_access(2 * 60 * 60);
                     $new_proxy = $daily_work->Client->MarkInfo->proxy_id;
                     var_dump("Set Proxy ($idProxy) of client ($client_id) to proxy ($new_proxy)\n");
                     $daily_work->Client->MarkInfo->Status->add_item(UserStatus::VERIFY_ACCOUNT, TRUE, time());
@@ -169,7 +169,7 @@ require_once config_item('business-client-class');
                 case 7: // "Há solicitações demais. Tente novamente mais tarde." "Aguarde alguns minutos antes de tentar novamente."
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     $daily_work->Client->MarkInfo->set_proxy();
-                    $daily_work->Client->MarkInfo->increase_client_last_access(2 * 60 * 60);
+                    $daily_work->increase_last_access(2 * 60 * 60);
                     $new_proxy = $daily_work->Client->MarkInfo->proxy_id;
                     var_dump("Set Proxy ($idProxy) of client ($client_id) to proxy ($new_proxy)\n");
 

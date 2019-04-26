@@ -78,8 +78,8 @@ class Daily_work_model extends CI_Model {
         return $result;
     }
 
-    private function block_work($reference_id, $client_id) {
-        $time = time();
+    public function block_work($reference_id, $client_id, $time = NULL) {
+        if($time = NULL)  $time = time();
         $data = array(
             'last_access' => $time
         );
