@@ -31,25 +31,29 @@ class Client_test extends CI_Controller {
         $obj = new Client(1); //var_dump($obj);
         echo "[new] Client_business ==> (<b>ok</b>)<br>";
 
-        echo "<pre>";
+    /*    echo "<pre>";
         echo "<h2>Test Insta Curl Info Business</h2>";
         $obj->load_daily_report_data();
         var_dump($obj);
         die();
         echo "[load] Client Reference Profiles Business ==> (<b>ok</b>)<br>";
-
+*/
         echo "<pre>";
         echo "<h2>Test Insta Curl Info Business</h2>";
-        $obj->load_insta_data(); //var_dump($obj);
+        $obj->load_mark_info_data(); //var_dump($obj);
         echo "[load] Client Reference Profiles Business ==> (<b>ok</b>)<br>";
-
-        echo "<pre>";
+       // $daily_work->Client->MarkInfo->
+        $old = $obj->MarkInfo->proxy_id;
+        $obj->MarkInfo->set_proxy();
+        $new_proxy = $obj->MarkInfo->proxy_id;
+        echo "<br>set proxy $old to $new_proxy</br>";
+      /*  echo "<pre>";
         echo "<h2>Test Client Reference Profiles Business (status ACTIVE) </h2>";
         $status_id = 1; // ACTIVE;
         $obj->load_insta_reference_profiles_data($status_id);
         var_dump($obj);
         echo "[load] Client Reference Profiles Business ==> (<b>ok</b>)<br>";
-
+*/
         //$obj->ReferenceProfiles->remove_reference_profile(24306);
         //$obj->load_insta_reference_profiles_data(1); var_dump($obj);
         echo "[remove] Client Reference Profiles Business ==> (<b>ok</b>)<br>";

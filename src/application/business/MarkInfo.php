@@ -160,7 +160,7 @@ namespace business {
             $ci = &get_instance();
             $ci->load->model('client_mark_model');
             $n = Proxy::ProxysCount();
-            $new_proxy = ($proxy->idProxy) % $n + 1;
+            $new_proxy = ($this->proxy_id) % $n + 1;
             $ci->client_mark_model->update($this->client_id, NULL, NULL, $new_proxy);
             $this->proxy_id = $new_proxy;
             $this->Proxy = new Proxy($this->proxy_id);
