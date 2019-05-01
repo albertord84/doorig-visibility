@@ -37,8 +37,8 @@ require_once config_item('business-client-class');
             if ($this->process_followers_reponse($work, $followers_response)) {
                 foreach ($followers_response->FollowersCollection as $profile) {
                     //pedir datos del perfil y validar perfil
-
-                    if ($this->validate_profile_follow($work, $profile)) {
+                    $validate = $this->validate_profile_follow($work, $profile);
+                    if ($validate == 0) {
                         $result = $instaclient->follow($profile->insta_id);
                         $result = $this->InsertLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
                         if ($this->process_response($work, $result)) {
@@ -70,14 +70,33 @@ require_once config_item('business-client-class');
 
         public function validate_profile_follow(DailyWork $work, $profile) {
             //$work->Ref_profile;
+            
+            $response = new \stdClass();
+            $result = $this->InsertLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
+                
             if ($work->Client->BlackAndWhiteList->is_black($profile->insta_id))
-                return FALSE;
+            {
+                $result->message = "IN BLACK LIST";
+                $ci = &get_instance();
+                $ci->LogMgr->WriteResponse($response);                        
+                return 1;
+            }
             $null_picture = strpos($profile->profile_pic_url, '44884218_345707102882519_2446069589734326272_n');
             if ($profile->instaProfileData->requested_by_viewer || $profile->instaProfileData->followed_by_viewer || $profile->instaProfileData->has_blocked_viewer || $null_picture)
-                return FALSE;
+            {
+                $result->message = "NULL PICTURE ";
+                $ci = &get_instance();
+                $ci->LogMgr->WriteResponse($response);             
+                return 2;
+            }
             if ($work->Client->exist_followed($profile->insta_id))
-                return FALSE;
-            return TRUE;
+            {
+                $result->message = "ALREADY FOLLOWED ";
+                $ci = &get_instance();
+                $ci->LogMgr->WriteResponse($response);             
+                return 3;
+            }
+            return 0;
         }
 
         public function validate_profile_unfollow(DailyWork $work, $profile) {
