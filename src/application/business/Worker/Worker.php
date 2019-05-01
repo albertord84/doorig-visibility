@@ -88,7 +88,7 @@ require_once config_item('business-class');
                             $Proxy = $daily_work->Client->MarkInfo->Proxy->Id ? $daily_work->Client->MarkInfo->Proxy->getApiProxy() : NULL;
                             $ci->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => $daily_work->Client->MarkInfo->insta_id, "cookies" => $daily_work->Client->MarkInfo->Cookies, "proxy" => $Proxy), 'InstaClient_lib');
                             $robot = new Robot();
-                            if ($daily_work->to_follow > 0) {
+                            if ($daily_work->to_follow > 0 &&  !$daily_work->Client->MarkInfo->Status->hasStatus(UserStatus::UNFOLLOW)) {
                                 print '#Do_follow_work: \r';
                                 $robot->do_follow_work($daily_work, $ci->InstaClient_lib);
                             }

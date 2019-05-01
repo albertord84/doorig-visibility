@@ -124,7 +124,6 @@ require_once config_item('business-client-class');
                     $daily_work->Client->MarkInfo->Status->add_item(UserStatus::BLOCKED_BY_TIME, TRUE, time());
                     break;
                 case 2: // "Você atingiu o limite máximo de contas para seguir. É necessário deixar de seguir algumas para começar a seguir outras."
-                    $daily_work->delete_dailywork();
                     //var_dump($result);
                     // $this->DB->insert_event_to_washdog($client_id, washdog_type::SET_TO_UNFOLLOW, 1, $this->id);
                     $daily_work->Client->MarkInfo->Status->add_item(UserStatus::UNFOLLOW, TRUE, time());
