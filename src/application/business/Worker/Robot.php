@@ -71,7 +71,7 @@ require_once config_item('business-client-class');
         public function validate_profile_follow(DailyWork $work, $profile) {
             //$work->Ref_profile;
             
-            $response = new \stdClass();
+            $response = new \InstaApiWeb\Response\Response(0,"");
             $result = $this->InsertLogsParameters($response, "Follow", $client_id, $ref_prof_id, $profile);
                 
             if ($work->Client->BlackAndWhiteList->is_black($profile->insta_id))
