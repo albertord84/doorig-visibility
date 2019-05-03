@@ -72,7 +72,7 @@ require_once config_item('business-client-class');
             //$work->Ref_profile;
             
             $response = new \stdClass();
-            $result = $this->InsertLogsParameters($result, "Follow", $client_id, $ref_prof_id, $profile);
+            $result = $this->InsertLogsParameters($response, "Follow", $client_id, $ref_prof_id, $profile);
                 
             if ($work->Client->BlackAndWhiteList->is_black($profile->insta_id))
             {
