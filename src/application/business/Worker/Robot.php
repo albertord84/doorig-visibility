@@ -53,7 +53,9 @@ require_once config_item('business-client-class');
 
         public function do_unfollow_work(DailyWork $work, \InstaClient_lib $instaclient) {
             $client_id = $work->Client->Id;
+            $cnt = 0;
             foreach ($work->get_unfollow_list() as $profile) {
+                $cnt++;
                 if ($this->validate_profile_unfollow($work, $profile)) {
                     $result = $instaclient->unfollow($profile->followed_id);
                     $profile->insta_id = $profile->followed_id;
@@ -65,6 +67,10 @@ require_once config_item('business-client-class');
                         break;
                     }
                 }
+            }
+            if($cnt == 0 && $work->Client->MarkInfo->Status->hasStatus(UserStatus::UNFOLLOW))
+            {
+                 $work->Client->MarkInfo->Status->remove_item(UserStatus::UNFOLLOW);
             }
         }
 
@@ -78,7 +84,7 @@ require_once config_item('business-client-class');
             {
                 $result->message = "IN BLACK LIST";
                 $ci = &get_instance();
-                $ci->LogMgr->WriteResponse($response);                        
+                $ci->LogMgr->WriteResponse($result);                        
                 return 1;
             }
             $null_picture = strpos($profile->profile_pic_url, '44884218_345707102882519_2446069589734326272_n');
@@ -86,14 +92,14 @@ require_once config_item('business-client-class');
             {
                 $result->message = "NULL PICTURE ";
                 $ci = &get_instance();
-                $ci->LogMgr->WriteResponse($response);             
+                $ci->LogMgr->WriteResponse($result);             
                 return 2;
             }
             if ($work->Client->exist_followed($profile->insta_id))
             {
                 $result->message = "ALREADY FOLLOWED ";
                 $ci = &get_instance();
-                $ci->LogMgr->WriteResponse($response);             
+                $ci->LogMgr->WriteResponse($result);             
                 return 3;
             }
             return 0;

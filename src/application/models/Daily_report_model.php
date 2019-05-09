@@ -62,6 +62,7 @@ class Daily_report_model extends CI_Model {
         $result_org = $query->result_array();
         $N = count($result_org);
         $steep = ($N > $GLOBALS["sistem_config"]->SAMPLES_IN_CHART) ? (int)($N/$GLOBALS["sistem_config"]->SAMPLES_IN_CHART) - 1 : 1;
+        if($steep==0) $steep = 1;
         $k=0;
         for($i=0;$i<$N;$i=$i+$steep){
             $result[$k++]=$result_org[$i];
