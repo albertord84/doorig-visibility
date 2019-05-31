@@ -94,7 +94,7 @@ namespace InstaApiWeb {
         public function get_post(int $N, string $cursor = NULL, Cookies $cookies = NULL, Proxy $proxy = NULL) {
             try {
                 $mngr = new InstaCurlMgr(new EnumEntity(EnumEntity::HASHTAG), new EnumAction(EnumAction::GET_POST));
-                $mngr->setMediaData(/* $this->insta_name */'cuba', $N, $cursor);
+                $mngr->setMediaData($this->insta_name, $N, $cursor);
                 $curl_str = $mngr->make_curl_str($proxy, $cookies);
                 exec($curl_str, $output, $status);
                 return json_decode($output[0]);
