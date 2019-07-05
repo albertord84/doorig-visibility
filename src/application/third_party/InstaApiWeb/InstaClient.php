@@ -536,40 +536,40 @@ namespace InstaApiWeb {
 //            var_dump($response->message);
             if (is_object($insta_response) && $insta_response->status == "ok")
                 return 0;
-            if (is_object($insta_response) && isset($insta_response->message)) {
+            if (is_object($insta_response) && isset($insta_response->feedback_message)) {
                 if ($insta_response->status == "ok")
                     return 0;
-                if ((strpos($insta_response->message, 'Com base no uso anterior deste recurso') !== FALSE) || (strpos($insta_response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
+                if ((strpos($insta_response->feedback_message, 'Com base no uso anterior deste recurso') !== FALSE) || (strpos($insta_response->message, 'Parece que você estava usando este recurso de forma indevida avançando muito rapidamente') !== FALSE)) {
                     return 1;
                 }
-                if ((strpos($insta_response->message, 'Você atingiux o limite máximo de contas para seguir.') !== FALSE) || (strpos($insta_response->message, "Sorry, you're following the max limit of accounts.") !== FALSE)) {
+                if ((strpos($insta_response->feedback_message, 'Você atingiux o limite máximo de contas para seguir.') !== FALSE) || (strpos($insta_response->message, "Sorry, you're following the max limit of accounts.") !== FALSE)) {
                     return 2;
                 }
-                if (strpos($insta_response->message, 'unauthorized') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'unauthorized') !== FALSE) {
                     return 3;
                 }
-                if (strpos($insta_response->message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'Parece que você estava usando esse recurso indevidamente de forma muito') !== FALSE) {
                     return 4;
                 }
-                if (strpos($insta_response->message, 'checkpoint_required') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'checkpoint_required') !== FALSE) {
                     return 5;
                 }
-                if ((strpos($insta_response->message, 'Tente novamente mais tarde') !== FALSE) || (strpos($insta_response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE) || (strpos($insta_response->message, 'orbidden') !== FALSE)) {
+                if ((strpos($insta_response->feedback_message, 'Tente novamente mais tarde') !== FALSE) || (strpos($insta_response->message, 'Aguarde alguns minutos antes de tentar novamente') !== FALSE) || (strpos($insta_response->message, 'orbidden') !== FALSE)) {
                     return 7;
                 }
-                if (strpos($insta_response->message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'Esta mensagem contém conteúdo que foi bloqueado pelos nossos sistemas de segurança.') !== FALSE) {
                     return 8;
                 }
-                if (strpos($insta_response->message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'Ocorreu um erro ao processar essa solicita') !== FALSE) {
                     return 9;
                 }
-                if (strpos($insta_response->message, 'se ha bloqueado. Vuelve a intentarlo') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'se ha bloqueado. Vuelve a intentarlo') !== FALSE) {
                     return 11;
                 }
-                if ($insta_response->message === '') {
+                if ($insta_response->feedback_message === '') {
                     return 6; // Empty message
                 }
-                if (strpos($insta_response->message, 'execution error') !== FALSE || strpos($insta_response->message, 'execution failure') !== FALSE) {
+                if (strpos($insta_response->feedback_message, 'execution error') !== FALSE || strpos($insta_response->message, 'execution failure') !== FALSE) {
                     return 12;
                 }
             } // If array
