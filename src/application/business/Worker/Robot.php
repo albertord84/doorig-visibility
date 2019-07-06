@@ -194,7 +194,7 @@ require_once config_item('business-client-class');
                     print "<br>\n Há solicitações demais. Tente novamente mais tarde. (ref_prof_id: $ref_prof_id)!!! <br>\n";
                     $daily_work->Client->MarkInfo->set_proxy();
                     print "increasing time";
-                    $daily_work->increase_last_access(2 * 60 * 60);
+                    $daily_work->increase_last_access(24 * 60 * 60);
                     $new_proxy = $daily_work->Client->MarkInfo->proxy_id;
                     var_dump("Set Proxy ($idProxy) of client ($client_id) to proxy ($new_proxy)\n");
 
