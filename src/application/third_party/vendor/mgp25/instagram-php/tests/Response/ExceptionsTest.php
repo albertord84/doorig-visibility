@@ -6,8 +6,9 @@ use InstagramAPI\Client;
 use InstagramAPI\Exception\AccountDisabledException;
 use InstagramAPI\Exception\ChallengeRequiredException;
 use InstagramAPI\Exception\CheckpointRequiredException;
+use InstagramAPI\Exception\ConsentRequiredException;
 use InstagramAPI\Exception\FeedbackRequiredException;
-use InstagramAPI\Exception\InstaPasswordException;
+use InstagramAPI\Exception\IncorrectPasswordException;
 use InstagramAPI\Exception\InvalidSmsCodeException;
 use InstagramAPI\Exception\InvalidUserException;
 use InstagramAPI\Exception\LoginRequiredException;
@@ -45,6 +46,14 @@ class ExceptionsTest extends TestCase
         ServerMessageThrower::autoThrow(null, $response->getMessage(), $response);
     }
 
+    public function testConsentRequiredException()
+    {
+        $this->expectException(ConsentRequiredException::class);
+        $this->expectExceptionMessage('Consent required');
+        $response = $this->_makeResponse('{"message":"consent_required","consent_data":{"headline":"Updates to Our Terms and Data Policy","content":"We\'ve updated our Terms and made some changes to our Data Policy. Please take a moment to review these changes and let us know that you agree to them.\n\nYou need to finish reviewing this information before you can use Instagram.","button_text":"Review Now"},"status":"fail"}');
+        ServerMessageThrower::autoThrow(null, $response->getMessage(), $response);
+    }
+
     public function testCheckpointRequiredException()
     {
         $this->expectException(CheckpointRequiredException::class);
@@ -61,9 +70,9 @@ class ExceptionsTest extends TestCase
         ServerMessageThrower::autoThrow(null, $response->getMessage(), $response);
     }
 
-    public function testInstaPasswordException()
+    public function testIncorrectPasswordException()
     {
-        $this->expectException(InstaPasswordException::class);
+        $this->expectException(IncorrectPasswordException::class);
         $this->expectExceptionMessageRegExp('/password.*incorrect/i');
         $response = $this->_makeResponse('{"message":"The password you entered is incorrect. Please try again.","invalid_credentials":true,"error_title":"Incorrect password for WUT","buttons":[{"title":"Try Again","action":"dismiss"}],"status":"fail","error_type":"bad_password"}');
         ServerMessageThrower::autoThrow(null, $response->getMessage(), $response);

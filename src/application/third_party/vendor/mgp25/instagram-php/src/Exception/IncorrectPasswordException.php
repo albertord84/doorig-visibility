@@ -2,6 +2,6 @@
 
 namespace InstagramAPI\Exception;
 
-class InstaPasswordException extends RequestException
+class IncorrectPasswordException extends RequestException
 {
 }
