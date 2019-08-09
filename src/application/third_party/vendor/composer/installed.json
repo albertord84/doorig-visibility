@@ -676,23 +676,24 @@
     },
     {
         "name": "mgp25/instagram-php",
-        "version": "v4.1.0",
-        "version_normalized": "4.1.0.0",
+        "version": "v6.1.0",
+        "version_normalized": "6.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/mgp25/Instagram-API.git",
-            "reference": "5fbb2ae7504d96a55c94819656e1ff6d4e984fb9"
+            "reference": "babad4f4f9a49d85b97cbdadbd587a072ab22c2f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mgp25/Instagram-API/zipball/5fbb2ae7504d96a55c94819656e1ff6d4e984fb9",
-            "reference": "5fbb2ae7504d96a55c94819656e1ff6d4e984fb9",
+            "url": "https://api.github.com/repos/mgp25/Instagram-API/zipball/babad4f4f9a49d85b97cbdadbd587a072ab22c2f",
+            "reference": "babad4f4f9a49d85b97cbdadbd587a072ab22c2f",
             "shasum": ""
         },
         "require": {
             "binsoul/net-mqtt-client-react": "^0.3.2",
             "clue/http-proxy-react": "^1.1.0",
             "clue/socks-react": "^0.8.2",
+            "ext-bcmath": "*",
             "ext-curl": "*",
             "ext-exif": "*",
             "ext-gd": "*",
@@ -710,7 +711,7 @@
             "winbox/args": "1.0.0"
         },
         "require-dev": {
-            "friendsofphp/php-cs-fixer": "^2.8.0",
+            "friendsofphp/php-cs-fixer": "^2.11.0",
             "monolog/monolog": "^1.23",
             "phpunit/phpunit": "^5.7 || ^6.2",
             "react/http": "^0.7.2"
@@ -718,7 +719,7 @@
         "suggest": {
             "ext-event": "Installing PHP's native Event extension enables faster Realtime class event handling."
         },
-        "time": "2018-04-20T11:59:43+00:00",
+        "time": "2019-06-22T16:30:54+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

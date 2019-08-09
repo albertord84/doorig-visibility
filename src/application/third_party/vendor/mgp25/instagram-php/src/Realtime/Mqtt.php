@@ -5,7 +5,7 @@ namespace InstagramAPI\Realtime;
 use BinSoul\Net\Mqtt\Client\React\ReactMqttClient;
 use BinSoul\Net\Mqtt\DefaultConnection;
 use BinSoul\Net\Mqtt\DefaultMessage;
-use BinSoul\Net\Mqtt\Message;
+use BinSoul\Net\Mqtt\Message as MqttMessage;
 use Evenement\EventEmitterInterface;
 use Fbns\Client\AuthInterface;
 use InstagramAPI\Constants;
@@ -16,6 +16,7 @@ use InstagramAPI\React\PersistentTrait;
 use InstagramAPI\Realtime\Command\UpdateSubscriptions;
 use InstagramAPI\Realtime\Subscription\GraphQl\AppPresenceSubscription;
 use InstagramAPI\Realtime\Subscription\GraphQl\DirectTypingSubscription;
+use InstagramAPI\Realtime\Subscription\GraphQl\ZeroProvisionSubscription;
 use InstagramAPI\Realtime\Subscription\Skywalker\DirectSubscription;
 use InstagramAPI\Realtime\Subscription\Skywalker\LiveSubscription;
 use InstagramAPI\Signatures;
@@ -78,8 +79,6 @@ class Mqtt implements PersistentInterface
     protected $_inboxPresenceEnabled;
     /** @var bool */
     protected $_threadPresenceEnabled;
-    /** @var bool */
-    protected $_regionHintEnabled;
 
     /** @var ParserInterface[] */
     protected $_parsers;
@@ -136,11 +135,12 @@ class Mqtt implements PersistentInterface
             Mqtt\Topics::REGION_HINT           => new Parser\RegionHintParser(),
         ];
         $this->_handlers = [
-            Handler\DirectHandler::MODULE     => new Handler\DirectHandler($this->_target),
-            Handler\LiveHandler::MODULE       => new Handler\LiveHandler($this->_target),
-            Handler\IrisHandler::MODULE       => new Handler\IrisHandler($this->_target),
-            Handler\PresenceHandler::MODULE   => new Handler\PresenceHandler($this->_target),
-            Handler\RegionHintHandler::MODULE => new Handler\RegionHintHandler($this->_target),
+            Handler\DirectHandler::MODULE        => new Handler\DirectHandler($this->_target),
+            Handler\LiveHandler::MODULE          => new Handler\LiveHandler($this->_target),
+            Handler\IrisHandler::MODULE          => new Handler\IrisHandler($this->_target),
+            Handler\PresenceHandler::MODULE      => new Handler\PresenceHandler($this->_target),
+            Handler\RegionHintHandler::MODULE    => new Handler\RegionHintHandler($this->_target),
+            Handler\ZeroProvisionHandler::MODULE => new Handler\ZeroProvisionHandler($this->_target),
         ];
     }
 
@@ -384,7 +384,7 @@ class Mqtt implements PersistentInterface
         $this->_msgTypeBlacklist = $experiments->getExperimentParam(
             'ig_android_realtime_iris',
             'pubsub_msg_type_blacklist',
-            ''
+            'null'
         );
 
         // Live features.
@@ -408,12 +408,6 @@ class Mqtt implements PersistentInterface
             'ig_android_direct_thread_presence',
             'is_enabled'
         );
-
-        // Various features.
-        $this->_regionHintEnabled = $experiments->isExperimentEnabled(
-            'ig_android_mqtt_region_hint_universe',
-            'is_enabled'
-        );
     }
 
     protected function _initSubscriptions()
@@ -430,6 +424,8 @@ class Mqtt implements PersistentInterface
         $this->_doAddSubscription(new DirectSubscription($this->_auth->getUserId()), false);
 
         // Set up GraphQL topics.
+        $zeroProvisionSubscription = new ZeroProvisionSubscription($this->_auth->getDeviceId());
+        $this->_doAddSubscription($zeroProvisionSubscription, false);
         $graphQlTypingSubscription = new DirectTypingSubscription($this->_auth->getUserId());
         if ($this->_graphQlTypingEnabled) {
             $this->_doAddSubscription($graphQlTypingSubscription, false);
@@ -456,17 +452,6 @@ class Mqtt implements PersistentInterface
             'app_version'   => Constants::IG_VERSION,
             'capabilities'  => Constants::X_IG_Capabilities,
         ];
-        // Everclear subscriptions.
-        $everclearSubscriptions = [];
-        if ($this->_inboxPresenceEnabled) {
-            $everclearSubscriptions[AppPresenceSubscription::ID] = AppPresenceSubscription::QUERY;
-        }
-        if (count($everclearSubscriptions)) {
-            $result['everclear_subscriptions'] = json_encode($everclearSubscriptions);
-        }
-        // Maintaining the order.
-        $result['User-Agent'] = $this->_device->getUserAgent();
-        $result['ig_mqtt_route'] = 'django';
         // PubSub message type blacklist.
         $msgTypeBlacklist = '';
         if ($this->_msgTypeBlacklist !== null && $this->_msgTypeBlacklist !== '') {
@@ -482,6 +467,17 @@ class Mqtt implements PersistentInterface
         if ($msgTypeBlacklist !== '') {
             $result['pubsub_msg_type_blacklist'] = $msgTypeBlacklist;
         }
+        // Everclear subscriptions.
+        $everclearSubscriptions = [];
+        if ($this->_inboxPresenceEnabled) {
+            $everclearSubscriptions[AppPresenceSubscription::ID] = AppPresenceSubscription::QUERY;
+        }
+        if (count($everclearSubscriptions)) {
+            $result['everclear_subscriptions'] = json_encode($everclearSubscriptions);
+        }
+        // Maintaining the order.
+        $result['User-Agent'] = $this->_device->getUserAgent();
+        $result['ig_mqtt_route'] = 'django';
         // Accept-Language must be the last one.
         $result['Accept-Language'] = Constants::ACCEPT_LANGUAGE;
 
@@ -498,9 +494,7 @@ class Mqtt implements PersistentInterface
         $topics = [
             Mqtt\Topics::PUBSUB,
         ];
-        if ($this->_regionHintEnabled) {
-            $topics[] = Mqtt\Topics::REGION_HINT;
-        }
+        $topics[] = Mqtt\Topics::REGION_HINT;
         if ($this->_graphQlTypingEnabled) {
             $topics[] = Mqtt\Topics::REALTIME_SUB;
         }
@@ -613,7 +607,7 @@ class Mqtt implements PersistentInterface
             $this->_logger->debug('Publish flow completed');
             $this->_setKeepaliveTimer();
         });
-        $client->on('message', function (Message $message) {
+        $client->on('message', function (MqttMessage $message) {
             $this->_setKeepaliveTimer();
             $this->_onReceive($message);
         });
@@ -732,10 +726,10 @@ class Mqtt implements PersistentInterface
     /**
      * Incoming message handler.
      *
-     * @param Message $msg
+     * @param MqttMessage $msg
      */
     protected function _onReceive(
-        Message $msg)
+        MqttMessage $msg)
     {
         $payload = @zlib_decode($msg->getPayload());
         if ($payload === false) {
