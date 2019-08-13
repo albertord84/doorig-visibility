@@ -24,7 +24,7 @@ class Library_test extends CI_Controller {
   public function client() {
     echo "Dentro de client controller";
 
-    $obj = new Client();
+    $obj = new Client(20);
 
     echo "<br><br>Ok";
   }
@@ -188,18 +188,19 @@ class Library_test extends CI_Controller {
       //$this->PersonProfile_lib->exists_profile();
       //echo "(<b>ok</b>)<br>";
      */
-    //======= INSTA_API_CLIENT-LIB =======//
+
+    
+
+     //======= INSTA_API_CLIENT-LIB =======//
+
+
     echo "<h2>Test InstaApiClient Library</h2>";
     echo "[load] InstaClient_lib ==> ";
     $cookies =  new InstaApiWeb\Cookies();
-    $cookies->SessionId = "6718341208%3AFvypZ64w6C6jFJ%3A2";
-    $cookies->CsrfToken = "waQioTJhviqNQ6f2rUXEkSoEnGn09HjP";
+    $cookies->SessionId = "6718341208%3Av2i1ktcfaLMdYC%3A29";
+    $cookies->CsrfToken = "IW3CGhJaGdOZ2tzr7vZL2MiBowmPuri5";
     $cookies->DsUserId = "6718341208";
-    $cookies->Mid = "XJ-KsAAEAAF7aaoXoFDWgNoUIxsX";
-   /* $cookies->sessionid = "3445996566%3AUdrflm2b4CXrbl%3A15";
-    $cookies->csrftoken = "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0";
-    $cookies->ds_user_id = "3445996566";
-    $cookies->mid = "XEExCwAEAAE88jhoc0YKOgFcqT3I";*/
+    $cookies->Mid = "AABAAHn8q85fDXZ_zKWGYfQ";
     $this->load->library("InstaApiWeb/InstaClient_lib", array("insta_id" => "6718341208", "cookies" => $cookies), 'InstaClient_lib');
     echo "(<b>ok</b>)<br>";
 
@@ -210,15 +211,15 @@ class Library_test extends CI_Controller {
 
 
     echo "[exec] unfollow() ==> ";
-    $this->InstaClient_lib->get_followed("riveauxmerino");
+    // $this->InstaClient_lib->get_followed("riveauxmerino");
     echo "(<b>ok</b>)<br>";
 
 
-   /* echo "[exec] follow() ==> ";
-    var_dump($this->InstaClient_lib->follow("210429330"));
-    echo "(<b>ok</b>)<br>";*/
+    echo "[exec] follow() ==> ";
+    var_dump($this->InstaClient_lib->follow("3858629065"));
+    echo "(<b>ok</b>)<br>";
 
-    echo "[exec] make_curl_friendships_command_str() ==> ";
+/*    echo "[exec] make_curl_friendships_command_str() ==> ";
     //$this->InstaClient_lib->make_curl_friendships_command_str();
     //echo "(<b>ok</b>)<br>"; 
 
@@ -343,9 +344,17 @@ class Library_test extends CI_Controller {
     echo "<pre>";
     echo "<h2>Test GeoProfile Library</h2>";
     echo "[load] GeoProfile_lib ==> ";
+    /*
+
+SessionId:"6718341208%3Av2i1ktcfaLMdYC%3A29"
+CsrfToken:"IW3CGhJaGdOZ2tzr7vZL2MiBowmPuri5"
+DsUserId:"6718341208"
+Mid:"XUnc-AABAAHn8q85fDXZ_zKWGYfQ"
+    */
+    $cookies_str= '{"SessionId":"6718341208%3Av2i1ktcfaLMdYC%3A29","CsrfToken":"IW3CGhJaGdOZ2tzr7vZL2MiBowmPuri5","DsUserId":"6718341208","Mid":"AABAAHn8q85fDXZ_zKWGYfQ","json_response":{"status":"ok","authenticated":true}}';
 
     $this->load->library("InstaApiWeb/InstaGeoProfile_lib", array("insta_id" => "330156361"), 'GeoProfile_lib');
-    $cookies = new Cookies(' {"sessionid":"204662017%3AGQm7k6jfzicxNp%3A17","csrftoken":"WMhg3ci30e5yfmnRToZxQdnua2HyUNTK","ds_user_id":"204662017","mid":"WtlMoQABAAHZAlviRrBwRMd8ynet","json_response":{"status":"ok","authenticated":true}}  ');
+    $cookies = new Cookies($cookies_str);
     $cursor = null;
     $res = $this->GeoProfile_lib->get_insta_followers($cookies, 5, $cursor);
     var_dump($res);
@@ -365,7 +374,7 @@ class Library_test extends CI_Controller {
     echo "<pre>";
     echo "<h2>Test PersonProfile Library</h2>";
     echo "[load] PersonProfile_lib ==> ";
-    $this->load->library("InstaApiWeb/InstaPersonProfile_lib", array("insta_id" => "3445996566"), 'PersonProfile_lib');
+    $this->load->library("InstaApiWeb/InstaPersonProfile_lib", array("insta_id" => "6718341208"), 'PersonProfile_lib');
     $res = $this->PersonProfile_lib->get_insta_followers($cookies, 15, $cursor);
     var_dump($res);
     echo "(<b>ok</b>)<br>";
@@ -408,17 +417,20 @@ class Library_test extends CI_Controller {
   public function request_checkpoint() {
     //echo "estoy dentro de checkpoint";
 
-    $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
+    $ck = array("sessionid" => "3916799608%3AUdrflm2b4CXrbl%3A15",
         "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0",
-        "ds_user_id" => "3445996566",
+        "ds_user_id" => "3916799608",
         "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
-    $param = array("insta_id" => "3445996566", "cookies" => new Cookies(json_encode($ck)));
+    // $Client = new Client(20);
+
+    $param = array("insta_id" => "3916799608", "cookies" => new Cookies(json_encode($ck)));
+    // $param = array("insta_id" => $Client->MarkInfo->insta_id, "cookies" => $Client->Cookies);
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
 
     echo "<h3>checkpoint result</h3>";
 
-    $login = "riveauxmerino";
-    $pass = "notredame";
+    $login = "";
+    $pass = "";
     $r = $this->InstaClient_lib->checkpoint_requested($login, $pass);
     var_dump($r);
   }
@@ -426,11 +438,12 @@ class Library_test extends CI_Controller {
   public function send_checkpoint($code) {
     //echo "estoy dentro de checkpoint";
 
-    $ck = array("sessionid" => "3445996566%3AUdrflm2b4CXrbl%3A15",
-        "csrftoken" => "7jSEZvsYWGzZQUx5zlR8I3MmvPATX1X0",
-        "ds_user_id" => "3445996566",
-        "mid" => "XEExCwAEAAE88jhoc0YKOgFcqT3I");
-    $param = array("insta_id" => "3445996566", "cookies" => new Cookies(json_encode($ck)));
+    $ck = array("sessionid" => "3916799608%3AUdrflm2b4CXrbl%3A15",
+        "csrftoken" => "KFu8hMWpThEyGShWjOrb48yPzBqTmRJv",
+        "ds_user_id" => "3916799608",
+        "Challenge" => "/challenge/3916799608/y87iURLXBQ/",
+        "mid" => "XUnsAgAEAAF3NZ5dbVmX-HbIBN9F");
+    $param = array("insta_id" => "3916799608", "cookies" => new Cookies(json_encode($ck)));
     $this->load->library("InstaApiWeb/InstaClient_lib", $param, 'InstaClient_lib');
 
     $cookies = $this->session->userdata("cookies-challenge");
@@ -438,7 +451,7 @@ class Library_test extends CI_Controller {
     echo "<h3>checkpoint result</h3>";
 
     //$code = "835704";
-    $login = "riveauxmerino";
+    $login = "alberto_dreyes";
     $result = $this->InstaClient_lib->make_checkpoint($login, $code);
 
     var_dump($result);

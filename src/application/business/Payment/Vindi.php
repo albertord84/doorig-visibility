@@ -134,8 +134,9 @@ namespace business\Payment {
 
         static function vindi_process_notification_post() {
             try {
+                $CI = &get_instance();
                 //0. Get Web Hooks (Callbacks)
-                $event = $this->load_web_hooks();
+                $event = self::load_web_hooks();
 
                 //1. Get and Save Raw Content Input String
                 $post_str = file_get_contents('php://input');
@@ -153,8 +154,8 @@ namespace business\Payment {
                     //4.1 Recurrence created succefully
                     $gateway_client_id = $post->event->data->charge->customer->id;
                     //4.1 Save Client 
-                    $this->load_data_by_gateway_client_id($gateway_client_id);
-                    $Client = new Client($this->client_id);
+                    self::load_data_by_gateway_client_id($gateway_client_id);
+                    $Client = new Client(self::client_id);
                     $Client->MarkInfo->load_data();
                     //[]
                     $Client->MarkInfo = new MarkInfo($Client);
@@ -171,17 +172,17 @@ namespace business\Payment {
                             //$gateway_client_id = $post->event->data->bill->customer->id;
                             $gateway_payment_key = $post->event->data->bill->subscription->id;
                             //1. activar cliente
-                            $this->load->model('class/user_model');
-                            $this->load->model('class/user_status');
-                            $this->load->model('class/client_model');
-                            //$client_id = $this->client_model->get_client_id_by_gateway_client_id($gateway_client_id);
-                            $client_id = $this->client_model->get_client_id_by_gateway_payment_key($gateway_payment_key);
+                            $CI->load->model('class/user_model');
+                            $CI->load->model('class/user_status');
+                            $CI->load->model('class/client_model');
+                            //$client_id = self::client_model->get_client_id_by_gateway_client_id($gateway_client_id);
+                            $client_id = $CI->client_model->get_client_id_by_gateway_payment_key($gateway_payment_key);
                             if ($client_id) {
-                                $this->user_model->update_user($client_id, array(
+                                $CI->user_model->update_user($client_id, array(
                                     'status_id' => user_status::ACTIVE));
                                 $result = file_put_contents($file, "$client_id: ACTIVED" . "\n\n", FILE_APPEND);
                                 //2. pay_day un mes para el frente
-                                $this->client_model->update_client(
+                                $CI->client_model->update_client(
                                         $client_id, array('pay_day' => strtotime("+1 month", time())));
                                 $result = file_put_contents($file, "$client_id: +1 month from now" . "\n\n\n", FILE_APPEND);
                             } else {

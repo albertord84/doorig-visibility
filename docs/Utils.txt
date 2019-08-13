@@ -1,0 +1,184 @@
+<--- NPM
+sudo rm -rf node_modules/
+sudo rm -fr bootstrap/cache/*
+sudo npm cache clear --force
+sudo npm install
+
+update:
+sudo npm install -g npm
+hash -r
+--->
+
+php artisan optimize
+php artisan cache:clear
+php artisan key:generate
+php artisan make:event UpdateReport
+
+// Routes
+php artisan route:clear
+
+// Capture Model Events
+app/Providers/AppServiceProvider.php
+boot() {...}
+
+// Migration Refresh with Seeds
+php artisan migrate:refresh --seed
+php artisan db:seed --class=RolesTableSeeder
+
+// Laravel Login System
+https://www.youtube.com/watch?v=OUFmwAnFclo
+
+
+<--- Infyom Labs Laravel CRUD Generator (from scratch 5.8)
+https://www.youtube.com/watch?v=GqfZjo5P46A
+
+// Add Alberto Auto Complete
+update /var/www/html/pod-mvp/vendor/infyomlabs/laravel-generator/src/Generators/ModelGenerator.php
+update /var/www/html/pod-mvp/vendor/infyomlabs/laravel-generator/templates/model/model.stub
+
+//Scaffold
+copy resources/layouts to view/layouts
+
+// CRUD + Scaffold + Bootstrap
+php artisan infyom:scaffold Role --fromTable -v
+php artisan infyom:scaffold $MODEL_NAME --fromTable --tableName=$TABLE_NAME
+php artisan infyom:scaffold Role --fromTable
+php artisan infyom:scaffold User --fromTable
+php artisan infyom:scaffold School --fromTable
+php artisan infyom:scaffold Classroom --fromTable
+php artisan infyom:scaffold Config --fromTable
+php artisan infyom:scaffold Connection --fromTable
+php artisan infyom:scaffold ContentsType --fromTable
+php artisan infyom:scaffold Course --fromTable
+php artisan infyom:scaffold Timeline --fromTable
+php artisan infyom:scaffold UsersClassroom --fromTable
+php artisan infyom:scaffold UsersPlayContent --fromTable
+php artisan infyom:scaffold UsersProfessor --fromTable
+php artisan infyom:scaffold UsersStudent --fromTable
+php artisan infyom:scaffold Content --fromTable
+
+// CRUD + Scaffold + VueJS
+php artisan infyom:vuejs Classroom --fromTable
+--->
+
+
+<--- Migration from existing DB
+https://www.youtube.com/watch?v=qaCMdqLLdV8
+
+composer require --dev "xethron/migrations-generator"
+#composer require doctrine/dbal
+
+php artisan migrate:install
+php artisan migrate --seed
+php artisan migrate:generate
+php artisan migrate:rollback
+php artisan migrate
+php artisan migrate:refresh --seed
+php artisan make:seeder TimelinesTableSeeder
+--->
+
+<--- Code autocompleat for Laravel
+https://gist.github.com/barryvdh/5227822
+Put this code into de project root folder, remove nbproject file, and restart netbeans
+--->
+
+<--- MySQL
+https://support.rackspace.com/how-to/installing-mysql-server-on-ubuntu/
+1. Allow remote access: sudo ufw allow mysql
+2. systemctl start mysql
+3. Auto ini: systemctl enable mysql
+4. sudo /opt/lampp/lampp startmysql
+--->
+
+<--- VueA Dash Board 
+npm install
+npm run dev
+sudo apt-get install autoconf libtool nasm
+php artisan jwt:secret
+--->
+
+
+<--- POD
+ssh pi@192.168.220.1
+raspberry
+
+nohup php artisan serve --host=192.168.220.1 --port=8001 &
+php artisan websocket:serve
+
+netstat -tnlp
+lsof -i TCP:8001
+
+sudo apt-get install ufw
+sudo ufw allow 22
+sudo ufw allow 53
+sudo ufw allow 8000
+sudo ufw allow 8001
+sudo ufw enable
+sudo reboot
+
+sudo chown pi:pi mozjpeg/
+--->
+
+composer require barryvdh/laravel-debugbar
+composer require --dev squizlabs/php_codesniffer
+
+sudo /opt/lampp/bin/php composer.phar require mgp25/instagram-php
+
+pulseaudio -k && sudo alsa force-reload
+
+<--- POD V Host
+sudo vim /etc/apache2/sites-available/000-default.conf
+sudo a2enmod rewrite 
+configure wifi: sudo vim /etc/wpa_supplicant/wpa_supplicant.conf
+sudo wpa_cli -i wlan0 reconfigure
+
+xz -z -e -T0 -5 aquivo.img -vv
+scp pi@192.168.220.1:/etc/nodogsplash/nodogsplash.conf /home/albertord
+sudo ./pishrink.sh imagem-0.5.img
+sudo dd if=/dev/cartaosd | pv | dd of=imagem.img
+sudo dd bs=1m if=pisignage_1.1.5.img of=/dev/rdiskX
+
+https://askubuntu.com/questions/651577/dev-sda1-inodes-that-were-part-of-a-corrupted-orphan-linked-list-found
+sudo ./fix_orphaned_inode_list.sh imagem-0.0.5-p80.img
+--->
+
+
+<--- Git
+git config credential.helper store
+
+git remote add origin git@github.com:User/UserRepo.git
+
+git remote set-url origin https://gitlab.com/doubleweiser/pod-mvp.git
+git remote set-url origin https://gitlab.com/doubleweiser/pod-quiz.git
+--->
+
+
+sudo systemctl restart apache2.service
+sudo systemctl restart mysql.service 
+sudo iptables -A INPUT -m state --state NEW -p tcp --dport 80 -j ACCEPT
+sudo ufw allow 80/tcp
+
+sudo lsof -i TCP:80
+
+sudo ndsctl stop
+
+
+sudo vim /etc/systemd/system/captiveportal.service
+############
+############
+
+sudo systemctl start captiveportal
+sudo systemctl daemon-reload
+
+<--- POD novo
+sudo vim /etc/dnsmasq.conf
+sudo service dnsmasq restart
+
+comment: server & address
+cd /var/www/html/pod-mvp/
+
+php artisan migrate:fresh --seed
+
+--->
+
+sudo systemctl disable captiveportal.service

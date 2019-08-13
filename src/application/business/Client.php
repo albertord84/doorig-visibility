@@ -88,7 +88,7 @@ namespace business {
             $ci->client_mark_model->update($client_id, $plane_id, $pay_id, $proxy_id, $login, $pass, $insta_id, $init_date, $end_date, $pay_day, $cookies, $observation, $purchase_counter, $last_access, $insta_followers_ini, $insta_following);
         }
 
-        static function exist(string $client_id) {
+        static function exist(int $client_id) {
             try {
                 $Client = new Client($client_id);
                 $Client->MarkInfo->load_data();

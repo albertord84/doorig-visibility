@@ -71,7 +71,7 @@ namespace InstaApiWeb {
                 }                
                 else
                 {
-                    $out = $out != null? json_encode($output): "null";
+                    $obj = $output != null? json_encode($output): "null";
                     $message = "problem with output ($out) in client unfollow";
                 }
                 
@@ -105,7 +105,7 @@ namespace InstaApiWeb {
                 }
                 else
                 {
-                    $out = $out != null? json_encode($output): "null";
+                    $obj = $output != null? json_encode($output): "null";
                     $message = "problem with output ($out) in client unfollow";
                 }
 
@@ -314,7 +314,8 @@ namespace InstaApiWeb {
                     $ig->setProxy("http://" . $this->proxy->APIToString());
                 //$ig->setProxy("http://albertreye9917:3r4rcz0b1v@207.188.155.18:21316");
 
-                $loginIGResponse = $ig->login($username, $password, $force_login);
+                // $loginIGResponse = $ig->login($username, $password, $force_login);
+                $loginIGResponse = $ig->login($username, $password);
 
                 if ($this->has_logs) {
                     var_dump($loginIGResponse);
